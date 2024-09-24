@@ -908,9 +908,9 @@ class atkp_posttypes_list {
                 });
 
                 $j("#post").submit(function (event) {
-                    $j("#<?php echo esc_js(ATKP_PRODUCT_POSTTYPE . '_products') ?> option:selected").removeAttr("selected");
+                    $j("#<?php echo (ATKP_LIST_POSTTYPE . '_products') ?> option:selected").removeAttr("selected");
 
-                    $j("#<?php echo esc_js(ATKP_PRODUCT_POSTTYPE . '_products') ?> option").prop('selected', true);
+                    $j("#<?php echo (ATKP_LIST_POSTTYPE . '_products') ?> option").prop('selected', true);
 
                     return true;
                 });
@@ -1280,7 +1280,7 @@ class atkp_posttypes_list {
 							}
 
 							foreach ( $posts_selectable as $prd ) {
-								echo( esc_html__( $prd, ATKP_PLUGIN_PREFIX ) );
+								echo(  $prd );
 							}
 							?>
 
@@ -1300,12 +1300,13 @@ class atkp_posttypes_list {
                 <td style="width:50%;">
                     <div id="to">
                         <select id="<?php echo esc_attr(ATKP_LIST_POSTTYPE . '_products') ?>"
-                                name="<?php echo esc_attr(ATKP_LIST_POSTTYPE . '_products[]') ?>" multiple="multiple" size="21"
+                                name="<?php echo ATKP_LIST_POSTTYPE . '_products[]' ?>" multiple="multiple" size="21"
                                 style="width:100%; margin-top:8px">
 							<?php
 							foreach ( $posts_selected as $prd ) {
-								echo( esc_html__( $prd, ATKP_PLUGIN_PREFIX ) );
-							} ?>
+								echo $prd;
+							}
+                            ?>
                         </select>
                     </div>
                     <div id="updown" style="padding-top:10px">
@@ -1561,7 +1562,7 @@ class atkp_posttypes_list {
 
 		$productpara = isset( $_POST[ ATKP_LIST_POSTTYPE . '_products' ] ) ? $_POST[ ATKP_LIST_POSTTYPE . '_products' ] : null;
 
-		if ( isset( $productpara ) && $productpara != null ) {
+		if ($productpara != null ) {
 			foreach ( $productpara as $selectedproduct ) {
 				if ( $products == '' ) {
 					$products = $selectedproduct;
@@ -1575,6 +1576,7 @@ class atkp_posttypes_list {
 		ATKPTools::set_post_setting( $post_id, ATKP_LIST_POSTTYPE . '_shopid', $shopid );
 
 		if ( $shopid == '' ) {
+
 			ATKPTools::set_post_setting( $post_id, ATKP_LIST_POSTTYPE . '_listurl', $listurl );
 			ATKPTools::set_post_setting( $post_id, ATKP_LIST_POSTTYPE . '_products', $products );
 		} else {

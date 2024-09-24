@@ -150,7 +150,7 @@ class atkp_settings_license {
                                                 <span style="color:green;"><?php echo esc_html__( 'active', ATKP_PLUGIN_PREFIX );
 													echo( $license_owner == '' ? '' : sprintf( esc_html__( ', license owner: %s', ATKP_PLUGIN_PREFIX ), esc_html($license_owner) ) ) ?> </span>
 											<?php } else if ( $license != '' ) { ?>
-                                                <span style="color:red;"><?php echo esc_attr($license_message); ?><?php echo( $license_status == 'expired' ? ' ' . sprintf( esc_html__( '<a href="%s" target="_blank">Renew now</a>', ATKP_PLUGIN_PREFIX ), esc_attr('https://www.affiliate-toolkit.com/' . ( ATKPTools::is_lang_de() ? 'de/kasse' : 'checkout' ) . '/?nocache=true&edd_license_key=' . urlencode( esc_html($license) ) . '&download_id=' . esc_html($moduleid)) ) : '' ) ?></span>
+                                                <span style="color:red;"><?php echo esc_attr($license_message); ?><?php echo( $license_status == 'expired' ? ' ' . sprintf( __( '<a href="%s" target="_blank">Renew now</a>', ATKP_PLUGIN_PREFIX ), esc_attr('https://www.affiliate-toolkit.com/' . ( ATKPTools::is_lang_de() ? 'de/kasse' : 'checkout' ) . '/?nocache=true&edd_license_key=' . urlencode( esc_html($license) ) . '&download_id=' . esc_html($moduleid)) ) : '' ) ?></span>
 											<?php } ?></div>
 
                                     </div>

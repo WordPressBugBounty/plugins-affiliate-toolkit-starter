@@ -729,13 +729,14 @@ class atkp_bulkimport {
                                         var posturl = data[0].edit_url;
 
                                         $j('#atkp-status-' + asin).removeClass('atkp-spinloader');
-                                        $j('#atkp-status-' + asin).html('<img style="vertical-align:middle" src="<?php echo esc_url(plugins_url( 'images/yes.png', ATKP_PLUGIN_FILE )) ?>" alt="<?php echo esc_attr_e( 'Imported', ATKP_PLUGIN_PREFIX ) ?>"/><a style="margin-left:5px" href="' + esc_url(posturl) + '" target="_blank"><?php echo esc_html__( 'Product imported.', ATKP_PLUGIN_PREFIX ) ?></a><br />');
+                                        $j('#atkp-status-' + asin).html('<img style="vertical-align:middle" src="<?php echo esc_url(plugins_url( 'images/yes.png', ATKP_PLUGIN_FILE )) ?>" alt="<?php echo esc_attr_e( 'Imported', ATKP_PLUGIN_PREFIX ) ?>"/><a style="margin-left:5px" href="'+posturl+'" target="_blank"><?php echo esc_html__( 'Product imported.', ATKP_PLUGIN_PREFIX ) ?></a><br />');
 
                                         if ($j("#atkp-attachproduct option[value='" + data[0].postid + "']").length == 0)
                                             $j('#atkp-attachproduct').append('<option value="' + data[0].postid + '">' + data[0].title + '</option>');
                                         $j('#atkp-attachproduct').val(data[0].postid);
 
                                     } catch (err) {
+                                        console.log(err);
                                         alert(err.message);
                                     }
 
@@ -744,6 +745,7 @@ class atkp_bulkimport {
 
                                 },
                                 error: function (xhr, status) {
+                                    console.log(xhr);
                                     alert(xhr.responseText);
                                     $j('#atkp-status-' + asin).removeClass('atkp-spinloader');
                                     $j('.totalimportbutton').prop('disabled', false);
