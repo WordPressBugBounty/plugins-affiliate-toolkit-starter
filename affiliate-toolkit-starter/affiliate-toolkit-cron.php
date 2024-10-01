@@ -56,10 +56,15 @@ class atkp_external_cron {
 
 		$cron_key = ATKPTools::get_setting( ATKP_PLUGIN_PREFIX . '_cronkey' );
 
-		if ( $key == '' || trim( $cron_key ) != trim( $key ) ) {
-			echo 'key invalid';
-			die( 401 );
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			echo 'cli mode running';
+		}else {
+			if ( $key == '' || trim( $cron_key ) != trim( $key ) ) {
+				echo 'key invalid';
+				die( 401 );
+			}
 		}
+
 
 		switch ( $crontype ) {
 			default:

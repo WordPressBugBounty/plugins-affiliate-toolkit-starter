@@ -137,6 +137,10 @@ You just need to install the extension from our website.
 
  
 == Changelog ==
+= 3.6.4 =
+*   Fixed issue WP_CLI cronjob
+*   Fixed issue saving display settings
+
 = 3.6.3 =
 *   Fixed issue with list selection
 *   Fixed Issue product import error esc_attr

@@ -80,7 +80,7 @@ class atkp_settings_toolkit {
 
 
                 <form method="POST"
-                      action="?page=<?php echo esc_html(ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin') ?>&tab=toolkit_configuration_page">
+                      action="?page=<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin') ?>&tab=toolkit_configuration_page">
 					<?php wp_nonce_field( "save", "save" ); ?>
                     <table class="form-table" style="width:100%">
 

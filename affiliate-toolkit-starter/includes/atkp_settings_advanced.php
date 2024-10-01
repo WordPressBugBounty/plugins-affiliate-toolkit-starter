@@ -90,7 +90,7 @@ class atkp_settings_advanced {
                 <!-- <h2><?php echo esc_html__( 'Affiliate Toolkit - Advanced Settings', ATKP_PLUGIN_PREFIX ) ?></h2>      -->
 
                 <form method="POST"
-                      action="?page=<?php echo esc_html(ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin&tab=advanced_configuration_page') ?>">
+                      action="?page=<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin&tab=advanced_configuration_page') ?>">
 
 					<?php wp_nonce_field( "save", "save" ); ?>
                     <table class="form-table" style="width:100%">

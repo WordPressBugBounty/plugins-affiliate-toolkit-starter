@@ -178,7 +178,7 @@ class atkp_settings_display {
                 <!-- <h2><?php echo esc_html__( 'Affiliate Toolkit - Advanced Settings', ATKP_PLUGIN_PREFIX ) ?></h2>      -->
 
                 <form method="POST"
-                      action="?page=<?php echo esc_url(ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin&tab=display_configuration_page') ?>">
+                      action="?page=<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin&tab=display_configuration_page') ?>">
                     <!--_affiliate_toolkit-bestseller-->
 					<?php wp_nonce_field( "save", "save" ); ?>
                     <table class="form-table" style="width:100%">

@@ -77,7 +77,7 @@ class atkp_settings_license {
 
 
                 <form method="POST"
-                      action="?page=<?php echo esc_html(ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin&tab=license_configuration_page') ?>">
+                      action="?page=<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin&tab=license_configuration_page') ?>">
 					<?php wp_nonce_field( "save", "save" ); ?>
 
 

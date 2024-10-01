@@ -53,7 +53,7 @@ class atkp_tools_shopreplace {
             <div class="atkp-content wrap">
                 <div class="inner">
                     <form method="POST"
-                          action="?page=<?php echo esc_url(ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-tools&tab=shopreplace_configuration_page') ?>">
+                          action="?page=<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-tools&tab=shopreplace_configuration_page') ?>">
                         <!--_affiliate_toolkit-bestseller-->
 						<?php wp_nonce_field( "save", "save" ); ?>
                         <table class="form-table" style="width:100%">
