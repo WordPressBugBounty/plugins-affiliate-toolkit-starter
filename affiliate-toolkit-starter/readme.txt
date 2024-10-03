@@ -137,6 +137,9 @@ You just need to install the extension from our website.
 
  
 == Changelog ==
+= 3.6.5 =
+*   Fixed issue atkp list
+
 = 3.6.4 =
 *   Fixed issue WP_CLI cronjob
 *   Fixed issue saving display settings

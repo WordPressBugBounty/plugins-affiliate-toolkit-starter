@@ -688,8 +688,8 @@ class atkp_posttypes_list {
                         loadeddepartments = null;
                         loadedfilters = null;
 
-                        var searchdepbox = $j("#<?php echo esc_js(ATKP_PRODUCT_POSTTYPE . '_search_department') ?>");
-                        var searchorderbox = $j("#<?php echo esc_js(ATKP_PRODUCT_POSTTYPE . '_search_orderby') ?>");
+                        var searchdepbox = $j("#<?php echo esc_js(ATKP_LIST_POSTTYPE . '_search_department') ?>");
+                        var searchorderbox = $j("#<?php echo esc_js(ATKP_LIST_POSTTYPE . '_search_orderby') ?>");
 
 
                         var selectedvalue = searchdepbox.val();
@@ -765,7 +765,7 @@ class atkp_posttypes_list {
                                     var idx = 1;
                                     while (idx <= 10) {
 
-                                        var searchfilterfield = $j("#<?php echo esc_js(ATKP_PRODUCT_POSTTYPE . '_filterfield') ?>" + idx);
+                                        var searchfilterfield = $j("#<?php echo esc_js(ATKP_LIST_POSTTYPE . '_filterfield') ?>" + idx);
                                         var selectedfiltervalue = searchfilterfield.attr('data-value');
 
                                         searchfilterfield.empty();
@@ -808,8 +808,8 @@ class atkp_posttypes_list {
                     if (loadeddepartments == null)
                         return;
 
-                    var searchdepbox = $j("#<?php echo esc_js(ATKP_PRODUCT_POSTTYPE . '_search_department') ?>");
-                    var searchorderbox = $j("#<?php echo esc_js(ATKP_PRODUCT_POSTTYPE . '_search_orderby') ?>");
+                    var searchdepbox = $j("#<?php echo esc_js(ATKP_LIST_POSTTYPE . '_search_department') ?>");
+                    var searchorderbox = $j("#<?php echo esc_js(ATKP_LIST_POSTTYPE . '_search_orderby') ?>");
 
                     var selectedvalue = searchorderbox.val();
 

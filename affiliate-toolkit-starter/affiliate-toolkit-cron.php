@@ -56,7 +56,9 @@ class atkp_external_cron {
 
 		$cron_key = ATKPTools::get_setting( ATKP_PLUGIN_PREFIX . '_cronkey' );
 
-		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+		if( php_sapi_name() == 'cli' )
+			echo 'cmd mode running';
+		else if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			echo 'cli mode running';
 		}else {
 			if ( $key == '' || trim( $cron_key ) != trim( $key ) ) {
