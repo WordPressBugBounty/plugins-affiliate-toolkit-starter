@@ -17,9 +17,9 @@
 	?>
 
     <script type="application/json"
-            id="<?php echo esc_attr('atkp-data-parameters-' . $uid) ?>"><?php echo esc_html__( $str_params, ATKP_PLUGIN_PREFIX ); ?></script>
+            id="<?php echo esc_attr('atkp-data-parameters-' . $uid) ?>"><?php echo $str_params; ?></script>
     <script type="application/json"
-            id="<?php echo esc_attr('atkp-data-products-' . $uid) ?>"><?php echo esc_html__( $str_products, ATKP_PLUGIN_PREFIX ); ?></script>
+            id="<?php echo esc_attr('atkp-data-products-' . $uid) ?>"><?php echo $str_products; ?></script>
     <div class="atkp-ajax-container" data-uid="<?php echo esc_html($uid) ?>"
          data-endpointurl="{!! ATKPTools::get_endpointurl() !!}"></div>
 </div>

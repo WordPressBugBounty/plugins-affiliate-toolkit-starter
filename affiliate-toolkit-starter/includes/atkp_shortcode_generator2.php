@@ -375,7 +375,7 @@ class atkp_shortcode_generator2 {
                     <label for="<?php echo esc_attr( ATKP_PLUGIN_PREFIX . '_product' ) ?>"><?php echo esc_html__( 'Main product:', ATKP_PLUGIN_PREFIX ); ?></label>
                 </th>
                 <td>
-                    <select class="widefat atkp-product-box" data-id="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_product') ?>"
+                    <select id="atkp-product-box-select" class="widefat atkp-product-box" data-id="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_product') ?>"
                             data-posttype="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE) ?>" style="width:100%"
                             name="<?php echo esc_attr_e(ATKP_PLUGIN_PREFIX . '_product', ATKP_PLUGIN_PREFIX) ?>">
 						<?php
@@ -417,7 +417,7 @@ class atkp_shortcode_generator2 {
                     <label for="<?php echo esc_attr( ATKP_PLUGIN_PREFIX . '_list' ) ?>"><?php echo esc_html__( 'Main list:', ATKP_PLUGIN_PREFIX ); ?></label>
                 </th>
                 <td>
-                    <select class="widefat atkp-product-box" data-id="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_list') ?>"
+                    <select  id="atkp-list-box-select" class="widefat atkp-product-box" data-id="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_list') ?>"
                             data-posttype="<?php echo esc_attr(ATKP_LIST_POSTTYPE) ?>" style="width:100%"
                             name="<?php echo esc_attr_e(ATKP_PLUGIN_PREFIX . '_list', ATKP_PLUGIN_PREFIX) ?>">
 						<?php
@@ -1235,6 +1235,8 @@ class atkp_shortcode_generator2 {
                             },
                             cache: true
                         },
+
+                        allowClear: true,
                         escapeMarkup: function (markup) {
                             return markup;
                         }, // let our custom formatter work

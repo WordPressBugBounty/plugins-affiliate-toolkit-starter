@@ -137,6 +137,10 @@ You just need to install the extension from our website.
 
  
 == Changelog ==
+= 3.6.6 =
+*   Fixed issue ajax load
+*   Fixed: Security Issue
+
 = 3.6.5 =
 *   Fixed issue atkp list
 

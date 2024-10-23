@@ -267,7 +267,7 @@ class atkp_output {
 
 
 			if ( $containercss != '' ) {
-				$resultValue = '<div class="' . $containercss . '">' . $resultValue . '</div>';
+				$resultValue = '<div class="' . esc_attr($containercss) . '">' . $resultValue . '</div>';
 			}
 		} else {
 

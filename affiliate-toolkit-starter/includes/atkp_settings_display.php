@@ -202,10 +202,10 @@ class atkp_settings_display {
 						echo "<script src='" . esc_attr(plugins_url( plugins_url( '/dist/script.js', ATKP_PLUGIN_FILE ) ) ) . "' id='atkp-scripts-js'></script>";
 
 						echo '<style>';
-						echo esc_html($output->get_css_output());
+						echo ($output->get_css_output());
 						echo '</style>';
 						echo '<script>';
-						print_r($output->get_js_output());
+						echo ($output->get_js_output());
 						echo '</script>';
 
 						$template_id      = 'bestseller';
@@ -223,11 +223,12 @@ class atkp_settings_display {
 
                         <input type="hidden" value="" id="<?php echo esc_attr(ATKP_TEMPLATE_POSTTYPE . '_templateparams') ?>"/>
                         <script type="application/json" id="<?php echo esc_attr('atkp-data-parameters-' .  $uid) ?>">
-                           <?php print_r( $str_params ); ?>
+                           <?php echo $str_params ; ?>
 
                         </script>
                         <script type="application/json"
-                                id="<?php echo esc_attr( 'atkp-data-products-' . $uid ) ?>"><?php print_r( $str_products ); ?></script>
+                                id="<?php echo esc_attr( 'atkp-data-products-' . $uid ) ?>">
+                            <?php echo  $str_products; ?></script>
 
                         <div style="max-width:700px;margin-left:auto;margin-right:auto;padding: 20px; border-left: 1px solid #005162;border-right: 1px solid #005162">
                             <div style="">

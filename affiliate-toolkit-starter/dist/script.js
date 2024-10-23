@@ -8,9 +8,11 @@ if (typeof jQuery === 'undefined') {
             var endpointurl = $j(obj).attr('data-endpointurl');
             var uid = $j(obj).attr('data-uid');
 
+            var x = $j('#atkp-data-parameters-' + uid).html();
+            var x2 = $j('#atkp-data-products-' + uid).html();
 
-            var atkpparameters = JSON.parse($j('#atkp-data-parameters-' + uid).html());
-            var atkpproducts = JSON.parse($j('#atkp-data-products-' + uid).html());
+            var atkpparameters = JSON.parse(x);
+            var atkpproducts = JSON.parse(x2);
 
             $j(obj).addClass('atkp-spinloader-round');
 
