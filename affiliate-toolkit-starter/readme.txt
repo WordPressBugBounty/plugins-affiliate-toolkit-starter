@@ -137,6 +137,9 @@ You just need to install the extension from our website.
 
  
 == Changelog ==
+= 3.6.7 =
+*   Added option "Languages Of Preference" to the Amazon API
+
 = 3.6.6 =
 *   Fixed issue ajax load
 *   Fixed: Security Issue

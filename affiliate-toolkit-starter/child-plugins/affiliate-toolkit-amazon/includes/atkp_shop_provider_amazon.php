@@ -393,6 +393,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 
 		ATKPTools::set_post_setting( $post_id, ATKP_SHOP_POSTTYPE . '_access_website', ATKPTools::get_post_parameter( ATKP_SHOP_POSTTYPE . '_amz_access_website', 'string' ) );
 		ATKPTools::set_post_setting( $post_id, ATKP_SHOP_POSTTYPE . '_access_tracking_id', ATKPTools::get_post_parameter( ATKP_SHOP_POSTTYPE . '_amz_access_tracking_id', 'string' ) );
+		ATKPTools::set_post_setting( $post_id, ATKP_SHOP_POSTTYPE . '_languages_of_preference', ATKPTools::get_post_parameter( ATKP_SHOP_POSTTYPE . '_languages_of_preference', 'string' ) );
 
 		ATKPTools::set_post_setting( $post_id, ATKP_SHOP_POSTTYPE . '_load_customer_reviews', ATKPTools::get_post_parameter( ATKP_SHOP_POSTTYPE . '_amz_load_customer_reviews', 'bool' ) );
 		ATKPTools::set_post_setting( $post_id, ATKP_SHOP_POSTTYPE . '_load_variations', ATKPTools::get_post_parameter( ATKP_SHOP_POSTTYPE . '_amz_load_variations', 'bool' ) );
@@ -543,6 +544,23 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
                        value="<?php echo esc_attr(ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_access_tracking_id' )); ?>">
             </td>
         </tr>
+        <tr>
+            <th scope="row">
+                <label for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_languages_of_preference') ?>">
+					<?php echo esc_html__( 'Languages Of Preference', ATKP_PLUGIN_PREFIX ) ?>
+                </label>
+
+            </th>
+            <td>
+                <input type="text" id="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_languages_of_preference') ?>"
+                       name="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_languages_of_preference') ?>"
+                       value="<?php echo esc_attr(ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_languages_of_preference' )); ?>">
+	            <?php ATKPTools::display_helptext('You can set an list of languages you want to receive (comma separated). You can find the valid languages for each marketplace <a href="https://webservices.amazon.de/paapi5/documentation/locale-reference.html" target="_blank">here</a>.') ?>
+
+            </td>
+        </tr>
+
+
 
 		<?php if ( defined( 'ATKP_AMAZNOAPI_ITEM_ID' ) && ATKP_LicenseController::get_module_license_status( 'amaznoapi' ) == 'valid' ) { ?>
 
@@ -769,6 +787,10 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 	private $country = '';
 	private $load_customer_reviews = false;
 	private $associateTag = '';
+	/**
+	 * @var string[]
+	 */
+	private $languages_of_preference = '';
 	private $accessKey = '';
 	private $shopid = '';
 
@@ -793,6 +815,10 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 		$access_secret_key           = ATKPTools::get_post_setting( $shop->id, ATKP_SHOP_POSTTYPE . '_access_secret_key' );
 		$this->country               = $access_website = ATKPTools::get_post_setting( $shop->id, ATKP_SHOP_POSTTYPE . '_access_website' );
 		$this->associateTag          = $access_tracking_id = ATKPTools::get_post_setting( $shop->id, ATKP_SHOP_POSTTYPE . '_access_tracking_id' );
+
+        $lang = ATKPTools::get_post_setting( $shop->id, ATKP_SHOP_POSTTYPE . '_languages_of_preference' );
+        $this->languages_of_preference = $lang != '' ? explode(',', $lang) : null;
+
 		$this->load_variations       = ATKPTools::get_post_setting( $shop->id, ATKP_SHOP_POSTTYPE . '_load_variations' );
 		$this->enable_ssl            = true;
 		$this->onlynew =  ATKPTools::get_post_setting( $shop->id, ATKP_SHOP_POSTTYPE . '_onlynew' );
@@ -861,6 +887,8 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 			$searchItemsRequest->setKeywords( $keyword );
 			$searchItemsRequest->setItemCount( 10 );
 			$searchItemsRequest->setPartnerTag( $this->associateTag );
+            if($this->languages_of_preference != null)
+                $searchItemsRequest->setLanguagesOfPreference($this->languages_of_preference);
 			$searchItemsRequest->setPartnerType( Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\PartnerType::ASSOCIATES );
 			$searchItemsRequest->setResources(
 				\Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SearchItemsResource::getAllowableEnumValues()
@@ -963,6 +991,8 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 				$getItemsRequest->setItemIds( explode( ',', $keyword ) );
 				$getItemsRequest->setItemIdType( ( $searchType == 'ean' ? 'EAN' : 'ASIN' ) );
 				$getItemsRequest->setPartnerTag( $this->associateTag );
+				if($this->languages_of_preference != null)
+					$getItemsRequest->setLanguagesOfPreference($this->languages_of_preference);
 				$getItemsRequest->setPartnerType( \Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\PartnerType::ASSOCIATES );
 				$getItemsRequest->setResources(
 					\Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\GetItemsResource::getAllowableEnumValues()
@@ -981,6 +1011,8 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 				$searchItemsRequest->setKeywords( $keyword );
 				$searchItemsRequest->setItemCount( $maxCount );
 				$searchItemsRequest->setPartnerTag( $this->associateTag );
+				if($this->languages_of_preference != null)
+					$searchItemsRequest->setLanguagesOfPreference($this->languages_of_preference);
 				$searchItemsRequest->setPartnerType( Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\PartnerType::ASSOCIATES );
 				$searchItemsRequest->setResources(
 					\Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SearchItemsResource::getAllowableEnumValues()
@@ -1559,6 +1591,8 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 						$searchItemsRequest->setSearchIndex( 'All' );
 						$searchItemsRequest->setKeywords( $title );
 						$searchItemsRequest->setItemCount( 2 );
+						if($this->languages_of_preference != null)
+							$searchItemsRequest->setLanguagesOfPreference($this->languages_of_preference);
 						$searchItemsRequest->setPartnerTag( $this->associateTag );
 						$searchItemsRequest->setPartnerType( Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\PartnerType::ASSOCIATES );
 						$searchItemsRequest->setResources(
@@ -1650,6 +1684,8 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 						$getItemsRequest = new Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\GetItemsRequest();
 						$getItemsRequest->setItemIds( array( $asin ) );
 						$getItemsRequest->setItemIdType( ( 'ASIN' ) );
+						if($this->languages_of_preference != null)
+							$getItemsRequest->setLanguagesOfPreference($this->languages_of_preference);
 						$getItemsRequest->setPartnerTag( $this->associateTag );
 						$getItemsRequest->setPartnerType( \Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\PartnerType::ASSOCIATES );
 						$getItemsRequest->setResources(
@@ -1662,6 +1698,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 						if ( $getItemsResponse->getItemsResult() != null && $getItemsResponse->getItemsResult()->getItems() != null ) {
 							$items = $getItemsResponse->getItemsResult()->getItems();
 						}
+
 					} catch ( Amazon\ProductAdvertisingAPI\v1\ApiException $exception ) {
 						$check = "API-Error: " . $exception->getCode() . " " . $exception->getMessage();
 
@@ -1756,6 +1793,8 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 				$getItemsRequest->setASIN( $result->getASIN() );
 				$getItemsRequest->setVariationCount( 10 );
 				$getItemsRequest->setPartnerTag( $this->associateTag );
+				if($this->languages_of_preference != null)
+					$getItemsRequest->setLanguagesOfPreference($this->languages_of_preference);
 				$getItemsRequest->setPartnerType( \Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\PartnerType::ASSOCIATES );
 
 				$getItemsRequest->setResources(
@@ -1828,6 +1867,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 	 * @return $myproduct atkp_product
 	 */
 	private function fill_product_v5( $result, $parentResult = null ) {
+
 		$myproduct            = new atkp_product();
 		$myproduct->updatedon = ATKPTools::get_currenttime();
 		$myproduct->shopid    = $this->shopid;
@@ -2294,7 +2334,8 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 
 				$searchItemsRequest->setBrowseNodeId( $search_request->category );
 				$searchItemsRequest->setKeywords( "*" );
-
+                if($this->languages_of_preference != null)
+                    $searchItemsRequest->setLanguagesOfPreference($this->languages_of_preference);
 				$searchItemsRequest->setPartnerTag( $this->associateTag );
 				$searchItemsRequest->setPartnerType( Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\PartnerType::ASSOCIATES );
 				$searchItemsRequest->setResources(
@@ -2462,7 +2503,8 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 						$searchItemsRequest->setKeywords( $keyword );
 					}
 				}
-
+                if($this->languages_of_preference != null)
+                    $searchItemsRequest->setLanguagesOfPreference($this->languages_of_preference);
 				$searchItemsRequest->setPartnerTag( $this->associateTag );
 				$searchItemsRequest->setPartnerType( Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\PartnerType::ASSOCIATES );
 				$searchItemsRequest->setResources(
