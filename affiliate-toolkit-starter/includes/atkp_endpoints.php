@@ -78,12 +78,19 @@ class atkp_endpoints {
 	public function atkp_render_template() {
 		try {
 			//render
-			$products_str   = $_REQUEST['products'];
-			$parameters_str = $_REQUEST['parameters'];
 			$preview        = isset( $_REQUEST['preview'] ) ? $_REQUEST['preview'] : false;
+			if($preview) {
+				$wp_nounce   = $_REQUEST['wp_nounce'];
 
+				if(!wp_verify_nonce( $wp_nounce, "generate_atkp_preview" ))
+					throw new Exception('invalid nounce');
+			}
+
+			$products_str   = $_REQUEST['products'];
 			$product_ids     = json_decode( stripslashes( $products_str ), true );
+			$parameters_str = $_REQUEST['parameters'];
 			$parameters_data = json_decode( stripslashes( $parameters_str ), true );
+
 
 			$parameters = new atkp_template_parameters();
 			$da         = array();
@@ -684,7 +691,7 @@ class atkp_endpoints {
 		$asintype     = ATKPTools::get_post_parameter( 'asintype', 'string' );
 
 		if ( $keyword == '' ) {
-			return __( 'Search term is required', ATKP_PLUGIN_PREFIX );
+			return __( 'Search term is required', 'affiliate-toolkit-starter' );
 		}
 
 		$shop = atkp_shop::load( $shopid );
@@ -702,16 +709,16 @@ class atkp_endpoints {
                     </th>
                     <th scope="col" class="manage-column"
                         style="width: 100px;text-align:center">
-								        ' . __( 'Image', ATKP_PLUGIN_PREFIX ) . '
+								        ' . __( 'Image', 'affiliate-toolkit-starter' ) . '
                     </th>
 
                     <th scope="col" class="manage-column column-primary">
-								        ' . __( 'Title', ATKP_PLUGIN_PREFIX ) . '
+								        ' . __( 'Title', 'affiliate-toolkit-starter' ) . '
                     </th>
 
                     <th scope="col" class="manage-column" style="width:210px"
                     ">
-						        ' . __( 'Status', ATKP_PLUGIN_PREFIX ) . '
+						        ' . __( 'Status', 'affiliate-toolkit-starter' ) . '
                     </th>
 
                 </tr>
@@ -757,11 +764,11 @@ class atkp_endpoints {
 														<td>
 																<span>' . $product['title'] . '</span>
 																<br/>
-																' . __( 'Unique ID', ATKP_PLUGIN_PREFIX ) . ': ' . $asin . ', EAN: ' . ( isset( $product['ean'] ) ? $product['ean'] : '-' ) . ', ' . __( 'Articlenumber', ATKP_PLUGIN_PREFIX ) . ': ' . ( isset( $product['articlenumber'] ) ? $product['articlenumber'] : '-' ) . ' 
-																' . ( isset( $product['saleprice'] ) ? ', ' . sprintf( __( 'Price: %s', ATKP_PLUGIN_PREFIX ), $product['saleprice'] ) : '' ) . '
+																' . __( 'Unique ID', 'affiliate-toolkit-starter' ) . ': ' . $asin . ', EAN: ' . ( isset( $product['ean'] ) ? $product['ean'] : '-' ) . ', ' . __( 'Articlenumber', 'affiliate-toolkit-starter' ) . ': ' . ( isset( $product['articlenumber'] ) ? $product['articlenumber'] : '-' ) . ' 
+																' . ( isset( $product['saleprice'] ) ? ', ' . sprintf( __( 'Price: %s', 'affiliate-toolkit-starter' ), $product['saleprice'] ) : '' ) . '
 																<br/>
 																<a href="' . $product['producturl'] . '"
-																   target="_blank">' . __( 'View product', ATKP_PLUGIN_PREFIX ) . '</a>
+																   target="_blank">' . __( 'View product', 'affiliate-toolkit-starter' ) . '</a>
 														</td>
 
 														<td>
@@ -804,8 +811,8 @@ class atkp_endpoints {
 		if ( isset( $subposts ) && count( $subposts ) > 0 ) {
 			$myprd = $subposts[0];
 
-			$result .= '<img style="vertical-align:middle" src="' . plugins_url( 'images/yes.png', ATKP_PLUGIN_FILE ) . '" alt="' . __( 'Imported', ATKP_PLUGIN_PREFIX ) . '"/>';
-			$result .= '<a style="margin-left:5px" href="' . get_edit_post_link( $myprd->ID ) . '" target="_blank">' . __( 'Product imported.', ATKP_PLUGIN_PREFIX ) . '</a><br />';
+			$result .= '<img style="vertical-align:middle" src="' . plugins_url( 'images/yes.png', ATKP_PLUGIN_FILE ) . '" alt="' . __( 'Imported', 'affiliate-toolkit-starter' ) . '"/>';
+			$result .= '<a style="margin-left:5px" href="' . get_edit_post_link( $myprd->ID ) . '" target="_blank">' . __( 'Product imported.', 'affiliate-toolkit-starter' ) . '</a><br />';
 
 		}
 
@@ -891,9 +898,9 @@ class atkp_endpoints {
 						}
 
 						if ( ! isset( $shps ) || $shps == null ) {
-							$product['shop'] = __( 'No shop', ATKP_PLUGIN_PREFIX );
+							$product['shop'] = __( 'No shop', 'affiliate-toolkit-starter' );
 						} else {
-							$product['shop'] = __( 'Shop', ATKP_PLUGIN_PREFIX ) . ': ' . $shps->title;
+							$product['shop'] = __( 'Shop', 'affiliate-toolkit-starter' ) . ': ' . $shps->title;
 						}
 						break;
 					case ATKP_LIST_POSTTYPE:
@@ -905,9 +912,9 @@ class atkp_endpoints {
 						}
 
 						if ( ! isset( $shps ) || $shps == null ) {
-							$product['shop'] = __( 'No shop', ATKP_PLUGIN_PREFIX );
+							$product['shop'] = __( 'No shop', 'affiliate-toolkit-starter' );
 						} else {
-							$product['shop'] = __( 'Shop', ATKP_PLUGIN_PREFIX ) . ': ' . $shps->title;
+							$product['shop'] = __( 'Shop', 'affiliate-toolkit-starter' ) . ': ' . $shps->title;
 						}
 						break;
 					default:

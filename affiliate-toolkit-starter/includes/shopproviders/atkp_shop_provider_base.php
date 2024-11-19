@@ -49,7 +49,7 @@ class atkp_shop_provider_base {
 	 * @return string The default string value
 	 */
 	public function get_defaultbtn1_text() {
-		return __( 'Buy now at %s!', ATKP_PLUGIN_PREFIX );
+		return __( 'Buy now at %s!', 'affiliate-toolkit-starter' );
 	}
 
 	/**
@@ -57,7 +57,7 @@ class atkp_shop_provider_base {
 	 * @return string The default string value
 	 */
 	public function get_defaultbtn2_text() {
-		return __( 'Buy now at %s!', ATKP_PLUGIN_PREFIX );
+		return __( 'Buy now at %s!', 'affiliate-toolkit-starter' );
 	}
 
 	/**

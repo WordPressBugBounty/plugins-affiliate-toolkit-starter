@@ -177,7 +177,7 @@ class atkp_cronjob_new {
 							if ( ! ( $status == 'draft' || $status == 'publish' ) ) {
 								foreach ( $entries as $entry ) {
 									$entry->status         = atkp_queue_entry_status::ERROR;
-									$entry->updatedmessage = __( 'Shop status invalid: ', ATKP_PLUGIN_PREFIX ) . $status;
+									$entry->updatedmessage = __( 'Shop status invalid: ', 'affiliate-toolkit-starter' ) . $status;
 
 									$entry->save();
 								}
@@ -204,7 +204,7 @@ class atkp_cronjob_new {
 							foreach ( $entries as $entry ) {
 								if ( $entry->status == atkp_queue_entry_status::PREPARED ) {
 									$entry->status         = atkp_queue_entry_status::NOT_PROCESSED;
-									$entry->updatedmessage = __( 'Entry was not updated via function', ATKP_PLUGIN_PREFIX );
+									$entry->updatedmessage = __( 'Entry was not updated via function', 'affiliate-toolkit-starter' );
 								}
 
 								$entry->save();
@@ -212,7 +212,7 @@ class atkp_cronjob_new {
 						} catch ( Exception $e ) {
 							foreach ( $entries as $entry ) {
 								$entry->status         = atkp_queue_entry_status::ERROR;
-								$entry->updatedmessage = sprintf( __( 'Exception in entries hook: %s', ATKP_PLUGIN_PREFIX ), $e->getMessage() );
+								$entry->updatedmessage = sprintf( __( 'Exception in entries hook: %s', 'affiliate-toolkit-starter' ), $e->getMessage() );
 
 								$entry->save();
 							}
@@ -290,7 +290,7 @@ class atkp_cronjob_new {
 			WP_CLI::log( $message );
 		} else {
 			if ( $this->echo_messages ) {
-				echo esc_html__( $message . '<br />' . PHP_EOL, ATKP_PLUGIN_PREFIX );
+				echo esc_html__( $message . '<br />' . PHP_EOL, 'affiliate-toolkit-starter' );
 			}
 		}
 

@@ -7,9 +7,9 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 class atkp_queue_entry_table extends WP_List_Table {
 	function __construct() {
 		parent::__construct( array(
-			'singular' => __( 'Queue Entry', ATKP_PLUGIN_PREFIX ),
+			'singular' => __( 'Queue Entry', 'affiliate-toolkit-starter' ),
 			//Singular label
-			'plural'   => __( 'Queue Entries', ATKP_PLUGIN_PREFIX ),
+			'plural'   => __( 'Queue Entries', 'affiliate-toolkit-starter' ),
 			//plural label, also this well be one of the table css class
 			'ajax'     => false
 			//We won't support Ajax for this table
@@ -47,7 +47,7 @@ class atkp_queue_entry_table extends WP_List_Table {
 
 	/** Text displayed when no customer data is available */
 	public function no_items() {
-		esc_html__( 'No queues available.', ATKP_PLUGIN_PREFIX );
+		esc_html__( 'No queues available.', 'affiliate-toolkit-starter' );
 	}
 
 
@@ -125,24 +125,24 @@ class atkp_queue_entry_table extends WP_List_Table {
 			case 'status':
 				switch ( $item[ $column_name ] ) {
 					case atkp_queue_entry_status::SUCCESSFULLY:
-						return '<span style="color:green;font-weight:bold;">' . __( 'Successfully', ATKP_PLUGIN_PREFIX ) . '</span>';
+						return '<span style="color:green;font-weight:bold;">' . __( 'Successfully', 'affiliate-toolkit-starter' ) . '</span>';
 
 					case atkp_queue_entry_status::ERROR:
-						return '<span style="color:red;font-weight:bold;">' . __( 'Error', ATKP_PLUGIN_PREFIX ) . '</span>';
+						return '<span style="color:red;font-weight:bold;">' . __( 'Error', 'affiliate-toolkit-starter' ) . '</span>';
 
 					case atkp_queue_entry_status::NOT_PROCESSED:
-						return '<span style="color:orange;font-weight:bold;">' . __( 'Not processed', ATKP_PLUGIN_PREFIX ) . '</span>';
+						return '<span style="color:orange;font-weight:bold;">' . __( 'Not processed', 'affiliate-toolkit-starter' ) . '</span>';
 
 					case atkp_queue_entry_status::PROCESSED:
-						return '<span style="font-weight:bold;">' . __( 'Processed', ATKP_PLUGIN_PREFIX ) . '</span>';
+						return '<span style="font-weight:bold;">' . __( 'Processed', 'affiliate-toolkit-starter' ) . '</span>';
 					case atkp_queue_entry_status::FINISHED:
-						return '<span style="color:green;font-weight:bold;">' . __( 'Finalized', ATKP_PLUGIN_PREFIX ) . '</span>';
+						return '<span style="color:green;font-weight:bold;">' . __( 'Finalized', 'affiliate-toolkit-starter' ) . '</span>';
 					case atkp_queue_entry_status::PREPARED:
-						return '<span style="color:orange;font-weight:bold;">' . __( 'Prepared for processing', ATKP_PLUGIN_PREFIX ) . '</span>';
+						return '<span style="color:orange;font-weight:bold;">' . __( 'Prepared for processing', 'affiliate-toolkit-starter' ) . '</span>';
 				}
 				break;
 			case 'updatedon':
-				return ATKPTools::get_formatted_date( strtotime( $item[ $column_name ] ) ) . __( ' at ', ATKP_PLUGIN_PREFIX ) . ATKPTools::get_formatted_time( strtotime( $item[ $column_name ] ) );
+				return ATKPTools::get_formatted_date( strtotime( $item[ $column_name ] ) ) . __( ' at ', 'affiliate-toolkit-starter' ) . ATKPTools::get_formatted_time( strtotime( $item[ $column_name ] ) );
 				break;
 
 			//default:
@@ -194,14 +194,14 @@ class atkp_queue_entry_table extends WP_List_Table {
 	 */
 	function get_columns() {
 		$columns = [
-			'id'                => __( 'ID', ATKP_PLUGIN_PREFIX ),
-			'post_id'           => __( 'Object', ATKP_PLUGIN_PREFIX ),
-			'shop_id'           => __( 'Shop', ATKP_PLUGIN_PREFIX ),
-			'status'            => __( 'Status', ATKP_PLUGIN_PREFIX ),
-			'functionname'      => __( 'Function', ATKP_PLUGIN_PREFIX ),
-			'functionparameter' => __( 'Parameter', ATKP_PLUGIN_PREFIX ),
-			'updatedon'         => __( 'Last update', ATKP_PLUGIN_PREFIX ),
-			'updatedmessage'    => __( 'Message', ATKP_PLUGIN_PREFIX ),
+			'id'                => __( 'ID', 'affiliate-toolkit-starter' ),
+			'post_id'           => __( 'Object', 'affiliate-toolkit-starter' ),
+			'shop_id'           => __( 'Shop', 'affiliate-toolkit-starter' ),
+			'status'            => __( 'Status', 'affiliate-toolkit-starter' ),
+			'functionname'      => __( 'Function', 'affiliate-toolkit-starter' ),
+			'functionparameter' => __( 'Parameter', 'affiliate-toolkit-starter' ),
+			'updatedon'         => __( 'Last update', 'affiliate-toolkit-starter' ),
+			'updatedmessage'    => __( 'Message', 'affiliate-toolkit-starter' ),
 		];
 
 		return $columns;

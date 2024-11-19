@@ -177,7 +177,7 @@ class atkp_template_helper {
 			$placeholders['hidelistlink'] = '';
 			$placeholders['listlink']     = $formatter->get_listlink();
 			$placeholders['listurl']      = $listurl;
-			$placeholders['listlinktext'] = __( 'Show me more products', ATKP_PLUGIN_PREFIX );
+			$placeholders['listlinktext'] = __( 'Show me more products', 'affiliate-toolkit-starter' );
 
 		} else {
 			$placeholders['hidelistlink'] = 'style="display:none"';
@@ -224,7 +224,7 @@ class atkp_template_helper {
 		}
 
 		if ( $myproduct->isownreview ) {
-			$reviewstext = __( 'Show review', ATKP_PLUGIN_PREFIX );
+			$reviewstext = __( 'Show review', 'affiliate-toolkit-starter' );
 
 			if ( atkp_options::$loader->get_showstarrating() ) {
 				$placeholders['reviewcount'] = $reviewstext;
@@ -239,9 +239,9 @@ class atkp_template_helper {
 				$placeholders['markrating']  = '';
 			}
 		} else {
-			$reviewstextNull = __( 'Show customer reviews', ATKP_PLUGIN_PREFIX );
-			$reviewstext     = __( '%s customer reviews', ATKP_PLUGIN_PREFIX );
-			$reviewstext2    = __( '1 customer review', ATKP_PLUGIN_PREFIX );
+			$reviewstextNull = __( 'Show customer reviews', 'affiliate-toolkit-starter' );
+			$reviewstext     = __( '%s customer reviews', 'affiliate-toolkit-starter' );
+			$reviewstext2    = __( '1 customer review', 'affiliate-toolkit-starter' );
 
 			$placeholders['reviewcount'] = '';
 
@@ -298,30 +298,30 @@ class atkp_template_helper {
 				$perc = '';
 			}
 
-			$placeholders['save_text'] = $formatter->get_savetext( $myproduct, __( 'You Save: %s', ATKP_PLUGIN_PREFIX ) ) . $formatter->get_percentagesaved( $myproduct, $perc );
+			$placeholders['save_text'] = $formatter->get_savetext( $myproduct, __( 'You Save: %s', 'affiliate-toolkit-starter' ) ) . $formatter->get_percentagesaved( $myproduct, $perc );
 		}
 		if ( ! ATKPSettings::$showprice || ! ATKPSettings::$showpricediscount ) {
 			$placeholders['listprice_text'] = '';
 		} else {
-			$placeholders['listprice_text'] = $formatter->get_listpricetext( $myproduct, __( 'List Price: %s', ATKP_PLUGIN_PREFIX ) );
+			$placeholders['listprice_text'] = $formatter->get_listpricetext( $myproduct, __( 'List Price: %s', 'affiliate-toolkit-starter' ) );
 		}
 
 		if ( ! ATKPSettings::$showprice ) {
 			$placeholders['listprice'] = '';
 		} else {
-			$placeholders['listprice'] = $formatter->get_listpricetext( $myproduct, __( '%s', ATKP_PLUGIN_PREFIX ) );
+			$placeholders['listprice'] = $formatter->get_listpricetext( $myproduct, __( '%s', 'affiliate-toolkit-starter' ) );
 		}
 
 		if ( ! ATKPSettings::$showprice ) {
 			$placeholders['price'] = '';
 		} else {
-			$placeholders['price'] = $formatter->get_pricetext( $myproduct, __( '%s', ATKP_PLUGIN_PREFIX ), __( 'Price not available', ATKP_PLUGIN_PREFIX ) );
+			$placeholders['price'] = $formatter->get_pricetext( $myproduct, __( '%s', 'affiliate-toolkit-starter' ), __( 'Price not available', 'affiliate-toolkit-starter' ) );
 		}
 
 		if ( ! ATKPSettings::$showprice ) {
 			$placeholders['price_text'] = '';
 		} else {
-			$placeholders['price_text'] = $formatter->get_pricetext( $myproduct, __( 'Price: %s', ATKP_PLUGIN_PREFIX ), __( 'Price not available', ATKP_PLUGIN_PREFIX ) );
+			$placeholders['price_text'] = $formatter->get_pricetext( $myproduct, __( 'Price: %s', 'affiliate-toolkit-starter' ), __( 'Price not available', 'affiliate-toolkit-starter' ) );
 		}
 
 		if ( atkp_options::$loader->get_showbaseprice() ) {
@@ -442,64 +442,64 @@ class atkp_template_helper {
 				case 'predicate_borderstyle':
 					break;
 				case 'refresh_date':
-					$myplaceholders[ $placeholder ] = __( 'Update date', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Update date', 'affiliate-toolkit-starter' );
 					break;
 				case 'refresh_time':
-					$myplaceholders[ $placeholder ] = __( 'Update time', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Update time', 'affiliate-toolkit-starter' );
 					break;
 				case 'shipping':
-					$myplaceholders[ $placeholder ] = __( 'Shipping', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Shipping', 'affiliate-toolkit-starter' );
 					break;
 				case 'shoptitle':
-					$myplaceholders[ $placeholder ] = __( 'Shop title', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Shop title', 'affiliate-toolkit-starter' );
 					break;
 				case 'smallshoplogo':
-					$myplaceholders[ $placeholder ] = __( 'Shop logo (small)', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Shop logo (small)', 'affiliate-toolkit-starter' );
 					break;
 				case 'shoplogo':
-					$myplaceholders[ $placeholder ] = __( 'Shop logo', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Shop logo', 'affiliate-toolkit-starter' );
 					break;
 				case 'title':
-					$myplaceholders[ $placeholder ] = __( 'Title', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Title', 'affiliate-toolkit-starter' );
 					break;
 				case 'short_title':
-					$myplaceholders[ $placeholder ] = __( 'Title (short)', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Title (short)', 'affiliate-toolkit-starter' );
 					break;
 				case 'asin':
-					$myplaceholders[ $placeholder ] = __( 'ASIN', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'ASIN', 'affiliate-toolkit-starter' );
 					break;
 				case 'isbn':
-					$myplaceholders[ $placeholder ] = __( 'ISBN', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'ISBN', 'affiliate-toolkit-starter' );
 					break;
 				case 'ean':
-					$myplaceholders[ $placeholder ] = __( 'EAN', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'EAN', 'affiliate-toolkit-starter' );
 					break;
 				case 'brand':
-					$myplaceholders[ $placeholder ] = __( 'Brand', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Brand', 'affiliate-toolkit-starter' );
 					break;
 				case 'productgroup':
-					$myplaceholders[ $placeholder ] = __( 'Product group', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Product group', 'affiliate-toolkit-starter' );
 					break;
 				case 'availability':
-					$myplaceholders[ $placeholder ] = __( 'Availability', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Availability', 'affiliate-toolkit-starter' );
 					break;
 				case 'smallimageurl':
-					$myplaceholders[ $placeholder ] = __( 'Image small URL', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Image small URL', 'affiliate-toolkit-starter' );
 					break;
 				case 'mediumimageurl':
-					$myplaceholders[ $placeholder ] = __( 'Image medium URL', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Image medium URL', 'affiliate-toolkit-starter' );
 					break;
 				case 'largeimageurl':
-					$myplaceholders[ $placeholder ] = __( 'Image large URL', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Image large URL', 'affiliate-toolkit-starter' );
 					break;
 				case 'smallimage':
-					$myplaceholders[ $placeholder ] = __( 'Image small', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Image small', 'affiliate-toolkit-starter' );
 					break;
 				case 'mediumimage':
-					$myplaceholders[ $placeholder ] = __( 'Image medium', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Image medium', 'affiliate-toolkit-starter' );
 					break;
 				case 'largeimage':
-					$myplaceholders[ $placeholder ] = __( 'Image large', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Image large', 'affiliate-toolkit-starter' );
 					break;
 
 				case 'thumbimages_1':
@@ -509,7 +509,7 @@ class atkp_template_helper {
 				case 'thumbimages_5':
 				case 'thumbimages_6':
 					$splitted                       = explode( '_', $placeholder );
-					$myplaceholders[ $placeholder ] = sprintf( __( 'Image small %s', ATKP_PLUGIN_PREFIX ), $splitted[1] );
+					$myplaceholders[ $placeholder ] = sprintf( __( 'Image small %s', 'affiliate-toolkit-starter' ), $splitted[1] );
 					break;
 				case 'mediumimages_1':
 				case 'mediumimages_2':
@@ -518,7 +518,7 @@ class atkp_template_helper {
 				case 'mediumimages_5':
 				case 'mediumimages_6':
 					$splitted                       = explode( '_', $placeholder );
-					$myplaceholders[ $placeholder ] = sprintf( __( 'Image medium %s', ATKP_PLUGIN_PREFIX ), $splitted[1] );
+					$myplaceholders[ $placeholder ] = sprintf( __( 'Image medium %s', 'affiliate-toolkit-starter' ), $splitted[1] );
 					break;
 				case 'images_1':
 				case 'images_2':
@@ -527,88 +527,88 @@ class atkp_template_helper {
 				case 'images_5':
 				case 'images_6':
 					$splitted                       = explode( '_', $placeholder );
-					$myplaceholders[ $placeholder ] = sprintf( __( 'Image large %s', ATKP_PLUGIN_PREFIX ), $splitted[1] );
+					$myplaceholders[ $placeholder ] = sprintf( __( 'Image large %s', 'affiliate-toolkit-starter' ), $splitted[1] );
 					break;
 				case 'by_text':
-					$myplaceholders[ $placeholder ] = __( '"by"-Text', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( '"by"-Text', 'affiliate-toolkit-starter' );
 					break;
 				case 'producturl':
-					$myplaceholders[ $placeholder ] = __( 'Product page URL', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Product page URL', 'affiliate-toolkit-starter' );
 					break;
 				case 'customerreviewsurl':
-					$myplaceholders[ $placeholder ] = __( 'Customer Reviews URL', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Customer Reviews URL', 'affiliate-toolkit-starter' );
 					break;
 				case 'reviewsurl':
-					$myplaceholders[ $placeholder ] = __( 'Review URL', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Review URL', 'affiliate-toolkit-starter' );
 					break;
 				case 'rating':
-					$myplaceholders[ $placeholder ] = __( 'Rating', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Rating', 'affiliate-toolkit-starter' );
 					break;
 				case 'star_rating':
-					$myplaceholders[ $placeholder ] = __( 'Star Rating', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Star Rating', 'affiliate-toolkit-starter' );
 					break;
 				case 'reviewcount':
-					$myplaceholders[ $placeholder ] = __( 'Amount of reviews', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Amount of reviews', 'affiliate-toolkit-starter' );
 					break;
 				case 'prime_icon':
-					$myplaceholders[ $placeholder ] = __( 'Is prime', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Is prime', 'affiliate-toolkit-starter' );
 					break;
 				case 'save_percentage':
-					$myplaceholders[ $placeholder ] = __( 'Percentage saved', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Percentage saved', 'affiliate-toolkit-starter' );
 					break;
 				case 'save_percentage_':
-					$myplaceholders[ $placeholder ] = __( '(Percentage saved)', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( '(Percentage saved)', 'affiliate-toolkit-starter' );
 					break;
 				case 'save_text':
-					$myplaceholders[ $placeholder ] = __( 'You Save', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'You Save', 'affiliate-toolkit-starter' );
 					break;
 				case 'save_amount':
-					$myplaceholders[ $placeholder ] = __( 'Amount saved', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Amount saved', 'affiliate-toolkit-starter' );
 					break;
 				case 'listprice':
-					$myplaceholders[ $placeholder ] = __( 'List price', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'List price', 'affiliate-toolkit-starter' );
 					break;
 				case 'listprice_text':
-					$myplaceholders[ $placeholder ] = __( 'List price (Text)', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'List price (Text)', 'affiliate-toolkit-starter' );
 					break;
 				case 'price':
-					$myplaceholders[ $placeholder ] = __( 'Price', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Price', 'affiliate-toolkit-starter' );
 					break;
 				case 'price_text':
-					$myplaceholders[ $placeholder ] = __( 'Price (Text)', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Price (Text)', 'affiliate-toolkit-starter' );
 					break;
 				case 'features_text':
-					$myplaceholders[ $placeholder ] = __( 'Features', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Features', 'affiliate-toolkit-starter' );
 					break;
 				case 'description_text':
-					$myplaceholders[ $placeholder ] = __( 'Description', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Description', 'affiliate-toolkit-starter' );
 					break;
 				case 'shopcustomfield1':
-					$myplaceholders[ $placeholder ] = __( 'Shop: Custom field 1', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Shop: Custom field 1', 'affiliate-toolkit-starter' );
 					break;
 				case 'shopcustomfield2':
-					$myplaceholders[ $placeholder ] = __( 'Shop: Custom field 2', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Shop: Custom field 2', 'affiliate-toolkit-starter' );
 					break;
 				case 'shopcustomfield3':
-					$myplaceholders[ $placeholder ] = __( 'Shop: Custom field 3', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Shop: Custom field 3', 'affiliate-toolkit-starter' );
 					break;
 				case 'detailurl':
-					$myplaceholders[ $placeholder ] = __( 'Internal product page URL', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Internal product page URL', 'affiliate-toolkit-starter' );
 					break;
 				case 'testresult':
-					$myplaceholders[ $placeholder ] = __( 'Test Badget', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Test Badget', 'affiliate-toolkit-starter' );
 					break;
 				case 'pro':
-					$myplaceholders[ $placeholder ] = __( 'Pro arguments', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Pro arguments', 'affiliate-toolkit-starter' );
 					break;
 				case 'contra':
-					$myplaceholders[ $placeholder ] = __( 'Contra arguments', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Contra arguments', 'affiliate-toolkit-starter' );
 					break;
 				case 'post_list':
-					$myplaceholders[ $placeholder ] = __( 'List of posts (main product)', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'List of posts (main product)', 'affiliate-toolkit-starter' );
 					break;
 				case 'total_rating':
-					$myplaceholders[ $placeholder ] = __( 'Total rating', ATKP_PLUGIN_PREFIX );
+					$myplaceholders[ $placeholder ] = __( 'Total rating', 'affiliate-toolkit-starter' );
 					break;
 				default:
 					$myplaceholders[ $placeholder ] = $placeholder;
@@ -800,7 +800,7 @@ class atkp_template_helper {
 			if ( is_numeric( $template ) ) {
 				$url = admin_url( sprintf( 'post.php?post=%d&action=edit', (int) $template ) );
 
-				$adminlinks[] = '<a class="' . esc_attr( 'atkp-admin-button' ) . '" href="' . esc_url( $url ) . '">' . __( '(edit template)', ATKP_PLUGIN_PREFIX ) . '</a>';
+				$adminlinks[] = '<a class="' . esc_attr( 'atkp-admin-button' ) . '" href="' . esc_url( $url ) . '">' . __( '(edit template)', 'affiliate-toolkit-starter' ) . '</a>';
 			}
 
 			if ( is_numeric( $listid ) && $listid > 0 ) {
@@ -809,7 +809,7 @@ class atkp_template_helper {
 				if ( $adminsection != '' ) {
 					$adminsection .= "&#124;";
 				}
-				$adminlinks[] = '<a class="' . esc_attr( 'atkp-admin-button' ) . '" href="' . esc_url( $url ) . '">' . __( '(edit list)', ATKP_PLUGIN_PREFIX ) . '</a>';
+				$adminlinks[] = '<a class="' . esc_attr( 'atkp-admin-button' ) . '" href="' . esc_url( $url ) . '">' . __( '(edit list)', 'affiliate-toolkit-starter' ) . '</a>';
 
 			} else if ( is_array( $products ) && count( $products ) > 0 ) {
 				$added = array();
@@ -827,7 +827,7 @@ class atkp_template_helper {
 							$adminsection .= "&#124;";
 						}
 
-						$adminlinks[] = '<a class="' . esc_attr( 'atkp-admin-button' ) . '" href="' . esc_url( $url ) . '">' . __( '(edit list)', ATKP_PLUGIN_PREFIX ) . '</a>';
+						$adminlinks[] = '<a class="' . esc_attr( 'atkp-admin-button' ) . '" href="' . esc_url( $url ) . '">' . __( '(edit list)', 'affiliate-toolkit-starter' ) . '</a>';
 					} else if ( is_numeric( $product->productid ) && intval( $product->productid ) > 0 ) {
 						$url = admin_url( sprintf( 'post.php?post=%d&action=edit', (int) $product->productid ) );
 
@@ -839,7 +839,7 @@ class atkp_template_helper {
 							$short_title = substr( $short_title, 0, 25 );
 						}
 
-						$adminlinks[] = '<a class="' . esc_attr( 'atkp-admin-button' ) . '" href="' . esc_url( $url ) . '">' . sprintf( __( '(edit %s)', ATKP_PLUGIN_PREFIX ), $short_title ) . '</a>';
+						$adminlinks[] = '<a class="' . esc_attr( 'atkp-admin-button' ) . '" href="' . esc_url( $url ) . '">' . sprintf( __( '(edit %s)', 'affiliate-toolkit-starter' ), $short_title ) . '</a>';
 					}
 
 					$added[ $product->listid ] = $product->listid;
@@ -960,7 +960,7 @@ class atkp_template_helper {
 
 
 			if ( $page > 1 ) {
-				$paging    .= '<a class="atkp-prevpage-btn atkp-infobutton" href="' . $nextpagelink . ( strpos( $nextpagelink, '?' ) > - 1 ? '&' : '?' ) . 'tpage=' . ( $page - 1 ) . '">' . __( 'Previous page', ATKP_PLUGIN_PREFIX ) . '</a>';
+				$paging    .= '<a class="atkp-prevpage-btn atkp-infobutton" href="' . $nextpagelink . ( strpos( $nextpagelink, '?' ) > - 1 ? '&' : '?' ) . 'tpage=' . ( $page - 1 ) . '">' . __( 'Previous page', 'affiliate-toolkit-starter' ) . '</a>';
 				$addpaging = true;
 			}
 
@@ -971,7 +971,7 @@ class atkp_template_helper {
 				if ( $addpaging ) {
 					$paging .= '&nbsp;';
 				}
-				$paging    .= '<a class="atkp-nextpage-btn atkp-infobutton" href="' . $nextpagelink . ( strpos( $nextpagelink, '?' ) > - 1 ? '&' : '?' ) . 'tpage=' . ( $page + 1 ) . '">' . __( 'Next page', ATKP_PLUGIN_PREFIX ) . '</a>';
+				$paging    .= '<a class="atkp-nextpage-btn atkp-infobutton" href="' . $nextpagelink . ( strpos( $nextpagelink, '?' ) > - 1 ? '&' : '?' ) . 'tpage=' . ( $page + 1 ) . '">' . __( 'Next page', 'affiliate-toolkit-starter' ) . '</a>';
 				$addpaging = true;
 			}
 

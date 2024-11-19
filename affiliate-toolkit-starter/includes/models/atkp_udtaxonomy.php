@@ -92,7 +92,7 @@ class atkp_udtaxonomy {
 
 		$newfields = array_reverse( $newfields );
 
-		$category = get_option( ATKP_PLUGIN_PREFIX . '_product_category_taxonomy', strtolower( __( 'Productcategory', ATKP_PLUGIN_PREFIX ) ) );
+		$category = get_option( ATKP_PLUGIN_PREFIX . '_product_category_taxonomy', strtolower( __( 'Productcategory', 'affiliate-toolkit-starter' ) ) );
 
 		//remove system taxonomies
 
@@ -110,8 +110,8 @@ class atkp_udtaxonomy {
 
 		$udf                    = new atkp_udtaxonomy();
 		$udf->id                = uniqid();
-		$udf->caption           = __( 'Product category', ATKP_PLUGIN_PREFIX );
-		$udf->captionplural     = __( 'Product category', ATKP_PLUGIN_PREFIX );
+		$udf->caption           = __( 'Product category', 'affiliate-toolkit-starter' );
+		$udf->captionplural     = __( 'Product category', 'affiliate-toolkit-starter' );
 		$udf->name              = $category;
 		$udf->showui            = true;
 		$udf->isproductgroup    = true;

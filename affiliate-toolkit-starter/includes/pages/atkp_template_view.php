@@ -44,8 +44,8 @@ class atkp_template_view {
 		$hook = add_submenu_page(
 
 			$parentmenu,
-			esc_html__('Templates', ATKP_PLUGIN_PREFIX ),
-			esc_html__( 'Templates', ATKP_PLUGIN_PREFIX ),
+			esc_html__('Templates', 'affiliate-toolkit-starter' ),
+			esc_html__( 'Templates', 'affiliate-toolkit-starter' ),
 			'edit_pages',
 			ATKP_PLUGIN_PREFIX . '_viewtemplate',
 			array( &$this, 'show_page' )
@@ -216,11 +216,11 @@ class atkp_template_view {
 
 			?>
             <div class="wrap">
-                <h1 class="wp-heading-inline"><?php echo esc_html__( 'Templates', ATKP_PLUGIN_PREFIX ) ?></h1>
+                <h1 class="wp-heading-inline"><?php echo esc_html__( 'Templates', 'affiliate-toolkit-starter' ) ?></h1>
                 <a href="<?php echo esc_url(admin_url( 'post-new.php?post_type=atkp_template' ) ); ?>"
-                   class="page-title-action"><?php echo esc_html__( 'Add New', ATKP_PLUGIN_PREFIX ) ?></a>
+                   class="page-title-action"><?php echo esc_html__( 'Add New', 'affiliate-toolkit-starter' ) ?></a>
                 <a href="<?php echo esc_url(admin_url( 'admin.php?page=ATKP_viewtemplate&action=import' ) ); ?>"
-                   class="page-title-action"><?php echo esc_html__( 'Import template', ATKP_PLUGIN_PREFIX ) ?></a>
+                   class="page-title-action"><?php echo esc_html__( 'Import template', 'affiliate-toolkit-starter' ) ?></a>
                 <hr class="wp-header-end">
                 <h2 class="screen-reader-text">Filter pages list</h2>
 
@@ -240,7 +240,7 @@ class atkp_template_view {
                                     <div id="normal-sortables" class="meta-box-sortables ui-sortable">
                                         <div id="atkp_product_shop_box" class="postbox ">
                                             <div class="postbox-header"><h2
-                                                        class="hndle ui-sortable-handle"><?php echo esc_html__( 'Upload your template', ATKP_PLUGIN_PREFIX ) ?></h2>
+                                                        class="hndle ui-sortable-handle"><?php echo esc_html__( 'Upload your template', 'affiliate-toolkit-starter' ) ?></h2>
                                             </div>
                                             <div class="inside">
 
@@ -248,7 +248,7 @@ class atkp_template_view {
                                                     <tr>
                                                         <th scope="row">
                                                             <label for="">
-	                                                            <?php echo esc_html__( 'Template file', ATKP_PLUGIN_PREFIX ) ?>
+	                                                            <?php echo esc_html__( 'Template file', 'affiliate-toolkit-starter' ) ?>
                                                             </label>
                                                         </th>
                                                         <td>
@@ -261,14 +261,14 @@ class atkp_template_view {
 
                                                     <tr>
                                                         <td colspan="2"><span
-                                                                    style="font-weight:bold;color:red"><?php echo esc_html__( $importmessage, ATKP_PLUGIN_PREFIX ); ?></span>
+                                                                    style="font-weight:bold;color:red"><?php echo esc_html__( $importmessage, 'affiliate-toolkit-starter' ); ?></span>
                                                         </td>
                                                     </tr>
 
                                                     <tr>
                                                         <td></td>
                                                         <td>
-															<?php submit_button( esc_html__('Import template', ATKP_PLUGIN_PREFIX ), 'primary', 'saveimporttemplate', false ); ?>
+															<?php submit_button( esc_html__('Import template', 'affiliate-toolkit-starter' ), 'primary', 'saveimporttemplate', false ); ?>
                                                         </td>
                                                     </tr>
 
@@ -357,7 +357,7 @@ class atkp_template_view {
 				if ( is_numeric( $new_post_id ) ) {
 					echo '<script>window.location.replace("' . esc_url( admin_url( 'post.php?action=edit&post=' . $new_post_id ) ) . '");</script>';
 				} else {
-					echo '<p>' . esc_html__( $new_post_id, ATKP_PLUGIN_PREFIX ) . '</p>';
+					echo '<p>' . esc_html__( $new_post_id, 'affiliate-toolkit-starter' ) . '</p>';
 				}
 			} else {
 				$args = array(

@@ -16,8 +16,8 @@ class atkp_tools_shortcodegenerator {
 
 		add_submenu_page(
 			$parentmenu,
-			__( 'Shortcode Generator', ATKP_PLUGIN_PREFIX ),
-			__( 'Shortcode Generator', ATKP_PLUGIN_PREFIX ),
+			__( 'Shortcode Generator', 'affiliate-toolkit-starter' ),
+			__( 'Shortcode Generator', 'affiliate-toolkit-starter' ),
 			'manage_options',
 			ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-shortcodegenerator',
 			array( &$this, 'shortcodegenerator_configuration_page' )
@@ -26,7 +26,7 @@ class atkp_tools_shortcodegenerator {
 
 	public function shortcodegenerator_configuration_page() {
 		if ( ! is_user_logged_in() ) {
-			wp_die( esc_html__( 'You do not have sufficient permissions to access this page', ATKP_PLUGIN_PREFIX ) );
+			wp_die( esc_html__( 'You do not have sufficient permissions to access this page', 'affiliate-toolkit-starter' ) );
 		}
 
 		$atkp_shortcode_generator = new atkp_shortcode_generator2( array() );

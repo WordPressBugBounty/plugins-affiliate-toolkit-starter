@@ -62,7 +62,7 @@ class atkp_control_helper {
 				$fieldvalue = ATKPTools::get_post_parameter( ATKP_PRODUCT_POSTTYPE . '_' . $fieldname, 'html' );
 				break;
 			default:
-				throw new exception( esc_html__( 'unknown newfield->type: ' . $newfield->type, ATKP_PLUGIN_PREFIX ) );
+				throw new exception( esc_html__( 'unknown newfield->type: ' . $newfield->type, 'affiliate-toolkit-starter' ) );
 		}
 
 		return $fieldvalue;
@@ -127,7 +127,7 @@ class atkp_control_helper {
 
 				$result = '<select id="' . esc_attr( $controlname . ( $generaterandom ? random_int( 1, 9999 ) : '' ) ) . '" name="' . esc_attr( $controlname ) . '" style="width:300px">  ';
 
-				$result .= '<option value="" ' . ( $value == '' ? 'selected' : '' ) . '>' . __( 'None', ATKP_PLUGIN_PREFIX ) . '</option>';
+				$result .= '<option value="" ' . ( $value == '' ? 'selected' : '' ) . '>' . __( 'None', 'affiliate-toolkit-starter' ) . '</option>';
 
 				foreach ( $values as $value2 ) {
 					$value2 = trim( $value2 );
@@ -144,9 +144,9 @@ class atkp_control_helper {
 
 				$result .= '<select id="' . esc_attr( $controlname . ( $generaterandom ? random_int( 1, 9999 ) : '' ) ) . '" name="' . esc_attr( $controlname ) . '" style="width:300px"> ';
 
-				$result .= '<option value="" ' . ( $value == '' || $value == null ? 'selected' : '' ) . '>' . __( 'None', ATKP_PLUGIN_PREFIX ) . '</option>';
-				$result .= '<option value="1" ' . ( $value == '1' ? 'selected' : '' ) . '>' . __( 'Yes', ATKP_PLUGIN_PREFIX ) . '</option>';
-				$result .= '<option value="0" ' . ( $value == '0' ? 'selected' : '' ) . '>' . __( 'No', ATKP_PLUGIN_PREFIX ) . '</option>';
+				$result .= '<option value="" ' . ( $value == '' || $value == null ? 'selected' : '' ) . '>' . __( 'None', 'affiliate-toolkit-starter' ) . '</option>';
+				$result .= '<option value="1" ' . ( $value == '1' ? 'selected' : '' ) . '>' . __( 'Yes', 'affiliate-toolkit-starter' ) . '</option>';
+				$result .= '<option value="0" ' . ( $value == '0' ? 'selected' : '' ) . '>' . __( 'No', 'affiliate-toolkit-starter' ) . '</option>';
 
 				$result .= '</select>';
 
@@ -408,7 +408,7 @@ class atkp_control_helper {
 		$filterparams = apply_filters( 'atkp_frontend_control_params', $filterparams, $newfield );
 
 		if ( $taxonomy != null ) {
-			$caption = sprintf( __( 'select %s', ATKP_PLUGIN_PREFIX ), $taxonomy->caption );
+			$caption = sprintf( __( 'select %s', 'affiliate-toolkit-starter' ), $taxonomy->caption );
 
 			$intvals = isset( $filterparams[ $controlname ] ) ? ( is_array( $filterparams[ $controlname ] ) ? $filterparams[ $controlname ] : array_map( 'intval', explode( ',', $filterparams[ $controlname ] ) ) ) : null;
 
@@ -489,7 +489,7 @@ class atkp_control_helper {
 						$values = explode( ';', $newfield->format );
 					}
 
-					$caption = sprintf( __( 'select %s', ATKP_PLUGIN_PREFIX ), $newfield->caption );
+					$caption = sprintf( __( 'select %s', 'affiliate-toolkit-starter' ), $newfield->caption );
 
 					$stringvals = isset( $filterparams[ $controlname ] ) ? ( is_array( $filterparams[ $controlname ] ) ? $filterparams[ $controlname ] : explode( ',', $filterparams[ $controlname ] ) ) : null;
 
@@ -513,7 +513,7 @@ class atkp_control_helper {
 					$boolval = isset( $filterparams[ $controlname ] ) ? boolval( $filterparams[ $controlname ] ) : false;
 
 					$result .= '<div class="atkp-checkbox"><input type="checkbox" id="' . esc_attr( $controlname . ( random_int( 1, 9999 ) ) ) . '" name="' . esc_attr( $controlname ) . '" value="1" ' . ( $boolval ? ' checked' : '' ) . '>';
-					$result .= '<label for="' . esc_attr( $controlname ) . '" >' . __( 'Yes', ATKP_PLUGIN_PREFIX ) . '</label></div>';
+					$result .= '<label for="' . esc_attr( $controlname ) . '" >' . __( 'Yes', 'affiliate-toolkit-starter' ) . '</label></div>';
 
 					break;
 				case 5:
@@ -541,10 +541,10 @@ class atkp_control_helper {
 				case 'search':
 					$strval      = isset( $filterparams[ $controlname ] ) ? strval( $filterparams['search'] ) : '';
 
-					$result .= '<input type="text" name="search" placeholder="' . __( 'Enter a search term', ATKP_PLUGIN_PREFIX ) . '" value="' . esc_attr( $strval ) . '" />';
+					$result .= '<input type="text" name="search" placeholder="' . __( 'Enter a search term', 'affiliate-toolkit-starter' ) . '" value="' . esc_attr( $strval ) . '" />';
 					break;
 				case 'submit':
-					$result .= '<input type="submit" class="atkp-submitbutton" value="' . __( 'Find', ATKP_PLUGIN_PREFIX ) . '" />';
+					$result .= '<input type="submit" class="atkp-submitbutton" value="' . __( 'Find', 'affiliate-toolkit-starter' ) . '" />';
 					break;
 				case 'orderby':
 					//neuheiten
@@ -553,14 +553,14 @@ class atkp_control_helper {
 					//produktname auf bzw. absteigend
 
 					$values = array(
-						'price-asc'      => __( 'Price', ATKP_PLUGIN_PREFIX ),
-						'price-desc'     => __( 'Price (descending)', ATKP_PLUGIN_PREFIX ),
-						'titlerank-asc'  => __( 'Alphabetic (A to Z)', ATKP_PLUGIN_PREFIX ),
-						'titlerank-desc' => __( 'Alphabetic (Z to A)', ATKP_PLUGIN_PREFIX ),
+						'price-asc'      => __( 'Price', 'affiliate-toolkit-starter' ),
+						'price-desc'     => __( 'Price (descending)', 'affiliate-toolkit-starter' ),
+						'titlerank-asc'  => __( 'Alphabetic (A to Z)', 'affiliate-toolkit-starter' ),
+						'titlerank-desc' => __( 'Alphabetic (Z to A)', 'affiliate-toolkit-starter' ),
 					);
 
 
-					$caption = __( 'sort by', ATKP_PLUGIN_PREFIX );
+					$caption = __( 'sort by', 'affiliate-toolkit-starter' );
 
 					$stringvals =isset( $filterparams[ $controlname ] ) ?  strval( $filterparams[$controlname] ) : '';
 
@@ -578,7 +578,7 @@ class atkp_control_helper {
 					$result .= '</select>';
 					break;
 				case "shop":
-					$caption = __( 'select shop', ATKP_PLUGIN_PREFIX );
+					$caption = __( 'select shop', 'affiliate-toolkit-starter' );
 					$result  = '<select id="' . $controlname . ( random_int( 1, 9999 ) ) . '" name="' . esc_attr( $controlname ) . '"   style="width:100%" data-placeholder= "' . esc_attr( $caption ) . '" placeholder="' . esc_attr( $caption ) . '">  ';
 					$result  .= '<option value="">' . esc_textarea( $caption ) . '</option>';
 
@@ -607,7 +607,7 @@ class atkp_control_helper {
 					$result .= '</select>';
 					break;
 				case "brand":
-					$caption = __( 'select brand', ATKP_PLUGIN_PREFIX );
+					$caption = __( 'select brand', 'affiliate-toolkit-starter' );
 					$result  = '<select id="' . esc_attr( $controlname . ( random_int( 1, 9999 ) ) ) . '" name="' . esc_attr( $controlname ) . '"  class="atkp-selectcontrol" style="width:100%" data-placeholder= "' . esc_attr( $caption ) . '" placeholder="' . esc_attr( $caption ) . '">  ';
 
 					$result .= '<option value="">' . esc_textarea( $caption ) . '</option>';
@@ -626,7 +626,7 @@ class atkp_control_helper {
 					break;
 
 				case "manufacturer":
-					$caption = __( 'select manufacturer', ATKP_PLUGIN_PREFIX );
+					$caption = __( 'select manufacturer', 'affiliate-toolkit-starter' );
 					$result  = '<select id="' . esc_attr( $controlname . ( random_int( 1, 9999 ) ) ) . '" name="' . esc_attr( $controlname ) . '" class="atkp-selectcontrol"  style="width:100%" data-placeholder= "' . esc_attr( $caption ) . '" placeholder="' . esc_attr( $caption ) . '">  ';
 
 					$result .= '<option value="">' . esc_textarea( $caption ) . '</option>';
@@ -648,11 +648,11 @@ class atkp_control_helper {
 				case "product3":
 				case "product4":
 				case "product5":
-					$caption    = __( 'select product', ATKP_PLUGIN_PREFIX );
+					$caption    = __( 'select product', 'affiliate-toolkit-starter' );
 
 					$productid = isset( $filterparams[$controlname] )  ? intval( $filterparams[$controlname] ) : 0;
 
-					$inputtooshort = __( 'You must enter at least 3 characters.', ATKP_PLUGIN_PREFIX );
+					$inputtooshort = __( 'You must enter at least 3 characters.', 'affiliate-toolkit-starter' );
 
 					$result = '<select id="' . esc_attr( $controlname . ( random_int( 1, 9999 ) ) ) . '" name="' . esc_attr( $controlname ) . '"  class="atkp-product-selectcontrol" style="width:100%" data-placeholder= "' . esc_attr( $caption ) . '" placeholder="' . esc_attr( $caption ) . '" searchnounce="' . esc_attr( $caption ) . '" inputtooshort="' . esc_attr( $inputtooshort ) . '" endpointurl="' . esc_attr( ATKPTools::get_endpointurl()) . '">  ';
 
@@ -679,7 +679,7 @@ class atkp_control_helper {
 		$result = '';
 
 		if ( $taxonomy != null ) {
-			$caption = sprintf( __( 'select %s', ATKP_PLUGIN_PREFIX ), $taxonomy->caption );
+			$caption = sprintf( __( 'select %s', 'affiliate-toolkit-starter' ), $taxonomy->caption );
 
 			$intvals = array();
 
@@ -734,7 +734,7 @@ class atkp_control_helper {
 						$values = explode( ';', $newfield->format );
 					}
 
-					$caption = sprintf( __( 'select %s', ATKP_PLUGIN_PREFIX ), $newfield->caption );
+					$caption = sprintf( __( 'select %s', 'affiliate-toolkit-starter' ), $newfield->caption );
 
 
 					$result = '<select id="' . esc_attr( $controlname ) . '" name="' . esc_attr( $controlname ) . '"  style="width:100%"  class="atkp-backend-filter" placeholder="' . esc_attr( $caption ) . '" multiple="multiple" >  ';
@@ -755,7 +755,7 @@ class atkp_control_helper {
 
 
 					$result .= '<div class="atkp-checkbox"><input type="checkbox" id="' . esc_attr( $controlname ) . '" class="atkp-backend-filter" name="' . esc_attr( $controlname ) . '" value="0">';
-					$result .= '<label for="' . esc_attr( $controlname ) . '" >' . __( 'Yes', ATKP_PLUGIN_PREFIX ) . '</label></div>';
+					$result .= '<label for="' . esc_attr( $controlname ) . '" >' . __( 'Yes', 'affiliate-toolkit-starter' ) . '</label></div>';
 
 					break;
 				case 5:
@@ -786,16 +786,16 @@ class atkp_control_helper {
 					//produktname auf bzw. absteigend
 
 					$values = array(
-						'price-asc'      => __( 'Price', ATKP_PLUGIN_PREFIX ),
-						'price-desc'     => __( 'Price (descending)', ATKP_PLUGIN_PREFIX ),
-						'amountsaved-asc'      => __( 'Amount saved', ATKP_PLUGIN_PREFIX ),
-						'amountsaved-desc'     => __( 'Amount saved (descending)', ATKP_PLUGIN_PREFIX ),
-						'titlerank-asc'  => __( 'Alphabetic (A to Z)', ATKP_PLUGIN_PREFIX ),
-						'titlerank-desc' => __( 'Alphabetic (Z to A)', ATKP_PLUGIN_PREFIX ),
+						'price-asc'      => __( 'Price', 'affiliate-toolkit-starter' ),
+						'price-desc'     => __( 'Price (descending)', 'affiliate-toolkit-starter' ),
+						'amountsaved-asc'      => __( 'Amount saved', 'affiliate-toolkit-starter' ),
+						'amountsaved-desc'     => __( 'Amount saved (descending)', 'affiliate-toolkit-starter' ),
+						'titlerank-asc'  => __( 'Alphabetic (A to Z)', 'affiliate-toolkit-starter' ),
+						'titlerank-desc' => __( 'Alphabetic (Z to A)', 'affiliate-toolkit-starter' ),
 					);
 
 
-					$caption = __( 'sort by', ATKP_PLUGIN_PREFIX );
+					$caption = __( 'sort by', 'affiliate-toolkit-starter' );
 
 
 					$result = '<select id="' . esc_attr( $controlname ) . '" name="' . esc_attr( $controlname ) . '" class="atkp-backend-filter"  style="width:100%" placeholder="' . esc_attr( $caption) . '" >  ';
@@ -810,25 +810,25 @@ class atkp_control_helper {
 					break;
 				case 'productstatus':
 					$result = '<select id="' . esc_attr( $controlname ) . '" name="' . esc_attr( $controlname ) . '" class="atkp-backend-filter"  style="width:100%">  ';
-					$result .= '<option value="draft">' . __( 'Draft', ATKP_PLUGIN_PREFIX ) . '</option>';
-					$result .= '<option value="publish" selected>' . __( 'Published', ATKP_PLUGIN_PREFIX ) . '</option>';
-					$result .= '<option value="all">' . __( 'All', ATKP_PLUGIN_PREFIX ) . '</option>';
+					$result .= '<option value="draft">' . __( 'Draft', 'affiliate-toolkit-starter' ) . '</option>';
+					$result .= '<option value="publish" selected>' . __( 'Published', 'affiliate-toolkit-starter' ) . '</option>';
+					$result .= '<option value="all">' . __( 'All', 'affiliate-toolkit-starter' ) . '</option>';
 					$result .= ' </select>';
 					break;
 				case "shop":
-					$caption = __( 'input shopid', ATKP_PLUGIN_PREFIX );
+					$caption = __( 'input shopid', 'affiliate-toolkit-starter' );
 					$result  = '<input type="number" id="' . esc_attr( $controlname ) . '" name="' . esc_attr( $controlname ) . '" class="atkp-backend-filter"  style="width:100%" placeholder="' . esc_attr( $caption ) . '" />  ';
 
 
 					break;
 				case 'manufacturer':
-					$caption = __( 'input manufacturer', ATKP_PLUGIN_PREFIX );
+					$caption = __( 'input manufacturer', 'affiliate-toolkit-starter' );
 					$result  = '<input type="number" id="' . esc_attr( $controlname ) . '" name="' . esc_attr( $controlname ) . '" class="atkp-backend-filter"  style="width:100%" placeholder="' . esc_attr( $caption ) . '" />  ';
 
 					break;
 
 				case 'brand':
-					$caption = __( 'input brand', ATKP_PLUGIN_PREFIX );
+					$caption = __( 'input brand', 'affiliate-toolkit-starter' );
 					$result  = '<input type="number" id="' . esc_attr( $controlname ) . '" name="' . esc_attr( $controlname ) . '" class="atkp-backend-filter"  style="width:100%" placeholder="' . esc_attr( $caption ) . '" />  ';
 
 					break;
@@ -837,9 +837,9 @@ class atkp_control_helper {
 				case "product3":
 				case "product4":
 				case "product5":
-					$caption = __( 'input productid', ATKP_PLUGIN_PREFIX );
+					$caption = __( 'input productid', 'affiliate-toolkit-starter' );
 
-					$inputtooshort = __( 'You must enter at least 3 characters.', ATKP_PLUGIN_PREFIX );
+					$inputtooshort = __( 'You must enter at least 3 characters.', 'affiliate-toolkit-starter' );
 
 					//atkp-product-box
 					$disable_select2 = true; // ATKPTools::get_setting(ATKP_PLUGIN_PREFIX.'_disableselect2', false);
@@ -848,7 +848,7 @@ class atkp_control_helper {
 						$result = '<input type="number" id="' . esc_attr( $controlname ) . '" name="' . esc_attr( $controlname ) . '" class="atkp-backend-filter"  style="width:100%" placeholder="' . esc_attr( $caption ) . '" />  ';
 					} else {
 						$result = '<select id="' . esc_attr( $controlname ) . '" name="' . esc_attr( $controlname ) . '" class="atkp-backend-filter atkp-product-box"  style="width:100%">  ';
-						$result .= '<option value="" selected>' . __( 'None', ATKP_PLUGIN_PREFIX ) . '</option>';
+						$result .= '<option value="" selected>' . __( 'None', 'affiliate-toolkit-starter' ) . '</option>';
 						$result .= ' </select>';
 					}
 

@@ -50,7 +50,7 @@ class ATKP_LicenseController {
 		foreach ( $modules as $moduleid => $modulename ) {
 			$license = ATKP_LicenseController::get_module_license( $modulename );
 			if ( $license == '' ) {
-				return sprintf( __( 'There is an extension without a license key. Please go to the <a href="%s">license page</a>.', ATKP_PLUGIN_PREFIX ), admin_url() . '?page=' . ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin&tab=license_configuration_page' );
+				return sprintf( __( 'There is an extension without a license key. Please go to the <a href="%s">license page</a>.', 'affiliate-toolkit-starter' ), admin_url() . '?page=' . ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin&tab=license_configuration_page' );
 			}
 
 			$license_status = ATKP_LicenseController::get_module_license_status( $modulename );
@@ -58,12 +58,13 @@ class ATKP_LicenseController {
 			if ( $license_status == 'expired' ) {
 				$license_message = ATKP_LicenseController::get_module_license_message( $modulename );
 				if ( $license_message == '' ) {
-					$license_message = __( 'There is an extension with an expired license key', ATKP_PLUGIN_PREFIX );
+					$license_message = __( 'There is an extension with an expired license key', 'affiliate-toolkit-starter' );
 				}
 
-				return sprintf( __( '%s. Please go to the <a href="%s">license page</a>.', ATKP_PLUGIN_PREFIX ), $license_message, admin_url() . '?page=' . ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin&tab=license_configuration_page' );
+				return sprintf( __( '%s. Please go to the <a href="%s">license page</a>.', 'affiliate-toolkit-starter' ), $license_message, admin_url() . '?page=' . ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin&tab=license_configuration_page' );
 			} else if ( $license_status != 'valid' ) {
-				return sprintf( __( 'There is an extension without a valid license key. Please go to the <a href="%s">license page</a>.', ATKP_PLUGIN_PREFIX ), admin_url() . '?page=' . ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin&tab=license_configuration_page' );
+
+				return sprintf( __( 'There is an extension without a valid license key. Please go to the <a href="%s">license page</a>.', 'affiliate-toolkit-starter' ), admin_url() . '?page=' . ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin&tab=license_configuration_page' );
 			}
 		}
 
@@ -122,7 +123,7 @@ class ATKP_LicenseController {
 						}
 					} else {
 
-						$result['message'] = __( 'Your license key is invalid.', ATKP_PLUGIN_PREFIX );
+						$result['message'] = __( 'Your license key is invalid.', 'affiliate-toolkit-starter' );
 						$result['status']  = 'invalid';
 					}
 				}
@@ -205,7 +206,7 @@ class ATKP_LicenseController {
 			}
 		} else {
 
-			$result['message'] = __( 'Your license key is invalid.', ATKP_PLUGIN_PREFIX );
+			$result['message'] = __( 'Your license key is invalid.', 'affiliate-toolkit-starter' );
 			$result['status']  = 'invalid';
 		}
 
@@ -219,30 +220,30 @@ class ATKP_LicenseController {
 		switch ( $license_status ) {
 			case 'expired' :
 				$message = sprintf(
-					__( 'Your license key expired on %s.', ATKP_PLUGIN_PREFIX ),
+					__( 'Your license key expired on %s.', 'affiliate-toolkit-starter' ),
 					date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, current_time( 'timestamp' ) ) )
 				);
 				break;
 			case 'revoked' :
-				$message = __( 'Your license key has been disabled.', ATKP_PLUGIN_PREFIX );
+				$message = __( 'Your license key has been disabled.', 'affiliate-toolkit-starter' );
 				break;
 			case 'missing' :
-				$message = __( 'Invalid license.', ATKP_PLUGIN_PREFIX );
+				$message = __( 'Invalid license.', 'affiliate-toolkit-starter' );
 				break;
 			case 'site_inactive' :
-				$message = __( 'Your license is not active for this URL.', ATKP_PLUGIN_PREFIX );
+				$message = __( 'Your license is not active for this URL.', 'affiliate-toolkit-starter' );
 				break;
 			case 'item_name_mismatch' :
-				$message = sprintf( __( 'This appears to be an invalid license key for %s.', ATKP_PLUGIN_PREFIX ), $productname );
+				$message = sprintf( __( 'This appears to be an invalid license key for %s.', 'affiliate-toolkit-starter' ), $productname );
 				break;
 			case 'no_activations_left':
-				$message = __( 'Your license key has reached its activation limit.', ATKP_PLUGIN_PREFIX );
+				$message = __( 'Your license key has reached its activation limit.', 'affiliate-toolkit-starter' );
 				break;
 			case 'invalid':
-				$message = __( 'Your license key is invalid.', ATKP_PLUGIN_PREFIX );
+				$message = __( 'Your license key is invalid.', 'affiliate-toolkit-starter' );
 				break;
 			case 'invalid_item_id':
-				$message = __( 'Your license key is for another product.', ATKP_PLUGIN_PREFIX );
+				$message = __( 'Your license key is for another product.', 'affiliate-toolkit-starter' );
 				break;
 			default :
 				$message = $license_status;

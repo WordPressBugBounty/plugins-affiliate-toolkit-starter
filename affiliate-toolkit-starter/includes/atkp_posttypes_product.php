@@ -36,7 +36,7 @@ class atkp_posttypes_product {
             <script>
                 jQuery(document).ready(function () {
 
-                    jQuery(jQuery(".wrap .page-title-action")[0]).after('<a href="<?php echo esc_url( admin_url( 'admin.php?page=atkp_bulkimport' ) ) ?>" class="page-title-action"><?php echo esc_html__( 'Import product', ATKP_PLUGIN_PREFIX ) ?></a>');
+                    jQuery(jQuery(".wrap .page-title-action")[0]).after('<a href="<?php echo esc_url( admin_url( 'admin.php?page=atkp_bulkimport' ) ) ?>" class="page-title-action"><?php echo esc_html__( 'Import product', 'affiliate-toolkit-starter' ) ?></a>');
                 });
             </script>
 
@@ -118,7 +118,7 @@ class atkp_posttypes_product {
 
 			add_thickbox();
 
-			ATKPTools::add_column( ATKP_PRODUCT_POSTTYPE, esc_html__( 'Status', ATKP_PLUGIN_PREFIX ), function ( $post_id ) {
+			ATKPTools::add_column( ATKP_PRODUCT_POSTTYPE, esc_html__( 'Status', 'affiliate-toolkit-starter' ), function ( $post_id ) {
 
 				$products = atkp_product_collection::load( $post_id );
 
@@ -139,12 +139,12 @@ class atkp_posttypes_product {
 					$shps = $prd->shop;
 				}
 
-				echo '<span style="font-weight:bold">' . esc_html__( 'ID', ATKP_PLUGIN_PREFIX ) . ':</span> <span >' . esc_html__( $post_id, ATKP_PLUGIN_PREFIX ) . '</span>, ';
+				echo '<span style="font-weight:bold">' . esc_html__( 'ID', 'affiliate-toolkit-starter' ) . ':</span> <span >' . esc_html__( $post_id, 'affiliate-toolkit-starter' ) . '</span>, ';
 
 				$shop_config = $prd->get_shops_from_config();
 
 				if ( ! isset( $shps ) || $shps == null ) {
-					echo '<span>' . esc_html__( 'No shop', ATKP_PLUGIN_PREFIX ) . '</span>';
+					echo '<span>' . esc_html__( 'No shop', 'affiliate-toolkit-starter' ) . '</span>';
 				} else {
 					$logourls = array();
 					foreach ( $products->products as $product ) {
@@ -163,7 +163,7 @@ class atkp_posttypes_product {
 							}
 						}
 					}
-					echo '<span style="filter: grayscale(60%);font-weight:bold">' . esc_html__( 'Shops', ATKP_PLUGIN_PREFIX ) . ':</span> <span>' . 
+					echo '<span style="filter: grayscale(60%);font-weight:bold">' . esc_html__( 'Shops', 'affiliate-toolkit-starter' ) . ':</span> <span>' .
                         wp_kses( implode( ',', $logourls ), array(
                             'a' => array( 'title' => array(), 'target' => array(), 'href' => array() ),
                             'img' => array( 'alt' => array(), 'src' => array(), 'style' => array() )
@@ -181,12 +181,12 @@ class atkp_posttypes_product {
 						}
 
 						if ( $myshop->get_smalllogourl() != '' ) {
-							$logourls[] = '<img title="' . esc_attr_e( 'Product not found', ATKP_PLUGIN_PREFIX ) . '" alt="' . esc_attr_e( $myshop->get_title(), ATKP_PLUGIN_PREFIX ) . '" style="filter: grayscale(60%);opacity:0.3;max-height:17px" src="' . ( esc_url( $myshop->get_smalllogourl() ) ) . '" />';
+							$logourls[] = '<img title="' . esc_attr_e( 'Product not found', 'affiliate-toolkit-starter' ) . '" alt="' . esc_attr_e( $myshop->get_title(), 'affiliate-toolkit-starter' ) . '" style="filter: grayscale(60%);opacity:0.3;max-height:17px" src="' . ( esc_url( $myshop->get_smalllogourl() ) ) . '" />';
 						} else {
-							$logourls[] = '<span title="' . esc_attr_e( 'Product not found', ATKP_PLUGIN_PREFIX ) . '" style="opacity:0.3">' . (esc_html__( $myshop->get_title(), ATKP_PLUGIN_PREFIX ) ) . '</span>';
+							$logourls[] = '<span title="' . esc_attr_e( 'Product not found', 'affiliate-toolkit-starter' ) . '" style="opacity:0.3">' . (esc_html__( $myshop->get_title(), 'affiliate-toolkit-starter' ) ) . '</span>';
 						}
 					}
-					echo '<br /><span style="filter: grayscale(60%);font-weight:bold">' . esc_html__( 'No result', ATKP_PLUGIN_PREFIX ) . ':</span> <span>' . 
+					echo '<br /><span style="filter: grayscale(60%);font-weight:bold">' . esc_html__( 'No result', 'affiliate-toolkit-starter' ) . ':</span> <span>' .
                         wp_kses( implode( ',', $logourls ), array(
                             'a' => array( 'title' => array(), 'target' => array(), 'href' => array() ),
                             'img' => array( 'alt' => array(), 'src' => array(), 'style' => array() )
@@ -197,18 +197,18 @@ class atkp_posttypes_product {
 				$updatedon = ATKPTools::get_post_setting( $post_id, ATKP_PRODUCT_POSTTYPE . '_updatedon' );
 
 				if ( isset( $updatedon ) && $updatedon != '' ) {
-					$infotext = esc_html__( '%refresh_date% at %refresh_time%', ATKP_PLUGIN_PREFIX );
+					$infotext = esc_html__( '%refresh_date% at %refresh_time%', 'affiliate-toolkit-starter' );
 
 					$infotext = str_replace( '%refresh_date%', ATKPTools::get_formatted_date( $updatedon ), $infotext );
 					$infotext = str_replace( '%refresh_time%', ATKPTools::get_formatted_time( $updatedon ), $infotext );
 
-					echo '<br /><span style="font-weight:bold">' . esc_html__( 'Updated on', ATKP_PLUGIN_PREFIX ) . ':</span> <span>' . esc_html__( $infotext, ATKP_PLUGIN_PREFIX ) . '</span>';
+					echo '<br /><span style="font-weight:bold">' . esc_html__( 'Updated on', 'affiliate-toolkit-starter' ) . ':</span> <span>' . esc_html__( $infotext, 'affiliate-toolkit-starter' ) . '</span>';
 				}
 
 				$message = ATKPTools::get_post_setting( $post_id, ATKP_PRODUCT_POSTTYPE . '_message' );
 
 				if ( isset( $message ) && $message != '' ) {
-					echo '<br /><span style="font-weight:bold">' . esc_html__( 'Message', ATKP_PLUGIN_PREFIX ) . ':</span> <span style="color:red">' . esc_html( $message ) . '</span>';
+					echo '<br /><span style="font-weight:bold">' . esc_html__( 'Message', 'affiliate-toolkit-starter' ) . ':</span> <span style="color:red">' . esc_html( $message ) . '</span>';
 				}
 
 				do_action( 'atkp_product_status_column', $post_id );
@@ -220,7 +220,7 @@ class atkp_posttypes_product {
 			add_action( 'admin_head', array( $this, 'hidey_admin_head' ) );
 
 
-			ATKPTools::add_column( ATKP_PRODUCT_POSTTYPE, esc_html__( 'Main image', ATKP_PLUGIN_PREFIX ), function ( $post_id ) {
+			ATKPTools::add_column( ATKP_PRODUCT_POSTTYPE, esc_html__( 'Main image', 'affiliate-toolkit-starter' ), function ( $post_id ) {
 				$prodcollection = atkp_product_collection::load( $post_id );
 				$product        = $prodcollection->get_main_product();
 
@@ -261,7 +261,7 @@ class atkp_posttypes_product {
 
 	function hidey_admin_head() {
 		echo '<style type="text/css">';
-		echo '.column-' . esc_html__( sanitize_title( esc_html__( 'Main image', ATKP_PLUGIN_PREFIX ) ), ATKP_PLUGIN_PREFIX ) . ' { width: 70px; }';
+		echo '.column-' . esc_html__( sanitize_title( esc_html__( 'Main image', 'affiliate-toolkit-starter' ) ), 'affiliate-toolkit-starter' ) . ' { width: 70px; }';
 		echo '</style>';
 	}
 
@@ -277,8 +277,8 @@ class atkp_posttypes_product {
 			wp_register_script( 'meta-box-image', plugin_dir_url( ATKP_PLUGIN_FILE ) . 'js/meta-box-image.js', array( 'jquery' ) );
 			wp_localize_script( 'meta-box-image', 'meta_image',
 				array(
-					'title'  => esc_html__( 'Choose or Upload an image', ATKP_PLUGIN_PREFIX ),
-					'button' => esc_html__( 'Use this image', ATKP_PLUGIN_PREFIX ),
+					'title'  => esc_html__( 'Choose or Upload an image', 'affiliate-toolkit-starter' ),
+					'button' => esc_html__( 'Use this image', 'affiliate-toolkit-starter' ),
 				)
 			);
 			wp_enqueue_script( 'meta-box-image' );
@@ -349,7 +349,7 @@ class atkp_posttypes_product {
 		atkp_posttypes_product::$overridefilter = false;
 		?>
         <select name="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_filterfield') ?>">
-            <option value=""><?php echo esc_html__( 'Filter products by', ATKP_PLUGIN_PREFIX ); ?></option>
+            <option value=""><?php echo esc_html__( 'Filter products by', 'affiliate-toolkit-starter' ); ?></option>
 			<?php
 			//Alle Listen
 			//Fehlerhafte Listen
@@ -357,17 +357,17 @@ class atkp_posttypes_product {
 			//Shop: xx
 			$filterfield = ATKPTools::get_get_parameter( ATKP_PLUGIN_PREFIX . '_filterfield', 'string' );
 
-			echo '<option value="' . esc_attr( 'filter_error' ) . '" ' . ( $filterfield == 'filter_error' ? 'selected' : '' ) . '>' . esc_html__( 'Products with error', ATKP_PLUGIN_PREFIX ) . '</option>';
-			echo '<option value="' . esc_attr( 'shop_' ) . '" ' . ( $filterfield == 'shop_' ? 'selected' : '' ) . '>' . esc_html__( 'No shop', ATKP_PLUGIN_PREFIX ) . '</option>';
+			echo '<option value="' . esc_attr( 'filter_error' ) . '" ' . ( $filterfield == 'filter_error' ? 'selected' : '' ) . '>' . esc_html__( 'Products with error', 'affiliate-toolkit-starter' ) . '</option>';
+			echo '<option value="' . esc_attr( 'shop_' ) . '" ' . ( $filterfield == 'shop_' ? 'selected' : '' ) . '>' . esc_html__( 'No shop', 'affiliate-toolkit-starter' ) . '</option>';
 
 			foreach ( $shops as $shop ) {
 
 
-				echo '<option ' . ( $shop->type == atkp_shop_type::SUB_SHOPS ? 'disabled' : '' ) . ' value="' . esc_attr( 'shop_' . $shop->id ) . '" ' . ( $filterfield == 'shop_' . $shop->id ? 'selected' : '' ) . '>' . sprintf( esc_html__( 'Shop: %s (%s)', ATKP_PLUGIN_PREFIX ), esc_html($shop->title), esc_html($shop->id) ) . '</option>';
+				echo '<option ' . ( $shop->type == atkp_shop_type::SUB_SHOPS ? 'disabled' : '' ) . ' value="' . esc_attr( 'shop_' . $shop->id ) . '" ' . ( $filterfield == 'shop_' . $shop->id ? 'selected' : '' ) . '>' . sprintf( esc_html__( 'Shop: %s (%s)', 'affiliate-toolkit-starter' ), esc_html($shop->title), esc_html($shop->id) ) . '</option>';
 
 				foreach ( $shop->children as $child ) {
 
-					echo '<option value="' . esc_attr( 'shop_' . $child->id ) . '" ' . ( $filterfield == 'shop_' . $child->id ? 'selected' : '' ) . '>- ' . sprintf( esc_html__( '%s (%s)', ATKP_PLUGIN_PREFIX ), esc_html($child->title), esc_html($child->id) ) . '</option>';
+					echo '<option value="' . esc_attr( 'shop_' . $child->id ) . '" ' . ( $filterfield == 'shop_' . $child->id ? 'selected' : '' ) . '>- ' . sprintf( esc_html__( '%s (%s)', 'affiliate-toolkit-starter' ), esc_html($child->title), esc_html($child->id) ) . '</option>';
 
 				}
 			}
@@ -378,18 +378,18 @@ class atkp_posttypes_product {
 
 	function register_productPostType() {
 		$labels = array(
-			'name'               => esc_html__( 'Products', ATKP_PLUGIN_PREFIX ),
-			'singular_name'      => esc_html__( 'Product', ATKP_PLUGIN_PREFIX ),
-			'add_new_item'       => esc_html__( 'Add new Product', ATKP_PLUGIN_PREFIX ),
-			'edit_item'          => esc_html__( 'Edit Product', ATKP_PLUGIN_PREFIX ),
-			'new_item'           => esc_html__( 'New Product', ATKP_PLUGIN_PREFIX ),
-			'all_items'          => esc_html__( 'Products', ATKP_PLUGIN_PREFIX ),
-			'view_item'          => esc_html__( 'View Product', ATKP_PLUGIN_PREFIX ),
-			'search_items'       => esc_html__( 'Search Products', ATKP_PLUGIN_PREFIX ),
-			'not_found'          => esc_html__( 'No products found', ATKP_PLUGIN_PREFIX ),
-			'not_found_in_trash' => esc_html__( 'No products found in the Trash', ATKP_PLUGIN_PREFIX ),
+			'name'               => esc_html__( 'Products', 'affiliate-toolkit-starter' ),
+			'singular_name'      => esc_html__( 'Product', 'affiliate-toolkit-starter' ),
+			'add_new_item'       => esc_html__( 'Add new Product', 'affiliate-toolkit-starter' ),
+			'edit_item'          => esc_html__( 'Edit Product', 'affiliate-toolkit-starter' ),
+			'new_item'           => esc_html__( 'New Product', 'affiliate-toolkit-starter' ),
+			'all_items'          => esc_html__( 'Products', 'affiliate-toolkit-starter' ),
+			'view_item'          => esc_html__( 'View Product', 'affiliate-toolkit-starter' ),
+			'search_items'       => esc_html__( 'Search Products', 'affiliate-toolkit-starter' ),
+			'not_found'          => esc_html__( 'No products found', 'affiliate-toolkit-starter' ),
+			'not_found_in_trash' => esc_html__( 'No products found in the Trash', 'affiliate-toolkit-starter' ),
 			'parent_item_colon'  => '',
-			'menu_name'          => esc_html__( 'AT Products', ATKP_PLUGIN_PREFIX ),
+			'menu_name'          => esc_html__( 'AT Products', 'affiliate-toolkit-starter' ),
 		);
 
 		$importProductimage = atkp_options::$loader->get_product_importimage();
@@ -403,7 +403,7 @@ class atkp_posttypes_product {
 
 		$args = array(
 			'labels'      => $labels,
-			'description' => esc_html__( 'Holds our products and product specific data', ATKP_PLUGIN_PREFIX ),
+			'description' => esc_html__( 'Holds our products and product specific data', 'affiliate-toolkit-starter' ),
 
 			'public'              => false,
 			// it's not public, it shouldn't have it's own permalink, and so on
@@ -455,12 +455,12 @@ class atkp_posttypes_product {
 				$labels = array(
 					'name'          => $taxonomy->captionplural,
 					'singular_name' => $taxonomy->caption,
-					'search_items'  => sprintf( esc_html__( 'Search %s', ATKP_PLUGIN_PREFIX ), esc_html($taxonomy->captionplural) ),
-					'all_items'     => sprintf( esc_html__( 'All %s', ATKP_PLUGIN_PREFIX ), esc_html($taxonomy->captionplural) ),
-					'edit_item'     => sprintf( esc_html__( 'Edit %s', ATKP_PLUGIN_PREFIX ), esc_html($taxonomy->caption) ),
-					'update_item'   => sprintf( esc_html__( 'Update %s', ATKP_PLUGIN_PREFIX ), esc_html($taxonomy->caption) ),
-					'add_new_item'  => sprintf( esc_html__( 'Add New %s', ATKP_PLUGIN_PREFIX ), esc_html($taxonomy->caption) ),
-					'new_item_name' => sprintf( esc_html__( 'New %s', ATKP_PLUGIN_PREFIX ), esc_html($taxonomy->caption) ),
+					'search_items'  => sprintf( esc_html__( 'Search %s', 'affiliate-toolkit-starter' ), esc_html($taxonomy->captionplural) ),
+					'all_items'     => sprintf( esc_html__( 'All %s', 'affiliate-toolkit-starter' ), esc_html($taxonomy->captionplural) ),
+					'edit_item'     => sprintf( esc_html__( 'Edit %s', 'affiliate-toolkit-starter' ), esc_html($taxonomy->caption) ),
+					'update_item'   => sprintf( esc_html__( 'Update %s', 'affiliate-toolkit-starter' ), esc_html($taxonomy->caption) ),
+					'add_new_item'  => sprintf( esc_html__( 'Add New %s', 'affiliate-toolkit-starter' ), esc_html($taxonomy->caption) ),
+					'new_item_name' => sprintf( esc_html__( 'New %s', 'affiliate-toolkit-starter' ), esc_html($taxonomy->caption) ),
 					'menu_name'     => $taxonomy->captionplural
 				);
 
@@ -521,7 +521,7 @@ class atkp_posttypes_product {
 
 		add_meta_box(
 			ATKP_PRODUCT_POSTTYPE . '_shop_box',
-			esc_html__( 'Filter Information', ATKP_PLUGIN_PREFIX ),
+			esc_html__( 'Filter Information', 'affiliate-toolkit-starter' ),
 			array( &$this, 'product_shop_box_content' ),
 			ATKP_PRODUCT_POSTTYPE,
 			'normal',
@@ -530,7 +530,7 @@ class atkp_posttypes_product {
 
 		add_meta_box(
 			ATKP_PRODUCT_POSTTYPE . '_products_box',
-			esc_html__( 'Products found', ATKP_PLUGIN_PREFIX ),
+			esc_html__( 'Products found', 'affiliate-toolkit-starter' ),
 			array( &$this, 'product_products_box_content' ),
 			ATKP_PRODUCT_POSTTYPE,
 			'normal',
@@ -540,7 +540,7 @@ class atkp_posttypes_product {
 
 		add_meta_box(
 			ATKP_PRODUCT_POSTTYPE . '_detail_box',
-			esc_html__( 'Detailed information', ATKP_PLUGIN_PREFIX ),
+			esc_html__( 'Detailed information', 'affiliate-toolkit-starter' ),
 			array( &$this, 'product_detail_box_content' ),
 			ATKP_PRODUCT_POSTTYPE,
 			'normal',
@@ -549,7 +549,7 @@ class atkp_posttypes_product {
 
 		add_meta_box(
 			ATKP_PRODUCT_POSTTYPE . '_queue_box',
-			esc_html__( 'Queue History', ATKP_PLUGIN_PREFIX ),
+			esc_html__( 'Queue History', 'affiliate-toolkit-starter' ),
 			array( &$this, 'product_queue_box_content' ),
 			ATKP_PRODUCT_POSTTYPE,
 			'normal',
@@ -562,7 +562,7 @@ class atkp_posttypes_product {
 	function product_queue_box_content( $post ) {
 		$atkp_queuetable_helper = new atkp_queuetable_helper();
 		if ( ! $atkp_queuetable_helper->exists_table()[0] ) {
-			echo esc_html__( 'database table does not exists: ' . $atkp_queuetable_helper->get_producttable_tablename(), ATKP_PLUGIN_PREFIX );
+			echo esc_html__( 'database table does not exists: ' . $atkp_queuetable_helper->get_producttable_tablename(), 'affiliate-toolkit-starter' );
 
 			return;
 		}
@@ -573,14 +573,14 @@ class atkp_posttypes_product {
         <table class="wp-list-table widefat fixed striped table-view-list queueentries">
             <thead>
             <tr>
-                <th><?php echo esc_html__( 'ID', ATKP_PLUGIN_PREFIX ) ?></th>
-                <th><?php echo esc_html__( 'Queue', ATKP_PLUGIN_PREFIX ) ?></th>
-                <th><?php echo esc_html__( 'Shop', ATKP_PLUGIN_PREFIX ) ?></th>
-                <th><?php echo esc_html__( 'Status', ATKP_PLUGIN_PREFIX ) ?></th>
-                <th><?php echo esc_html__( 'Function', ATKP_PLUGIN_PREFIX ) ?></th>
-                <th><?php echo esc_html__( 'Parameter', ATKP_PLUGIN_PREFIX ) ?></th>
-                <th><?php echo esc_html__( 'Last update', ATKP_PLUGIN_PREFIX ) ?></th>
-                <th><?php echo esc_html__( 'Message', ATKP_PLUGIN_PREFIX ) ?></th>
+                <th><?php echo esc_html__( 'ID', 'affiliate-toolkit-starter' ) ?></th>
+                <th><?php echo esc_html__( 'Queue', 'affiliate-toolkit-starter' ) ?></th>
+                <th><?php echo esc_html__( 'Shop', 'affiliate-toolkit-starter' ) ?></th>
+                <th><?php echo esc_html__( 'Status', 'affiliate-toolkit-starter' ) ?></th>
+                <th><?php echo esc_html__( 'Function', 'affiliate-toolkit-starter' ) ?></th>
+                <th><?php echo esc_html__( 'Parameter', 'affiliate-toolkit-starter' ) ?></th>
+                <th><?php echo esc_html__( 'Last update', 'affiliate-toolkit-starter' ) ?></th>
+                <th><?php echo esc_html__( 'Message', 'affiliate-toolkit-starter' ) ?></th>
             </tr>
             </thead>
             <tbody>
@@ -592,7 +592,7 @@ class atkp_posttypes_product {
 
                 <tr>
                     <td class="id column-id has-row-actions column-primary" data-colname="ID">
-	                    <?php echo esc_html__( $entry['id'], ATKP_PLUGIN_PREFIX ); ?>
+	                    <?php echo esc_html__( $entry['id'], 'affiliate-toolkit-starter' ); ?>
                     </td>
                     <td class="queue_id column-id has-row-actions column-primary" data-colname="ID">
 						<?php
@@ -602,9 +602,9 @@ class atkp_posttypes_product {
 							if ( $link == null ) {
 								echo esc_html($queueid);
 							} else {
-								$title = esc_html__( 'Queue', ATKP_PLUGIN_PREFIX );
+								$title = esc_html__( 'Queue', 'affiliate-toolkit-starter' );
 
-								echo '<a href="' . esc_url( $link ) . '" target="_blank">' . esc_html__( $title, ATKP_PLUGIN_PREFIX ) . ' (' . esc_html( $queueid ) . ')</a>';
+								echo '<a href="' . esc_url( $link ) . '" target="_blank">' . esc_html__( $title, 'affiliate-toolkit-starter' ) . ' (' . esc_html( $queueid ) . ')</a>';
 							}
 						}
 
@@ -622,7 +622,7 @@ class atkp_posttypes_product {
 							} else {
 								$title = get_the_title( $shopid );
 
-								echo '<a href="' . esc_url( $link ) . '" target="_blank">' . esc_html__( $title, ATKP_PLUGIN_PREFIX ) . ' (' . esc_html( $shopid ) . ')</a>';
+								echo '<a href="' . esc_url( $link ) . '" target="_blank">' . esc_html__( $title, 'affiliate-toolkit-starter' ) . ' (' . esc_html( $shopid ) . ')</a>';
 							}
 						}
 
@@ -634,38 +634,38 @@ class atkp_posttypes_product {
 
 						switch ( $entry['status'] ) {
 							case atkp_queue_entry_status::SUCCESSFULLY:
-								echo '<span style="color:green;font-weight:bold;">' . esc_html__( 'Successfully', ATKP_PLUGIN_PREFIX ) . '</span>';
+								echo '<span style="color:green;font-weight:bold;">' . esc_html__( 'Successfully', 'affiliate-toolkit-starter' ) . '</span>';
 								break;
 							case atkp_queue_entry_status::ERROR:
-								echo '<span style="color:red;font-weight:bold;">' . esc_html__( 'Error', ATKP_PLUGIN_PREFIX ) . '</span>';
+								echo '<span style="color:red;font-weight:bold;">' . esc_html__( 'Error', 'affiliate-toolkit-starter' ) . '</span>';
 								break;
 							case atkp_queue_entry_status::NOT_PROCESSED:
-								echo '<span style="color:orange;font-weight:bold;">' . esc_html__( 'Not processed', ATKP_PLUGIN_PREFIX ) . '</span>';
+								echo '<span style="color:orange;font-weight:bold;">' . esc_html__( 'Not processed', 'affiliate-toolkit-starter' ) . '</span>';
 								break;
 							case atkp_queue_entry_status::PROCESSED:
-								echo '<span style="font-weight:bold;">' . esc_html__( 'Processed', ATKP_PLUGIN_PREFIX ) . '</span>';
+								echo '<span style="font-weight:bold;">' . esc_html__( 'Processed', 'affiliate-toolkit-starter' ) . '</span>';
 								break;
 							case atkp_queue_entry_status::FINISHED:
-								echo '<span style="color:green;font-weight:bold;">' . esc_html__( 'Finalized', ATKP_PLUGIN_PREFIX ) . '</span>';
+								echo '<span style="color:green;font-weight:bold;">' . esc_html__( 'Finalized', 'affiliate-toolkit-starter' ) . '</span>';
 								break;
 							case atkp_queue_entry_status::PREPARED:
-								echo '<span style="color:orange;font-weight:bold;">' . esc_html__( 'Prepared for processing', ATKP_PLUGIN_PREFIX ) . '</span>';
+								echo '<span style="color:orange;font-weight:bold;">' . esc_html__( 'Prepared for processing', 'affiliate-toolkit-starter' ) . '</span>';
 								break;
 						}
 
 						?>
                     </td>
                     <td class="functionname column-functionname" data-colname="Function">
-	                    <?php echo esc_html__( $entry['functionname'], ATKP_PLUGIN_PREFIX ) ?>
+	                    <?php echo esc_html__( $entry['functionname'], 'affiliate-toolkit-starter' ) ?>
                     </td>
                     <td class="functionparameter column-functionparameter" data-colname="Parameter">
-	                    <?php echo esc_html__( $entry['functionparameter'], ATKP_PLUGIN_PREFIX ) ?>
+	                    <?php echo esc_html__( $entry['functionparameter'], 'affiliate-toolkit-starter' ) ?>
                     </td>
                     <td class="updatedon column-updatedon" data-colname="Last update">
-	                    <?php echo esc_html__( ATKPTools::get_formatted_date( strtotime( $entry['updatedon'] ) ), ATKP_PLUGIN_PREFIX ) . esc_html__( ' at ', ATKP_PLUGIN_PREFIX ) . esc_html__( ATKPTools::get_formatted_time( strtotime( $entry['updatedon'] ) ), ATKP_PLUGIN_PREFIX ); ?>
+	                    <?php echo esc_html__( ATKPTools::get_formatted_date( strtotime( $entry['updatedon'] ) ), 'affiliate-toolkit-starter' ) . esc_html__( ' at ', 'affiliate-toolkit-starter' ) . esc_html__( ATKPTools::get_formatted_time( strtotime( $entry['updatedon'] ) ), 'affiliate-toolkit-starter' ); ?>
                     </td>
                     <td class="updatedmessage column-updatedmessage" data-colname="Message">
-	                    <?php echo esc_html__( $entry['updatedmessage'], ATKP_PLUGIN_PREFIX ) ?>
+	                    <?php echo esc_html__( $entry['updatedmessage'], 'affiliate-toolkit-starter' ) ?>
                     </td>
                 </tr>
 
@@ -686,7 +686,7 @@ class atkp_posttypes_product {
 	function product_products_box_content( $post ) {
 		$atkp_producttable_helper = new atkp_producttable_helper();
 		if ( ! $atkp_producttable_helper->exists_table()[0] ) {
-			echo esc_html__( 'database table does not exists: ' . $atkp_producttable_helper->get_producttable_tablename(), ATKP_PLUGIN_PREFIX );
+			echo esc_html__( 'database table does not exists: ' . $atkp_producttable_helper->get_producttable_tablename(), 'affiliate-toolkit-starter' );
 
 			return;
 		}
@@ -745,22 +745,22 @@ class atkp_posttypes_product {
                             <table>
 								<?php do_action( 'atkp_product_before_item', $product, $ss ); ?>
                                 <tr>
-                                    <th class="atkp_shop_head"><?php echo esc_html__( 'Sort order', ATKP_PLUGIN_PREFIX ); ?>
+                                    <th class="atkp_shop_head"><?php echo esc_html__( 'Sort order', 'affiliate-toolkit-starter' ); ?>
                                         :
                                     </th>
-                                    <td><?php echo $idx == 1 ? esc_html__( 'Main product', ATKP_PLUGIN_PREFIX ) : '#' . esc_html( $idx ) ?></td>
+                                    <td><?php echo $idx == 1 ? esc_html__( 'Main product', 'affiliate-toolkit-starter' ) : '#' . esc_html( $idx ) ?></td>
                                 </tr>
                                 <tr>
-                                    <th class="atkp_shop_head"><?php echo esc_html__( 'Shop', ATKP_PLUGIN_PREFIX ); ?>
+                                    <th class="atkp_shop_head"><?php echo esc_html__( 'Shop', 'affiliate-toolkit-starter' ); ?>
                                         :
                                     </th>
                                     <td>
 										<?php
 
 										if ( $ss != null && $ss->get_smalllogourl() != '' ) {
-											echo '<a title="' . esc_attr_e( $ss->get_title() . ( $ss->hidepricecomparision ? esc_html__( ' (hidden)', ATKP_PLUGIN_PREFIX ) : '' ), ATKP_PLUGIN_PREFIX ) . '"  target="_blank" href="' . esc_url( get_edit_post_link( $product->shopid ) ) . '"><img alt="' . esc_attr_e( $ss->get_title(), ATKP_PLUGIN_PREFIX ) . '" style="' . ( $product->ismainshop ? 'border:green solid 1px' : '' ) . ';max-height:17px" src="' . ( esc_url( $ss->get_smalllogourl() ) ) . '" /></a>';
+											echo '<a title="' . esc_attr_e( $ss->get_title() . ( $ss->hidepricecomparision ? esc_html__( ' (hidden)', 'affiliate-toolkit-starter' ) : '' ), 'affiliate-toolkit-starter' ) . '"  target="_blank" href="' . esc_url( get_edit_post_link( $product->shopid ) ) . '"><img alt="' . esc_attr_e( $ss->get_title(), 'affiliate-toolkit-starter' ) . '" style="' . ( $product->ismainshop ? 'border:green solid 1px' : '' ) . ';max-height:17px" src="' . ( esc_url( $ss->get_smalllogourl() ) ) . '" /></a>';
 										} else if ( $ss != null ) {
-											echo '<a title="' . esc_attr_e( $ss->get_title() . ( $ss->hidepricecomparision ? esc_html__( ' (hidden)', ATKP_PLUGIN_PREFIX ) : '' ), ATKP_PLUGIN_PREFIX ) . '" target="_blank" href="' . esc_url( get_edit_post_link( $product->shopid ) ) . '"><span style="' . ( $product->ismainshop ? 'border:green solid 1px' : '' ) . '">' . ( esc_html__( $ss->get_title(), ATKP_PLUGIN_PREFIX ) ) . '</span></a>';
+											echo '<a title="' . esc_attr_e( $ss->get_title() . ( $ss->hidepricecomparision ? esc_html__( ' (hidden)', 'affiliate-toolkit-starter' ) : '' ), 'affiliate-toolkit-starter' ) . '" target="_blank" href="' . esc_url( get_edit_post_link( $product->shopid ) ) . '"><span style="' . ( $product->ismainshop ? 'border:green solid 1px' : '' ) . '">' . ( esc_html__( $ss->get_title(), 'affiliate-toolkit-starter' ) ) . '</span></a>';
 										} else {
 											echo 'no shop?';
 										}
@@ -769,71 +769,71 @@ class atkp_posttypes_product {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th class="atkp_shop_head"><?php echo esc_html__( 'Unique ID', ATKP_PLUGIN_PREFIX ); ?>
+                                    <th class="atkp_shop_head"><?php echo esc_html__( 'Unique ID', 'affiliate-toolkit-starter' ); ?>
                                         :
                                     </th>
-                                    <td><?php echo esc_html__( $product->asin, ATKP_PLUGIN_PREFIX ); ?></td>
+                                    <td><?php echo esc_html__( $product->asin, 'affiliate-toolkit-starter' ); ?></td>
                                 </tr>
                                 <tr>
-                                    <th class="atkp_shop_head"><?php echo esc_html__( 'Name', ATKP_PLUGIN_PREFIX ); ?>
+                                    <th class="atkp_shop_head"><?php echo esc_html__( 'Name', 'affiliate-toolkit-starter' ); ?>
                                         :
                                     </th>
                                     <td><a href="<?php echo esc_url($product->producturl) ?>"
-                                           target="_blank"><?php echo esc_html__( strlen( $product->title ) > 40 ? substr( $product->title, 0, 37 ) . '...' : $product->title, ATKP_PLUGIN_PREFIX ); ?></a>
+                                           target="_blank"><?php echo esc_html__( strlen( $product->title ) > 40 ? substr( $product->title, 0, 37 ) . '...' : $product->title, 'affiliate-toolkit-starter' ); ?></a>
                                     </td>
 
                                 </tr>
                                 <tr>
-                                    <th class="atkp_shop_head"><?php echo esc_html__( 'Image Gallery', ATKP_PLUGIN_PREFIX ); ?>
+                                    <th class="atkp_shop_head"><?php echo esc_html__( 'Image Gallery', 'affiliate-toolkit-starter' ); ?>
                                         :
                                     </th>
                                     <td><?php echo( $product->images == null ? 0 : count( $product->images ) ); ?></td>
                                 </tr>
                                 <tr>
-                                    <th class="atkp_shop_head"><?php echo esc_html__( 'CPC Price', ATKP_PLUGIN_PREFIX ); ?>
+                                    <th class="atkp_shop_head"><?php echo esc_html__( 'CPC Price', 'affiliate-toolkit-starter' ); ?>
                                         :
                                     </th>
-                                    <td><?php echo esc_html__( $product->cpcfloat == 0 ? esc_html__( 'Affiliate product', ATKP_PLUGIN_PREFIX ) : ( $product->cpc . ' (' . $product->cpcfloat . ')' ), ATKP_PLUGIN_PREFIX ) ?></td>
+                                    <td><?php echo esc_html__( $product->cpcfloat == 0 ? esc_html__( 'Affiliate product', 'affiliate-toolkit-starter' ) : ( $product->cpc . ' (' . $product->cpcfloat . ')' ), 'affiliate-toolkit-starter' ) ?></td>
                                 </tr>
 
                                 <tr>
-                                    <th class="atkp_shop_head"><?php echo esc_html__( 'Sale Price', ATKP_PLUGIN_PREFIX ); ?>
+                                    <th class="atkp_shop_head"><?php echo esc_html__( 'Sale Price', 'affiliate-toolkit-starter' ); ?>
                                         :
                                     </th>
                                     <td><?php if ( $product->saleprice == '' ) { ?>
-                                            <span style="color:red"><?php echo esc_html__( 'This product is a fallback. Please replace it.', ATKP_PLUGIN_PREFIX ) ?></span>
+                                            <span style="color:red"><?php echo esc_html__( 'This product is a fallback. Please replace it.', 'affiliate-toolkit-starter' ) ?></span>
 										<?php } else { ?>
-                                            <b><?php echo esc_html__( $product->saleprice, ATKP_PLUGIN_PREFIX ); ?>
-                                                (<?php echo esc_html__( $product->salepricefloat, ATKP_PLUGIN_PREFIX ); ?>
+                                            <b><?php echo esc_html__( $product->saleprice, 'affiliate-toolkit-starter' ); ?>
+                                                (<?php echo esc_html__( $product->salepricefloat, 'affiliate-toolkit-starter' ); ?>
                                                 )</b>
 										<?php } ?>
                                     </td>
                                 </tr>
 
                                 <tr>
-                                    <th class="atkp_shop_head"><?php echo esc_html__( 'Shipping', ATKP_PLUGIN_PREFIX ); ?>
+                                    <th class="atkp_shop_head"><?php echo esc_html__( 'Shipping', 'affiliate-toolkit-starter' ); ?>
                                         :
                                     </th>
-                                    <td><?php echo esc_html__( $product->shipping != '' && strlen( $product->shipping ) > 40 ? substr( $product->shipping, 0, 37 ) . '..' : $product->shipping, ATKP_PLUGIN_PREFIX ); ?></td>
+                                    <td><?php echo esc_html( $product->shipping != '' && strlen( $product->shipping ) > 40 ? substr( $product->shipping, 0, 37 ) . '..' : $product->shipping ); ?></td>
                                 </tr>
                                 <tr>
-                                    <th class="atkp_shop_head"><?php echo esc_html__( 'Availability', ATKP_PLUGIN_PREFIX ); ?>
+                                    <th class="atkp_shop_head"><?php echo esc_html__( 'Availability', 'affiliate-toolkit-starter' ); ?>
                                         :
                                     </th>
-                                    <td><?php echo esc_html__( $product->availability != '' && strlen( $product->availability ) > 40 ? substr( $product->availability, 0, 37 ) . '..' : $product->availability, ATKP_PLUGIN_PREFIX ); ?></td>
+                                    <td><?php echo esc_html( $product->availability != '' && strlen( $product->availability ) > 40 ? substr( $product->availability, 0, 37 ) . '..' : $product->availability); ?></td>
                                 </tr>
                                 <tr>
-                                    <th class="atkp_shop_head"><?php echo esc_html__( 'Updated on', ATKP_PLUGIN_PREFIX ); ?>
+                                    <th class="atkp_shop_head"><?php echo esc_html__( 'Updated on', 'affiliate-toolkit-starter' ); ?>
                                         :
                                     </th>
-                                    <td><?php echo esc_html__( ATKPTools::get_formatted_date( ( $product->updatedon ) ) . ' ' . ATKPTools::get_formatted_time( ( $product->updatedon ) ) . ( $product->isupdated != null && $product->isupdated == false ? ' ' . esc_html__( 'Update planned', ATKP_PLUGIN_PREFIX ) : '' ), ATKP_PLUGIN_PREFIX ) ?></td>
+                                    <td><?php echo esc_html( ATKPTools::get_formatted_date( ( $product->updatedon ) ) . ' ' . ATKPTools::get_formatted_time( ( $product->updatedon ) ) . ( $product->isupdated != null && $product->isupdated == false ? ' ' . esc_html__( 'Update planned', 'affiliate-toolkit-starter' ) : '' ) ) ?></td>
                                 </tr>
 								<?php if ( $ss != null && ! $ss->hidepricecomparision ) {
 
 
 									?>
                                     <tr>
-                                        <th class="atkp_shop_head"><?php echo esc_html__( 'Hide product', ATKP_PLUGIN_PREFIX ); ?>
+                                        <th class="atkp_shop_head"><?php echo esc_html__( 'Hide product', 'affiliate-toolkit-starter' ); ?>
                                             :
                                         </th>
                                         <td><input type="checkbox"
@@ -909,8 +909,8 @@ class atkp_posttypes_product {
                                 name="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_shopid' . ( $x > 1 ? '_' . $i : '' )) ?>"
                                 style="width:100%" class="atkp_keychange atkp_shopfield">
 							<?php
-							echo '<option value="">' . esc_html__( 'No shop', ATKP_PLUGIN_PREFIX ) . '</option>';
-							echo '<option value="-1" ' . ( $selectedshopid == - 1 ? 'selected' : '' ) . '>' . esc_html__( 'All shops', ATKP_PLUGIN_PREFIX ) . '</option>';
+							echo '<option value="">' . esc_html__( 'No shop', 'affiliate-toolkit-starter' ) . '</option>';
+							echo '<option value="-1" ' . ( $selectedshopid == - 1 ? 'selected' : '' ) . '>' . esc_html__( 'All shops', 'affiliate-toolkit-starter' ) . '</option>';
 
 							$shps = atkp_shop::get_list( $selectedshopid );
 
@@ -921,7 +921,7 @@ class atkp_posttypes_product {
 									$sel = '';
 								}
 
-								echo '<option ' . ( $shp->type == atkp_shop_type::SUB_SHOPS ? 'disabled' : '' ) . '  value="' . esc_attr( $shp->id ) . '"' . esc_attr( $sel ) . ' > ' . esc_html__( $shp->title, ATKP_PLUGIN_PREFIX ) . '</option>';
+								echo '<option ' . ( $shp->type == atkp_shop_type::SUB_SHOPS ? 'disabled' : '' ) . '  value="' . esc_attr( $shp->id ) . '"' . esc_attr( $sel ) . ' > ' . esc_html__( $shp->title, 'affiliate-toolkit-starter' ) . '</option>';
 
 								foreach ( $shp->children as $child ) {
 									if ( $child->selected == true ) {
@@ -930,7 +930,7 @@ class atkp_posttypes_product {
 										$sel = '';
 									}
 
-									echo '<option value="' . esc_attr( $child->id ) . '"' . esc_attr( $sel ) . ' >' . esc_html__( $child->title, ATKP_PLUGIN_PREFIX ) . ' [' . esc_html__( $shp->title, ATKP_PLUGIN_PREFIX ) . ']</option>';
+									echo '<option value="' . esc_attr( $child->id ) . '"' . esc_attr( $sel ) . ' >' . esc_html__( $child->title, 'affiliate-toolkit-starter' ) . ' [' . esc_html__( $shp->title, 'affiliate-toolkit-starter' ) . ']</option>';
 								}
 							}
 
@@ -941,7 +941,7 @@ class atkp_posttypes_product {
                     </td>
 
                     <td style="width:30%">
-                        <select title="<?php echo esc_attr_e('select key type', ATKP_PLUGIN_PREFIX ); ?>"
+                        <select title="<?php echo esc_attr_e('select key type', 'affiliate-toolkit-starter' ); ?>"
                                 name="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_asintype' . ( $x > 1 ? '_' . $i : '' ) ) ?>"
                                 id="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_asintype' . ( $x > 1 ? '_' . $i : '' ) )?>"
                                 style="width:100%" class="atkp_keychange atkp_keytype">
@@ -952,10 +952,10 @@ class atkp_posttypes_product {
 							}
 
 							$durations = array(
-								'ASIN'          => esc_html__( 'Unique productid', ATKP_PLUGIN_PREFIX ),
-								'EAN'           => esc_html__( 'EAN', ATKP_PLUGIN_PREFIX ),
-								'TITLE'         => esc_html__( 'Title', ATKP_PLUGIN_PREFIX ),
-								'ARTICLENUMBER' => esc_html__( 'Articlenumber', ATKP_PLUGIN_PREFIX ),
+								'ASIN'          => esc_html__( 'Unique productid', 'affiliate-toolkit-starter' ),
+								'EAN'           => esc_html__( 'EAN', 'affiliate-toolkit-starter' ),
+								'TITLE'         => esc_html__( 'Title', 'affiliate-toolkit-starter' ),
+								'ARTICLENUMBER' => esc_html__( 'Articlenumber', 'affiliate-toolkit-starter' ),
 							);
 
 							foreach ( $durations as $value => $name ) {
@@ -965,7 +965,7 @@ class atkp_posttypes_product {
 									$sel = '';
 								}
 
-								echo '<option value="' . esc_attr( $value ) . '" ' . esc_attr( $sel ) . '>' . esc_html__( $name, ATKP_PLUGIN_PREFIX ) . '</option>';
+								echo '<option value="' . esc_attr( $value ) . '" ' . esc_attr( $sel ) . '>' . esc_html__( $name, 'affiliate-toolkit-starter' ) . '</option>';
 							} ?>
                         </select>
 
@@ -983,7 +983,7 @@ class atkp_posttypes_product {
                            data-keyvalue="<?php echo esc_attr('atkp_product_asin' . ( $x > 1 ? '_' . $i : '' ) ) ?>"
                            data-keytype="<?php echo esc_attr('atkp_product_asintype' . ( $x > 1 ? '_' . $i : '' ) ) ?>"
                            data-shopid="<?php echo esc_attr('atkp_product_shopid' . ( $x > 1 ? '_' . $i : '' ) ) ?>"><span
-                                    class="dashicons dashicons-filter atkp-button-icon"></span> <?php echo esc_html__( 'Find', ATKP_PLUGIN_PREFIX ) ?>
+                                    class="dashicons dashicons-filter atkp-button-icon"></span> <?php echo esc_html__( 'Find', 'affiliate-toolkit-starter' ) ?>
                         </a>
                         <a href="javascript:void(0)" class="button atkp_searchbutton atkp_prdbtndelete"><span
                                     class="dashicons dashicons-trash atkp-button-icon"></span> </a>
@@ -999,16 +999,16 @@ class atkp_posttypes_product {
                 <td colspan="4">
                     <div class="atkp-lookupcontainer">
                         <div>
-                            <label for=""><?php echo esc_html__( 'Keyword:', ATKP_PLUGIN_PREFIX ) ?></label>
+                            <label for=""><?php echo esc_html__( 'Keyword:', 'affiliate-toolkit-starter' ) ?></label>
                             <input type="text" id="atkp_prdlookupsearch" name="atkp_prdlookupsearch" value=""
-                                   placeholder="<?php echo esc_attr_e('Your keyword...', ATKP_PLUGIN_PREFIX ) ?>"/>
+                                   placeholder="<?php echo esc_attr_e('Your keyword...', 'affiliate-toolkit-starter' ) ?>"/>
                             <a href="javascript:void(0)" class="button atkp_searchbutton atkp_prdlookupbtnsearch"
                                id="atkp_prdlookupbtnsearch"><span
-                                        class="dashicons dashicons-search atkp-button-icon"></span> <?php echo esc_html__( 'Search', ATKP_PLUGIN_PREFIX ) ?>
+                                        class="dashicons dashicons-search atkp-button-icon"></span> <?php echo esc_html__( 'Search', 'affiliate-toolkit-starter' ) ?>
                             </a>
                             <a href="javascript:void(0)" class="button atkp_searchbutton atkp_closeprdsearch"
                                id="atkp_closeprdsearch"><span
-                                        class="dashicons dashicons-dismiss atkp-button-icon"></span> <?php echo esc_html__( 'Close', ATKP_PLUGIN_PREFIX ) ?>
+                                        class="dashicons dashicons-dismiss atkp-button-icon"></span> <?php echo esc_html__( 'Close', 'affiliate-toolkit-starter' ) ?>
                             </a>
 
 
@@ -1033,7 +1033,7 @@ class atkp_posttypes_product {
                             name="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_ean_shopid' ) ?>" style="width:100%"
                             class="atkp_keychange">
 						<?php
-						echo '<option value="">' . esc_html__( 'All shops', ATKP_PLUGIN_PREFIX ) . '</option>';
+						echo '<option value="">' . esc_html__( 'All shops', 'affiliate-toolkit-starter' ) . '</option>';
 
 						?>
                     </select>
@@ -1042,10 +1042,10 @@ class atkp_posttypes_product {
 
                 <td style="width:30%">
 
-                    <select disabled title="<?php echo esc_attr_e('select key type', ATKP_PLUGIN_PREFIX ); ?>" style="width:100%"
+                    <select disabled title="<?php echo esc_attr_e('select key type', 'affiliate-toolkit-starter' ); ?>" style="width:100%"
                             class="atkp_keychange">
 						<?php
-						echo '<option value="EAN" ' . esc_attr( $sel ) . '>' . esc_html__( 'EAN', ATKP_PLUGIN_PREFIX ) . '</option>';
+						echo '<option value="EAN" ' . esc_attr( $sel ) . '>' . esc_html__( 'EAN', 'affiliate-toolkit-starter' ) . '</option>';
 						?>
                     </select>
                 </td>
@@ -1059,7 +1059,7 @@ class atkp_posttypes_product {
                     <label><input type="checkbox" id="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_ean_lock' )?>"
                                   name="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_ean_lock' )?>" value="1"
 							<?php echo checked( 1, ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_ean_lock' ), false ); ?>
-                        > <?php echo esc_html__( 'Lock EANs', ATKP_PLUGIN_PREFIX ) ?></label>
+                        > <?php echo esc_html__( 'Lock EANs', 'affiliate-toolkit-starter' ) ?></label>
                 </td>
             </tr>
 
@@ -1070,7 +1070,7 @@ class atkp_posttypes_product {
                     <select disabled id="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_isbn_shopid')?>" class="atkp_keychange"
                             name="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_isbn_shopid') ?>" style="width:100%">
 						<?php
-						echo '<option value="">' . esc_html__( 'All shops', ATKP_PLUGIN_PREFIX ) . '</option>';
+						echo '<option value="">' . esc_html__( 'All shops', 'affiliate-toolkit-starter' ) . '</option>';
 
 						?>
                     </select>
@@ -1078,10 +1078,10 @@ class atkp_posttypes_product {
 
                 <td style="width:30%">
 
-                    <select disabled title="<?php echo esc_attr_e('select key type', ATKP_PLUGIN_PREFIX ); ?>"
+                    <select disabled title="<?php echo esc_attr_e('select key type', 'affiliate-toolkit-starter' ); ?>"
                             class="atkp_keychange" style="width:100%">
 						<?php
-						echo '<option value="ISBN" ' . esc_attr( $sel ) . '>' . esc_html__( 'ISBN', ATKP_PLUGIN_PREFIX ) . '</option>';
+						echo '<option value="ISBN" ' . esc_attr( $sel ) . '>' . esc_html__( 'ISBN', 'affiliate-toolkit-starter' ) . '</option>';
 						?>
                     </select>
                 </td>
@@ -1095,7 +1095,7 @@ class atkp_posttypes_product {
                     <label><input type="checkbox" id="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_isbn_lock') ?>"
                                   name="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_isbn_lock' ) ?>" value="1"
 							<?php echo checked( 1, ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_isbn_lock' ), false ); ?>
-                        > <?php echo esc_html__( 'Lock ISBNs', ATKP_PLUGIN_PREFIX ) ?></label>
+                        > <?php echo esc_html__( 'Lock ISBNs', 'affiliate-toolkit-starter' ) ?></label>
                 </td>
             </tr>
 
@@ -1106,7 +1106,7 @@ class atkp_posttypes_product {
                     <select disabled id="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_gtin_shopid') ?>" class="atkp_keychange"
                             name="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_gtin_shopid') ?>" style="width:100%">
 						<?php
-						echo '<option value="">' . esc_html__( 'All shops', ATKP_PLUGIN_PREFIX ) . '</option>';
+						echo '<option value="">' . esc_html__( 'All shops', 'affiliate-toolkit-starter' ) . '</option>';
 
 						?>
                     </select>
@@ -1117,7 +1117,7 @@ class atkp_posttypes_product {
                     <select disabled title="<?php echo esc_attr_e('select key type', ATKP_PLUGIN_PREFIX ); ?>"
                             class="atkp_keychange" style="width:100%">
 						<?php
-						echo '<option value="GTIN" ' . esc_attr( $sel ) . '>' . esc_html__( 'GTIN', ATKP_PLUGIN_PREFIX ) . '</option>';
+						echo '<option value="GTIN" ' . esc_attr( $sel ) . '>' . esc_html__( 'GTIN', 'affiliate-toolkit-starter' ) . '</option>';
 						?>
                     </select>
                 </td>
@@ -1131,7 +1131,7 @@ class atkp_posttypes_product {
                     <label><input type="checkbox" id="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_gtin_lock') ?>"
                                   name="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_gtin_lock') ?>" value="1"
 							<?php echo checked( 1, ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_gtin_lock' ), false ); ?>
-                        > <?php echo esc_html__( 'Lock GTINs', ATKP_PLUGIN_PREFIX ) ?></label>
+                        > <?php echo esc_html__( 'Lock GTINs', 'affiliate-toolkit-starter' ) ?></label>
                 </td>
             </tr>
 
@@ -1139,7 +1139,7 @@ class atkp_posttypes_product {
 
                 <td colspan="4"><i>
                         <a href="javascript:void(0)" class="button atkp-add-filter"><span
-                                    class="dashicons dashicons-insert atkp-button-icon"></span> <?php echo esc_html__( 'Add a new search key', ATKP_PLUGIN_PREFIX ) ?>
+                                    class="dashicons dashicons-insert atkp-button-icon"></span> <?php echo esc_html__( 'Add a new search key', 'affiliate-toolkit-starter' ) ?>
                         </a>
                 </td>
             </tr>
@@ -1158,7 +1158,7 @@ class atkp_posttypes_product {
                 <td colspan="4" style="padding: 15px 10px">
                     <label><input type="checkbox" id="atkp_product_filter_changed"
                                   name="atkp_product_filter_changed" value="1"
-                        > <?php echo esc_html__( 'Load products from shops on save', ATKP_PLUGIN_PREFIX ) ?></label>
+                        > <?php echo esc_html__( 'Load products from shops on save', 'affiliate-toolkit-starter' ) ?></label>
 					<?php ATKPTools::display_helptext( 'If you select this option the product will be searched in the selected shop on save.' ) ?>
                 </td>
             </tr>
@@ -1169,17 +1169,17 @@ class atkp_posttypes_product {
 
 						<?php
 						if ( isset( $updatedon ) && $updatedon != '' ) {
-							$infotext = esc_html__( 'Product updated on %refresh_date% at %refresh_time%', ATKP_PLUGIN_PREFIX );
+							$infotext = esc_html__( 'Product updated on %refresh_date% at %refresh_time%', 'affiliate-toolkit-starter' );
 
 							$infotext = str_replace( '%refresh_date%', ATKPTools::get_formatted_date( $updatedon ), $infotext );
 							$infotext = str_replace( '%refresh_time%', ATKPTools::get_formatted_time( $updatedon ), $infotext );
 
 
-							echo esc_html__( $infotext, ATKP_PLUGIN_PREFIX ); ?><br/>
+							echo esc_html__( $infotext, 'affiliate-toolkit-starter' ); ?><br/>
 						<?php } else { ?>
-                            <span><?php echo esc_html__( 'This product will be added to the next queue.', ATKP_PLUGIN_PREFIX ) ?></span>
+                            <span><?php echo esc_html__( 'This product will be added to the next queue.', 'affiliate-toolkit-starter' ) ?></span>
 						<?php } ?>
-		                <?php echo '<div style="color:red; overflow-wrap: break-word; max-width: 500px;">' . esc_html__( $message, ATKP_PLUGIN_PREFIX ) . '</div>'; ?>
+		                <?php echo '<div style="color:red; overflow-wrap: break-word; max-width: 500px;">' . esc_html__( $message, 'affiliate-toolkit-starter' ) . '</div>'; ?>
 
 						<?php do_action( 'atkp_product_message', $post->ID ); ?>
 
@@ -1199,7 +1199,7 @@ class atkp_posttypes_product {
                     var id = count + 1;
 
                     if (id > <?php echo esc_html(ATKP_FILTER_COUNT) ?>) {
-                        alert('<?php echo sprintf( esc_html__( 'Maximum allowed fields of %s exceeded.', ATKP_PLUGIN_PREFIX ), esc_html(ATKP_FILTER_COUNT) ) ?>');
+                        alert('<?php echo sprintf( esc_html__( 'Maximum allowed fields of %s exceeded.', 'affiliate-toolkit-starter' ), esc_html(ATKP_FILTER_COUNT) ) ?>');
                         return;
                     }
 
@@ -1374,7 +1374,7 @@ class atkp_posttypes_product {
                                                 '<th class="atkp_shop_head"><?php echo esc_html__( 'Sale Price' ); ?>:</th> <td>' + value.saleprice + '</td>' +
                                                 '</tr>' +
                                                 '<tr>' +
-                                                '<td colspan="2" style="text-align:center"><a href="javascript:void(0)" class="button atkp_searchbutton atkp-useproduct" data-id="' + value.asin + '" data-valuefield="' + keyvalue + '" data-keytype="' + $j('#' + keytype).val() + '" data-shopid="' + $j('#' + shopid).val() + '"><span class="dashicons dashicons-plus-alt atkp-button-icon"></span> <?php echo esc_html__( 'Select this product', ATKP_PLUGIN_PREFIX ); ?></a></td>' +
+                                                '<td colspan="2" style="text-align:center"><a href="javascript:void(0)" class="button atkp_searchbutton atkp-useproduct" data-id="' + value.asin + '" data-valuefield="' + keyvalue + '" data-keytype="' + $j('#' + keytype).val() + '" data-shopid="' + $j('#' + shopid).val() + '"><span class="dashicons dashicons-plus-alt atkp-button-icon"></span> <?php echo esc_html__( 'Select this product', 'affiliate-toolkit-starter' ); ?></a></td>' +
                                                 '</tr>' +
                                                 '</table>' +
                                                 '</td>' +
@@ -1487,31 +1487,31 @@ class atkp_posttypes_product {
 
 			<?php
 			$tabs                                                                                                                                  = [];
-			$tabs[ '<span class="dashicons dashicons-products atkp-button-icon"></span> ' . esc_html__( 'Product Information', ATKP_PLUGIN_PREFIX ) ] = array(
+			$tabs[ '<span class="dashicons dashicons-products atkp-button-icon"></span> ' . esc_html__( 'Product Information', 'affiliate-toolkit-starter' ) ] = array(
 				$this,
 				'product_tab1'
 			);
-			$tabs[ '<span class="dashicons dashicons-admin-links atkp-button-icon"></span> ' . esc_html__( 'Link Information', ATKP_PLUGIN_PREFIX ) ] = array(
+			$tabs[ '<span class="dashicons dashicons-admin-links atkp-button-icon"></span> ' . esc_html__( 'Link Information', 'affiliate-toolkit-starter' ) ] = array(
 				$this,
 				'product_tab2'
 			);
-			$tabs[ '<span class="dashicons dashicons-admin-comments atkp-button-icon"></span> ' . esc_html__( 'Review Information', ATKP_PLUGIN_PREFIX ) ] = array(
+			$tabs[ '<span class="dashicons dashicons-admin-comments atkp-button-icon"></span> ' . esc_html__( 'Review Information', 'affiliate-toolkit-starter' ) ] = array(
 				$this,
 				'product_tab3'
 			);
-			$tabs[ '<span class="dashicons dashicons-format-image atkp-button-icon"></span> ' . esc_html__( 'Images', ATKP_PLUGIN_PREFIX ) ] = array(
+			$tabs[ '<span class="dashicons dashicons-format-image atkp-button-icon"></span> ' . esc_html__( 'Images', 'affiliate-toolkit-starter' ) ] = array(
 				$this,
 				'product_tab4'
 			);
-			$tabs[ '<span class="dashicons dashicons-cart atkp-button-icon"></span> ' . esc_html__( 'Price Information', ATKP_PLUGIN_PREFIX ) ] = array(
+			$tabs[ '<span class="dashicons dashicons-cart atkp-button-icon"></span> ' . esc_html__( 'Price Information', 'affiliate-toolkit-starter' ) ] = array(
 				$this,
 				'product_tab5'
 			);
-			$tabs[ '<span class="dashicons dashicons-networking atkp-button-icon"></span> ' . esc_html__( 'Variations', ATKP_PLUGIN_PREFIX ) ] = array(
+			$tabs[ '<span class="dashicons dashicons-networking atkp-button-icon"></span> ' . esc_html__( 'Variations', 'affiliate-toolkit-starter' ) ] = array(
 				$this,
 				'product_tab8'
 			);
-			$tabs[ '<span class="dashicons dashicons-editor-ol atkp-button-icon"></span> ' . esc_html__( 'Manual offers', ATKP_PLUGIN_PREFIX ) ] = array(
+			$tabs[ '<span class="dashicons dashicons-editor-ol atkp-button-icon"></span> ' . esc_html__( 'Manual offers', 'affiliate-toolkit-starter' ) ] = array(
 				$this,
 				'product_tab7'
 			);
@@ -1668,7 +1668,7 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Title', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Title', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
@@ -1684,7 +1684,7 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Manufacturer Part Number', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Manufacturer Part Number', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
@@ -1700,7 +1700,7 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Product group', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Product group', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
@@ -1716,7 +1716,7 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Manufacturer', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Manufacturer', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
@@ -1730,7 +1730,7 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Author', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Author', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
@@ -1744,7 +1744,7 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Number of pages', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Number of pages', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
@@ -1759,7 +1759,7 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Brand', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Brand', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
@@ -1774,7 +1774,7 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Release date', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Release date', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
@@ -1790,7 +1790,7 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Description', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Description', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
@@ -1810,20 +1810,20 @@ class atkp_posttypes_product {
                                name="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_description_mode') ?>"
                                value="0" <?php echo checked( 0, $desc_mode, true ); ?>>
                         <label for="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_description_mode1') ?>">
-	                        <?php echo esc_html__( 'Description from shop', ATKP_PLUGIN_PREFIX ) ?>
+	                        <?php echo esc_html__( 'Description from shop', 'affiliate-toolkit-starter' ) ?>
                         </label>
                         <input type="radio" id="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_description_mode2') ?>"
                                name="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_description_mode') ?>"
                                value="1" <?php echo checked( 1, $desc_mode, true ); ?>>
                         <label for="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_description_mode2') ?>">
-	                        <?php echo esc_html__( 'Overwrite description', ATKP_PLUGIN_PREFIX ) ?>
+	                        <?php echo esc_html__( 'Overwrite description', 'affiliate-toolkit-starter' ) ?>
                         </label>
 
                         <input type="radio" id="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_description_mode3') ?>"
                                name="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_description_mode') ?>"
                                value="2" <?php echo checked( 2, $desc_mode, true ); ?>>
                         <label for="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_description_mode3') ?>">
-	                        <?php echo esc_html__( 'Empty description', ATKP_PLUGIN_PREFIX ) ?>
+	                        <?php echo esc_html__( 'Empty description', 'affiliate-toolkit-starter' ) ?>
                         </label>
 
                         <script>
@@ -1864,7 +1864,7 @@ class atkp_posttypes_product {
 
 					<?php
 					$pl = ( $mainproduct != null ? $mainproduct->description : '' );
-					echo '<div class="atkp-readonly-html atkp-readonly-desc-html">' . wp_kses( __( $pl, ATKP_PLUGIN_PREFIX ), array( 'br' => array(), 'ul' => array(), 'li' => array() ) ) . '</div>';
+					echo '<div class="atkp-readonly-html atkp-readonly-desc-html">' . wp_kses( __( $pl, 'affiliate-toolkit-starter' ), array( 'br' => array(), 'ul' => array(), 'li' => array() ) ) . '</div>';
 
 					ob_start();
 					wp_editor( $desc_str, ATKP_PRODUCT_POSTTYPE . '_description', array(
@@ -1881,7 +1881,7 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Features', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Features', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
@@ -1903,20 +1903,20 @@ class atkp_posttypes_product {
                                name="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_features_mode') ?>"
                                value="0" <?php echo checked( 0, $feat_mode, true ); ?>>
                         <label for="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_features_mode1') ?>">
-	                        <?php echo esc_html__( 'Features from shop', ATKP_PLUGIN_PREFIX ) ?>
+	                        <?php echo esc_html__( 'Features from shop', 'affiliate-toolkit-starter' ) ?>
                         </label>
                         <input type="radio" id="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_features_mode2') ?>"
                                name="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_features_mode') ?>"
                                value="1" <?php echo checked( 1, $feat_mode, true ); ?>>
                         <label for="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_features_mode2') ?>">
-	                        <?php echo esc_html__( 'Overwrite features', ATKP_PLUGIN_PREFIX ) ?>
+	                        <?php echo esc_html__( 'Overwrite features', 'affiliate-toolkit-starter' ) ?>
                         </label>
 
                         <input type="radio" id="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_features_mode3') ?>"
                                name="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_features_mode') ?>"
                                value="2" <?php echo checked( 2, $feat_mode, true ); ?>>
                         <label for="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_features_mode3') ?>">
-	                        <?php echo esc_html__( 'Empty features', ATKP_PLUGIN_PREFIX ) ?>
+	                        <?php echo esc_html__( 'Empty features', 'affiliate-toolkit-starter' ) ?>
                         </label>
 
                         <script>
@@ -1956,7 +1956,7 @@ class atkp_posttypes_product {
 
 					<?php
 					$pl = ( $mainproduct != null ? $mainproduct->features : '' );
-					echo '<div class="atkp-readonly-html atkp-readonly-feature-html">' . wp_kses( __( $pl, ATKP_PLUGIN_PREFIX ), array( 'ul' => array(), 'li' => array() ) ) . '</div>';
+					echo '<div class="atkp-readonly-html atkp-readonly-feature-html">' . wp_kses( __( $pl, 'affiliate-toolkit-starter' ), array( 'ul' => array(), 'li' => array() ) ) . '</div>';
 
 					ob_start();
 					wp_editor( $feat_str, ATKP_PRODUCT_POSTTYPE . '_features', array(
@@ -1974,7 +1974,7 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Post', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Post', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
@@ -1986,20 +1986,20 @@ class atkp_posttypes_product {
 							foreach ( $postid as $p ) {
 								$title = get_the_title( $p );
 								if ( ! isset( $title ) || $title == '' ) {
-									$title = esc_html__( 'edit post', ATKP_PLUGIN_PREFIX );
+									$title = esc_html__( 'edit post', 'affiliate-toolkit-starter' );
 								}
 
-								echo sprintf( esc_html__( '<a href="%s" target="_blank">%s</a> ', ATKP_PLUGIN_PREFIX ), esc_url( get_edit_post_link( $p ) ), esc_html__( $title, ATKP_PLUGIN_PREFIX ) );
+								echo sprintf( esc_html__( '<a href="%s" target="_blank">%s</a> ', 'affiliate-toolkit-starter' ), esc_url( get_edit_post_link( $p ) ), esc_html__( $title, 'affiliate-toolkit-starter' ) );
 							}
 						} else {
 							$title = get_the_title( $postid );
 							if ( ! isset( $title ) || $title == '' ) {
-								$title = esc_html__( 'edit post', ATKP_PLUGIN_PREFIX );
+								$title = esc_html__( 'edit post', 'affiliate-toolkit-starter' );
 							}
-							echo sprintf( esc_html__( '<a href="%s" target="_blank">%s</a>', ATKP_PLUGIN_PREFIX ), esc_url( get_edit_post_link( $postid ) ), esc_html__( $title, ATKP_PLUGIN_PREFIX ) );
+							echo sprintf( esc_html__( '<a href="%s" target="_blank">%s</a>', 'affiliate-toolkit-starter' ), esc_url( get_edit_post_link( $postid ) ), esc_html__( $title, 'affiliate-toolkit-starter' ) );
 						}
 					} else {
-						esc_html__( 'This product is not used as a main product in any post.', ATKP_PLUGIN_PREFIX );
+						esc_html__( 'This product is not used as a main product in any post.', 'affiliate-toolkit-starter' );
 					}
 					?>
                 </td>
@@ -2022,7 +2022,7 @@ class atkp_posttypes_product {
                                name="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_dontimportmainimage') ?>"
                                value="1" <?php echo checked( 1, ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_dontimportmainimage' ), false ); ?>>
                         <label for="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_dontimportmainimage') ?>">
-	                        <?php echo esc_html__( 'Do not import the main image of this product', ATKP_PLUGIN_PREFIX ) ?>
+	                        <?php echo esc_html__( 'Do not import the main image of this product', 'affiliate-toolkit-starter' ) ?>
                         </label>
                     </td>
                 </tr>
@@ -2037,7 +2037,7 @@ class atkp_posttypes_product {
                            name="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_outputashtml') ?>"
                            value="1" <?php echo checked( 1, ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_outputashtml' ), true ); ?>>
                     <label for="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_outputashtml') ?>">
-	                    <?php echo esc_html__( 'Output description and features as html. Overwrites substring settings.', ATKP_PLUGIN_PREFIX ) ?>
+	                    <?php echo esc_html__( 'Output description and features as html. Overwrites substring settings.', 'affiliate-toolkit-starter' ) ?>
                     </label>
                 </td>
             </tr>
@@ -2045,7 +2045,7 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Override Price comparison sort', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Override Price comparison sort', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
@@ -2054,12 +2054,12 @@ class atkp_posttypes_product {
                             style="width:300px">
 						<?php
 						$selected = ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_sortorder' );
-						echo '<option value="" ' . ( $selected == '' ? 'selected' : '' ) . ' >' . esc_html__( 'Global setting', ATKP_PLUGIN_PREFIX ) . '</option>';
+						echo '<option value="" ' . ( $selected == '' ? 'selected' : '' ) . ' >' . esc_html__( 'Global setting', 'affiliate-toolkit-starter' ) . '</option>';
 
-						echo '<option value="1" ' . ( $selected == 1 ? 'selected' : '' ) . ' >' . esc_html__( 'Price + Shipping cost', ATKP_PLUGIN_PREFIX ) . '</option>';
-						echo '<option value="2" ' . ( $selected == 2 ? 'selected' : '' ) . '>' . esc_html__( 'Price', ATKP_PLUGIN_PREFIX ) . '</option>';
-						echo '<option value="3" ' . ( $selected == 3 ? 'selected' : '' ) . '>' . esc_html__( 'Main product and Price', ATKP_PLUGIN_PREFIX ) . '</option>';
-						echo '<option value="4" ' . ( $selected == 4 ? 'selected' : '' ) . '>' . esc_html__( 'Main product and Price + Shipping cost', ATKP_PLUGIN_PREFIX ) . '</option>';
+						echo '<option value="1" ' . ( $selected == 1 ? 'selected' : '' ) . ' >' . esc_html__( 'Price + Shipping cost', 'affiliate-toolkit-starter' ) . '</option>';
+						echo '<option value="2" ' . ( $selected == 2 ? 'selected' : '' ) . '>' . esc_html__( 'Price', 'affiliate-toolkit-starter' ) . '</option>';
+						echo '<option value="3" ' . ( $selected == 3 ? 'selected' : '' ) . '>' . esc_html__( 'Main product and Price', 'affiliate-toolkit-starter' ) . '</option>';
+						echo '<option value="4" ' . ( $selected == 4 ? 'selected' : '' ) . '>' . esc_html__( 'Main product and Price + Shipping cost', 'affiliate-toolkit-starter' ) . '</option>';
 						?>
                     </select>
                 </td>
@@ -2082,7 +2082,7 @@ class atkp_posttypes_product {
 	}
 
 	function create_clipboard_button( $fieldname ) {
-		echo '<a href="javascript:void(0)" data-fieldname="' . esc_html__( $fieldname, ATKP_PLUGIN_PREFIX) . '" class="button copy-clipboard-button"><span class="dashicons dashicons-admin-page atkp-button-icon"></span> </a>';
+		echo '<a href="javascript:void(0)" data-fieldname="' . esc_html__( $fieldname, 'affiliate-toolkit-starter') . '" class="button copy-clipboard-button"><span class="dashicons dashicons-admin-page atkp-button-icon"></span> </a>';
 	}
 
 	function product_tab2( $post ) {
@@ -2094,7 +2094,7 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Product page URL', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Product page URL', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
@@ -2108,7 +2108,7 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Add to cart URL', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Add to cart URL', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
@@ -2122,7 +2122,7 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Customer Reviews URL', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Customer Reviews URL', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
@@ -2151,7 +2151,7 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Rating', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Rating', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
@@ -2166,7 +2166,7 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Amount of reviews', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Amount of reviews', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
@@ -2181,7 +2181,7 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Predicate', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Predicate', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
@@ -2191,11 +2191,11 @@ class atkp_posttypes_product {
 						<?php
 						$selected = ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_predicate' );
 
-						echo '<option value="" ' . ( $selected == '' || $selected == 0 ? 'selected' : '' ) . ' >' . esc_html__( 'None', ATKP_PLUGIN_PREFIX ) . '</option>';
+						echo '<option value="" ' . ( $selected == '' || $selected == 0 ? 'selected' : '' ) . ' >' . esc_html__( 'None', 'affiliate-toolkit-starter' ) . '</option>';
 
-						echo '<option value="1" ' . ( $selected == 1 ? 'selected' : '' ) . '>' . esc_html__( wp_strip_all_tags( atkp_options::$loader->get_predicate1_text() ), ATKP_PLUGIN_PREFIX ) . '</option>';
-						echo '<option value="2" ' . ( $selected == 2 ? 'selected' : '' ) . '>' . esc_html__( wp_strip_all_tags( atkp_options::$loader->get_predicate2_text() ), ATKP_PLUGIN_PREFIX ) . '</option>';
-						echo '<option value="3" ' . ( $selected == 3 ? 'selected' : '' ) . '>' . esc_html__( wp_strip_all_tags( atkp_options::$loader->get_predicate3_text() ), ATKP_PLUGIN_PREFIX ) . '</option>';
+						echo '<option value="1" ' . ( $selected == 1 ? 'selected' : '' ) . '>' . esc_html__( wp_strip_all_tags( atkp_options::$loader->get_predicate1_text() ), 'affiliate-toolkit-starter' ) . '</option>';
+						echo '<option value="2" ' . ( $selected == 2 ? 'selected' : '' ) . '>' . esc_html__( wp_strip_all_tags( atkp_options::$loader->get_predicate2_text() ), 'affiliate-toolkit-starter' ) . '</option>';
+						echo '<option value="3" ' . ( $selected == 3 ? 'selected' : '' ) . '>' . esc_html__( wp_strip_all_tags( atkp_options::$loader->get_predicate3_text() ), 'affiliate-toolkit-starter' ) . '</option>';
 
 						?>
                     </select>
@@ -2206,7 +2206,7 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Test result', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Test result', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
@@ -2216,13 +2216,13 @@ class atkp_posttypes_product {
 						<?php
 						$selected = ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_testresult' );
 
-						echo '<option value="" ' . ( $selected == '' || $selected == 0 ? 'selected' : '' ) . ' >' . esc_html__( 'None', ATKP_PLUGIN_PREFIX ) . '</option>';
+						echo '<option value="" ' . ( $selected == '' || $selected == 0 ? 'selected' : '' ) . ' >' . esc_html__( 'None', 'affiliate-toolkit-starter' ) . '</option>';
 
-						echo '<option value="1" ' . ( $selected == 1 ? 'selected' : '' ) . '>' . esc_html__( atkp_options::$loader->get_test_score1_text(), ATKP_PLUGIN_PREFIX ) . '</option>';
-						echo '<option value="2" ' . ( $selected == 2 ? 'selected' : '' ) . '>' . esc_html__( atkp_options::$loader->get_test_score2_text(), ATKP_PLUGIN_PREFIX ) . '</option>';
-						echo '<option value="3" ' . ( $selected == 3 ? 'selected' : '' ) . '>' . esc_html__( atkp_options::$loader->get_test_score3_text(), ATKP_PLUGIN_PREFIX ) . '</option>';
-						echo '<option value="4" ' . ( $selected == 4 ? 'selected' : '' ) . '>' . esc_html__( atkp_options::$loader->get_test_score4_text(), ATKP_PLUGIN_PREFIX ) . '</option>';
-						echo '<option value="5" ' . ( $selected == 5 ? 'selected' : '' ) . '>' . esc_html__( atkp_options::$loader->get_test_score5_text(), ATKP_PLUGIN_PREFIX ) . '</option>';
+						echo '<option value="1" ' . ( $selected == 1 ? 'selected' : '' ) . '>' . esc_html__( atkp_options::$loader->get_test_score1_text(), 'affiliate-toolkit-starter' ) . '</option>';
+						echo '<option value="2" ' . ( $selected == 2 ? 'selected' : '' ) . '>' . esc_html__( atkp_options::$loader->get_test_score2_text(), 'affiliate-toolkit-starter' ) . '</option>';
+						echo '<option value="3" ' . ( $selected == 3 ? 'selected' : '' ) . '>' . esc_html__( atkp_options::$loader->get_test_score3_text(), 'affiliate-toolkit-starter' ) . '</option>';
+						echo '<option value="4" ' . ( $selected == 4 ? 'selected' : '' ) . '>' . esc_html__( atkp_options::$loader->get_test_score4_text(), 'affiliate-toolkit-starter' ) . '</option>';
+						echo '<option value="5" ' . ( $selected == 5 ? 'selected' : '' ) . '>' . esc_html__( atkp_options::$loader->get_test_score5_text(), 'affiliate-toolkit-starter' ) . '</option>';
 
 						?>
                     </select>
@@ -2233,7 +2233,7 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Rating of test', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Rating of test', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
@@ -2246,7 +2246,7 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Date of test', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Date of test', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
@@ -2259,7 +2259,7 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Pro (per line)', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Pro (per line)', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
@@ -2271,7 +2271,7 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Contra (per line)', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Contra (per line)', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
@@ -2301,13 +2301,13 @@ class atkp_posttypes_product {
             <tr>
                 <td scope="row">
                     <label for="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_overridemainimage') ?>">
-	                    <?php echo esc_html__( 'Override main image', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Override main image', 'affiliate-toolkit-starter' ) ?>:
                     </label>
 
                     <select id="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_overridemainimage') ?>"
                             name="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_overridemainimage') ?>" style="width:300px">
 						<?php
-						echo '<option value="">' . esc_html__( 'Default', ATKP_PLUGIN_PREFIX ) . '</option>';
+						echo '<option value="">' . esc_html__( 'Default', 'affiliate-toolkit-starter' ) . '</option>';
 
 						$selectedmainimage = ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_overridemainimage' );
 
@@ -2320,7 +2320,7 @@ class atkp_posttypes_product {
 							}
 
 
-							echo '<option value="' . esc_attr($idx) . '"' . esc_attr($sel) . ' > ' . sprintf( esc_html__( 'Image %s', ATKP_PLUGIN_PREFIX ), esc_html($idx) ) . '</option>';
+							echo '<option value="' . esc_attr($idx) . '"' . esc_attr($sel) . ' > ' . sprintf( esc_html__( 'Image %s', 'affiliate-toolkit-starter' ), esc_html($idx) ) . '</option>';
 							$idx ++;
 						}
 
@@ -2338,7 +2338,7 @@ class atkp_posttypes_product {
                     <table style="width:100%">
 
                         <tr class="mainrow">
-                            <td style="width:80px;text-align:center;"><?php echo esc_html__( 'Main image', ATKP_PLUGIN_PREFIX ) ?></td>
+                            <td style="width:80px;text-align:center;"><?php echo esc_html__( 'Main image', 'affiliate-toolkit-starter' ) ?></td>
                             <td style="vertical-align:middle; text-align:center; width:120px">
 
 								<?php
@@ -2374,7 +2374,7 @@ class atkp_posttypes_product {
                                     <tr>
                                         <th>
                                             <label for="">
-	                                            <?php echo esc_html__( 'Small image URL', ATKP_PLUGIN_PREFIX ) ?>:
+	                                            <?php echo esc_html__( 'Small image URL', 'affiliate-toolkit-starter' ) ?>:
                                             </label>
                                         </th>
                                         <td>
@@ -2393,7 +2393,7 @@ class atkp_posttypes_product {
                                     <tr>
                                         <th>
                                             <label for="">
-	                                            <?php echo esc_html__( 'Medium image URL', ATKP_PLUGIN_PREFIX ) ?>:
+	                                            <?php echo esc_html__( 'Medium image URL', 'affiliate-toolkit-starter' ) ?>:
                                             </label>
                                         </th>
                                         <td>
@@ -2413,7 +2413,7 @@ class atkp_posttypes_product {
                                     <tr>
                                         <th>
                                             <label for="">
-	                                            <?php echo esc_html__( 'Large image URL', ATKP_PLUGIN_PREFIX ) ?>:
+	                                            <?php echo esc_html__( 'Large image URL', 'affiliate-toolkit-starter' ) ?>:
                                             </label>
                                         </th>
                                         <td>
@@ -2436,7 +2436,7 @@ class atkp_posttypes_product {
                         </tr>
                         <tr>
                             <td style="width:80px;text-align:center;">
-	                            <?php echo esc_html__( 'Gallery images', ATKP_PLUGIN_PREFIX ) ?>
+	                            <?php echo esc_html__( 'Gallery images', 'affiliate-toolkit-starter' ) ?>
                             </td>
                             <td colspan="2">
 
@@ -2480,11 +2480,11 @@ class atkp_posttypes_product {
 
                                     <input type="button" id="<?php echo esc_attr('removeimage-button_' . $newimage->id) ?>"
                                            class="button remove-image atkp-galleryitem"
-                                           value="<?php echo esc_attr_e('Delete', ATKP_PLUGIN_PREFIX ) ?>"/>
+                                           value="<?php echo esc_attr_e('Delete', 'affiliate-toolkit-starter' ) ?>"/>
                                 </td>
                                 <td style="vertical-align:middle; text-align:center; width:120px">
                                     <img id="<?php echo esc_attr('image-preview_' . $newimage->id) ?>"
-                                         src="<?php echo esc_html__( $newimage->mediumimageurl, ATKP_PLUGIN_PREFIX ); ?>"
+                                         src="<?php echo esc_html__( $newimage->mediumimageurl, 'affiliate-toolkit-starter' ); ?>"
                                          style="max-width:250px"/>
                                 </td>
                                 <td>
@@ -2492,7 +2492,7 @@ class atkp_posttypes_product {
                                         <tr>
                                             <th>
                                                 <label for="">
-	                                                <?php echo esc_html__( 'Small image URL', ATKP_PLUGIN_PREFIX ) ?>:
+	                                                <?php echo esc_html__( 'Small image URL', 'affiliate-toolkit-starter' ) ?>:
                                                 </label>
                                             </th>
                                             <td>
@@ -2500,13 +2500,13 @@ class atkp_posttypes_product {
                                                        style="width:100%"
                                                        id="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_smallimageurl_gallery_' . $newimage->id) ?>"
                                                        name="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_smallimageurl_gallery_' . $newimage->id) ?>"
-                                                       value="<?php echo esc_html__( $newimage->smallimageurl, ATKP_PLUGIN_PREFIX ); ?>">
+                                                       value="<?php echo esc_html__( $newimage->smallimageurl, 'affiliate-toolkit-starter' ); ?>">
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>
                                                 <label for="">
-	                                                <?php echo esc_html__( 'Medium image URL', ATKP_PLUGIN_PREFIX ) ?>:
+	                                                <?php echo esc_html__( 'Medium image URL', 'affiliate-toolkit-starter' ) ?>:
                                                 </label>
                                             </th>
                                             <td>
@@ -2514,20 +2514,20 @@ class atkp_posttypes_product {
                                                        style="width:100%"
                                                        id="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_mediumimageurl_gallery_' . $newimage->id) ?>"
                                                        name="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_mediumimageurl_gallery_' . $newimage->id) ?>"
-                                                       value="<?php echo esc_html__( $newimage->mediumimageurl, ATKP_PLUGIN_PREFIX ); ?>">
+                                                       value="<?php echo esc_html__( $newimage->mediumimageurl, 'affiliate-toolkit-starter' ); ?>">
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>
                                                 <label for="">
-	                                                <?php echo esc_html__( 'Large image URL', ATKP_PLUGIN_PREFIX ) ?>:
+	                                                <?php echo esc_html__( 'Large image URL', 'affiliate-toolkit-starter' ) ?>:
                                                 </label>
                                             </th>
                                             <td>
                                                 <input type="url" class="atkp-galleryitem" style="width:100%"
                                                        id="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_largeimageurl_gallery_' . $newimage->id) ?>"
                                                        name="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_largeimageurl_gallery_' . $newimage->id) ?>"
-                                                       value="<?php echo esc_html__( $newimage->largeimageurl, ATKP_PLUGIN_PREFIX ); ?>">
+                                                       value="<?php echo esc_html__( $newimage->largeimageurl, 'affiliate-toolkit-starter' ); ?>">
                                             </td>
                                         </tr>
 
@@ -2557,10 +2557,10 @@ class atkp_posttypes_product {
                 return this.rand++;
             };
             var idGen = new Generator();
-            var mediumimagecaption = '<?php  echo esc_html__( 'Medium image URL', ATKP_PLUGIN_PREFIX ) ?>';
-            var smallimagecaption = '<?php  echo esc_html__( 'Small image URL', ATKP_PLUGIN_PREFIX ) ?>';
-            var largeimagecaption = '<?php  echo esc_html__( 'Large image URL', ATKP_PLUGIN_PREFIX ) ?>';
-            var deletebtncaption = '<?php  echo esc_html__( 'Delete', ATKP_PLUGIN_PREFIX ) ?>';
+            var mediumimagecaption = '<?php  echo esc_html__( 'Medium image URL', 'affiliate-toolkit-starter' ) ?>';
+            var smallimagecaption = '<?php  echo esc_html__( 'Small image URL', 'affiliate-toolkit-starter' ) ?>';
+            var largeimagecaption = '<?php  echo esc_html__( 'Large image URL', 'affiliate-toolkit-starter' ) ?>';
+            var deletebtncaption = '<?php  echo esc_html__( 'Delete', 'affiliate-toolkit-starter' ) ?>';
 
             var $j = jQuery.noConflict();
             /*
@@ -2577,7 +2577,7 @@ class atkp_posttypes_product {
 
                     $j('#removeimage-button_' + id).click(function (e) {
 
-                        if (confirm('<?php echo esc_html__( 'Are you sure?', ATKP_PLUGIN_PREFIX ) ?>')) {
+                        if (confirm('<?php echo esc_html__( 'Are you sure?', 'affiliate-toolkit-starter' ) ?>')) {
                             $j(this).parent().parent().remove();
                         }
 
@@ -2586,7 +2586,7 @@ class atkp_posttypes_product {
 
                 $j('.remove-image').click(function (e) {
 
-                    if (confirm('<?php echo esc_html__( 'Are you sure?', ATKP_PLUGIN_PREFIX ) ?>')) {
+                    if (confirm('<?php echo esc_html__( 'Are you sure?', 'affiliate-toolkit-starter' ) ?>')) {
                         $j(this).parent().parent().remove();
                     }
                 });
@@ -2594,7 +2594,7 @@ class atkp_posttypes_product {
 
                 $j('.remove-offer').click(function (e) {
 
-                    if (confirm('<?php echo esc_html__( 'Are you sure?', ATKP_PLUGIN_PREFIX ) ?>')) {
+                    if (confirm('<?php echo esc_html__( 'Are you sure?', 'affiliate-toolkit-starter' ) ?>')) {
                         $j(this).parent().parent().prev().remove();
                         $j(this).parent().parent().prev().remove();
                         $j(this).parent().parent().remove();
@@ -2632,25 +2632,25 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'List price', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'List price', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
                     <input type="text" id="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_listprice') ?>"
                            name="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_listprice') ?>"
-                           placeholder="<?php echo esc_attr_e( $mainproduct != null ? $mainproduct->listprice : '', ATKP_PLUGIN_PREFIX ) ?>"
+                           placeholder="<?php echo esc_attr_e( $mainproduct != null ? $mainproduct->listprice : '', 'affiliate-toolkit-starter' ) ?>"
                            value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_listprice' ) ); ?>">
 	                <?php $this->create_clipboard_button( ATKP_PRODUCT_POSTTYPE . '_listprice' ); ?>
 
 					<?php if ( ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_listprice' ) != '' ) { ?>
-                        (<?php echo esc_html__( ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_listpricefloat' ), ATKP_PLUGIN_PREFIX ); ?>)<?php } ?>
+                        (<?php echo esc_html__( ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_listpricefloat' ), 'affiliate-toolkit-starter' ); ?>)<?php } ?>
                 </td>
             </tr>
 
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Amount saved', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Amount saved', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
@@ -2661,21 +2661,21 @@ class atkp_posttypes_product {
 	                <?php $this->create_clipboard_button( ATKP_PRODUCT_POSTTYPE . '_amountsaved' ); ?>
 
 					<?php if ( ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_amountsaved' ) != '' ) { ?>
-                        (<?php echo esc_html__( ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_amountsavedfloat' ), ATKP_PLUGIN_PREFIX ); ?>) <?php } ?>
+                        (<?php echo esc_html__( ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_amountsavedfloat' ), 'affiliate-toolkit-starter' ); ?>) <?php } ?>
                 </td>
             </tr>
 
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Percentage saved', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Percentage saved', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
                     <input type="number" min="0" max="100" step="0.01"
                            id="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_percentagesaved') ?>"
                            name="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_percentagesaved') ?>"
-                           placeholder="<?php echo esc_attr_e( $mainproduct != null ? ( $mainproduct->percentagesaved ) : '', ATKP_PLUGIN_PREFIX ) ?>"
+                           placeholder="<?php echo esc_attr_e( $mainproduct != null ? ( $mainproduct->percentagesaved ) : '', 'affiliate-toolkit-starter' ) ?>"
                            value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_percentagesaved' ) ); ?>">
 	                <?php $this->create_clipboard_button( ATKP_PRODUCT_POSTTYPE . '_percentagesaved' ); ?>
                 </td>
@@ -2684,49 +2684,49 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Sale price', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Sale price', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
                     <input type="text" id="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_saleprice') ?>"
                            name="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_saleprice') ?>"
-                           placeholder="<?php echo esc_attr_e( $mainproduct != null ? $mainproduct->saleprice : '', ATKP_PLUGIN_PREFIX ) ?>"
+                           placeholder="<?php echo esc_attr_e( $mainproduct != null ? $mainproduct->saleprice : '', 'affiliate-toolkit-starter' ) ?>"
                            value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_saleprice' ) ); ?>">
 	                <?php $this->create_clipboard_button( ATKP_PRODUCT_POSTTYPE . '_saleprice' ); ?>
 
 					<?php if ( ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_saleprice' ) != '' ) { ?>
-                        (<?php echo esc_html__( ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_salepricefloat' ), ATKP_PLUGIN_PREFIX ); ?>) <?php } ?>
+                        (<?php echo esc_html__( ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_salepricefloat' ), 'affiliate-toolkit-starter' ); ?>) <?php } ?>
                 </td>
             </tr>
 
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Base price', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Base price', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
                     <input type="text" id="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_baseprice') ?>"
                            name="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_baseprice') ?>"
-                           placeholder="<?php echo esc_attr_e( $mainproduct != null ? $mainproduct->baseprice : '', ATKP_PLUGIN_PREFIX ) ?>"
+                           placeholder="<?php echo esc_attr_e( $mainproduct != null ? $mainproduct->baseprice : '', 'affiliate-toolkit-starter' ) ?>"
                            value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_baseprice' ) ); ?>">
 	                <?php $this->create_clipboard_button( ATKP_PRODUCT_POSTTYPE . '_baseprice' ); ?>
 
 					<?php if ( ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_baseprice' ) != '' ) { ?>
-                        (<?php echo esc_html__( ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_basepricefloat' ), ATKP_PLUGIN_PREFIX ); ?>) <?php } ?>
+                        (<?php echo esc_html__( ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_basepricefloat' ), 'affiliate-toolkit-starter' ); ?>) <?php } ?>
                 </td>
             </tr>
 
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Base unit', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Base unit', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
                     <input type="text" id="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_baseunit') ?>"
                            name="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_baseunit') ?>"
-                           placeholder="<?php echo esc_attr_e( $mainproduct != null ? $mainproduct->baseunit : '', ATKP_PLUGIN_PREFIX ) ?>"
+                           placeholder="<?php echo esc_attr_e( $mainproduct != null ? $mainproduct->baseunit : '', 'affiliate-toolkit-starter' ) ?>"
                            value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_baseunit' ) ); ?>">
 	                <?php $this->create_clipboard_button( ATKP_PRODUCT_POSTTYPE . '_baseunit' ); ?>
 
@@ -2737,7 +2737,7 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Base units', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Base units', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
@@ -2751,7 +2751,7 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Availability', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Availability', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
@@ -2766,25 +2766,25 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Shipping', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Shipping', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
                     <input type="text" style="width:50%" id="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_shipping') ?>"
                            name="<?php echo esc_attr(ATKP_PRODUCT_POSTTYPE . '_shipping') ?>"
-                           placeholder="<?php echo esc_attr_e( $mainproduct != null ? $mainproduct->shipping : '', ATKP_PLUGIN_PREFIX ) ?>"
+                           placeholder="<?php echo esc_attr_e( $mainproduct != null ? $mainproduct->shipping : '', 'affiliate-toolkit-starter' ) ?>"
                            value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_shipping' ) ); ?>">
 	                <?php $this->create_clipboard_button( ATKP_PRODUCT_POSTTYPE . '_shipping' ); ?>
 
 					<?php if ( ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_shipping' ) != '' ) { ?>
-                        (<?php echo esc_html__( ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_shippingfloat' ), ATKP_PLUGIN_PREFIX ); ?>)<?php } ?>
+                        (<?php echo esc_html__( ATKPTools::get_post_setting( $post->ID, ATKP_PRODUCT_POSTTYPE . '_shippingfloat' ), 'affiliate-toolkit-starter' ); ?>)<?php } ?>
                 </td>
             </tr>
 
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Is prime', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Is prime', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
@@ -2797,7 +2797,7 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Is warehouse', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Is warehouse', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
@@ -2822,9 +2822,9 @@ class atkp_posttypes_product {
                 <th>
 					<?php $parentasin = $mainproduct == null ? null : $mainproduct->parentasin; ?>
 					<?php
-					esc_html__( 'Parent ASIN:', ATKP_PLUGIN_PREFIX );
+					esc_html__( 'Parent ASIN:', 'affiliate-toolkit-starter' );
 					?><br/>
-	                <?php echo esc_html__( $parentasin, ATKP_PLUGIN_PREFIX ) ?>
+	                <?php echo esc_html__( $parentasin, 'affiliate-toolkit-starter' ) ?>
 
                 </th>
                 <td>
@@ -2839,7 +2839,7 @@ class atkp_posttypes_product {
 							?>
                             <tr>
                                 <th><?php
-									esc_html__( 'ASIN', ATKP_PLUGIN_PREFIX );
+									esc_html__( 'ASIN', 'affiliate-toolkit-starter' );
 									?> </th>
                                 <th><?php
 									$displaylist = array();
@@ -2849,10 +2849,10 @@ class atkp_posttypes_product {
 										}
 									}
 
-	                                echo esc_html__( implode( ' &#8594; ', $displaylist ), ATKP_PLUGIN_PREFIX );
+	                                echo esc_html__( implode( ' &#8594; ', $displaylist ), 'affiliate-toolkit-starter' );
 									?> </th>
                                 <th><?php
-	                                echo esc_html__( 'Product page URL', ATKP_PLUGIN_PREFIX );
+	                                echo esc_html__( 'Product page URL', 'affiliate-toolkit-starter' );
 
 
 									?> </th>
@@ -2870,10 +2870,10 @@ class atkp_posttypes_product {
 											array_push( $displaylist, htmlentities( $value ) );
 										}
 
-	                                    echo esc_html__( implode( ' &#8594; ', $displaylist ), ATKP_PLUGIN_PREFIX );
+	                                    echo esc_html__( implode( ' &#8594; ', $displaylist ), 'affiliate-toolkit-starter' );
 										?> </td>
                                     <td style="padding:0"><?php
-	                                    echo '<a href="' . esc_url( $variation->producturl ) . '" target="blank">' . esc_html__( $variation->title, ATKP_PLUGIN_PREFIX ) . '</a>';
+	                                    echo '<a href="' . esc_url( $variation->producturl ) . '" target="blank">' . esc_html__( $variation->title, 'affiliate-toolkit-starter' ) . '</a>';
 
 
 										?> </td>
@@ -2889,15 +2889,15 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Manual Variations', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Manual Variations', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
                     <table style="width:100%">
                         <tr>
-                            <th><?php echo esc_html__( 'Name', ATKP_PLUGIN_PREFIX ) ?></th>
-                            <th><?php echo esc_html__( 'Product-URL', ATKP_PLUGIN_PREFIX ) ?></th>
-                            <th><?php echo esc_html__( 'Small-Image-URL', ATKP_PLUGIN_PREFIX ) ?></th>
+                            <th><?php echo esc_html__( 'Name', 'affiliate-toolkit-starter' ) ?></th>
+                            <th><?php echo esc_html__( 'Product-URL', 'affiliate-toolkit-starter' ) ?></th>
+                            <th><?php echo esc_html__( 'Small-Image-URL', 'affiliate-toolkit-starter' ) ?></th>
                         </tr>
 
 
@@ -2942,18 +2942,18 @@ class atkp_posttypes_product {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'Manual Offers', ATKP_PLUGIN_PREFIX ) ?>:
+	                    <?php echo esc_html__( 'Manual Offers', 'affiliate-toolkit-starter' ) ?>:
                     </label>
                 </th>
                 <td>
                     <table style="width:100%">
                         <tr>
-                            <th><?php echo esc_html__( 'Shop-Name', ATKP_PLUGIN_PREFIX ) ?></th>
-                            <th><?php echo esc_html__( 'Shop-Logo-URL', ATKP_PLUGIN_PREFIX ) ?></th>
-                            <th><?php echo esc_html__( 'Price', ATKP_PLUGIN_PREFIX ) ?></th>
-                            <th><?php echo esc_html__( 'Shipping', ATKP_PLUGIN_PREFIX ) ?></th>
-                            <th><?php echo esc_html__( 'Availability', ATKP_PLUGIN_PREFIX ) ?></th>
-                            <th><?php echo esc_html__( 'Product-URL', ATKP_PLUGIN_PREFIX ) ?></th>
+                            <th><?php echo esc_html__( 'Shop-Name', 'affiliate-toolkit-starter' ) ?></th>
+                            <th><?php echo esc_html__( 'Shop-Logo-URL', 'affiliate-toolkit-starter' ) ?></th>
+                            <th><?php echo esc_html__( 'Price', 'affiliate-toolkit-starter' ) ?></th>
+                            <th><?php echo esc_html__( 'Shipping', 'affiliate-toolkit-starter' ) ?></th>
+                            <th><?php echo esc_html__( 'Availability', 'affiliate-toolkit-starter' ) ?></th>
+                            <th><?php echo esc_html__( 'Product-URL', 'affiliate-toolkit-starter' ) ?></th>
                         </tr>
 
 
@@ -3340,7 +3340,7 @@ class atkp_posttypes_product {
 
 		if ( ATKPTools::get_post_parameter( 'atkp_product_filter_changed', 'int' ) == 1 ) {
 
-			atkp_queueservices::do_manual_product_update( $post_id, esc_html__( 'Manual product update', ATKP_PLUGIN_PREFIX ) );
+			atkp_queueservices::do_manual_product_update( $post_id, esc_html__( 'Manual product update', 'affiliate-toolkit-starter' ) );
 
 		} else {
 			$productservice = new atkp_productservice();

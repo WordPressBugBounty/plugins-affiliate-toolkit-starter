@@ -43,8 +43,8 @@ class atkp_queue_view {
 		$hook = add_submenu_page(
 
 			$parentmenu,
-			__( 'Queues', ATKP_PLUGIN_PREFIX ),
-			__( 'Queues', ATKP_PLUGIN_PREFIX ),
+			__( 'Queues', 'affiliate-toolkit-starter' ),
+			__( 'Queues', 'affiliate-toolkit-starter' ),
 			'edit_pages',
 			ATKP_PLUGIN_PREFIX . '_viewqueue',
 			array( &$this, 'show_page' )
@@ -62,7 +62,7 @@ class atkp_queue_view {
 
 		$option = 'per_page';
 		$args   = [
-			'label'   => __( 'Queues', ATKP_PLUGIN_PREFIX ),
+			'label'   => __( 'Queues', 'affiliate-toolkit-starter' ),
 			'default' => 25,
 			'option'  => 'queues_per_page'
 		];
@@ -89,7 +89,7 @@ class atkp_queue_view {
 	public function show_page() {
 		$atkp_queuetable_helper = new atkp_queuetable_helper();
 		if ( ! $atkp_queuetable_helper->exists_table()[0] ) {
-			echo esc_html__( 'database table does not exists: ' . $atkp_queuetable_helper->get_queuetable_tablename(), ATKP_PLUGIN_PREFIX );
+			echo esc_html__( 'database table does not exists: ' . $atkp_queuetable_helper->get_queuetable_tablename(), 'affiliate-toolkit-starter' );
 
 			return;
 		}
@@ -99,7 +99,7 @@ class atkp_queue_view {
 
 			?>
             <div class="wrap">
-                <h1 class="wp-heading-inline"><?php echo esc_html__( 'Queues', ATKP_PLUGIN_PREFIX ) ?></h1>
+                <h1 class="wp-heading-inline"><?php echo esc_html__( 'Queues', 'affiliate-toolkit-starter' ) ?></h1>
 
                 <div id="poststuff">
                     <div id="post-body" class="metabox-holder">
@@ -126,7 +126,7 @@ class atkp_queue_view {
 
 			?>
             <div class="wrap">
-                <h1 class="wp-heading-inline"><?php echo esc_html__( 'Queue Entries', ATKP_PLUGIN_PREFIX ) ?></h1>
+                <h1 class="wp-heading-inline"><?php echo esc_html__( 'Queue Entries', 'affiliate-toolkit-starter' ) ?></h1>
 
                 <div id="poststuff">
                     <div id="post-body" class="metabox-holder">

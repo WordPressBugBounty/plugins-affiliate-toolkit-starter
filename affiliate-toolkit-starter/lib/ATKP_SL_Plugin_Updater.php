@@ -197,8 +197,8 @@ class ATKP_SL_Plugin_Updater {
 
 		printf(
 			'<tr class="plugin-update-tr %3$s" id="%1$s-update" data-slug="%1$s" data-plugin="%2$s">',
-			esc_html__( $this->slug, ATKP_PLUGIN_PREFIX ),
-			esc_html__( $file, ATKP_PLUGIN_PREFIX ),
+			esc_html__( $this->slug, 'affiliate-toolkit-starter' ),
+			esc_html__( $file, 'affiliate-toolkit-starter' ),
 			in_array( $this->name, $this->get_active_plugins(), true ) ? 'active' : 'inactive'
 		);
 

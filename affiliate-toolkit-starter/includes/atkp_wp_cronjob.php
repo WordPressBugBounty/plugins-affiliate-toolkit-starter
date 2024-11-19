@@ -22,7 +22,7 @@ class atkp_wp_cronjob {
 	function add_new_intervals( $schedules ) {
 		$schedules[ ATKP_PLUGIN_PREFIX . '_10' ] = array(
 			'interval' => 10 * 60,
-			'display'  => __( 'Every 10 minutes', ATKP_PLUGIN_PREFIX )
+			'display'  => __( 'Every 10 minutes', 'affiliate-toolkit-starter' )
 		);
 
 

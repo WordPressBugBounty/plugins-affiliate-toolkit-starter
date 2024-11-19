@@ -35,7 +35,7 @@ class atkp_settings_toolkit {
 			//speichern der einstellungen
 
 			if ( ! current_user_can( 'manage_options' ) ) {
-				wp_die( esc_html__( 'You do not have sufficient permissions to access this page', ATKP_PLUGIN_PREFIX ) );
+				wp_die( esc_html__( 'You do not have sufficient permissions to access this page', 'affiliate-toolkit-starter' ) );
 			}
 
 			$duration    = ATKPTools::get_post_parameter( ATKP_PLUGIN_PREFIX . '_cache_duration', 'int' );
@@ -87,13 +87,13 @@ class atkp_settings_toolkit {
 
                         <tr>
                             <th scope="row" style="background-color:#bde4ea; padding:7px" colspan="2">
-	                            <?php echo esc_html__( 'Global settings', ATKP_PLUGIN_PREFIX ) ?>
+	                            <?php echo esc_html__( 'Global settings', 'affiliate-toolkit-starter' ) ?>
                             </th>
                         </tr>
                         <tr>
                             <th scope="row">
                                 <label for="">
-	                                <?php echo esc_html__( 'cronjob type', ATKP_PLUGIN_PREFIX ) ?>:
+	                                <?php echo esc_html__( 'cronjob type', 'affiliate-toolkit-starter' ) ?>:
                                 </label>
                             </th>
                             <td>
@@ -101,9 +101,9 @@ class atkp_settings_toolkit {
 									<?php
 									$crontype  = get_option( ATKP_PLUGIN_PREFIX . '_crontype', 'wpcron' );
 									$durations = array(
-										'wpcron'         => esc_html__( 'WordPress Cronjob', ATKP_PLUGIN_PREFIX ),
-										'external'       => esc_html__( 'External Cronjob', ATKP_PLUGIN_PREFIX ),
-										'externaloutput' => esc_html__( 'External Cronjob + Output', ATKP_PLUGIN_PREFIX ),
+										'wpcron'         => esc_html__( 'WordPress Cronjob', 'affiliate-toolkit-starter' ),
+										'external'       => esc_html__( 'External Cronjob', 'affiliate-toolkit-starter' ),
+										'externaloutput' => esc_html__( 'External Cronjob + Output', 'affiliate-toolkit-starter' ),
 									);
 
 									foreach ( $durations as $value => $name ) {
@@ -113,7 +113,7 @@ class atkp_settings_toolkit {
 											$sel = '';
 										}
 
-										echo '<option value="' . esc_attr( $value ) . '"' . esc_attr( $sel ) . '>' . esc_html__( $name, ATKP_PLUGIN_PREFIX ) . '</option>';
+										echo '<option value="' . esc_attr( $value ) . '"' . esc_attr( $sel ) . '>' . esc_html__( $name, 'affiliate-toolkit-starter' ) . '</option>';
 									} ?>
                                 </select>
 
@@ -176,12 +176,12 @@ class atkp_settings_toolkit {
 								if ( $last_start == '' ) {
 									?>
                                     <div class="atkp-validation">
-                                        <b><?php echo esc_html__( 'Cronjob was never started yet.', ATKP_PLUGIN_PREFIX ); ?></b>
-                                        <p><?php echo esc_html__( 'This is normal if you installed the plugin freshly. If you have been using the plugin for a while, you need to check where the problem is.', ATKP_PLUGIN_PREFIX ); ?></p>
+                                        <b><?php echo esc_html__( 'Cronjob was never started yet.', 'affiliate-toolkit-starter' ); ?></b>
+                                        <p><?php echo esc_html__( 'This is normal if you installed the plugin freshly. If you have been using the plugin for a while, you need to check where the problem is.', 'affiliate-toolkit-starter' ); ?></p>
 										<?php if ( $crontype == 2 ) { ?>
-                                            <p><?php echo esc_html__( 'You can try to save this settings page and attach the plugin again in the WordPress scheduler.', ATKP_PLUGIN_PREFIX ) ?></p>
+                                            <p><?php echo esc_html__( 'You can try to save this settings page and attach the plugin again in the WordPress scheduler.', 'affiliate-toolkit-starter' ) ?></p>
 										<?php } else { ?>
-                                            <p><?php echo esc_html__( 'Please check the server-side cronjob configuration on the server. There seems to be something not configured correctly outside of the plugin.', ATKP_PLUGIN_PREFIX ) ?></p>
+                                            <p><?php echo esc_html__( 'Please check the server-side cronjob configuration on the server. There seems to be something not configured correctly outside of the plugin.', 'affiliate-toolkit-starter' ) ?></p>
 										<?php } ?>
                                     </div>
 									<?php
@@ -193,20 +193,20 @@ class atkp_settings_toolkit {
 									if ( $minutes_ago > ( 60 * 24 ) ) {
 										?>
                                         <div class="atkp-validation">
-                                            <b><?php echo sprintf( esc_html__( 'Last cronjob execution was %s ago', ATKP_PLUGIN_PREFIX ), esc_html($timesince) ); ?></b>
-                                            <p><?php echo esc_html__( 'The cronjob was last called a day ago. This is suspicious. If you don\'t know why this is, you should check the problem more closely.', ATKP_PLUGIN_PREFIX ); ?></p>
+                                            <b><?php echo sprintf( esc_html__( 'Last cronjob execution was %s ago', 'affiliate-toolkit-starter' ), esc_html($timesince) ); ?></b>
+                                            <p><?php echo esc_html__( 'The cronjob was last called a day ago. This is suspicious. If you don\'t know why this is, you should check the problem more closely.', 'affiliate-toolkit-starter' ); ?></p>
 											<?php if ( $crontype == 2 ) { ?>
-                                                <p><?php echo esc_html__( 'You can try to save this settings page and attach the plugin again in the WordPress scheduler.', ATKP_PLUGIN_PREFIX ) ?></p>
+                                                <p><?php echo esc_html__( 'You can try to save this settings page and attach the plugin again in the WordPress scheduler.', 'affiliate-toolkit-starter' ) ?></p>
 											<?php } else { ?>
-                                                <p><?php echo esc_html__( 'Please check the server-side cronjob configuration on the server. There seems to be something not configured correctly outside of the plugin.', ATKP_PLUGIN_PREFIX ) ?></p>
+                                                <p><?php echo esc_html__( 'Please check the server-side cronjob configuration on the server. There seems to be something not configured correctly outside of the plugin.', 'affiliate-toolkit-starter' ) ?></p>
 											<?php } ?>
                                         </div>
 										<?php
 									} else if ( $minutes_ago > 30 ) {
 										?>
                                         <div class="atkp-info">
-                                            <b><?php echo sprintf( esc_html__( 'Last cronjob execution was %s ago', ATKP_PLUGIN_PREFIX ), esc_html($timesince) ); ?></b>
-                                            <p><?php echo esc_html__( 'The cronjob was last called more than 30 minutes ago. Depending on the configuration (e.g. execution in special time windows) this can be normal.', ATKP_PLUGIN_PREFIX ); ?></p>
+                                            <b><?php echo sprintf( esc_html__( 'Last cronjob execution was %s ago', 'affiliate-toolkit-starter' ), esc_html($timesince) ); ?></b>
+                                            <p><?php echo esc_html__( 'The cronjob was last called more than 30 minutes ago. Depending on the configuration (e.g. execution in special time windows) this can be normal.', 'affiliate-toolkit-starter' ); ?></p>
                                         </div>
 										<?php
 									} else {
@@ -217,18 +217,18 @@ class atkp_settings_toolkit {
 										if ( $last_processed == '' || $minutes_ago2 > 30 ) {
 											?>
                                             <div class="atkp-validation">
-                                                <b><?php echo sprintf( esc_html__( 'Last cronjob execution was %s ago but nothing was processed.', ATKP_PLUGIN_PREFIX ), esc_html($timesince) ); ?></b>
-                                                <p><?php echo esc_html__( 'The cronjob was called correctly but nothing was processed. This is an could be an issue.', ATKP_PLUGIN_PREFIX ); ?></p>
+                                                <b><?php echo sprintf( esc_html__( 'Last cronjob execution was %s ago but nothing was processed.', 'affiliate-toolkit-starter' ), esc_html($timesince) ); ?></b>
+                                                <p><?php echo esc_html__( 'The cronjob was called correctly but nothing was processed. This is an could be an issue.', 'affiliate-toolkit-starter' ); ?></p>
 
-                                                <p><?php echo esc_html__( 'Please check if the cronjob is running into an HTTP 500 error.', ATKP_PLUGIN_PREFIX ) ?></p>
+                                                <p><?php echo esc_html__( 'Please check if the cronjob is running into an HTTP 500 error.', 'affiliate-toolkit-starter' ) ?></p>
 
                                             </div>
 											<?php
 										} else {
 											?>
                                             <div class="atkp-success">
-                                                <b><?php echo sprintf( esc_html__( 'Last cronjob execution was %s ago', ATKP_PLUGIN_PREFIX ), esc_html($timesince) ); ?></b>
-                                                <p><?php echo esc_html__( 'Gratualation, the configuration of the cronjob seems to be correct. The product update is called regularly.', ATKP_PLUGIN_PREFIX ); ?></p>
+                                                <b><?php echo sprintf( esc_html__( 'Last cronjob execution was %s ago', 'affiliate-toolkit-starter' ), esc_html($timesince) ); ?></b>
+                                                <p><?php echo esc_html__( 'Gratualation, the configuration of the cronjob seems to be correct. The product update is called regularly.', 'affiliate-toolkit-starter' ); ?></p>
                                             </div>
 											<?php
 										}
@@ -279,7 +279,7 @@ class atkp_settings_toolkit {
                         <tr>
                             <th scope="row">
                                 <label for="">
-	                                <?php echo esc_html__( 'Productdata updates between', ATKP_PLUGIN_PREFIX ) ?>:
+	                                <?php echo esc_html__( 'Productdata updates between', 'affiliate-toolkit-starter' ) ?>:
                                 </label>
                             </th>
                             <td>
@@ -291,8 +291,8 @@ class atkp_settings_toolkit {
                                        name="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_cron_to') ?>"
                                        value="<?php echo esc_attr( get_option( ATKP_PLUGIN_PREFIX . '_cron_to' ) ); ?>">
 
-	                            <?php esc_html__( 'Current time', ATKP_PLUGIN_PREFIX ) ?>:
-	                            <?php esc_html__( date( 'd.m.y H:i:s', time() ), ATKP_PLUGIN_PREFIX ); ?>
+	                            <?php esc_html__( 'Current time', 'affiliate-toolkit-starter' ) ?>:
+	                            <?php esc_html__( date( 'd.m.y H:i:s', time() ), 'affiliate-toolkit-starter' ); ?>
 
 								<?php ATKPTools::display_helptext( 'If you are using api keys on multipe websites it is good to gave every website a own time frame to process the product updates.' ) ?>
 
@@ -303,7 +303,7 @@ class atkp_settings_toolkit {
                         <tr>
                             <th scope="row">
                                 <label for="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_queue_clean_days') ?>">
-	                                <?php echo esc_html__( 'Delete Queue logs', ATKP_PLUGIN_PREFIX ) ?>
+	                                <?php echo esc_html__( 'Delete Queue logs', 'affiliate-toolkit-starter' ) ?>
                                 </label>
                             </th>
                             <td>
@@ -312,7 +312,7 @@ class atkp_settings_toolkit {
                                        placeholder="7"
                                        value="<?php echo esc_attr( atkp_options::$loader->get_queue_clean_days() ); ?>">
                                 <label for="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_queue_clean_days') ?>">
-	                                <?php echo esc_html__( '(after x days)', ATKP_PLUGIN_PREFIX ) ?>
+	                                <?php echo esc_html__( '(after x days)', 'affiliate-toolkit-starter' ) ?>
                                 </label>
 								<?php ATKPTools::display_helptext( 'We are logging errors into the product queue table. If the table has too many rows it is recommended to set the value lower then 7 days.' ) ?>
 
@@ -322,7 +322,7 @@ class atkp_settings_toolkit {
                         <tr>
                             <th scope="row">
                                 <label for="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_queue_package_size') ?>">
-	                                <?php esc_html_e( 'Queue package size', ATKP_PLUGIN_PREFIX ) ?>
+	                                <?php echo esc_html__( 'Queue package size', 'affiliate-toolkit-starter' ) ?>
                                 </label>
                             </th>
                             <td>
@@ -344,7 +344,7 @@ class atkp_settings_toolkit {
 
                         <tr>
                             <th scope="row" style="background-color:#bde4ea; padding:7px" colspan="2">
-	                            <?php echo esc_html__( 'Settings for data check', ATKP_PLUGIN_PREFIX ) ?>
+	                            <?php echo esc_html__( 'Settings for data check', 'affiliate-toolkit-starter' ) ?>
                             </th>
                         </tr>
 
@@ -357,7 +357,7 @@ class atkp_settings_toolkit {
                                        name="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_check_enabled') ?>"
                                        value="1" <?php echo checked( 1, get_option( ATKP_PLUGIN_PREFIX . '_check_enabled' ), true ); ?>>
                                 <label for="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_check_enabled') ?>">
-	                                <?php echo esc_html__( 'Enable data check', ATKP_PLUGIN_PREFIX ) ?>
+	                                <?php echo esc_html__( 'Enable data check', 'affiliate-toolkit-starter' ) ?>
                                 </label>
 								<?php ATKPTools::display_helptext( 'Besides the queue protocols in the backend we can also send you a mail report. This report contains only product and list errors.' ) ?>
 
@@ -366,7 +366,7 @@ class atkp_settings_toolkit {
                         <tr valign="top">
                             <th scope="row">
                                 <label for="">
-	                                <?php echo esc_html__( 'Notification interval', ATKP_PLUGIN_PREFIX ) ?>:
+	                                <?php echo esc_html__( 'Notification interval', 'affiliate-toolkit-starter' ) ?>:
                                 </label>
                             </th>
                             <td>
@@ -374,11 +374,11 @@ class atkp_settings_toolkit {
 									<?php
 
 									$durations = array(
-										360   => esc_html__( '6 Hours', ATKP_PLUGIN_PREFIX ),
-										720   => esc_html__( '12 Hours', ATKP_PLUGIN_PREFIX ),
-										1440  => esc_html__( '1 Day', ATKP_PLUGIN_PREFIX ),
-										4320  => esc_html__( '3 Days', ATKP_PLUGIN_PREFIX ),
-										10080 => esc_html__( '1 Week', ATKP_PLUGIN_PREFIX ),
+										360   => esc_html__( '6 Hours', 'affiliate-toolkit-starter' ),
+										720   => esc_html__( '12 Hours', 'affiliate-toolkit-starter' ),
+										1440  => esc_html__( '1 Day', 'affiliate-toolkit-starter' ),
+										4320  => esc_html__( '3 Days', 'affiliate-toolkit-starter' ),
+										10080 => esc_html__( '1 Week', 'affiliate-toolkit-starter' ),
 									);
 
 									foreach ( $durations as $value => $name ) {
@@ -388,7 +388,7 @@ class atkp_settings_toolkit {
 											$sel = '';
 										}
 
-										echo '<option value="' . esc_attr( $value ) . '"' . esc_attr( $sel ) . '>' . esc_html__( $name, ATKP_PLUGIN_PREFIX ) . '</option>';
+										echo '<option value="' . esc_attr( $value ) . '"' . esc_attr( $sel ) . '>' . esc_html__( $name, 'affiliate-toolkit-starter' ) . '</option>';
 									} ?>
                                 </select>
 
@@ -398,7 +398,7 @@ class atkp_settings_toolkit {
                         <tr>
                             <th scope="row">
                                 <label for="">
-	                                <?php echo esc_html__( 'Recipient of e-mail report', ATKP_PLUGIN_PREFIX ) ?>:
+	                                <?php echo esc_html__( 'Recipient of e-mail report', 'affiliate-toolkit-starter' ) ?>:
                                 </label>
                             </th>
                             <td>
@@ -415,7 +415,7 @@ class atkp_settings_toolkit {
 
 								$filename = ATKPTools::get_uploaddir() . '/report.html';
 								if ( file_exists( $filename ) ) {
-									echo '<span class="dashicons dashicons-list-view"></span>&nbsp;<a href="' . esc_url( ATKPTools::get_file( 'report.html' ) ) . '" target="_blank">' . esc_html__( 'Open last report', ATKP_PLUGIN_PREFIX ) . '</a><br /><br />';
+									echo '<span class="dashicons dashicons-list-view"></span>&nbsp;<a href="' . esc_url( ATKPTools::get_file( 'report.html' ) ) . '" target="_blank">' . esc_html__( 'Open last report', 'affiliate-toolkit-starter' ) . '</a><br /><br />';
 								}
 
 								?>
@@ -425,20 +425,20 @@ class atkp_settings_toolkit {
                                 <a href="<?php echo( esc_url(ATKPTools::get_endpointurl() . '?action=atkp_send_report&request_nonce=' . esc_html($reportnounce)) ) ?>"
                                    class="button atkp-btn-report" style="margin-right:10px"><span
                                             class="dashicons dashicons-email"
-                                            style="margin-top:3px"></span> <?php echo esc_html__( 'Send report now', ATKP_PLUGIN_PREFIX ) ?>
+                                            style="margin-top:3px"></span> <?php echo esc_html__( 'Send report now', 'affiliate-toolkit-starter' ) ?>
                                 </a>
                             </td>
                         </tr>
                         <tr>
                             <th scope="row" style="background-color:#bde4ea; padding:7px" colspan="2">
-	                            <?php echo esc_html__( 'Settings for data cache', ATKP_PLUGIN_PREFIX ) ?>
+	                            <?php echo esc_html__( 'Settings for data cache', 'affiliate-toolkit-starter' ) ?>
                             </th>
                         </tr>
 
                         <tr>
                             <th scope="row">
                                 <label for="">
-	                                <?php echo esc_html__( 'Cache duration', ATKP_PLUGIN_PREFIX ) ?>:
+	                                <?php echo esc_html__( 'Cache duration', 'affiliate-toolkit-starter' ) ?>:
                                 </label>
                             </th>
                             <td>
@@ -446,12 +446,12 @@ class atkp_settings_toolkit {
 									<?php
 
 									$durations = array(
-										60    => esc_html__( '1 Hour', ATKP_PLUGIN_PREFIX ),
-										360   => esc_html__( '6 Hours', ATKP_PLUGIN_PREFIX ),
-										720   => esc_html__( '12 Hours', ATKP_PLUGIN_PREFIX ),
-										1440  => esc_html__( '1 Day', ATKP_PLUGIN_PREFIX ),
-										4320  => esc_html__( '3 Days', ATKP_PLUGIN_PREFIX ),
-										10080 => esc_html__( '1 Week', ATKP_PLUGIN_PREFIX ),
+										60    => esc_html__( '1 Hour', 'affiliate-toolkit-starter' ),
+										360   => esc_html__( '6 Hours', 'affiliate-toolkit-starter' ),
+										720   => esc_html__( '12 Hours', 'affiliate-toolkit-starter' ),
+										1440  => esc_html__( '1 Day', 'affiliate-toolkit-starter' ),
+										4320  => esc_html__( '3 Days', 'affiliate-toolkit-starter' ),
+										10080 => esc_html__( '1 Week', 'affiliate-toolkit-starter' ),
 									);
 
 									foreach ( $durations as $value => $name ) {
@@ -463,7 +463,7 @@ class atkp_settings_toolkit {
 
 										$item_translated = '';
 
-										echo '<option value="' . esc_attr( $value ) . '"' . esc_attr( $sel ) . '>' . esc_html__( $name, ATKP_PLUGIN_PREFIX ) . '</option>';
+										echo '<option value="' . esc_attr( $value ) . '"' . esc_attr( $sel ) . '>' . esc_html__( $name, 'affiliate-toolkit-starter' ) . '</option>';
 									} ?>
                                 </select>
 

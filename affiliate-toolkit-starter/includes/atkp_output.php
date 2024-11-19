@@ -231,7 +231,7 @@ class atkp_output {
 
 		if ( ( get_post_status( $id ) != 'publish' && get_post_status( $id ) != 'draft' ) ) {
 			if ( $content == '' ) {
-				$content = __( 'Product', ATKP_PLUGIN_PREFIX );
+				$content = __( 'Product', 'affiliate-toolkit-starter' );
 			}
 
 			return $link == true ? $content : '';
@@ -294,7 +294,7 @@ class atkp_output {
 			$link = apply_filters( 'atkp_modify_output_product_link', $link, $templatehelper, $prd, $tracking_id);
 
 			if ( ATKPSettings::$access_mark_links == 1 && strpos( $content, 'img src' ) == true ) {
-				$capt = __( 'Advertising', ATKP_PLUGIN_PREFIX );
+				$capt = __( 'Advertising', 'affiliate-toolkit-starter' );
 
 				$resultValue = '<div class="atkp-link-image ' . $containercss . '"><div class="atkp-affiliateimage atkp-clearfix"><a ' . $link . ' >' . $content . '</a><div style="margin-top:3px">' . $capt . '</div></div></div>';
 			} else {

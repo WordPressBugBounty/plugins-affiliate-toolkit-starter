@@ -7,9 +7,9 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 class atkp_queue_table extends WP_List_Table {
 	function __construct() {
 		parent::__construct( array(
-			'singular' => __( 'Queue', ATKP_PLUGIN_PREFIX ),
+			'singular' => __( 'Queue', 'affiliate-toolkit-starter' ),
 			//Singular label
-			'plural'   => __( 'Queues', ATKP_PLUGIN_PREFIX ),
+			'plural'   => __( 'Queues', 'affiliate-toolkit-starter' ),
 			//plural label, also this well be one of the table css class
 			'ajax'     => false
 			//We won't support Ajax for this table
@@ -42,7 +42,7 @@ class atkp_queue_table extends WP_List_Table {
 
 	/** Text displayed when no customer data is available */
 	public function no_items() {
-		esc_html__( 'No queues available.', ATKP_PLUGIN_PREFIX );
+		esc_html__( 'No queues available.', 'affiliate-toolkit-starter' );
 	}
 
 
@@ -68,15 +68,15 @@ class atkp_queue_table extends WP_List_Table {
 				$seconds   = abs( strtotime( $updatedon ) - strtotime( $createdon ) );
 
 				if ( $seconds > 60 ) {
-					return sprintf( __( '%s Minutes', ATKP_PLUGIN_PREFIX ), round( $seconds / 60, 0 ) );
+					return sprintf( __( '%s Minutes', 'affiliate-toolkit-starter' ), round( $seconds / 60, 0 ) );
 				} else {
-					return sprintf( __( '%s Seconds', ATKP_PLUGIN_PREFIX ), round( $seconds, 0 ) );
+					return sprintf( __( '%s Seconds', 'affiliate-toolkit-starter' ), round( $seconds, 0 ) );
 				}
 
 				break;
 
 			case 'retries':
-				return sprintf( __( '%s Retries', ATKP_PLUGIN_PREFIX ), $item[ $column_name ] == null || $item[ $column_name ] <= 1 ? 0 : ( $item[ $column_name ] - 1 ) );
+				return sprintf( __( '%s Retries', 'affiliate-toolkit-starter' ), $item[ $column_name ] == null || $item[ $column_name ] <= 1 ? 0 : ( $item[ $column_name ] - 1 ) );
 			case 'entries':
 				$atkp_queuetable_helper = new atkp_queuetable_helper();
 
@@ -89,7 +89,7 @@ class atkp_queue_table extends WP_List_Table {
 
 				$itemspersecond = $finished > 0 ? ( $seconds / $finished ) : 0;
 
-				return '<span style="">' . sprintf( __( '%s Entries', ATKP_PLUGIN_PREFIX ), $cnt ) . '</span>' . ( $finished != $cnt ? '<br /><span style="">' . sprintf( __( '%s Finished', ATKP_PLUGIN_PREFIX ), $finished ) . '</span>' : '' ) . ( $itemspersecond > 0 ? '<br /><span style="">' . sprintf( __( '%s Entries/Minute', ATKP_PLUGIN_PREFIX ), round( $itemspersecond * 60, 2 ) ) . '</span>' : '' );
+				return '<span style="">' . sprintf( __( '%s Entries', 'affiliate-toolkit-starter' ), $cnt ) . '</span>' . ( $finished != $cnt ? '<br /><span style="">' . sprintf( __( '%s Finished', ATKP_PLUGIN_PREFIX ), $finished ) . '</span>' : '' ) . ( $itemspersecond > 0 ? '<br /><span style="">' . sprintf( __( '%s Entries/Minute', ATKP_PLUGIN_PREFIX ), round( $itemspersecond * 60, 2 ) ) . '</span>' : '' );
 
 
 				break;
@@ -123,28 +123,28 @@ class atkp_queue_table extends WP_List_Table {
 
 				switch ( $item[ $column_name ] ) {
 					case atkp_queue_status::SUCCESSFULLY:
-						return '<span style="color:green;font-weight:bold;">' . __( 'Successfully', ATKP_PLUGIN_PREFIX ) . '</span>' . '<br /> ';
+						return '<span style="color:green;font-weight:bold;">' . __( 'Successfully', 'affiliate-toolkit-starter' ) . '</span>' . '<br /> ';
 
 					case atkp_queue_status::ERROR:
 						$cnt = $atkp_queuetable_helper->get_queue_errors( $item['id'] );
 
 						if ( $cnt > 0 ) {
-							return sprintf( '<a href="?page=%s&action=%s&queueid=%s&filter=error"><span style="color:red;font-weight:bold;text-decoration:underline">' . __( '%s Errors', ATKP_PLUGIN_PREFIX ) . '</span></a>', esc_attr( $_REQUEST['page'] ), 'detail', absint( $item['id'] ), $cnt );
+							return sprintf( '<a href="?page=%s&action=%s&queueid=%s&filter=error"><span style="color:red;font-weight:bold;text-decoration:underline">' . __( '%s Errors', 'affiliate-toolkit-starter' ) . '</span></a>', esc_attr( $_REQUEST['page'] ), 'detail', absint( $item['id'] ), $cnt );
 						} else {
-							return '<span style="color:red;font-weight:bold;">' . sprintf( __( '%s Errors', ATKP_PLUGIN_PREFIX ), $cnt ) . '</span>';
+							return '<span style="color:red;font-weight:bold;">' . sprintf( __( '%s Errors', 'affiliate-toolkit-starter' ), $cnt ) . '</span>';
 						}
 
 					case atkp_queue_status::ABORT:
-						return '<span style="color:orange;font-weight:bold;">' . __( 'Abort', ATKP_PLUGIN_PREFIX ) . '</span>' . ' (' . $percent . ')';
+						return '<span style="color:orange;font-weight:bold;">' . __( 'Abort', 'affiliate-toolkit-starter' ) . '</span>' . ' (' . $percent . ')';
 
 					case atkp_queue_status::ACTIVE:
-						return '<span style="color:green;font-weight:bold;">' . __( 'Running', ATKP_PLUGIN_PREFIX ) . '</span>' . ' (' . $percent . ')';
+						return '<span style="color:green;font-weight:bold;">' . __( 'Running', 'affiliate-toolkit-starter' ) . '</span>' . ' (' . $percent . ')';
 				}
 				break;
 			case 'updatedon':
 			case 'createdon':
 
-				return ATKPTools::get_formatted_date( strtotime( $item[ $column_name ] ) ) . __( ' at ', ATKP_PLUGIN_PREFIX ) . ATKPTools::get_formatted_time( strtotime( $item[ $column_name ] ) );
+				return ATKPTools::get_formatted_date( strtotime( $item[ $column_name ] ) ) . __( ' at ', 'affiliate-toolkit-starter' ) . ATKPTools::get_formatted_time( strtotime( $item[ $column_name ] ) );
 				break;
 
 
@@ -197,14 +197,14 @@ class atkp_queue_table extends WP_List_Table {
 	function get_columns() {
 		$columns = [
 			'cb'        => '<input type="checkbox" />',
-			'name'      => __( 'Title', ATKP_PLUGIN_PREFIX ),
-			'status'    => __( 'Status', ATKP_PLUGIN_PREFIX ),
-			'type'      => __( 'Type', ATKP_PLUGIN_PREFIX ),
-			'entries'   => __( 'Entries', ATKP_PLUGIN_PREFIX ),
-			'createdon' => __( 'Created on', ATKP_PLUGIN_PREFIX ),
-			'updatedon' => __( 'Last Activity', ATKP_PLUGIN_PREFIX ),
-			'runtime'   => __( 'Runtime', ATKP_PLUGIN_PREFIX ),
-			'retries'   => __( 'Retries', ATKP_PLUGIN_PREFIX ),
+			'name'      => __( 'Title', 'affiliate-toolkit-starter' ),
+			'status'    => __( 'Status', 'affiliate-toolkit-starter' ),
+			'type'      => __( 'Type', 'affiliate-toolkit-starter' ),
+			'entries'   => __( 'Entries', 'affiliate-toolkit-starter' ),
+			'createdon' => __( 'Created on', 'affiliate-toolkit-starter' ),
+			'updatedon' => __( 'Last Activity', 'affiliate-toolkit-starter' ),
+			'runtime'   => __( 'Runtime', 'affiliate-toolkit-starter' ),
+			'retries'   => __( 'Retries', 'affiliate-toolkit-starter' ),
 		];
 
 		return $columns;

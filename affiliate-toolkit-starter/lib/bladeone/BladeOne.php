@@ -327,7 +327,7 @@ class BladeOne {    //<editor-fold desc="fields">
 			while ( ob_get_level() > $obLevel ) {
 				ob_end_clean();
 			}
-			throw new Exception( esc_html__( $e->getMessage(), ATKP_PLUGIN_PREFIX ), esc_html__( $e->getCode(), ATKP_PLUGIN_PREFIX ) );
+			throw new Exception( esc_html__( $e->getMessage(), ATKP_PLUGIN_PREFIX ), esc_html__( $e->getCode(), 'affiliate-toolkit-starter' ) );
 		}
 
 		$lastError = error_get_last(); // PHP 5.6
@@ -335,7 +335,7 @@ class BladeOne {    //<editor-fold desc="fields">
 			while ( ob_get_level() > $obLevel ) {
 				ob_end_clean();
 			}
-			throw new Exception( esc_html__( $lastError["message"], ATKP_PLUGIN_PREFIX ), esc_html__( $lastError["type"], ATKP_PLUGIN_PREFIX ) );
+			throw new Exception( esc_html__( $lastError["message"], ATKP_PLUGIN_PREFIX ), esc_html__( $lastError["type"], 'affiliate-toolkit-starter' ) );
 		}
 
 		return ob_get_clean();
@@ -594,7 +594,7 @@ class BladeOne {    //<editor-fold desc="fields">
 	 */
 	protected function compileExtensions( $value ) {
 		foreach ( $this->extensions as $compiler ) {
-			echo esc_html__( "<hr><hr>extensions $compiler<hr><hr>", ATKP_PLUGIN_PREFIX );
+			echo esc_html__( "<hr><hr>extensions $compiler<hr><hr>", 'affiliate-toolkit-starter' );
 			$value = call_user_func( $compiler, $value, $this );
 		}
 
@@ -1656,7 +1656,7 @@ class BladeOne {    //<editor-fold desc="fields">
 		if ( $name == 'if' ) {
 			return $this->_if( @$args[0], @$args[1] );
 		}
-		throw new Exception( esc_html__( "function $name is not defined<br>", ATKP_PLUGIN_PREFIX ) );
+		throw new Exception( esc_html__( "function $name is not defined<br>", 'affiliate-toolkit-starter' ) );
 	}
 
 	/**
@@ -2616,7 +2616,7 @@ class BladeOne {    //<editor-fold desc="fields">
 		//	die( 1 );
 		//}
 		if ( ! atkp_options::$loader->get_hide_error_message() )
-			echo esc_html__( "BladeOne Error [{$id}]: $text", ATKP_PLUGIN_PREFIX );
+			echo esc_html__( "BladeOne Error [{$id}]: $text", 'affiliate-toolkit-starter' );
 
 		return '';
 	}

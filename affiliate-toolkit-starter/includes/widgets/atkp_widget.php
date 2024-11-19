@@ -12,10 +12,10 @@ class atkp_widget extends WP_Widget {
 			ATKP_WIDGET,
 
 			// Widget name will appear in UI
-			__( 'affiliate-toolkit widget', ATKP_PLUGIN_PREFIX ),
+			__( 'affiliate-toolkit widget', 'affiliate-toolkit-starter' ),
 
 			// Widget description
-			array( 'description' => __( 'Shows a product or a list.', ATKP_PLUGIN_PREFIX ), )
+			array( 'description' => __( 'Shows a product or a list.', 'affiliate-toolkit-starter' ), )
 		);
 
 
@@ -33,7 +33,7 @@ class atkp_widget extends WP_Widget {
                 if (value.loading) return value.text;
 
                 if (value.id == '')
-                    return "<?php echo esc_html__( 'no product', ATKP_PLUGIN_PREFIX ) ?>";
+                    return "<?php echo esc_html__( 'no product', 'affiliate-toolkit-starter' ) ?>";
 
                 var outputresult = '<table style="width:100%">';
                 outputresult += '<tr style="height:50px;">';
@@ -49,7 +49,7 @@ class atkp_widget extends WP_Widget {
                 if (value.loading) return value.text;
 
                 if (value.id == '')
-                    return "<?php echo esc_html__( 'no list', ATKP_PLUGIN_PREFIX ) ?>";
+                    return "<?php echo esc_html__( 'no list', 'affiliate-toolkit-starter' ) ?>";
 
                 var outputresult = '<table style="width:100%">';
                 outputresult += '<tr style="height:50px;">';
@@ -62,14 +62,14 @@ class atkp_widget extends WP_Widget {
 
             function formatRepoSelection(repo) {
                 if (repo.id == '')
-                    return "<?php echo esc_html__( 'no product', ATKP_PLUGIN_PREFIX ) ?>";
+                    return "<?php echo esc_html__( 'no product', 'affiliate-toolkit-starter' ) ?>";
                 else
                     return (repo.text || (repo.title) + ' (' + repo.id + ')');
             }
 
             function formatListSelection(repo) {
                 if (repo.id == '')
-                    return "<?php echo esc_html__( 'no list', ATKP_PLUGIN_PREFIX ) ?>";
+                    return "<?php echo esc_html__( 'no list', 'affiliate-toolkit-starter' ) ?>";
                 else
                     return (repo.text || (repo.title) + ' (' + repo.id + ')');
             }
@@ -94,8 +94,8 @@ class atkp_widget extends WP_Widget {
                             data: function (params) {
                                 return {
                                     action: "atkp_search_local_products",
-                                    type: "<?php echo esc_html__( ATKP_PRODUCT_POSTTYPE, ATKP_PLUGIN_PREFIX ); ?>",
-                                    request_nonce: "<?php echo esc_html__( $searchnounce, ATKP_PLUGIN_PREFIX ); ?>",
+                                    type: "<?php echo esc_html__( ATKP_PRODUCT_POSTTYPE, 'affiliate-toolkit-starter' ); ?>",
+                                    request_nonce: "<?php echo esc_html__( $searchnounce, 'affiliate-toolkit-starter' ); ?>",
                                     keyword: params.term
                                 };
                             },
@@ -119,7 +119,7 @@ class atkp_widget extends WP_Widget {
 
                                 var noselection = {
                                     id: "",
-                                    name: "<?php echo esc_html__( 'no product', ATKP_PLUGIN_PREFIX ) ?>"
+                                    name: "<?php echo esc_html__( 'no product', 'affiliate-toolkit-starter' ) ?>"
                                 };
 
                                 if (count == 0)
@@ -160,8 +160,8 @@ class atkp_widget extends WP_Widget {
                             data: function (params) {
                                 return {
                                     action: "atkp_search_local_products",
-                                    type: "<?php echo esc_html__( ATKP_LIST_POSTTYPE, ATKP_PLUGIN_PREFIX ); ?>",
-                                    request_nonce: "<?php echo esc_html__( $searchnounce, ATKP_PLUGIN_PREFIX ); ?>",
+                                    type: "<?php echo esc_html__( ATKP_LIST_POSTTYPE, 'affiliate-toolkit-starter' ); ?>",
+                                    request_nonce: "<?php echo esc_html__( $searchnounce, 'affiliate-toolkit-starter' ); ?>",
                                     keyword: params.term
                                 };
                             },
@@ -184,7 +184,7 @@ class atkp_widget extends WP_Widget {
 
                                 var noselection = {
                                     id: "",
-                                    name: "<?php echo esc_html__( 'no list', ATKP_PLUGIN_PREFIX ) ?>"
+                                    name: "<?php echo esc_html__( 'no list', 'affiliate-toolkit-starter' ) ?>"
                                 };
 
                                 if (count == 0)
@@ -355,7 +355,7 @@ class atkp_widget extends WP_Widget {
 		// Widget admin form
 		?>
         <p>
-            <label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php echo esc_html__( 'Title', ATKP_PLUGIN_PREFIX ); ?></label>:
+            <label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php echo esc_html__( 'Title', 'affiliate-toolkit-starter' ); ?></label>:
             <input class="widefat" id="<?php echo esc_attr($this->get_field_id( 'title' )); ?>"
                    name="<?php echo esc_attr($this->get_field_name( ATKP_WIDGET . '_title' )); ?>" type="text"
                    value="<?php echo isset( $instance[ ATKP_WIDGET . '_title' ] ) ? esc_attr( $instance[ ATKP_WIDGET . '_title' ] ) : ''; ?>"/>
@@ -367,12 +367,12 @@ class atkp_widget extends WP_Widget {
                    value="1" <?php echo checked( 1, isset( $instance[ ATKP_WIDGET . '_usemainproduct' ] ) ? $instance[ ATKP_WIDGET . '_usemainproduct' ] : false, true ); ?>>
 
             <label for="<?php echo esc_attr($this->get_field_id( ATKP_WIDGET . '_usemainproduct' )); ?>">
-	            <?php echo esc_html__( 'Use main product', ATKP_PLUGIN_PREFIX ) ?>
+	            <?php echo esc_html__( 'Use main product', 'affiliate-toolkit-starter' ) ?>
             </label>
         </p>
 
         <p>
-            <label for="<?php echo esc_attr( $this->get_field_id( ATKP_WIDGET . '_product' ) ); ?>"><?php echo esc_html__( 'Product', ATKP_PLUGIN_PREFIX ); ?>
+            <label for="<?php echo esc_attr( $this->get_field_id( ATKP_WIDGET . '_product' ) ); ?>"><?php echo esc_html__( 'Product', 'affiliate-toolkit-starter' ); ?>
                 :</label>
             <select style="width: 100%" class="widefat atkp-widget-select-product"
                     id="<?php echo esc_attr($this->get_field_id( ATKP_WIDGET . '_product' )); ?>"
@@ -383,7 +383,7 @@ class atkp_widget extends WP_Widget {
 
 				if ( $disable_select2 ) {
 
-					echo '<option value="">' . esc_html__( 'no product', ATKP_PLUGIN_PREFIX ) . '</option>';
+					echo '<option value="">' . esc_html__( 'no product', 'affiliate-toolkit-starter' ) . '</option>';
 
 					$args        = array(
 						'post_type'      => ATKP_PRODUCT_POSTTYPE,
@@ -399,18 +399,18 @@ class atkp_widget extends WP_Widget {
 							$sel = '';
 						}
 
-						echo '<option value="' . esc_attr( $prd->ID ) . '"' . esc_attr( $sel ) . '>' . esc_html__( $prd->post_title ) . ' (' . esc_html__( $prd->ID, ATKP_PLUGIN_PREFIX ) . ')' . '</option>';
+						echo '<option value="' . esc_attr( $prd->ID ) . '"' . esc_attr( $sel ) . '>' . esc_html__( $prd->post_title ) . ' (' . esc_html__( $prd->ID, 'affiliate-toolkit-starter' ) . ')' . '</option>';
 					};
 
 				} else {
 					if ( isset( $instance[ ATKP_WIDGET . '_product' ] ) && $instance[ ATKP_WIDGET . '_product' ] != '' ) {
 						$prd = get_post( $instance[ ATKP_WIDGET . '_product' ] );
 						if ( $prd != null ) {
-							echo '<option value="' . esc_attr( $prd->ID ) . '">' . esc_html__( $prd->post_title, ATKP_PLUGIN_PREFIX ) . ' (' . esc_html__( $prd->ID, ATKP_PLUGIN_PREFIX ) . ')' . '</option>';
+							echo '<option value="' . esc_attr( $prd->ID ) . '">' . esc_html__( $prd->post_title, 'affiliate-toolkit-starter' ) . ' (' . esc_html__( $prd->ID, 'affiliate-toolkit-starter' ) . ')' . '</option>';
 						}
 
 					} else {
-						echo '<option value="" >' . esc_html__( 'no product', ATKP_PLUGIN_PREFIX ) . '</option>';
+						echo '<option value="" >' . esc_html__( 'no product', 'affiliate-toolkit-starter' ) . '</option>';
 					}
 				}
 
@@ -419,7 +419,7 @@ class atkp_widget extends WP_Widget {
         </p>
 
         <p>
-            <label for="<?php echo esc_attr( $this->get_field_id( ATKP_WIDGET . '_list' ) ); ?>"><?php echo esc_html__( 'List', ATKP_PLUGIN_PREFIX ); ?>
+            <label for="<?php echo esc_attr( $this->get_field_id( ATKP_WIDGET . '_list' ) ); ?>"><?php echo esc_html__( 'List', 'affiliate-toolkit-starter' ); ?>
                 :</label>
             <select style="width: 100%" class="widefat atkp-widget-select-list" id="<?php echo esc_attr($this->get_field_id( ATKP_WIDGET . '_list' )); ?>"
                     name="<?php echo esc_attr($this->get_field_name( ATKP_WIDGET . '_list' )); ?>">
@@ -427,7 +427,7 @@ class atkp_widget extends WP_Widget {
 
 				if ( $disable_select2 ) {
 
-					echo '<option value="">' . esc_html__( 'no list', ATKP_PLUGIN_PREFIX ) . '</option>';
+					echo '<option value="">' . esc_html__( 'no list', 'affiliate-toolkit-starter' ) . '</option>';
 
 					$args        = array(
 						'post_type'      => ATKP_LIST_POSTTYPE,
@@ -443,7 +443,7 @@ class atkp_widget extends WP_Widget {
 							$sel = '';
 						}
 
-						echo '<option value="' . esc_attr( $prd->ID ) . '"' . esc_attr( $sel ) . '>' . esc_html__( $prd->post_title, ATKP_PLUGIN_PREFIX ) . ' (' . esc_html__( $prd->ID, ATKP_PLUGIN_PREFIX ) . ')' . '</option>';
+						echo '<option value="' . esc_attr( $prd->ID ) . '"' . esc_attr( $sel ) . '>' . esc_html__( $prd->post_title, 'affiliate-toolkit-starter' ) . ' (' . esc_html__( $prd->ID, 'affiliate-toolkit-starter' ) . ')' . '</option>';
 					};
 
 				} else {
@@ -451,11 +451,11 @@ class atkp_widget extends WP_Widget {
 					if ( isset( $instance[ ATKP_WIDGET . '_list' ] ) && $instance[ ATKP_WIDGET . '_list' ] != '' ) {
 						$prd = get_post( $instance[ ATKP_WIDGET . '_list' ] );
 						if ( $prd != null ) {
-							echo '<option value="' . esc_attr( $prd->ID ) . '">' . esc_html__( $prd->post_title, ATKP_PLUGIN_PREFIX ) . ' (' . esc_html__( $prd->ID, ATKP_PLUGIN_PREFIX ) . ')' . '</option>';
+							echo '<option value="' . esc_attr( $prd->ID ) . '">' . esc_html__( $prd->post_title, 'affiliate-toolkit-starter' ) . ' (' . esc_html__( $prd->ID, 'affiliate-toolkit-starter' ) . ')' . '</option>';
 						}
 
 					} else {
-						echo '<option value="">' . esc_html__( 'no list', ATKP_PLUGIN_PREFIX ) . '</option>';
+						echo '<option value="">' . esc_html__( 'no list', 'affiliate-toolkit-starter' ) . '</option>';
 					}
 
 				}
@@ -464,12 +464,12 @@ class atkp_widget extends WP_Widget {
             </select></p>
 
         <p>
-            <label for="<?php echo esc_attr( $this->get_field_id( ATKP_WIDGET . '_template' ) ); ?>"><?php echo esc_html__( 'Template', ATKP_PLUGIN_PREFIX ); ?>
+            <label for="<?php echo esc_attr( $this->get_field_id( ATKP_WIDGET . '_template' ) ); ?>"><?php echo esc_html__( 'Template', 'affiliate-toolkit-starter' ); ?>
                 :</label>
             <select class="widefat" id="<?php echo esc_attr($this->get_field_id( ATKP_WIDGET . '_template' )); ?>"
                     name="<?php echo esc_attr($this->get_field_name( ATKP_WIDGET . '_template' )); ?>">
 				<?php
-				echo '<option value="">' . esc_html__( 'default', ATKP_PLUGIN_PREFIX ) . '</option>';
+				echo '<option value="">' . esc_html__( 'default', 'affiliate-toolkit-starter' ) . '</option>';
 
 				$templates = atkp_template::get_list( true, false );
 
@@ -480,7 +480,7 @@ class atkp_widget extends WP_Widget {
 						$sel = '';
 					}
 
-					echo '<option value="' . esc_attr( $template ) . '" ' . esc_attr( $sel ) . '>' . esc_html__( htmlentities( $caption ), ATKP_PLUGIN_PREFIX ) . '</option>';
+					echo '<option value="' . esc_attr( $template ) . '" ' . esc_attr( $sel ) . '>' . esc_html__( htmlentities( $caption ), 'affiliate-toolkit-starter' ) . '</option>';
 				}
 
 				?>
@@ -488,7 +488,7 @@ class atkp_widget extends WP_Widget {
         </p>
 
         <p>
-            <label for="<?php echo esc_attr( $this->get_field_id( ATKP_WIDGET . '_containercssclass' ) ); ?>"><?php echo esc_html__( 'Container CSS Class', ATKP_PLUGIN_PREFIX ); ?>
+            <label for="<?php echo esc_attr( $this->get_field_id( ATKP_WIDGET . '_containercssclass' ) ); ?>"><?php echo esc_html__( 'Container CSS Class', 'affiliate-toolkit-starter' ); ?>
                 :</label>
             <input class="widefat" id="<?php echo esc_attr($this->get_field_id( ATKP_WIDGET . '_containercssclass' )); ?>"
                    name="<?php echo esc_attr($this->get_field_name( ATKP_WIDGET . '_containercssclass' )); ?>" type="text"
@@ -496,7 +496,7 @@ class atkp_widget extends WP_Widget {
         </p>
 
         <p>
-            <label for="<?php echo esc_attr( $this->get_field_id( ATKP_WIDGET . '_elementcssclass' ) ); ?>"><?php echo esc_html__( 'Element CSS Class', ATKP_PLUGIN_PREFIX ); ?>
+            <label for="<?php echo esc_attr( $this->get_field_id( ATKP_WIDGET . '_elementcssclass' ) ); ?>"><?php echo esc_html__( 'Element CSS Class', 'affiliate-toolkit-starter' ); ?>
                 :</label>
             <input class="widefat" id="<?php echo esc_attr($this->get_field_id( ATKP_WIDGET . '_elementcssclass' )); ?>"
                    name="<?php echo esc_attr($this->get_field_name( ATKP_WIDGET . '_elementcssclass' )); ?>" type="text"
@@ -504,7 +504,7 @@ class atkp_widget extends WP_Widget {
         </p>
 
         <p>
-            <label for="<?php echo esc_attr( $this->get_field_id( ATKP_WIDGET . '_limit' ) ); ?>"><?php echo esc_html__( 'Limit', ATKP_PLUGIN_PREFIX ); ?>
+            <label for="<?php echo esc_attr( $this->get_field_id( ATKP_WIDGET . '_limit' ) ); ?>"><?php echo esc_html__( 'Limit', 'affiliate-toolkit-starter' ); ?>
                 :</label>
             <input class="widefat" id="<?php echo esc_attr($this->get_field_id( ATKP_WIDGET . '_limit' )); ?>"
                    name="<?php echo esc_attr($this->get_field_name( ATKP_WIDGET . '_limit' )); ?>" type="number" min="1" max="10"
@@ -512,7 +512,7 @@ class atkp_widget extends WP_Widget {
         </p>
 
         <p>
-            <label for="<?php echo esc_attr( $this->get_field_id( ATKP_WIDGET . '_content' ) ); ?>"><?php echo esc_html__( 'Content', ATKP_PLUGIN_PREFIX ); ?>
+            <label for="<?php echo esc_attr( $this->get_field_id( ATKP_WIDGET . '_content' ) ); ?>"><?php echo esc_html__( 'Content', 'affiliate-toolkit-starter' ); ?>
                 :</label>
             <input class="widefat" id="<?php echo esc_attr($this->get_field_id( ATKP_WIDGET . '_content' )); ?>"
                    name="<?php echo esc_attr($this->get_field_name( ATKP_WIDGET . '_content' )); ?>" type="text"
@@ -525,7 +525,7 @@ class atkp_widget extends WP_Widget {
                    value="1" <?php echo checked( 1, isset( $instance[ ATKP_WIDGET . '_random' ] ) ? $instance[ ATKP_WIDGET . '_random' ] : false, true ); ?>>
 
             <label for="<?php echo esc_attr($this->get_field_id( ATKP_WIDGET . '_random' )); ?>">
-	            <?php echo esc_html__( 'Random list sorting', ATKP_PLUGIN_PREFIX ) ?>
+	            <?php echo esc_html__( 'Random list sorting', 'affiliate-toolkit-starter' ) ?>
             </label>
         </p>
 

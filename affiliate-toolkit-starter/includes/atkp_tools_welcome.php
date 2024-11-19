@@ -26,8 +26,8 @@ class atkp_tools_welcome {
                              alt="affiliate-toolkit-logo">
                     </div>
                     <div class="block">
-                        <h1><?php echo esc_html__( 'Welcome to affiliate-toolkit', ATKP_PLUGIN_PREFIX ) ?></h1>
-                        <h6><?php echo esc_html__( 'Thank you for choosing affiliate-toolkit - the most powerful WordPress affiliate plugin.', ATKP_PLUGIN_PREFIX ) ?></h6>
+                        <h1><?php echo esc_html__( 'Welcome to affiliate-toolkit', 'affiliate-toolkit-starter' ) ?></h1>
+                        <h6><?php echo esc_html__( 'Thank you for choosing affiliate-toolkit - the most powerful WordPress affiliate plugin.', 'affiliate-toolkit-starter' ) ?></h6>
                     </div>
                     <div style="text-align:center">
 
@@ -38,81 +38,81 @@ class atkp_tools_welcome {
                                 allowfullscreen></iframe>
                     </div>
                     <div style="padding-top: 0;" class="block">
-                        <h6><?php echo esc_html__( 'This video describes the most minimal steps you need to', ATKP_PLUGIN_PREFIX ) . '<br/>' . esc_html__( 'take to set up a shop and import an affiliate product.', ATKP_PLUGIN_PREFIX); ?> </h6>
+                        <h6><?php echo esc_html__( 'This video describes the most minimal steps you need to', 'affiliate-toolkit-starter' ) . '<br/>' . esc_html__( 'take to set up a shop and import an affiliate product.', 'affiliate-toolkit-starter'); ?> </h6>
                         <div class="button-wrap atkp-welcome-clearfix">
                             <div class="left">
                                 <a href="<?php echo esc_url(admin_url( 'post-new.php?post_type=atkp_shop', ATKP_PLUGIN_FILE )) ?>"
                                    class="button button-primary">
-	                                <?php echo esc_html__( 'Create Your First Shop', ATKP_PLUGIN_PREFIX ) ?>                </a>
+	                                <?php echo esc_html__( 'Create Your First Shop', 'affiliate-toolkit-starter' ) ?>                </a>
                             </div>
                             <div class="right">
                                 <a href="<?php echo ( ATKPTools::is_lang_de() ? 'https://www.affiliate-toolkit.com/de/kb/' : 'https://www.affiliate-toolkit.com/kb/' ) . '?utm_medium=welcome-page&amp;utm_content=KnowledgeBase&amp;utm_source=WordPress&amp;utm_campaign=starterpass' ?>"
                                    class="button button-primary" target="_blank" rel="noopener noreferrer">
-	                                <?php echo esc_html__( 'Read the Knowledge Base', ATKP_PLUGIN_PREFIX ) ?>             </a>
+	                                <?php echo esc_html__( 'Read the Knowledge Base', 'affiliate-toolkit-starter' ) ?>             </a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="features">
                     <div class="block">
-                        <h1><?php echo esc_html__( 'affiliate-toolkit Features', ATKP_PLUGIN_PREFIX ) ?></h1>
-                        <h6><?php echo esc_html__( 'For beginners & professional affiliates: Boost your commissions with ', ATKP_PLUGIN_PREFIX ) . '<br/>' . esc_html__( 'attractive boxes and price comparisons!', ATKP_PLUGIN_PREFIX ) ?></h6>
+                        <h1><?php echo esc_html__( 'affiliate-toolkit Features', 'affiliate-toolkit-starter' ) ?></h1>
+                        <h6><?php echo esc_html__( 'For beginners & professional affiliates: Boost your commissions with ', 'affiliate-toolkit-starter' ) . '<br/>' . esc_html__( 'attractive boxes and price comparisons!', 'affiliate-toolkit-starter' ) ?></h6>
 
 
                         <div class="feature-list atkp-welcome-clearfix">
                             <div class="feature-block first">
                                 <img src="https://www.affiliate-toolkit.com/wp-content/uploads/2022/11/zentrale-produktdaten-150x150.png">
-                                <h5><?php echo esc_html__( 'Central management', ATKP_PLUGIN_PREFIX ) ?></h5>
+                                <h5><?php echo esc_html__( 'Central management', 'affiliate-toolkit-starter' ) ?></h5>
                                 <p><?php echo esc_html__( 'All product information is stored in one place in the WordPress backend. This information can be overwritten as you wish. You can also see which products were found in other stores through the price comparison. If you want to exchange the product later, do it at this place and not at every place where you have embedded it in the blog.', ATKP_PLUGIN_PREFIX ) ?>
                                 </p>
                             </div>
 
                             <div class="feature-block last">
                                 <img src="https://www.affiliate-toolkit.com/wp-content/uploads/2022/11/produktimport-150x150.png">
-                                <h5><?php echo esc_html__( 'Product imports via backend', ATKP_PLUGIN_PREFIX ) ?></h5>
-                                <p><?php echo esc_html__( 'You can search for EAN, keyword or ASIN directly from the WordPress backend. You will see the found products directly in the backend. Once you have found the product, click on "import" and the product is available for embedding in the blog.', ATKP_PLUGIN_PREFIX ) ?>
+                                <h5><?php echo esc_html__( 'Product imports via backend', 'affiliate-toolkit-starter' ) ?></h5>
+                                <p><?php echo esc_html__( 'You can search for EAN, keyword or ASIN directly from the WordPress backend. You will see the found products directly in the backend. Once you have found the product, click on "import" and the product is available for embedding in the blog.', 'affiliate-toolkit-starter' ) ?>
                                 </p>
                             </div>
 
                             <div class="feature-block first">
                                 <img src="https://www.affiliate-toolkit.com/wp-content/uploads/2022/11/productboxen-150x150.png">
-                                <h5><?php echo esc_html__( 'Product boxes', ATKP_PLUGIN_PREFIX ) ?></h5>
-                                <p><?php echo esc_html__( 'You can embed the product data directly as a text link, product box or listing in your WordPress website. These product boxes are already attractively designed "out of the box". However, you can customize these boxes as you like or even design your own box with HTML & CSS.', ATKP_PLUGIN_PREFIX ) ?>
+                                <h5><?php echo esc_html__( 'Product boxes', 'affiliate-toolkit-starter' ) ?></h5>
+                                <p><?php echo esc_html__( 'You can embed the product data directly as a text link, product box or listing in your WordPress website. These product boxes are already attractively designed "out of the box". However, you can customize these boxes as you like or even design your own box with HTML & CSS.', 'affiliate-toolkit-starter' ) ?>
                                 </p>
                             </div>
 
                             <div class="feature-block last">
                                 <img src="https://www.affiliate-toolkit.com/wp-content/uploads/2022/11/bestseller-150x150.png">
-                                <h5><?php echo esc_html__( 'Bestsellers, new releases and search lists', ATKP_PLUGIN_PREFIX ) ?></h5>
-                                <p><?php echo esc_html__( 'With bestseller lists, you can add a conversation-boosting element to your website. These lists convert especially well because people like to follow others. You can output 3, 10 or 20 entries. Searching is done either via BrowseNode or via a search term.', ATKP_PLUGIN_PREFIX ) ?>
+                                <h5><?php echo esc_html__( 'Bestsellers, new releases and search lists', 'affiliate-toolkit-starter' ) ?></h5>
+                                <p><?php echo esc_html__( 'With bestseller lists, you can add a conversation-boosting element to your website. These lists convert especially well because people like to follow others. You can output 3, 10 or 20 entries. Searching is done either via BrowseNode or via a search term.', 'affiliate-toolkit-starter' ) ?>
                                 </p>
                             </div>
 
                             <div class="feature-block first">
                                 <img src="https://www.affiliate-toolkit.com/wp-content/uploads/2022/11/woocommerce-150x150.png">
-                                <h5><?php echo esc_html__( 'Products in WooCommerce', ATKP_PLUGIN_PREFIX ) ?></h5>
-                                <p><?php echo esc_html__( 'With our WooCommerce support, you can import affiliate products into WooCommerce as external products. You can include product descriptions, product images and also the price comparison. This also allows you to use already prepared themes as WooCommerce affiliate store.', ATKP_PLUGIN_PREFIX ) ?>
+                                <h5><?php echo esc_html__( 'Products in WooCommerce', 'affiliate-toolkit-starter' ) ?></h5>
+                                <p><?php echo esc_html__( 'With our WooCommerce support, you can import affiliate products into WooCommerce as external products. You can include product descriptions, product images and also the price comparison. This also allows you to use already prepared themes as WooCommerce affiliate store.', 'affiliate-toolkit-starter' ) ?>
                                 </p>
                             </div>
 
                             <div class="feature-block last">
                                 <img src="https://www.affiliate-toolkit.com/wp-content/uploads/2022/11/woocommerce-150x150.png">
-                                <h5><?php echo esc_html__( 'Automatic feed updates', ATKP_PLUGIN_PREFIX ) ?></h5>
-                                <p><?php echo esc_html__( 'All product data, images and prices are updated regularly. You do not have to worry about anything.', ATKP_PLUGIN_PREFIX ) ?> </p>
+                                <h5><?php echo esc_html__( 'Automatic feed updates', 'affiliate-toolkit-starter' ) ?></h5>
+                                <p><?php echo esc_html__( 'All product data, images and prices are updated regularly. You do not have to worry about anything.', 'affiliate-toolkit-starter' ) ?> </p>
                             </div>
 
                             <div class="feature-block first">
                                 <img src="https://www.affiliate-toolkit.com/wp-content/uploads/2022/11/geotargeting-128x128.png">
-                                <h5><?php echo esc_html__( 'GeoIP Targeting', ATKP_PLUGIN_PREFIX ) ?></h5>
-                                <p><?php echo esc_html__( 'With this extension you can show your visitors a suitable offer per country. This works via GeoIP targeting.', ATKP_PLUGIN_PREFIX ) ?>
+                                <h5><?php echo esc_html__( 'GeoIP Targeting', 'affiliate-toolkit-starter' ) ?></h5>
+                                <p><?php echo esc_html__( 'With this extension you can show your visitors a suitable offer per country. This works via GeoIP targeting.', 'affiliate-toolkit-starter' ) ?>
                                 </p>
                             </div>
 
                             <div class="feature-block last">
                                 <img src="https://www.affiliate-toolkit.com/wp-content/uploads/2022/11/emailbenachrichtigung-128x128.png">
-                                <h5><?php echo esc_html__( 'Email notifications', ATKP_PLUGIN_PREFIX ) ?>
+                                <h5><?php echo esc_html__( 'Email notifications', 'affiliate-toolkit-starter' ) ?>
                                 </h5>
-                                <p><?php echo esc_html__( 'If a product is no longer available or an error occurs regarding a product, you will receive a report with the errors upon request.', ATKP_PLUGIN_PREFIX ) ?>
+                                <p><?php echo esc_html__( 'If a product is no longer available or an error occurs regarding a product, you will receive a report with the errors upon request.', 'affiliate-toolkit-starter' ) ?>
                                 </p>
                             </div>
                         </div>
@@ -120,14 +120,14 @@ class atkp_tools_welcome {
                         <div class="button-wrap">
                             <a href="https://www.affiliate-toolkit.com/#features?utm_medium=welcome-page&amp;utm_content=AllFeatures&amp;utm_source=WordPress&amp;utm_campaign=starterpass"
                                class="button atkp-primary atkp-welcome-green" rel="noopener noreferrer" target="_blank">
-	                            <?php echo esc_html__( 'See All Features', ATKP_PLUGIN_PREFIX ) ?>            </a>
+	                            <?php echo esc_html__( 'See All Features', 'affiliate-toolkit-starter' ) ?>            </a>
                         </div>
                     </div>
                 </div>
                 <div class="upgrade-cta upgrade">
                     <div class="block atkp-welcome-clearfix">
                         <div class="">
-                            <h2><?php esc_html__( 'Upgrade your package', ATKP_PLUGIN_PREFIX ) ?></h2>
+                            <h2><?php esc_html__( 'Upgrade your package', 'affiliate-toolkit-starter' ) ?></h2>
                             <ul>
                                 <li>
                                     <span class="dashicons dashicons-yes"></span> AWIN Feeds
@@ -200,17 +200,17 @@ class atkp_tools_welcome {
                         <div style="text-align:center;padding-top:10px">
                             <a href="https://www.affiliate-toolkit.com/pricing/?utm_medium=welcome-page&amp;utm_content=Upgrade+Now&amp;utm_source=WordPress&amp;utm_campaign=starterpass"
                                rel="noopener noreferrer" target="_blank" class="button atkp-primary atkp-welcome-green">
-	                            <?php echo esc_html__( 'Upgrade Now', ATKP_PLUGIN_PREFIX ) ?>            </a>
+	                            <?php echo esc_html__( 'Upgrade Now', 'affiliate-toolkit-starter' ) ?>            </a>
                         </div>
                     </div>
                 </div>
                 <div class="testimonials upgrade">
                     <div class="block">
-                        <h1><?php echo esc_html__( 'Testimonials', ATKP_PLUGIN_PREFIX ) ?></h1>
+                        <h1><?php echo esc_html__( 'Testimonials', 'affiliate-toolkit-starter' ) ?></h1>
 
                         <div class="testimonial-block atkp-welcome-clearfix">
                             <img src="https://www.affiliate-toolkit.com/wp-content/uploads/2021/11/Bild2.jpg">
-                            <p><?php echo esc_html__( 'Affiliate Toolkit is a powerful, comprehensive and flexible WordPress plugin that makes my daily work on my niche sites easier. Besides the "standard" features, Affiliate Toolkit also contains other helpful and valuable additional features that currently no other plugin offer. With the help of the Affiliate Toolkit, I have been able to demonstrably increase my earnings. In addition, I can now implement projects that were not possible before. In addition to the technical refinements, I especially appreciate the exceptionally good support that Christof offers customers here. He kindly helps with any problem and patiently answers even complex questions. All in all, the investment in the handy affiliate toolkit has been more than worth it!', ATKP_PLUGIN_PREFIX ) ?>
+                            <p><?php echo esc_html__( 'Affiliate Toolkit is a powerful, comprehensive and flexible WordPress plugin that makes my daily work on my niche sites easier. Besides the "standard" features, Affiliate Toolkit also contains other helpful and valuable additional features that currently no other plugin offer. With the help of the Affiliate Toolkit, I have been able to demonstrably increase my earnings. In addition, I can now implement projects that were not possible before. In addition to the technical refinements, I especially appreciate the exceptionally good support that Christof offers customers here. He kindly helps with any problem and patiently answers even complex questions. All in all, the investment in the handy affiliate toolkit has been more than worth it!', 'affiliate-toolkit-starter' ) ?>
                             </p>
                             <p>
                             </p>
@@ -219,7 +219,7 @@ class atkp_tools_welcome {
 
                         <div class="testimonial-block atkp-welcome-clearfix">
                             <img src="https://www.affiliate-toolkit.com/wp-content/uploads/2021/11/peerwandiger-selbstaendig-im-netz-1.jpg">
-                            <p><?php echo esc_html__( 'The Affiliate Toolkit plugin seriously surprised me. The first impression was slightly dry and it is missing some kind of introduction to the plugin. But in principle it is very easy to use it and offers many functions. The free version is also very helpful but just the paid version holds all the aces.', ATKP_PLUGIN_PREFIX ) ?>
+                            <p><?php echo esc_html__( 'The Affiliate Toolkit plugin seriously surprised me. The first impression was slightly dry and it is missing some kind of introduction to the plugin. But in principle it is very easy to use it and offers many functions. The free version is also very helpful but just the paid version holds all the aces.', 'affiliate-toolkit-starter' ) ?>
                             </p>
                             <p>
                             </p>

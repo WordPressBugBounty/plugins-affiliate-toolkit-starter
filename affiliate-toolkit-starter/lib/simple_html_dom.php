@@ -158,12 +158,12 @@ class simple_html_dom_node {
 	}
 
 	function dump( $show_attr = true, $depth = 0 ) {
-		echo esc_html__( str_repeat( "\t", $depth ) . $this->tag, ATKP_PLUGIN_PREFIX );
+		echo esc_html__( str_repeat( "\t", $depth ) . $this->tag, 'affiliate-toolkit-starter' );
 
 		if ( $show_attr && count( $this->attr ) > 0 ) {
 			echo '(';
 			foreach ( $this->attr as $k => $v ) {
-				echo esc_html__( "[$k]=>\"$v\", ", ATKP_PLUGIN_PREFIX );
+				echo esc_html__( "[$k]=>\"$v\", ", 'affiliate-toolkit-starter' );
 			}
 			echo ')';
 		}
@@ -222,7 +222,7 @@ class simple_html_dom_node {
 		$string .= "\n";
 
 		if ( $echo ) {
-			echo esc_html__( $string, ATKP_PLUGIN_PREFIX );
+			echo esc_html__( $string, 'affiliate-toolkit-starter' );
 
 			return;
 		} else {

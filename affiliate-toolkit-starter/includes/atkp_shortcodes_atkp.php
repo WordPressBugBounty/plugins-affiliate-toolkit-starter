@@ -8,7 +8,7 @@ class atkp_shortcodes_atkp {
 	 * Construct the plugin object
 	 */
 	public function __construct( $pluginbase ) {
-		add_shortcode( 'atkp', array( &$this, 'shortcode' ) );
+		add_shortcode( 'affiliate-toolkit-starter', array( &$this, 'shortcode' ) );
 	}
 
 

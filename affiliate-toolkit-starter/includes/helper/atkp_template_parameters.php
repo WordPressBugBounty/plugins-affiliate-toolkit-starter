@@ -330,7 +330,7 @@ class atkp_template_parameters {
 	}
 
 	public function get_productpage_title() {
-		return $this->get_option( 'productpage_title', __( 'View Product', ATKP_PLUGIN_PREFIX ) );
+		return $this->get_option( 'productpage_title', __( 'View Product', 'affiliate-toolkit-starter' ) );
 	}
 
 
@@ -432,7 +432,7 @@ class atkp_template_parameters {
 	}
 
 	public function get_moreoffers_title() {
-		return $this->get_option( 'moreoffers_title', __( 'Additional offers »', ATKP_PLUGIN_PREFIX ) );
+		return $this->get_option( 'moreoffers_title', __( 'Additional offers »', 'affiliate-toolkit-starter' ) );
 	}
 
 	public function get_moreoffers_template() {

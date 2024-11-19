@@ -37,9 +37,9 @@ class ATKPTools {
 		}
 
 		if ( ATKPTools::is_lang_de() ) {
-			return sprintf( __( 'Die Anzeige der Produkte wurde mit dem <a href="%s" %s target="_blank" title="Affiliate WordPress Plugin">affiliate-toolkit</a> <a href="https://servit.dev/?utm_medium=credits&utm_content=Footer+Link&utm_source=WordPress&utm_campaign=starterpass" target="_blank" title="WordPress Webentwicklung">WordPress Plugin</a> umgesetzt.', ATKP_PLUGIN_PREFIX ), esc_url( $url ), esc_attr( $rel ) );
+			return sprintf( __( 'Die Anzeige der Produkte wurde mit dem <a href="%s" %s target="_blank" title="Affiliate WordPress Plugin">affiliate-toolkit</a> <a href="https://servit.dev/?utm_medium=credits&utm_content=Footer+Link&utm_source=WordPress&utm_campaign=starterpass" target="_blank" title="WordPress Webentwicklung">WordPress Plugin</a> umgesetzt.', 'affiliate-toolkit-starter' ), esc_url( $url ), esc_attr( $rel ) );
 		} else {
-			return sprintf( __( 'The display of the products was implemented with the <a href="%s" %s target="_blank" title="Affiliate WordPress Plugin">affiliate-toolkit</a> plugin.', ATKP_PLUGIN_PREFIX ), esc_url( $url ), esc_attr( $rel ) );
+			return sprintf( __( 'The display of the products was implemented with the <a href="%s" %s target="_blank" title="Affiliate WordPress Plugin">affiliate-toolkit</a> plugin.', 'affiliate-toolkit-starter' ), esc_url( $url ), esc_attr( $rel ) );
 		}
 	}
 
@@ -80,11 +80,11 @@ class ATKPTools {
 			$atkp_queue->title = $title;
 		} else {
 			if ( $iswpcronjob ) {
-				$atkp_queue->title = __( 'WordPress Cronjob', ATKP_PLUGIN_PREFIX );
+				$atkp_queue->title = __( 'WordPress Cronjob', 'affiliate-toolkit-starter' );
 			} else if ( class_exists( 'WP_CLI' ) ) {
-				$atkp_queue->title = __( 'WordPress CLI Cronjob', ATKP_PLUGIN_PREFIX );
+				$atkp_queue->title = __( 'WordPress CLI Cronjob', 'affiliate-toolkit-starter' );
 			} else {
-				$atkp_queue->title = __( 'affiliate-toolkit Cronjob', ATKP_PLUGIN_PREFIX );
+				$atkp_queue->title = __( 'affiliate-toolkit Cronjob', 'affiliate-toolkit-starter' );
 			}
 		}
 
@@ -121,8 +121,9 @@ class ATKPTools {
 
 
 	public static function display_helptext( $text, $url = '', $urltitle = 'Read more' ) {
+		$link = '';
 		if ( $url != '' ) {
-			$text .= ' <a href="' . esc_url($url) . '" target="_blank">' . esc_html__( $urltitle, ATKP_PLUGIN_PREFIX ) . '</a>';
+			$link = ' <a href="' . esc_url($url) . '" target="_blank">' . esc_html__( $urltitle, 'affiliate-toolkit-starter' ) . '</a>';
 		}
 		$allowed_html = array(
 			'div' => array(
@@ -140,13 +141,14 @@ class ATKPTools {
 			)
 		);
 
-		echo wp_kses( __('<div class="atkp-helptext" style="margin: 5px;font-size: 11px;display:table;"><span class="dashicons dashicons-editor-help" style="color:#2271b1;display:table-cell;"></span><span style="vertical-align: middle;display:table-cell;padding-left:5px;">' . $text . '</span></div>', ATKP_PLUGIN_PREFIX ), $allowed_html );
+		echo wp_kses( '<div class="atkp-helptext" style="margin: 5px;font-size: 11px;display:table;"><span class="dashicons dashicons-editor-help" style="color:#2271b1;display:table-cell;"></span><span style="vertical-align: middle;display:table-cell;padding-left:5px;">' . __($text, 'affiliate-toolkit-starter' ).$link . '</span></div>', $allowed_html );
 	}
 
 
 	public static function display_warntext( $text, $url = '', $urltitle = 'Read more' ) {
+		$link = '';
 		if ( $url != '' ) {
-			$text .= ' <a href="' . $url . '" target="_blank">' . $urltitle . '</a>';
+			$link .= ' <a href="' . $url . '" target="_blank">' . $urltitle . '</a>';
 		}
 		$allowed_html = array(
 			'div' => array(
@@ -165,7 +167,7 @@ class ATKPTools {
 		);
 
 
-		echo wp_kses( __('<div class="atkp-helptext" style="margin: 5px;font-size: 11px;display:table;"><span class="dashicons dashicons-info" style="color:orangered;display:table-cell;"></span> <span style="vertical-align: middle;display:table-cell;padding-left:5px;">' . $text . '</span></div>', ATKP_PLUGIN_PREFIX ), $allowed_html );
+		echo wp_kses( '<div class="atkp-helptext" style="margin: 5px;font-size: 11px;display:table;"><span class="dashicons dashicons-info" style="color:orangered;display:table-cell;"></span> <span style="vertical-align: middle;display:table-cell;padding-left:5px;">' . __($text, 'affiliate-toolkit-starter' ).$link . '</span></div>', $allowed_html );
 	}
 
 
@@ -211,7 +213,7 @@ class ATKPTools {
 
 	public static function get_fieldgroups_by_productid( $postId ) {
 
-		$category       = get_option( ATKP_PLUGIN_PREFIX . '_product_category_taxonomy', strtolower( __( 'Productcategory', ATKP_PLUGIN_PREFIX ) ) );
+		$category       = get_option( ATKP_PLUGIN_PREFIX . '_product_category_taxonomy', strtolower( __( 'Productcategory', 'affiliate-toolkit-starter' ) ) );
 		$categoryvalues = array();
 
 		//$terms = get_the_terms( $postId, $category );
@@ -704,7 +706,7 @@ class ATKPTools {
 									$localdate = get_date_from_gmt( date( 'Y-m-d H:i:s', $time ), get_option( 'date_format' ) );
 
 									$text = '';
-									$text .= ' ' . sprintf( esc_html__( 'Cronjob\'s next execution: %s %s', ATKP_PLUGIN_PREFIX ), $localdate, $localtime );
+									$text .= ' ' . sprintf( esc_html__( 'Cronjob\'s next execution: %s %s', 'affiliate-toolkit-starter' ), $localdate, $localtime );
 									$text .= ' (' . self::time_since( time(), $time ) . ')';
 									$text .= ' Interval: ' . self::interval( isset( $data['interval'] ) ? $data['interval'] : null );
 
@@ -720,7 +722,7 @@ class ATKPTools {
 		}
 
 		if ( $output ) {
-			echo esc_html__( 'cronjob is not running! Click the "Save Changes" button.', ATKP_PLUGIN_PREFIX );
+			echo esc_html__( 'cronjob is not running! Click the "Save Changes" button.', 'affiliate-toolkit-starter' );
 		}
 
 		return false;
@@ -731,27 +733,27 @@ class ATKPTools {
 	}
 
 	public static function interval( $since ) {
-		__( '%s years', ATKP_PLUGIN_PREFIX );
-		__( '%s months', ATKP_PLUGIN_PREFIX );
-		__( '%s weeks', ATKP_PLUGIN_PREFIX );
-		__( '%s days', ATKP_PLUGIN_PREFIX );
-		__( '%s hours', ATKP_PLUGIN_PREFIX );
-		__( '%s minutes', ATKP_PLUGIN_PREFIX );
-		__( '%s seconds', ATKP_PLUGIN_PREFIX );
+		__( '%s years', 'affiliate-toolkit-starter' );
+		__( '%s months', 'affiliate-toolkit-starter' );
+		__( '%s weeks', 'affiliate-toolkit-starter' );
+		__( '%s days', 'affiliate-toolkit-starter' );
+		__( '%s hours', 'affiliate-toolkit-starter' );
+		__( '%s minutes', 'affiliate-toolkit-starter' );
+		__( '%s seconds', 'affiliate-toolkit-starter' );
 
 		// array of time period chunks
 		$chunks = array(
-			array( 60 * 60 * 24 * 365, _n_noop( '%s year', '%s years', ATKP_PLUGIN_PREFIX ) ),
-			array( 60 * 60 * 24 * 30, _n_noop( '%s month', '%s months', ATKP_PLUGIN_PREFIX ) ),
-			array( 60 * 60 * 24 * 7, _n_noop( '%s week', '%s weeks', ATKP_PLUGIN_PREFIX ) ),
-			array( 60 * 60 * 24, _n_noop( '%s day', '%s days', ATKP_PLUGIN_PREFIX ) ),
-			array( 60 * 60, _n_noop( '%s hour', '%s hours', ATKP_PLUGIN_PREFIX ) ),
-			array( 60, _n_noop( '%s minute', '%s minutes', ATKP_PLUGIN_PREFIX ) ),
-			array( 1, _n_noop( '%s second', '%s seconds', ATKP_PLUGIN_PREFIX ) ),
+			array( 60 * 60 * 24 * 365, _n_noop( '%s year', '%s years', 'affiliate-toolkit-starter' ) ),
+			array( 60 * 60 * 24 * 30, _n_noop( '%s month', '%s months', 'affiliate-toolkit-starter' ) ),
+			array( 60 * 60 * 24 * 7, _n_noop( '%s week', '%s weeks', 'affiliate-toolkit-starter' ) ),
+			array( 60 * 60 * 24, _n_noop( '%s day', '%s days', 'affiliate-toolkit-starter' ) ),
+			array( 60 * 60, _n_noop( '%s hour', '%s hours', 'affiliate-toolkit-starter' ) ),
+			array( 60, _n_noop( '%s minute', '%s minutes', 'affiliate-toolkit-starter' ) ),
+			array( 1, _n_noop( '%s second', '%s seconds', 'affiliate-toolkit-starter' ) ),
 		);
 
 		if ( $since <= 0 ) {
-			return __( 'now', ATKP_PLUGIN_PREFIX );
+			return __( 'now', 'affiliate-toolkit-starter' );
 		}
 
 		// we only want to output two chunks of time here, eg:
@@ -903,7 +905,7 @@ class ATKPTools {
 
 				if ( is_wp_error( $term ) ) {
 					$error_string = $term->get_error_message();
-					throw new Exception ( esc_html__( 'Term error (parent: ' . $parentid . '): ' . $error_string . ' - TaxonomyName: ' . $to_taxonomyname . " - Value: " . $cat->name, ATKP_PLUGIN_PREFIX ) );
+					throw new Exception ( esc_html__( 'Term error (parent: ' . $parentid . '): ' . $error_string . ' - TaxonomyName: ' . $to_taxonomyname . " - Value: " . $cat->name, 'affiliate-toolkit-starter' ) );
 				}
 
 				$termid = intval( $term['term_id'] );
@@ -1330,7 +1332,7 @@ class ATKPTools {
 				}
 				break;
 			default:
-				throw new exception( esc_html__( 'type unkown: ' . $type, ATKP_PLUGIN_PREFIX ) );
+				throw new exception( esc_html__( 'type unkown: ' . $type, 'affiliate-toolkit-starter' ) );
 		}
 	}
 

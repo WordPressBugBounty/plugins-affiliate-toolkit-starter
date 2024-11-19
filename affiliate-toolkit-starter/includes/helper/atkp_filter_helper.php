@@ -542,7 +542,7 @@ class atkp_filter_helper {
 		if ( $has_wp_filter_fields ) {
 			$wp_post_filter = get_posts( $args );
 			if ( count( $wp_post_filter ) == 0 ) {
-				return '<span class="atkp-noproducts">' . __( 'No products found for these search criteria.', ATKP_PLUGIN_PREFIX ) . '</span>';
+				return '<span class="atkp-noproducts">' . __( 'No products found for these search criteria.', 'affiliate-toolkit-starter' ) . '</span>';
 			}
 
 			$where[] = "posts.id in (" . implode( ',', $wp_post_filter ) . ")";
@@ -627,7 +627,7 @@ GROUP BY posts.id' : '' ) . '
 LIMIT $offset, $itemsPerPage", $params ) );
 
 		if ( $wpdb->last_error != '' ) {
-			return '<span class="atkp-noproducts">' . sprintf( __( 'Error occurred on search: %s', ATKP_PLUGIN_PREFIX ), $wpdb->last_error ) . '</span>';
+			return '<span class="atkp-noproducts">' . sprintf( __( 'Error occurred on search: %s', 'affiliate-toolkit-starter' ), $wpdb->last_error ) . '</span>';
 		}
 
 		foreach ( $results as $result ) {
@@ -644,7 +644,7 @@ LIMIT $offset, $itemsPerPage", $params ) );
 
 
 		if ( $productlist == null || count( $productlist ) == 0 ) {
-			return '<span class="atkp-noproducts">' . __( 'No products found for these search criteria.', ATKP_PLUGIN_PREFIX ) . '</span>';
+			return '<span class="atkp-noproducts">' . __( 'No products found for these search criteria.', 'affiliate-toolkit-starter' ) . '</span>';
 		} else {
 			return $productlist;
 		}

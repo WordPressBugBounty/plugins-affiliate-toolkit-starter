@@ -19,7 +19,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 	}
 
 	public function get_caption() {
-		return esc_html__( 'Amazon Product Advertising API', ATKP_PLUGIN_PREFIX );
+		return esc_html__( 'Amazon Product Advertising API', 'affiliate-toolkit-starter' );
 	}
 
 	public function get_default_logo($post_id) {
@@ -46,11 +46,11 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 	}
 
 	public function get_defaultbtn1_text() {
-		return esc_html__( 'Buy now at Amazon', ATKP_PLUGIN_PREFIX );
+		return esc_html__( 'Buy now at Amazon', 'affiliate-toolkit-starter' );
 	}
 
 	public function get_defaultbtn2_text() {
-		return esc_html__( 'Add to Amazon Cart', ATKP_PLUGIN_PREFIX );
+		return esc_html__( 'Add to Amazon Cart', 'affiliate-toolkit-starter' );
 	}
 
 	public function replace_trackingid( $shopId, $url, $trackingId ) {
@@ -69,7 +69,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 				$startpos = strrpos( $url, '?tag=' );
 
 				if ( ! $startpos ) {
-					throw new exception( esc_html__('trackingcode not found: ' . $url, ATKP_PLUGIN_PREFIX) );
+					throw new exception( esc_html__('trackingcode not found: ' . $url, 'affiliate-toolkit-starter') );
 				} else {
 					$startpos = $startpos + 5;
 				}
@@ -116,14 +116,14 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 			foreach ( $invalidPropertyList as $invalidProperty ) {
 				$txt .= $invalidProperty . PHP_EOL;
 			}
-			throw new Exception( esc_html__($txt, ATKP_PLUGIN_PREFIX) );
+			throw new Exception( esc_html__($txt, 'affiliate-toolkit-starter') );
 		}
 	}
 
 	private function validate_response_v5( $getItemsResponse ) {
 
 		if ( $getItemsResponse->getErrors() != null ) {
-			throw new Exception( esc_html__($getItemsResponse->getErrors()[0]->getCode() . ': ' . $getItemsResponse->getErrors()[0]->getMessage(), ATKP_PLUGIN_PREFIX) );
+			throw new Exception( esc_html__($getItemsResponse->getErrors()[0]->getCode() . ': ' . $getItemsResponse->getErrors()[0]->getMessage(), 'affiliate-toolkit-starter') );
 		}
 	}
 
@@ -134,7 +134,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 
 		//add subshop for amazon
 		$subshop         = new subshop();
-		$subshop->title  = esc_html__( 'Amazon', ATKP_PLUGIN_PREFIX );
+		$subshop->title  = esc_html__( 'Amazon', 'affiliate-toolkit-starter' );
 		$subshop->shopid = $post_id;
 
 		$website = ATKPTools::get_post_setting( $post_id, ATKP_SHOP_POSTTYPE . '_access_website' );
@@ -417,7 +417,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 
 		$subshop = new subshop();
 
-		$subshop->title = esc_html__( 'Amazon', ATKP_PLUGIN_PREFIX );
+		$subshop->title = esc_html__( 'Amazon', 'affiliate-toolkit-starter' );
 
 		switch ( $website ) {
             default:
@@ -456,8 +456,8 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
         <tr>
             <th scope="row">
                 <label for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_access_key') ?>">
-	                <?php echo esc_html__( 'Amazon Access Key ID', ATKP_PLUGIN_PREFIX ) ?> <span
-                            class="description"><?php echo esc_html__( '(required)', ATKP_PLUGIN_PREFIX ) ?></span>
+	                <?php echo esc_html__( 'Amazon Access Key ID', 'affiliate-toolkit-starter' ) ?> <span
+                            class="description"><?php echo esc_html__( '(required)', 'affiliate-toolkit-starter' ) ?></span>
                 </label>
             </th>
             <td>
@@ -466,14 +466,14 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
                 <label for="">
 
                 </label>
-	            <?php ATKPTools::display_helptext(esc_html__('You can find your API key in the Amazon Partnernet. In the Submenu "Tools > Product Advertising API > Manage Your Credentials".', ATKP_PLUGIN_PREFIX)) ?>
+	            <?php ATKPTools::display_helptext(esc_html__('You can find your API key in the Amazon Partnernet. In the Submenu "Tools > Product Advertising API > Manage Your Credentials".', 'affiliate-toolkit-starter')) ?>
             </td>
         </tr>
         <tr>
             <th scope="row">
                 <label for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_access_secret_key') ?>">
-	                <?php echo esc_html__( 'Amazon Secret Access Key', ATKP_PLUGIN_PREFIX ) ?> <span
-                            class="description"><?php echo esc_html__( '(required)', ATKP_PLUGIN_PREFIX ) ?></span>
+	                <?php echo esc_html__( 'Amazon Secret Access Key', 'affiliate-toolkit-starter' ) ?> <span
+                            class="description"><?php echo esc_html__( '(required)', 'affiliate-toolkit-starter' ) ?></span>
                 </label>
 
             </th>
@@ -487,8 +487,8 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
         <tr>
             <th scope="row">
                 <label for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_access_website') ?>">
-	                <?php echo esc_html__( 'Amazon Website', ATKP_PLUGIN_PREFIX ) ?> <span
-                            class="description"><?php echo esc_html__( '(required)', ATKP_PLUGIN_PREFIX ) ?></span>
+	                <?php echo esc_html__( 'Amazon Website', 'affiliate-toolkit-starter' ) ?> <span
+                            class="description"><?php echo esc_html__( '(required)', 'affiliate-toolkit-starter' ) ?></span>
                 </label>
             </th>
             <td>
@@ -497,24 +497,24 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 					//        public static $locations = array('de', 'com', 'co.uk', 'ca', 'fr', 'co.jp', 'it', 'cn', 'es', 'in', 'com.br');
 
 					$locations = array(
-						'de'    => esc_html__( 'Amazon Germany', ATKP_PLUGIN_PREFIX ),
-						'com'   => esc_html__( 'Amazon United States', ATKP_PLUGIN_PREFIX ),
-						'co.uk' => esc_html__( 'Amazon United Kingdom', ATKP_PLUGIN_PREFIX ),
-						'ca'    => esc_html__( 'Amazon Canada', ATKP_PLUGIN_PREFIX ),
-						'fr'    => esc_html__( 'Amazon France', ATKP_PLUGIN_PREFIX ),
-						'co.jp' => esc_html__( 'Amazon Japan', ATKP_PLUGIN_PREFIX ),
-						'it'    => esc_html__( 'Amazon Italy', ATKP_PLUGIN_PREFIX ),
+						'de'    => esc_html__( 'Amazon Germany', 'affiliate-toolkit-starter' ),
+						'com'   => esc_html__( 'Amazon United States', 'affiliate-toolkit-starter' ),
+						'co.uk' => esc_html__( 'Amazon United Kingdom', 'affiliate-toolkit-starter' ),
+						'ca'    => esc_html__( 'Amazon Canada', 'affiliate-toolkit-starter' ),
+						'fr'    => esc_html__( 'Amazon France', 'affiliate-toolkit-starter' ),
+						'co.jp' => esc_html__( 'Amazon Japan', 'affiliate-toolkit-starter' ),
+						'it'    => esc_html__( 'Amazon Italy', 'affiliate-toolkit-starter' ),
 
-						'es'     => esc_html__( 'Amazon Spain', ATKP_PLUGIN_PREFIX ),
-						'in'     => esc_html__( 'Amazon India', ATKP_PLUGIN_PREFIX ),
-						'com.br' => esc_html__( 'Amazon Brazil', ATKP_PLUGIN_PREFIX ),
-						'au'     => esc_html__( 'Amazon Australia', ATKP_PLUGIN_PREFIX ),
-						'com.mx' => esc_html__( 'Amazon Mexico', ATKP_PLUGIN_PREFIX ),
-						'com.tr' => esc_html__( 'Amazon Turkey', ATKP_PLUGIN_PREFIX ),
-						'com.be' => esc_html__( 'Amazon Belgium', ATKP_PLUGIN_PREFIX ),
-						'ae'     => esc_html__( 'Amazon United Arab Emirates', ATKP_PLUGIN_PREFIX ),
-						'nl'     => esc_html__( 'Amazon Netherlands', ATKP_PLUGIN_PREFIX ),
-						'pl'    => esc_html__( 'Amazon Poland', ATKP_PLUGIN_PREFIX ),
+						'es'     => esc_html__( 'Amazon Spain', 'affiliate-toolkit-starter' ),
+						'in'     => esc_html__( 'Amazon India', 'affiliate-toolkit-starter' ),
+						'com.br' => esc_html__( 'Amazon Brazil', 'affiliate-toolkit-starter' ),
+						'au'     => esc_html__( 'Amazon Australia', 'affiliate-toolkit-starter' ),
+						'com.mx' => esc_html__( 'Amazon Mexico', 'affiliate-toolkit-starter' ),
+						'com.tr' => esc_html__( 'Amazon Turkey', 'affiliate-toolkit-starter' ),
+						'com.be' => esc_html__( 'Amazon Belgium', 'affiliate-toolkit-starter' ),
+						'ae'     => esc_html__( 'Amazon United Arab Emirates', 'affiliate-toolkit-starter' ),
+						'nl'     => esc_html__( 'Amazon Netherlands', 'affiliate-toolkit-starter' ),
+						'pl'    => esc_html__( 'Amazon Poland', 'affiliate-toolkit-starter' ),
 					);
 					//'cn'     => esc_html__( 'Amazon China', ATKP_PLUGIN_PREFIX ),
 
@@ -526,7 +526,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 						}
 
 
-						echo '<option value="' . esc_attr( $value ) . '"' . esc_attr( $sel ) . '>' . esc_html__( $name, ATKP_PLUGIN_PREFIX ) . '</option>';
+						echo '<option value="' . esc_attr( $value ) . '"' . esc_attr( $sel ) . '>' . esc_html__( $name, 'affiliate-toolkit-starter' ) . '</option>';
 					} ?>
                 </select>
             </td>
@@ -534,8 +534,8 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
         <tr>
             <th scope="row">
                 <label for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_access_tracking_id') ?>">
-	                <?php echo esc_html__( 'Amazon Tracking ID', ATKP_PLUGIN_PREFIX ) ?> <span
-                            class="description"><?php echo esc_html__( '(required)', ATKP_PLUGIN_PREFIX ) ?></span>
+	                <?php echo esc_html__( 'Amazon Tracking ID', 'affiliate-toolkit-starter' ) ?> <span
+                            class="description"><?php echo esc_html__( '(required)', 'affiliate-toolkit-starter' ) ?></span>
                 </label>
             </th>
             <td>
@@ -547,7 +547,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
         <tr>
             <th scope="row">
                 <label for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_languages_of_preference') ?>">
-					<?php echo esc_html__( 'Languages Of Preference', ATKP_PLUGIN_PREFIX ) ?>
+					<?php echo esc_html__( 'Languages Of Preference', 'affiliate-toolkit-starter' ) ?>
                 </label>
 
             </th>
@@ -568,7 +568,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
             <tr>
                 <th scope="row">
                     <label for="">
-	                    <?php echo esc_html__( 'No API mode', ATKP_PLUGIN_PREFIX ) ?>
+	                    <?php echo esc_html__( 'No API mode', 'affiliate-toolkit-starter' ) ?>
                     </label>
                 </th>
                 <td>
@@ -578,15 +578,15 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 						<?php
 						$selected = ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_sitestripe' );
 
-						echo '<option value="1" ' . ( $selected == '' || $selected == 1 ? 'selected' : '' ) . ' >' . esc_html__( 'Disabled', ATKP_PLUGIN_PREFIX ) . '</option>';
+						echo '<option value="1" ' . ( $selected == '' || $selected == 1 ? 'selected' : '' ) . ' >' . esc_html__( 'Disabled', 'affiliate-toolkit-starter' ) . '</option>';
 
-						echo '<option value="2" ' . ( $selected == 2 ? 'selected' : '' ) . '>' . esc_html__( 'Always use', ATKP_PLUGIN_PREFIX ) . '</option>';
+						echo '<option value="2" ' . ( $selected == 2 ? 'selected' : '' ) . '>' . esc_html__( 'Always use', 'affiliate-toolkit-starter' ) . '</option>';
 
-						echo '<option value="3" ' . ( $selected == 3 ? 'selected' : '' ) . '>' . esc_html__( 'Use in case of error', ATKP_PLUGIN_PREFIX ) . '</option>';
+						echo '<option value="3" ' . ( $selected == 3 ? 'selected' : '' ) . '>' . esc_html__( 'Use in case of error', 'affiliate-toolkit-starter' ) . '</option>';
 						?>
 
                     </select>
-					<?php ATKPTools::display_helptext( esc_html__( 'NoAPI allows you to read the Title, Price and Image from the Amazon Widgets. You can use this option if you don\'t have API access or you receiving the "Too Many" exception. It\'s not a official Amazon functionality.', ATKP_PLUGIN_PREFIX ) ) ?>
+					<?php ATKPTools::display_helptext( esc_html__( 'NoAPI allows you to read the Title, Price and Image from the Amazon Widgets. You can use this option if you don\'t have API access or you receiving the "Too Many" exception. It\'s not a official Amazon functionality.', 'affiliate-toolkit-starter' ) ) ?>
 
                 </td>
             </tr>
@@ -600,9 +600,9 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
                            value="1" <?php echo checked( 1, ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_load_customer_reviews' ), true ); ?>>
                     <!-- ATKPTools::get_post_setting($post->ID, ATKP_SHOP_POSTTYPE.'_load_customer_reviews') -->
                     <label for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_load_customer_reviews') ?>">
-	                    <?php echo esc_html__( 'Scrape star ratings from website (not recommended)', ATKP_PLUGIN_PREFIX ) ?>
+	                    <?php echo esc_html__( 'Scrape star ratings from website (not recommended)', 'affiliate-toolkit-starter' ) ?>
                     </label>
-					<?php ATKPTools::display_helptext( esc_html__( 'This function is reading the star rating from the Amazon webpage. It is not allowed by Amazon and we don\'t recommend it.', ATKP_PLUGIN_PREFIX ) ) ?>
+					<?php ATKPTools::display_helptext( esc_html__( 'This function is reading the star rating from the Amazon webpage. It is not allowed by Amazon and we don\'t recommend it.', 'affiliate-toolkit-starter' ) ) ?>
                 </td>
             </tr>
 
@@ -611,7 +611,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
             <tr>
                 <th colspan="2">
                     <div class="atkp-success">
-	                    <?php echo esc_html__( 'Please activate the "affiliate-toolkit - Amazon No API Mode" extension.', ATKP_PLUGIN_PREFIX ) ?>
+	                    <?php echo esc_html__( 'Please activate the "affiliate-toolkit - Amazon No API Mode" extension.', 'affiliate-toolkit-starter' ) ?>
                     </div>
 
                     <style>
@@ -638,10 +638,10 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
             <tr>
                 <th colspan="2">
                     <div class="atkp-info">
-	                    <?php echo esc_html__( 'Please note: If you are using the official Amazon API everything is fine. If you have no access to the API (e.g. too many requests exception) you need to download our extension for this functionality.', ATKP_PLUGIN_PREFIX ) ?>
+	                    <?php echo esc_html__( 'Please note: If you are using the official Amazon API everything is fine. If you have no access to the API (e.g. too many requests exception) you need to download our extension for this functionality.', 'affiliate-toolkit-starter' ) ?>
                         <br/> <br/><a href="https://www.affiliate-toolkit.com/downloads/amazon-no-api-mode/"
                                       target="_blank"
-                                      class="button atkp-button"><?php echo esc_html__( 'Download extension now', ATKP_PLUGIN_PREFIX ) ?></a>
+                                      class="button atkp-button"><?php echo esc_html__( 'Download extension now', 'affiliate-toolkit-starter' ) ?></a>
                     </div>
 
                     <style>
@@ -668,28 +668,28 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
         <tr>
             <th scope="row">
                 <label for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_small_image_size') ?>">
-	                <?php echo esc_html__( 'Small image size', ATKP_PLUGIN_PREFIX ) ?>
+	                <?php echo esc_html__( 'Small image size', 'affiliate-toolkit-starter' ) ?>
                 </label>
             </th>
             <td>
                 <input type="number" min="0" max="1000" placeholder="75" id="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_small_image_size') ?>"
                        name="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_small_image_size') ?>"
-                       value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_amz_small_image_size' ) ); ?>"> <?php echo esc_html__( 'px', ATKP_PLUGIN_PREFIX ) ?>
-	            <?php ATKPTools::display_helptext(esc_html__('Amazon offers flexible image sizes. If you wan\'t to override the default size of 75px you can change it here. Changes for already imported products are visible after the cache update.', ATKP_PLUGIN_PREFIX)) ?>
+                       value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_amz_small_image_size' ) ); ?>"> <?php echo esc_html__( 'px', 'affiliate-toolkit-starter' ) ?>
+	            <?php ATKPTools::display_helptext(esc_html__('Amazon offers flexible image sizes. If you wan\'t to override the default size of 75px you can change it here. Changes for already imported products are visible after the cache update.', 'affiliate-toolkit-starter')) ?>
             </td>
         </tr>
 
         <tr>
             <th scope="row">
                 <label for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_medium_image_size') ?>">
-	                <?php echo esc_html__( 'Medium image size', ATKP_PLUGIN_PREFIX ) ?>
+	                <?php echo esc_html__( 'Medium image size', 'affiliate-toolkit-starter' ) ?>
                 </label>
             </th>
             <td>
                 <input type="number" min="0" max="1000" placeholder="160" id="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_medium_image_size') ?>"
                        name="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_medium_image_size') ?>"
-                       value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_amz_medium_image_size' ) ); ?>"> <?php echo esc_html__( 'px', ATKP_PLUGIN_PREFIX ) ?>
-	            <?php ATKPTools::display_helptext(esc_html__('Amazon offers flexible image sizes. If you wan\'t to override the default size of 160px you can change it here. Changes for already imported products are visible after the cache update.', ATKP_PLUGIN_PREFIX)) ?>
+                       value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_amz_medium_image_size' ) ); ?>"> <?php echo esc_html__( 'px', 'affiliate-toolkit-starter' ) ?>
+	            <?php ATKPTools::display_helptext(esc_html__('Amazon offers flexible image sizes. If you wan\'t to override the default size of 160px you can change it here. Changes for already imported products are visible after the cache update.', 'affiliate-toolkit-starter')) ?>
             </td>
         </tr>
 
@@ -698,7 +698,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
         <tr>
             <th scope="row">
                 <label for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_onlynew') ?>">
-	                <?php echo esc_html__( 'Product condition:', ATKP_PLUGIN_PREFIX ) ?>
+	                <?php echo esc_html__( 'Product condition:', 'affiliate-toolkit-starter' ) ?>
                 </label>
             </th>
             <td>
@@ -709,32 +709,32 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 					<?php
 					$selected = ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_onlynew' );
 
-					echo '<option value="" ' . ( $selected == '' || $selected == '0' ? 'selected' : '' ) . ' >' . esc_html__( 'Any', ATKP_PLUGIN_PREFIX ) . '</option>';
+					echo '<option value="" ' . ( $selected == '' || $selected == '0' ? 'selected' : '' ) . ' >' . esc_html__( 'Any', 'affiliate-toolkit-starter' ) . '</option>';
 
-					echo '<option value="1" ' . ( $selected == '1' ? 'selected' : '' ) . '>' . esc_html__( 'New', ATKP_PLUGIN_PREFIX ) . '</option>';
-					echo '<option value="2" ' . ( $selected == '2' ? 'selected' : '' ) . '>' . esc_html__( 'Used', ATKP_PLUGIN_PREFIX ) . '</option>';
-					echo '<option value="3" ' . ( $selected == '3' ? 'selected' : '' ) . '>' . esc_html__( 'Collectible', ATKP_PLUGIN_PREFIX ) . '</option>';
-					echo '<option value="4" ' . ( $selected == '4' ? 'selected' : '' ) . '>' . esc_html__( 'Refurbished', ATKP_PLUGIN_PREFIX ) . '</option>';
+					echo '<option value="1" ' . ( $selected == '1' ? 'selected' : '' ) . '>' . esc_html__( 'New', 'affiliate-toolkit-starter' ) . '</option>';
+					echo '<option value="2" ' . ( $selected == '2' ? 'selected' : '' ) . '>' . esc_html__( 'Used', 'affiliate-toolkit-starter' ) . '</option>';
+					echo '<option value="3" ' . ( $selected == '3' ? 'selected' : '' ) . '>' . esc_html__( 'Collectible', 'affiliate-toolkit-starter' ) . '</option>';
+					echo '<option value="4" ' . ( $selected == '4' ? 'selected' : '' ) . '>' . esc_html__( 'Refurbished', 'affiliate-toolkit-starter' ) . '</option>';
 
 
 					?>
 
                 </select>
-	            <?php ATKPTools::display_helptext(esc_html__('You can filter if you only wan\'t prices for special conditions of products. By default you receive all offers. If you only wan\'t to show "used" products on your website you can select a different option.', ATKP_PLUGIN_PREFIX)) ?>
+	            <?php ATKPTools::display_helptext(esc_html__('You can filter if you only wan\'t prices for special conditions of products. By default you receive all offers. If you only wan\'t to show "used" products on your website you can select a different option.', 'affiliate-toolkit-starter')) ?>
             </td>
         </tr>
 
         <tr>
             <th scope="row">
                 <label for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_seconds_wait') ?>">
-	                <?php echo esc_html__( 'Wait x seconds before sending the request', ATKP_PLUGIN_PREFIX ) ?>
+	                <?php echo esc_html__( 'Wait x seconds before sending the request', 'affiliate-toolkit-starter' ) ?>
                 </label>
             </th>
             <td>
                 <input type="number" min="0" max="20" id="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_seconds_wait') ?>" placeholder="1"
                        name="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_seconds_wait') ?>"
-                       value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_seconds_wait' ) ); ?>"/> <?php echo esc_html__( 'seconds', ATKP_PLUGIN_PREFIX ) ?>
-	            <?php ATKPTools::display_helptext(esc_html__('In normal cases you don\'t need to change to a higher limit. By default the API is waiting one second..', ATKP_PLUGIN_PREFIX)) ?>
+                       value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_seconds_wait' ) ); ?>"/> <?php echo esc_html__( 'seconds', 'affiliate-toolkit-starter' ) ?>
+	            <?php ATKPTools::display_helptext(esc_html__('In normal cases you don\'t need to change to a higher limit. By default the API is waiting one second..', 'affiliate-toolkit-starter')) ?>
             </td>
         </tr>
 
@@ -750,9 +750,9 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
                        value="1" <?php echo checked( 1, ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_load_variations' ), true ); ?>>
 
                 <label for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_load_variations') ?>">
-	                <?php echo esc_html__( 'Load variations for products', ATKP_PLUGIN_PREFIX ) ?>
+	                <?php echo esc_html__( 'Load variations for products', 'affiliate-toolkit-starter' ) ?>
                 </label>
-	            <?php ATKPTools::display_helptext(esc_html__('If you wan\'t to retrieve also other colors or variations for one product (e.g. Shirts) you can enable this option but this cost one extra request per product', ATKP_PLUGIN_PREFIX)) ?>
+	            <?php ATKPTools::display_helptext(esc_html__('If you wan\'t to retrieve also other colors or variations for one product (e.g. Shirts) you can enable this option but this cost one extra request per product', 'affiliate-toolkit-starter')) ?>
             </td>
         </tr>
 		<?php
@@ -978,7 +978,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 			if ( $searchType == 'product' ) {
 				$products = $this->search_sitestripeproduct( $keyword, $searchType, $pagination );
 			} else {
-				$products->message = esc_html__( 'Search and import not supported. You enabled "sitestripe mode" in your amazon shop.', ATKP_PLUGIN_PREFIX );
+				$products->message = esc_html__( 'Search and import not supported. You enabled "sitestripe mode" in your amazon shop.', 'affiliate-toolkit-starter' );
 			}
             return $products;
 		}
@@ -1049,7 +1049,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 		}
 
 		if ( ! empty( $check ) ) {
-			throw new Exception( esc_html__($check, ATKP_PLUGIN_PREFIX) );
+			throw new Exception( esc_html__($check, 'affiliate-toolkit-starter') );
 		}
 
 
@@ -1249,12 +1249,12 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 				$departments[ $data[0] ] = array(
 					'caption'    => $data[1],
 					'sortvalues' => array(
-						'AvgCustomerReviews' => esc_html__( 'Sorts results according to average customer reviews', ATKP_PLUGIN_PREFIX ),
-						'Featured'           => esc_html__( 'Sorts results with featured items having higher rank', ATKP_PLUGIN_PREFIX ),
-						'NewestArrivals'     => esc_html__( 'Sorts results with according to newest arrivals', ATKP_PLUGIN_PREFIX ),
-						'Price:HighToLow'    => esc_html__( 'Sorts results according to most expensive to least expensive', ATKP_PLUGIN_PREFIX ),
-						'Price:LowToHigh'    => esc_html__( 'Sorts results according to least expensive to most expensive', ATKP_PLUGIN_PREFIX ),
-						'Relevance'          => esc_html__( 'Sorts results with relevant items having higher rank', ATKP_PLUGIN_PREFIX ),
+						'AvgCustomerReviews' => esc_html__( 'Sorts results according to average customer reviews', 'affiliate-toolkit-starter' ),
+						'Featured'           => esc_html__( 'Sorts results with featured items having higher rank', 'affiliate-toolkit-starter' ),
+						'NewestArrivals'     => esc_html__( 'Sorts results with according to newest arrivals', 'affiliate-toolkit-starter' ),
+						'Price:HighToLow'    => esc_html__( 'Sorts results according to most expensive to least expensive', 'affiliate-toolkit-starter' ),
+						'Price:LowToHigh'    => esc_html__( 'Sorts results according to least expensive to most expensive', 'affiliate-toolkit-starter' ),
+						'Relevance'          => esc_html__( 'Sorts results with relevant items having higher rank', 'affiliate-toolkit-starter' ),
 					)
 				);
 
@@ -1337,31 +1337,31 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 
 	private function retrieve_filters_v5() {
 		$durations = array(
-			'' => esc_html__( 'Not selected', ATKP_PLUGIN_PREFIX ),
+			'' => esc_html__( 'Not selected', 'affiliate-toolkit-starter' ),
 
-			'Actor'                 => esc_html__( 'Actor', ATKP_PLUGIN_PREFIX ),
-			'Artist'                => esc_html__( 'Artist', ATKP_PLUGIN_PREFIX ),
-			'Author'                => esc_html__( 'Author', ATKP_PLUGIN_PREFIX ),
-			'Availability'          => esc_html__( 'Availability', ATKP_PLUGIN_PREFIX ),
-			'Brand'                 => esc_html__( 'Brand', ATKP_PLUGIN_PREFIX ),
-			'BrowseNode'            => esc_html__( 'BrowseNode', ATKP_PLUGIN_PREFIX ),
-			'Condition'             => esc_html__( 'Condition', ATKP_PLUGIN_PREFIX ),
-			'CurrencyOfPreference'  => esc_html__( 'Currency Of Preference', ATKP_PLUGIN_PREFIX ),
-			'DeliveryFlags'         => esc_html__( 'DeliveryFlags', ATKP_PLUGIN_PREFIX ),
-			'LanguagesOfPreference' => esc_html__( 'Languages Of Preference', ATKP_PLUGIN_PREFIX ),
-			'Marketplace'           => esc_html__( 'Marketplace', ATKP_PLUGIN_PREFIX ),
+			'Actor'                 => esc_html__( 'Actor', 'affiliate-toolkit-starter' ),
+			'Artist'                => esc_html__( 'Artist', 'affiliate-toolkit-starter' ),
+			'Author'                => esc_html__( 'Author', 'affiliate-toolkit-starter' ),
+			'Availability'          => esc_html__( 'Availability', 'affiliate-toolkit-starter' ),
+			'Brand'                 => esc_html__( 'Brand', 'affiliate-toolkit-starter' ),
+			'BrowseNode'            => esc_html__( 'BrowseNode', 'affiliate-toolkit-starter' ),
+			'Condition'             => esc_html__( 'Condition', 'affiliate-toolkit-starter' ),
+			'CurrencyOfPreference'  => esc_html__( 'Currency Of Preference', 'affiliate-toolkit-starter' ),
+			'DeliveryFlags'         => esc_html__( 'DeliveryFlags', 'affiliate-toolkit-starter' ),
+			'LanguagesOfPreference' => esc_html__( 'Languages Of Preference', 'affiliate-toolkit-starter' ),
+			'Marketplace'           => esc_html__( 'Marketplace', 'affiliate-toolkit-starter' ),
 
-			'MaximumPrice'     => esc_html__( 'Maximum price', ATKP_PLUGIN_PREFIX ),
-			'MinimumPrice'     => esc_html__( 'Minimum price', ATKP_PLUGIN_PREFIX ),
-			'MerchantId'       => esc_html__( 'Merchant Id', ATKP_PLUGIN_PREFIX ),
-			'MinReviewsRating' => esc_html__( 'Min Reviews Rating', ATKP_PLUGIN_PREFIX ),
-			'MinPercentageOff' => esc_html__( 'Min percentage off', ATKP_PLUGIN_PREFIX ),
+			'MaximumPrice'     => esc_html__( 'Maximum price', 'affiliate-toolkit-starter' ),
+			'MinimumPrice'     => esc_html__( 'Minimum price', 'affiliate-toolkit-starter' ),
+			'MerchantId'       => esc_html__( 'Merchant Id', 'affiliate-toolkit-starter' ),
+			'MinReviewsRating' => esc_html__( 'Min Reviews Rating', 'affiliate-toolkit-starter' ),
+			'MinPercentageOff' => esc_html__( 'Min percentage off', 'affiliate-toolkit-starter' ),
 
-			'Keywords'    => esc_html__( 'Keywords', ATKP_PLUGIN_PREFIX ),
-			'SearchIndex' => esc_html__( 'SearchIndex', ATKP_PLUGIN_PREFIX ),
-			'Sort'        => esc_html__( 'Sort', ATKP_PLUGIN_PREFIX ),
+			'Keywords'    => esc_html__( 'Keywords', 'affiliate-toolkit-starter' ),
+			'SearchIndex' => esc_html__( 'SearchIndex', 'affiliate-toolkit-starter' ),
+			'Sort'        => esc_html__( 'Sort', 'affiliate-toolkit-starter' ),
 
-			'Title' => esc_html__( 'Title', ATKP_PLUGIN_PREFIX ),
+			'Title' => esc_html__( 'Title', 'affiliate-toolkit-starter' ),
 		);
 
 		return $durations;
@@ -1465,9 +1465,9 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 					return $this->search_sitestripeproduct( $keyword, $searchType, $pagination );
 				}
 
-				echo esc_html__( 'Status code: ' . $statusCode, ATKP_PLUGIN_PREFIX );
-				echo esc_html__( '<pre>' . esc_url( $url ) . '</pre>', ATKP_PLUGIN_PREFIX );
-				echo esc_html__( '<pre>' . $page . '</pre>', ATKP_PLUGIN_PREFIX );
+				echo esc_html__( 'Status code: ' . $statusCode, 'affiliate-toolkit-starter' );
+				echo esc_html__( '<pre>' . esc_url( $url ) . '</pre>', 'affiliate-toolkit-starter' );
+				echo esc_html__( '<pre>' . $page . '</pre>', 'affiliate-toolkit-starter' );
 
 			}
 
@@ -1764,7 +1764,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 
 				break;
 			default:
-				throw new Exception( esc_html__( 'unknown id_type: ' . $id_type, ATKP_PLUGIN_PREFIX ) );
+				throw new Exception( esc_html__( 'unknown id_type: ' . $id_type, 'affiliate-toolkit-starter' ) );
 				break;
 		}
 

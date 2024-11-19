@@ -381,7 +381,7 @@ class atkp_options {
 	}
 
 	public function get_product_category_taxonomy() {
-		return $this->get_cachedoption( '_product_category_taxonomy', strtolower( __( 'productcategory', ATKP_PLUGIN_PREFIX ) ) );
+		return $this->get_cachedoption( '_product_category_taxonomy', strtolower( __( 'productcategory', 'affiliate-toolkit-starter' ) ) );
 	}
 
 	public function get_product_importimagemode() {
@@ -539,35 +539,35 @@ class atkp_options {
 
 
 	public function get_predicate1_text() {
-		return $this->get_cachedoption( '_predicate1_text', __( 'Winner', ATKP_PLUGIN_PREFIX ) );
+		return $this->get_cachedoption( '_predicate1_text', __( 'Winner', 'affiliate-toolkit-starter' ) );
 	}
 
 	public function get_predicate2_text() {
-		return $this->get_cachedoption( '_predicate2_text', __( 'Price Tip', ATKP_PLUGIN_PREFIX ) );
+		return $this->get_cachedoption( '_predicate2_text', __( 'Price Tip', 'affiliate-toolkit-starter' ) );
 	}
 
 	public function get_predicate3_text() {
-		return $this->get_cachedoption( '_predicate3_text', __( 'Custom', ATKP_PLUGIN_PREFIX ) );
+		return $this->get_cachedoption( '_predicate3_text', __( 'Custom', 'affiliate-toolkit-starter' ) );
 	}
 
 	public function get_test_score1_text() {
-		return $this->get_cachedoption( '_test_score1_text', __( 'Very good', ATKP_PLUGIN_PREFIX ) );
+		return $this->get_cachedoption( '_test_score1_text', __( 'Very good', 'affiliate-toolkit-starter' ) );
 	}
 
 	public function get_test_score2_text() {
-		return $this->get_cachedoption( '_test_score2_text', __( 'Good', ATKP_PLUGIN_PREFIX ) );
+		return $this->get_cachedoption( '_test_score2_text', __( 'Good', 'affiliate-toolkit-starter' ) );
 	}
 
 	public function get_test_score3_text() {
-		return $this->get_cachedoption( '_test_score3_text', __( 'Satisfying', ATKP_PLUGIN_PREFIX ) );
+		return $this->get_cachedoption( '_test_score3_text', __( 'Satisfying', 'affiliate-toolkit-starter' ) );
 	}
 
 	public function get_test_score4_text() {
-		return $this->get_cachedoption( '_test_score4_text', __( 'Enough', ATKP_PLUGIN_PREFIX ) );
+		return $this->get_cachedoption( '_test_score4_text', __( 'Enough', 'affiliate-toolkit-starter' ) );
 	}
 
 	public function get_test_score5_text() {
-		return $this->get_cachedoption( '_test_score5_text', __( 'Insufficient', ATKP_PLUGIN_PREFIX ) );
+		return $this->get_cachedoption( '_test_score5_text', __( 'Insufficient', 'affiliate-toolkit-starter' ) );
 	}
 
 	//endregion
@@ -593,11 +593,11 @@ class atkp_options {
 	}
 
 	public function get_disclaimer_text() {
-		return $this->get_cachedoption( '_disclaimer_text', stripslashes( __( 'Last updated on %refresh_date% at %refresh_time% - Image source: Amazon Affiliate Program. All statements without guarantee.', ATKP_PLUGIN_PREFIX ) ) );
+		return $this->get_cachedoption( '_disclaimer_text', stripslashes( __( 'Last updated on %refresh_date% at %refresh_time% - Image source: Amazon Affiliate Program. All statements without guarantee.', 'affiliate-toolkit-starter' ) ) );
 	}
 
 	public function get_priceinfo_text() {
-		return $this->get_cachedoption( '_priceinfo_text', stripslashes( __( 'Price incl. VAT., Excl. Shipping', ATKP_PLUGIN_PREFIX ) ) );
+		return $this->get_cachedoption( '_priceinfo_text', stripslashes( __( 'Price incl. VAT., Excl. Shipping', 'affiliate-toolkit-starter' ) ) );
 	}
 
 	public function get_add_to_cart() {
@@ -656,7 +656,7 @@ class atkp_options {
 	}
 
 	public function get_moreoffers_title() {
-		return $this->get_cachedoption( '_moreoffers_title', __( 'Additional offers »', ATKP_PLUGIN_PREFIX ) );
+		return $this->get_cachedoption( '_moreoffers_title', __( 'Additional offers »', 'affiliate-toolkit-starter' ) );
 	}
 
 	public function get_moreoffers_count() {
@@ -898,7 +898,7 @@ class atkp_options {
 	}
 
 	public function get_productpage_title() {
-		return $this->get_cachedoption( '_productpage_title', __( 'View Product', ATKP_PLUGIN_PREFIX ) );
+		return $this->get_cachedoption( '_productpage_title', __( 'View Product', 'affiliate-toolkit-starter' ) );
 	}
 
 	public function get_secbtn_image() {

@@ -67,7 +67,7 @@ class atkp_queueservices {
 
 
 				if ( count( $products ) == 0 || $has_temp_product ) {
-					$message = __( 'Products not found for search request. Open Queue History for details.', ATKP_PLUGIN_PREFIX );
+					$message = __( 'Products not found for search request. Open Queue History for details.', 'affiliate-toolkit-starter' );
 
 					ATKPTools::set_post_setting( $entry->post_id, ATKP_PRODUCT_POSTTYPE . '_message', $message );
 				} else {
@@ -81,7 +81,7 @@ class atkp_queueservices {
 					}
 
 					if ( $saleprice == 0 ) {
-						ATKPTools::set_post_setting( $entry->post_id, ATKP_PRODUCT_POSTTYPE . '_message', __( 'Product found but salesprice is empty', ATKP_PLUGIN_PREFIX ) );
+						ATKPTools::set_post_setting( $entry->post_id, ATKP_PRODUCT_POSTTYPE . '_message', __( 'Product found but salesprice is empty', 'affiliate-toolkit-starter' ) );
 					} else {
 						ATKPTools::set_post_setting( $entry->post_id, ATKP_PRODUCT_POSTTYPE . '_message', '' );
 					}
@@ -281,7 +281,7 @@ class atkp_queueservices {
 
 			$htmltable = '<div class="wrapper"><div class="table"><div class="row header">' . $tdhead . '</div>' . $trbody . '</div></div>';
 
-			$report_template = str_replace( '{atkp-report-title}', __( 'affiliate-toolkit Report', ATKP_PLUGIN_PREFIX ), $report_template );
+			$report_template = str_replace( '{atkp-report-title}', __( 'affiliate-toolkit Report', 'affiliate-toolkit-starter' ), $report_template );
 			$htmltable       = str_replace( '{atkp-report}', $htmltable, $report_template );
 
 			$recipient = ATKPSettings::$email_recipient;
@@ -301,7 +301,7 @@ class atkp_queueservices {
 				$filename = $dir . '/report.html';
 				file_put_contents( $filename, $htmltable );
 
-				wp_mail( $recipient, 'affiliate-toolkit Report for ' . get_bloginfo(), __( 'Attached you can find the report.', ATKP_PLUGIN_PREFIX ), $headers, $filename );
+				wp_mail( $recipient, 'affiliate-toolkit Report for ' . get_bloginfo(), __( 'Attached you can find the report.', 'affiliate-toolkit-starter' ), $headers, $filename );
 
 			};
 
@@ -904,7 +904,7 @@ class atkp_queueservices {
 		if ( class_exists( 'WP_CLI' ) ) {
 			WP_CLI::log( $message );
 		} else {
-			echo esc_html__( $message . '<br />' . PHP_EOL, ATKP_PLUGIN_PREFIX );
+			echo esc_html__( $message . '<br />' . PHP_EOL, 'affiliate-toolkit-starter' );
 		}
 
 		if ( ATKPLog::$logenabled ) {

@@ -59,15 +59,15 @@ class atkp_shop {
 	public $children;
 
 	public function get_addtocart() {
-		return sprintf( $this->addtocart == '' ? __( 'Buy now at %s', ATKP_PLUGIN_PREFIX ) : $this->addtocart, $this->get_title() );
+		return sprintf( $this->addtocart == '' ? __( 'Buy now at %s', 'affiliate-toolkit-starter' ) : $this->addtocart, $this->get_title() );
 	}
 
 	public function get_buyat() {
-		return sprintf( $this->buyat == '' ? __( 'Buy now at %s', ATKP_PLUGIN_PREFIX ) : $this->buyat, $this->get_title() );
+		return sprintf( $this->buyat == '' ? __( 'Buy now at %s', 'affiliate-toolkit-starter' ) : $this->buyat, $this->get_title() );
 	}
 
 	public function get_tooltip() {
-		return sprintf( $this->tooltip == '' ? __( 'Buy now at %s', ATKP_PLUGIN_PREFIX ) : $this->tooltip, $this->get_title() );
+		return sprintf( $this->tooltip == '' ? __( 'Buy now at %s', 'affiliate-toolkit-starter' ) : $this->tooltip, $this->get_title() );
 	}
 
 	public function get_title() {
@@ -191,10 +191,10 @@ class atkp_shop {
 		$shop = get_post( $child_id );
 
 		if ( ! isset( $shop ) || $shop == null ) {
-			throw new Exception( esc_html__( 'subshop not found: ' . $child_id, ATKP_PLUGIN_PREFIX ) );
+			throw new Exception( esc_html__( 'subshop not found: ' . $child_id, 'affiliate-toolkit-starter' ) );
 		}
 		if ( $shop->post_type != ATKP_SHOP_POSTTYPE ) {
-			throw new Exception( esc_html__( 'invalid shop post_type: ' . $shop->post_type . ', $child_id: ' . $child_id, ATKP_PLUGIN_PREFIX ) );
+			throw new Exception( esc_html__( 'invalid shop post_type: ' . $shop->post_type . ', $child_id: ' . $child_id, 'affiliate-toolkit-starter' ) );
 		}
 
 		$webservice = ATKPTools::get_post_setting( $parent_id, ATKP_SHOP_POSTTYPE . '_access_webservice' );

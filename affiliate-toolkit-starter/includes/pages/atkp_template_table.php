@@ -7,9 +7,9 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 class atkp_template_table extends WP_List_Table {
 	function __construct() {
 		parent::__construct( array(
-			'singular' => __( 'Template', ATKP_PLUGIN_PREFIX ),
+			'singular' => __( 'Template', 'affiliate-toolkit-starter' ),
 			//Singular label
-			'plural'   => __( 'Templates', ATKP_PLUGIN_PREFIX ),
+			'plural'   => __( 'Templates', 'affiliate-toolkit-starter' ),
 			//plural label, also this well be one of the table css class
 			'ajax'     => false
 			//We won't support Ajax for this table
@@ -21,14 +21,16 @@ class atkp_template_table extends WP_List_Table {
 		$current = ( ! empty( $_REQUEST['view'] ) ? $_REQUEST['view'] : 'custom' );
 
 		//Foo link
-		$foo_url         = add_query_arg( 'view', 'custom' );
+		$foo_url         = admin_url( 'admin.php?page=ATKP_viewtemplate' ); // add_query_arg( 'view', 'custom' );
+
+		$bar_url         = $foo_url.'&view=custom';
 		$class           = ( $current == 'custom' ? ' class="current"' : '' );
-		$views['custom'] = "<a href='{$foo_url}' {$class}>" . __( 'Custom template', ATKP_PLUGIN_PREFIX ) . "</a>";
+		$views['custom'] = "<a href='{$bar_url}' {$class}>" . __( 'Custom template', 'affiliate-toolkit-starter' ) . "</a>";
 
 		//Bar link
-		$bar_url         = add_query_arg( 'view', 'system' );
+		$bar_url         = $foo_url.'&view=system';
 		$class           = ( $current == 'system' ? ' class="current"' : '' );
-		$views['system'] = "<a href='{$bar_url}' {$class}>" . __( 'System template', ATKP_PLUGIN_PREFIX ) . "</a>";
+		$views['system'] = "<a href='{$bar_url}' {$class}>" . __( 'System template', 'affiliate-toolkit-starter' ) . "</a>";
 
 		return $views;
 	}
@@ -64,7 +66,7 @@ class atkp_template_table extends WP_List_Table {
 
 	/** Text displayed when no customer data is available */
 	public function no_items() {
-		esc_html__( 'No templates available.', ATKP_PLUGIN_PREFIX );
+		esc_html__( 'No templates available.', 'affiliate-toolkit-starter' );
 	}
 
 
@@ -173,10 +175,10 @@ class atkp_template_table extends WP_List_Table {
 			$title = sprintf( '<a href="post.php?post=%s&action=edit"><strong>%s</strong></a>', absint( $item['ID'] ), $item['post_title'] );
 
 			$actions = [
-				'edit'   => sprintf( __( '<a href="post.php?post=%s&action=edit">Edit</a>', ATKP_PLUGIN_PREFIX ), absint( $item['ID'] ) ),
-				'delete' => sprintf( __( '<a href="?page=%s&action=%s&templateid=%s&_wpnonce=%s">Delete</a>', ATKP_PLUGIN_PREFIX ), esc_attr( $_REQUEST['page'] ), 'delete', absint( $item['ID'] ), $delete_nonce ),
-				'clone'  => sprintf( __( '<a href="?page=%s&action=%s&templateid=%s&templatename=%s&_wpnonce=%s">Duplicate</a>', ATKP_PLUGIN_PREFIX ), esc_attr( $_REQUEST['page'] ), 'clone', absint( $item['ID'] ), urlencode( $item['post_title'] ), $delete_nonce ),
-				'export' => sprintf( __( '<a href="%s?action=atkp_export_template&templateid=%s&request_nonce=%s">Export</a>', ATKP_PLUGIN_PREFIX ), ATKPTools::get_endpointurl(), absint( $item['ID'] ), $naunce ),
+				'edit'   => sprintf( __( '<a href="post.php?post=%s&action=edit">Edit</a>', 'affiliate-toolkit-starter' ), absint( $item['ID'] ) ),
+				'delete' => sprintf( __( '<a href="?page=%s&action=%s&templateid=%s&_wpnonce=%s">Delete</a>', 'affiliate-toolkit-starter' ), esc_attr( $_REQUEST['page'] ), 'delete', absint( $item['ID'] ), $delete_nonce ),
+				'clone'  => sprintf( __( '<a href="?page=%s&action=%s&templateid=%s&templatename=%s&_wpnonce=%s">Duplicate</a>', 'affiliate-toolkit-starter' ), esc_attr( $_REQUEST['page'] ), 'clone', absint( $item['ID'] ), urlencode( $item['post_title'] ), $delete_nonce ),
+				'export' => sprintf( __( '<a href="%s?action=atkp_export_template&templateid=%s&request_nonce=%s">Export</a>', 'affiliate-toolkit-starter' ), ATKPTools::get_endpointurl(), absint( $item['ID'] ), $naunce ),
 			];
 
 		} else {
@@ -184,7 +186,7 @@ class atkp_template_table extends WP_List_Table {
 
 
 			$actions = [
-				'clone' => sprintf( __( '<a href="?page=%s&action=%s&templateid=%s&templatename=%s&_wpnonce=%s">Duplicate</a>', ATKP_PLUGIN_PREFIX ), esc_attr( $_REQUEST['page'] ), 'clone', ( $item['ID'] ), urlencode( $item['post_title'] ), $delete_nonce ),
+				'clone' => sprintf( __( '<a href="?page=%s&action=%s&templateid=%s&templatename=%s&_wpnonce=%s">Duplicate</a>', 'affiliate-toolkit-starter' ), esc_attr( $_REQUEST['page'] ), 'clone', ( $item['ID'] ), urlencode( $item['post_title'] ), $delete_nonce ),
 			];
 
 		}
@@ -201,16 +203,16 @@ class atkp_template_table extends WP_List_Table {
 	function get_columns() {
 		$columns = [
 
-			'name'          => __( 'Title', ATKP_PLUGIN_PREFIX ),
-			'Shortcode'     => __( 'Shortcode', ATKP_PLUGIN_PREFIX ),
-			'template_type' => __( 'Template Type', ATKP_PLUGIN_PREFIX ),
-			'post_date'     => __( 'Last modified', ATKP_PLUGIN_PREFIX ),
+			'name'          => __( 'Title', 'affiliate-toolkit-starter' ),
+			'Shortcode'     => __( 'Shortcode', 'affiliate-toolkit-starter' ),
+			'template_type' => __( 'Template Type', 'affiliate-toolkit-starter' ),
+			'post_date'     => __( 'Last modified', 'affiliate-toolkit-starter' ),
 		];//'cb'      => '<input type="checkbox" />',
 
 		$view = ( isset( $_REQUEST['view'] ) ? $_REQUEST['view'] : 'custom' );
 
 		if ( $view == 'system' ) {
-			$columns['template_preview'] = __( 'Preview', ATKP_PLUGIN_PREFIX );
+			$columns['template_preview'] = __( 'Preview', 'affiliate-toolkit-starter' );
 		}
 
 		return $columns;

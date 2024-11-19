@@ -3,7 +3,7 @@
  * Plugin Name: affiliate-toolkit
  * Plugin URI: https://www.affiliate-toolkit.com
  * Description: A plugin for smart affiliates. This plugin provides you an interface to the best affiliate platforms.
- * Version: 3.6.7
+ * Version: 3.6.8
  * Requires PHP:      7.4
  * Author: SERVIT Software Solutions
  * Author URI: https://servit.dev
@@ -28,45 +28,25 @@ require_once ATKP_PLUGIN_DIR . '/includes/atkp_autoloader.php';
 new atkp_autoloader();
 atkp_autoloader::$loader->register_classes();
 
-add_action( 'plugins_loaded', 'my_affiliate_toolkit_lang' );
+add_action( 'init', 'my_affiliate_toolkit_lang', 10 );
 function my_affiliate_toolkit_lang() {
-	//load_plugin_textdomain(ATKP_PLUGIN_PREFIX , false, dirname(plugin_basename(__FILE__)) .'/lang' );
+	load_plugin_textdomain( 'affiliate-toolkit-starter', false, dirname( plugin_basename( __FILE__ ) ) . '/lang');
+}
 
-	/** Set our unique textdomain string */
-	$textdomain = ATKP_PLUGIN_PREFIX;
-
-	/** The 'plugin_locale' filter is also used by default in load_plugin_textdomain() */
-	$locale = apply_filters( 'plugin_locale', get_locale(), $textdomain );
-
-	if ( ATKPTools::startsWith( $locale, 'de_' ) ) {
-		$locale = 'de_DE';
+function my_affiliate_toolkit_lang_dir_for_domain($path,$domain, $locale){
+	if($domain == 'affiliate-toolkit-starter') {
+		return ATKP_PLUGIN_DIR.'/lang/';
 	}
+	return $path;
+}
 
-	/** Set filter for WordPress languages directory */
-	$wp_lang_dir = WP_LANG_DIR . '/' . basename( dirname( __FILE__ ) ) . '/' . $textdomain . '-' . $locale . '.mo';
-	/** Translations: First, look in WordPress' "languages" folder = custom & update-secure! */
-	load_textdomain( $textdomain, $wp_lang_dir );
+add_filter('lang_dir_for_domain', 'my_affiliate_toolkit_lang_dir_for_domain', 10, 3);
 
-	/** Translations: Secondly, look in plugin's "lang" folder = default */
-	$lang_dir = dirname( plugin_basename( __FILE__ ) ) . '/lang/';
-	load_plugin_textdomain( $textdomain, false, $lang_dir );
 
+add_action( 'plugins_loaded', 'my_affiliate_toolkit_plugins_loaded' );
+function my_affiliate_toolkit_plugins_loaded() {
 	do_action( 'atkp_module_updater' );
 }
-
-function atkp_plugin_locale_callback( $locale, $domain ) {
-	if ( $domain != ATKP_PLUGIN_PREFIX ) {
-		return $locale;
-	}
-
-	if ( ATKPTools::startsWith( $locale, 'de_' ) ) {
-		$locale = 'de_DE';
-	}
-
-	return $locale;
-}
-
-add_filter( 'plugin_locale', 'atkp_plugin_locale_callback', 10, 2 );
 
 add_action( 'publish_to_trash', 'my_affiliate_toolkit_to_trash' );
 add_action( 'draft_to_trash', 'my_affiliate_toolkit_to_trash' );
@@ -123,19 +103,19 @@ function my_affiliate_toolkit_init() {
 		$atkp_settings = new atkp_settings( array() );
 
 		$tempsettings = array(
-			__( 'General settings', ATKP_PLUGIN_PREFIX )  => array(
+			__( 'General settings', 'affiliate-toolkit-starter' )  => array(
 				new atkp_settings_toolkit( array() ),
 				'toolkit_configuration_page'
 			),
-			__( 'Advanced settings', ATKP_PLUGIN_PREFIX ) => array(
+			__( 'Advanced settings', 'affiliate-toolkit-starter' ) => array(
 				new atkp_settings_advanced( array() ),
 				'advanced_configuration_page'
 			),
-			__( 'Display settings', ATKP_PLUGIN_PREFIX )  => array(
+			__( 'Display settings', 'affiliate-toolkit-starter' )  => array(
 				new atkp_settings_display( array() ),
 				'display_configuration_page'
 			),
-			__( 'Licenses', ATKP_PLUGIN_PREFIX )          => array(
+			__( 'Licenses', 'affiliate-toolkit-starter' )          => array(
 				new atkp_settings_license( array() ),
 				'license_configuration_page'
 			)
@@ -161,15 +141,15 @@ function my_affiliate_toolkit_init() {
 
 		$temptools = apply_filters( 'atkp_pages_tools', $temptools );
 
-		$temptools[ __( 'Shop replacement', ATKP_PLUGIN_PREFIX ) ] = array(
+		$temptools[ __( 'Shop replacement', 'affiliate-toolkit-starter' ) ] = array(
 			new atkp_tools_shopreplace( array() ),
 			'shopreplace_configuration_page'
 		);
-		$temptools[ __( 'Debug', ATKP_PLUGIN_PREFIX ) ]            = array(
+		$temptools[ __( 'Debug', 'affiliate-toolkit-starter' ) ]            = array(
 			new atkp_tools_debug( array() ),
 			'debug_configuration_page'
 		);
-		$temptools[ __( 'Welcome', ATKP_PLUGIN_PREFIX ) ] = array(
+		$temptools[ __( 'Welcome', 'affiliate-toolkit-starter' ) ] = array(
 			new atkp_tools_welcome( array() ),
 			'welcome_page'
 		);
@@ -272,8 +252,8 @@ function my_atkp_loaded() {
 
 function atkp_init_menu() {
 	add_menu_page(
-		__( 'affiliate-toolkit', ATKP_PLUGIN_PREFIX ),
-		__( 'affiliate-toolkit', ATKP_PLUGIN_PREFIX ),
+		__( 'affiliate-toolkit', 'affiliate-toolkit-starter' ),
+		__( 'affiliate-toolkit', 'affiliate-toolkit-starter' ),
 		'edit_posts',
 		ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin',
 		null,
@@ -295,7 +275,7 @@ function my_affiliate_toolkit_credits( $content ) {
 	if ( is_singular() && in_the_loop() && is_main_query() ) {
 		global $post;
 		if ( is_a( $post, 'WP_Post' ) ) {
-			if ( has_shortcode( $post->post_content, 'atkp' ) || has_shortcode( $post->post_content, 'atkp_list' ) || has_shortcode( $post->post_content, 'atkp_product' ) ) {
+			if ( has_shortcode( $post->post_content, 'affiliate-toolkit-starter' ) || has_shortcode( $post->post_content, 'atkp_list' ) || has_shortcode( $post->post_content, 'atkp_product' ) ) {
 				$content .= '<div class="atkp-credits">' . ATKPTools::get_credits_link() . '</div>';
 			}
 		}
@@ -526,7 +506,7 @@ function atkp_migration_admin_notice() {
 		return;
 	}
 
-	ATKPTools::show_notification( sprintf( __( '<span style="font-weight:bold">affiliate-toolkit:</span> You must migrate your products to newest version (v2 to v3). Please <a href="%s">click here</a> to migrate now. Please create a backup before you migrate.', ATKP_PLUGIN_PREFIX ), admin_url( 'admin.php?page=ATKP_affiliate_toolkit-tools&tab=debug_configuration_page' ) ), 'notice', 'warning' );
+	ATKPTools::show_notification( sprintf( __( '<span style="font-weight:bold">affiliate-toolkit:</span> You must migrate your products to newest version (v2 to v3). Please <a href="%s">click here</a> to migrate now. Please create a backup before you migrate.', 'affiliate-toolkit-starter' ), admin_url( 'admin.php?page=ATKP_affiliate_toolkit-tools&tab=debug_configuration_page' ) ), 'notice', 'warning' );
 
 
 }
@@ -546,7 +526,7 @@ function atkp_admin_display_settings() {
 		return;
 	}
 
-	ATKPTools::show_notification( sprintf( __( '<span style="font-weight:bold">affiliate-toolkit:</span> Please check your display settings. Please <a href="%s">click here</a> to go to your display settings page.', ATKP_PLUGIN_PREFIX ), admin_url( 'admin.php?page=ATKP_affiliate_toolkit-plugin&tab=display_configuration_page' ) ), 'notice', 'warning' );
+	ATKPTools::show_notification( sprintf( __( '<span style="font-weight:bold">affiliate-toolkit:</span> Please check your display settings. Please <a href="%s">click here</a> to go to your display settings page.', 'affiliate-toolkit-starter' ), admin_url( 'admin.php?page=ATKP_affiliate_toolkit-plugin&tab=display_configuration_page' ) ), 'notice', 'warning' );
 }
 
 function atkp_admin_license() {
@@ -557,7 +537,7 @@ function atkp_admin_license() {
 	}
 
 	if ( $status != null ) {
-		ATKPTools::show_notification( sprintf( __( '<span style="font-weight:bold">affiliate-toolkit: %s</span>', ATKP_PLUGIN_PREFIX ), $status ), 'notice', 'info' );
+		ATKPTools::show_notification( sprintf( __( '<span style="font-weight:bold">affiliate-toolkit: %s</span>', 'affiliate-toolkit-starter' ), $status ), 'notice', 'info' );
 	}
 }
 
@@ -568,16 +548,16 @@ function atkp_admin_discounts() {
 
 	$discounts = ATKP_StoreController::get_product_discounts();
 	if ( $discounts->active &&
-	     ( ( isset( $_GET['page'] ) && ATKPTools::startsWith( $_GET['page'], 'ATKP' ) ) || ( isset( $_GET['post_type'] ) && ATKPTools::startsWith( $_GET['post_type'], 'atkp' ) ) ) ) {
+	     ( ( isset( $_GET['page'] ) && ATKPTools::startsWith( $_GET['page'], 'ATKP' ) ) || ( isset( $_GET['post_type'] ) && ATKPTools::startsWith( $_GET['post_type'], 'affiliate-toolkit-starter' ) ) ) ) {
 		$aktion_bis = new DateTime( $discounts->aktion_bis );
 
-		ATKPTools::show_notification( sprintf( __( '<span style="font-weight:bold">affiliate-toolkit - %s:</span> <a target="_blank" href="%s">%s</a> (Ends on %s)', ATKP_PLUGIN_PREFIX ), $discounts->teaser, esc_attr( $discounts->link_url ), $discounts->link_text, $aktion_bis->format( get_option( 'date_format' ) . ' H:i:s' ) ), 'notice', 'info' );
+		ATKPTools::show_notification( sprintf( __( '<span style="font-weight:bold">affiliate-toolkit - %s:</span> <a target="_blank" href="%s">%s</a> (Ends on %s)', 'affiliate-toolkit-starter' ), $discounts->teaser, esc_attr( $discounts->link_url ), $discounts->link_text, $aktion_bis->format( get_option( 'date_format' ) . ' H:i:s' ) ), 'notice', 'info' );
 	}
 }
 
 function is_atkp_page() {
 	$is_atkp = false;
-	if ( isset( $_GET['post_type'] ) && substr( $_GET['post_type'], 0, 4 ) == 'atkp' ) {
+	if ( isset( $_GET['post_type'] ) && substr( $_GET['post_type'], 0, 4 ) == 'affiliate-toolkit-starter' ) {
 		$is_atkp = true;
 	}
 

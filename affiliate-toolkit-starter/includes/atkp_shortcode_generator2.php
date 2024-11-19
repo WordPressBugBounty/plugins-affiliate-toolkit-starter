@@ -86,7 +86,7 @@ class atkp_shortcode_generator2 {
         <div id="atkp-generator-wrap" style="display:none">
             <div id="atkp-generator">
                 <div id="atkp-generatorheader">
-                    <b><?php echo esc_html__( 'affiliate-toolkit Shortcodes', ATKP_PLUGIN_PREFIX ); ?></b>
+                    <b><?php echo esc_html__( 'affiliate-toolkit Shortcodes', 'affiliate-toolkit-starter' ); ?></b>
                 </div>
 				<?php
 
@@ -303,7 +303,7 @@ class atkp_shortcode_generator2 {
 		// Prepare args
 		$args = wp_parse_args( $args, array(
 			'target'    => $target,
-			'text'      => esc_html__( 'affiliate-toolkit Shortcodes', ATKP_PLUGIN_PREFIX ),
+			'text'      => esc_html__( 'affiliate-toolkit Shortcodes', 'affiliate-toolkit-starter' ),
 			'class'     => 'button',
 			'icon'      => esc_url(plugins_url( 'images/affiliate_toolkit_menu.png', ATKP_PLUGIN_FILE )),
 			'echo'      => true,
@@ -321,12 +321,12 @@ class atkp_shortcode_generator2 {
 		wp_register_style( 'magnific-popup', esc_url(plugins_url( 'css/magnific-popup.css', ATKP_PLUGIN_FILE )), false, '0.9.9', 'all' );
 		wp_register_script( 'magnific-popup', esc_url(plugins_url( 'js/magnific-popup.js', ATKP_PLUGIN_FILE )), array( 'jquery' ), '0.9.9', true );
 		wp_localize_script( 'magnific-popup', 'atkp_magnific_popup', array(
-			'close'   => esc_html__( 'Close (Esc)', ATKP_PLUGIN_PREFIX ),
-			'loading' => esc_html__( 'Loading...', ATKP_PLUGIN_PREFIX ),
-			'prev'    => esc_html__( 'Previous (Left arrow key)', ATKP_PLUGIN_PREFIX ),
-			'next'    => esc_html__( 'Next (Right arrow key)', ATKP_PLUGIN_PREFIX ),
-			'counter' => sprintf( esc_html__( '%s of %s', ATKP_PLUGIN_PREFIX ), '%curr%', '%total%' ),
-			'error'   => sprintf( esc_html__( 'Failed to load this link. %sOpen link%s.', ATKP_PLUGIN_PREFIX ), '<a href="%url%" target="_blank"><u>', '</u></a>' )
+			'close'   => esc_html__( 'Close (Esc)', 'affiliate-toolkit-starter' ),
+			'loading' => esc_html__( 'Loading...', 'affiliate-toolkit-starter' ),
+			'prev'    => esc_html__( 'Previous (Left arrow key)', 'affiliate-toolkit-starter' ),
+			'next'    => esc_html__( 'Next (Right arrow key)', 'affiliate-toolkit-starter' ),
+			'counter' => sprintf( esc_html__( '%s of %s', 'affiliate-toolkit-starter' ), '%curr%', '%total%' ),
+			'error'   => sprintf( esc_html__( 'Failed to load this link. %sOpen link%s.', 'affiliate-toolkit-starter' ), '<a href="%url%" target="_blank"><u>', '</u></a>' )
 		) );
 
 		wp_enqueue_style( 'magnific-popup' );
@@ -339,8 +339,8 @@ class atkp_shortcode_generator2 {
 			echo '<a href="javascript:void(0);" style="' . esc_attr($additional_shortcode_button) .
                 '" class="atkp-generator-button ' . esc_attr( $args['class'] ) . '" title="' . esc_attr__( $args['text'], ATKP_PLUGIN_PREFIX ) . 
                 '" data-target="' . esc_attr($args['target']) . '" data-mfp-src="#atkp-generator" data-shortcode="' . 
-                esc_html__( (string) $args['shortcode'], ATKP_PLUGIN_PREFIX ) . '">' . 
-                wp_kses( $args['icon'], array( 'img' => array( 'src' => array() ) ) ) . esc_html__( $args['text'], ATKP_PLUGIN_PREFIX ) . '</a>';
+                esc_html__( (string) $args['shortcode'], 'affiliate-toolkit-starter' ) . '">' .
+                wp_kses( $args['icon'], array( 'img' => array( 'src' => array() ) ) ) . esc_html__( $args['text'], 'affiliate-toolkit-starter' ) . '</a>';
 		} else {
 			return $button;
 		}
@@ -355,7 +355,7 @@ class atkp_shortcode_generator2 {
 
 			add_meta_box(
 				ATKP_PLUGIN_PREFIX . '_product_box',
-				esc_html__( 'affiliate-toolkit', ATKP_PLUGIN_PREFIX ),
+				esc_html__( 'affiliate-toolkit', 'affiliate-toolkit-starter' ),
 				array( &$this, 'product_detail_box_content' ),
 				$type,
 				'normal',
@@ -372,7 +372,7 @@ class atkp_shortcode_generator2 {
         <table class="form-table">
             <tr>
                 <th scope="row">
-                    <label for="<?php echo esc_attr( ATKP_PLUGIN_PREFIX . '_product' ) ?>"><?php echo esc_html__( 'Main product:', ATKP_PLUGIN_PREFIX ); ?></label>
+                    <label for="<?php echo esc_attr( ATKP_PLUGIN_PREFIX . '_product' ) ?>"><?php echo esc_html__( 'Main product:', 'affiliate-toolkit-starter' ); ?></label>
                 </th>
                 <td>
                     <select id="atkp-product-box-select" class="widefat atkp-product-box" data-id="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_product') ?>"
@@ -382,7 +382,7 @@ class atkp_shortcode_generator2 {
 						$val = ATKPTools::get_post_setting( $post->ID, ATKP_PLUGIN_PREFIX . '_product' );
 
 						if ( atkp_options::$loader->get_disableselect2_backend() ) {
-							echo '<option value="" ' . ( $val == '' ? 'selected' : '' ) . '>' . esc_html__( 'None', ATKP_PLUGIN_PREFIX ) . '</option>';
+							echo '<option value="" ' . ( $val == '' ? 'selected' : '' ) . '>' . esc_html__( 'None', 'affiliate-toolkit-starter' ) . '</option>';
 
 							global $post;
 							$args        = array(
@@ -393,18 +393,18 @@ class atkp_shortcode_generator2 {
 							$posts_array = get_posts( $args );
 
 							foreach ( $posts_array as $prd ) {
-								echo '<option value="' . esc_attr( $prd->ID ) . '"' . ( $val == $prd->ID ? 'selected' : '' ) . '>' . esc_html__( $prd->post_title, ATKP_PLUGIN_PREFIX ) . ' (' . esc_html( $prd->ID ) . ')' . '</option>';
+								echo '<option value="' . esc_attr( $prd->ID ) . '"' . ( $val == $prd->ID ? 'selected' : '' ) . '>' . esc_html__( $prd->post_title, 'affiliate-toolkit-starter' ) . ' (' . esc_html( $prd->ID ) . ')' . '</option>';
 							};
 
 						} else {
 							if ( $val != '' ) {
 								$prd = $val == '' ? null : get_post( $val );
 								if ( $prd != null ) {
-									echo '<option value="' . esc_attr( $prd->ID ) . '"' . ( $val == $prd->ID ? 'selected' : '' ) . '>' . esc_html__( $prd->post_title, ATKP_PLUGIN_PREFIX ) . ' (' . esc_html( $prd->ID ) . ')' . '</option>';
+									echo '<option value="' . esc_attr( $prd->ID ) . '"' . ( $val == $prd->ID ? 'selected' : '' ) . '>' . esc_html__( $prd->post_title, 'affiliate-toolkit-starter' ) . ' (' . esc_html( $prd->ID ) . ')' . '</option>';
 								}
 
 							} else {
-								echo '<option value="" ' . ( $val == '' ? 'selected' : '' ) . '>' . esc_html__( 'None', ATKP_PLUGIN_PREFIX ) . '</option>';
+								echo '<option value="" ' . ( $val == '' ? 'selected' : '' ) . '>' . esc_html__( 'None', 'affiliate-toolkit-starter' ) . '</option>';
 							}
 						}
 						?>
@@ -414,7 +414,7 @@ class atkp_shortcode_generator2 {
 
             <tr>
                 <th scope="row">
-                    <label for="<?php echo esc_attr( ATKP_PLUGIN_PREFIX . '_list' ) ?>"><?php echo esc_html__( 'Main list:', ATKP_PLUGIN_PREFIX ); ?></label>
+                    <label for="<?php echo esc_attr( ATKP_PLUGIN_PREFIX . '_list' ) ?>"><?php echo esc_html__( 'Main list:', 'affiliate-toolkit-starter' ); ?></label>
                 </th>
                 <td>
                     <select  id="atkp-list-box-select" class="widefat atkp-product-box" data-id="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_list') ?>"
@@ -424,7 +424,7 @@ class atkp_shortcode_generator2 {
 						$val = ATKPTools::get_post_setting( $post->ID, ATKP_PLUGIN_PREFIX . '_list' );
 
 						if ( atkp_options::$loader->get_disableselect2_backend() ) {
-							echo '<option value="" ' . ( $val == '' ? 'selected' : '' ) . '>' . esc_html__( 'None', ATKP_PLUGIN_PREFIX ) . '</option>';
+							echo '<option value="" ' . ( $val == '' ? 'selected' : '' ) . '>' . esc_html__( 'None', 'affiliate-toolkit-starter' ) . '</option>';
 
 							global $post;
 							$args        = array(
@@ -435,18 +435,18 @@ class atkp_shortcode_generator2 {
 							$posts_array = get_posts( $args );
 
 							foreach ( $posts_array as $prd ) {
-								echo '<option value="' . esc_attr( $prd->ID ) . '"' . ( $val == $prd->ID ? 'selected' : '' ) . '>' . esc_html__( $prd->post_title, ATKP_PLUGIN_PREFIX ) . ' (' . esc_html( $prd->ID ) . ')' . '</option>';
+								echo '<option value="' . esc_attr( $prd->ID ) . '"' . ( $val == $prd->ID ? 'selected' : '' ) . '>' . esc_html__( $prd->post_title, 'affiliate-toolkit-starter' ) . ' (' . esc_html( $prd->ID ) . ')' . '</option>';
 							};
 
 						} else {
 							if ( $val != '' ) {
 								$prd = get_post( $val );
 								if ( $prd != null ) {
-									echo '<option value="' . esc_attr( $prd->ID ) . '"' . ( $val == $prd->ID ? 'selected' : '' ) . '>' . esc_html__( $prd->post_title, ATKP_PLUGIN_PREFIX ) . ' (' . esc_html( $prd->ID ) . ')' . '</option>';
+									echo '<option value="' . esc_attr( $prd->ID ) . '"' . ( $val == $prd->ID ? 'selected' : '' ) . '>' . esc_html__( $prd->post_title, 'affiliate-toolkit-starter' ) . ' (' . esc_html( $prd->ID ) . ')' . '</option>';
 								}
 
 							} else {
-								echo '<option value="" ' . ( $val == '' ? 'selected' : '' ) . '>' . esc_html__( 'None', ATKP_PLUGIN_PREFIX ) . '</option>';
+								echo '<option value="" ' . ( $val == '' ? 'selected' : '' ) . '>' . esc_html__( 'None', 'affiliate-toolkit-starter' ) . '</option>';
 							}
 						}
 						?>
@@ -555,7 +555,7 @@ class atkp_shortcode_generator2 {
 		?>
 
         <div class="atkp-pages">
-            <h2 id="atkp-steptitle"><?php echo esc_html__( 'What would you like?', ATKP_PLUGIN_PREFIX ); ?></h2>
+            <h2 id="atkp-steptitle"><?php echo esc_html__( 'What would you like?', 'affiliate-toolkit-starter' ); ?></h2>
 
             <div id="atkp-firstpage">
 
@@ -568,7 +568,7 @@ class atkp_shortcode_generator2 {
                                     <i class="fa fa-search" aria-hidden="true"
                                        style="font-size:4em;text-align:center"></i>
                                     <span style="display:block;margin-top:10px">
-                                    <?php echo esc_html__( 'Search for already imported products and use it in your post.', ATKP_PLUGIN_PREFIX ); ?>
+                                    <?php echo esc_html__( 'Search for already imported products and use it in your post.', 'affiliate-toolkit-starter' ); ?>
                                     </span>
                                 </a>
                             </div>
@@ -580,7 +580,7 @@ class atkp_shortcode_generator2 {
                                     <i class="fa fa-download" aria-hidden="true"
                                        style="font-size:4em;text-align:center"></i>
                                     <span style="display:block;margin-top:10px">
-                                    <?php echo esc_html__( 'Import a new product and use this in your post.', ATKP_PLUGIN_PREFIX ); ?>
+                                    <?php echo esc_html__( 'Import a new product and use this in your post.', 'affiliate-toolkit-starter' ); ?>
                                     </span>
                                 </a>
                             </div>
@@ -594,7 +594,7 @@ class atkp_shortcode_generator2 {
                                     <i class="fa fa-list" aria-hidden="true"
                                        style="font-size:4em;text-align:center"></i>
                                     <span style="display:block;margin-top:10px">
-                                    <?php echo esc_html__( 'Search an already created list and use it in your post.', ATKP_PLUGIN_PREFIX ); ?>
+                                    <?php echo esc_html__( 'Search an already created list and use it in your post.', 'affiliate-toolkit-starter' ); ?>
                                     </span>
                                 </a>
                             </div>
@@ -606,7 +606,7 @@ class atkp_shortcode_generator2 {
                                     <i class="fa fa-plus-square-o" aria-hidden="true"
                                        style="font-size:4em;text-align:center"></i>
                                     <span style="display:block;margin-top:10px">
-                                    <?php echo esc_html__( 'Create a new list (manual, best seller, etc.) and use it in your post.', ATKP_PLUGIN_PREFIX ); ?>
+                                    <?php echo esc_html__( 'Create a new list (manual, best seller, etc.) and use it in your post.', 'affiliate-toolkit-starter' ); ?>
                                     </span>
                                 </a>
                             </div>
@@ -624,10 +624,10 @@ class atkp_shortcode_generator2 {
 
                 <div>
                     <div>
-                        <label for=""><?php echo esc_html__( 'Keyword:', ATKP_PLUGIN_PREFIX ) ?></label>
+                        <label for=""><?php echo esc_html__( 'Keyword:', 'affiliate-toolkit-starter' ) ?></label>
                         <input type="text" id="atkp_txt_prdsearch" name="atkp_txt_prdsearch" value="">
                         <input type="submit" class="button" id="atkp_btn_prdsearch"
-                               value="<?php echo esc_html__( 'Search', ATKP_PLUGIN_PREFIX ) ?>">
+                               value="<?php echo esc_html__( 'Search', 'affiliate-toolkit-starter' ) ?>">
                     </div>
 
                     <div id="atkp_prdloading" style="display: none;text-align:center">
@@ -642,7 +642,7 @@ class atkp_shortcode_generator2 {
                 </div>
 
                 <a onclick="atkp_previouspage()" href="javascript:void(0);" id="atkp-back"
-                   class="button atkp-nav"><?php echo esc_html__( 'Back', ATKP_PLUGIN_PREFIX ) ?></a>
+                   class="button atkp-nav"><?php echo esc_html__( 'Back', 'affiliate-toolkit-starter' ) ?></a>
 
             </div>
 
@@ -650,7 +650,7 @@ class atkp_shortcode_generator2 {
 
                 <div>
                     <div>
-                        <label for=""><?php echo esc_html__( 'Shop', ATKP_PLUGIN_PREFIX ) ?>:</label>
+                        <label for=""><?php echo esc_html__( 'Shop', 'affiliate-toolkit-starter' ) ?>:</label>
                         <select id="atkp_create_shopid" name="atkp_create_shopid" style="width:300px">
 							<?php
 
@@ -663,7 +663,7 @@ class atkp_shortcode_generator2 {
 									$sel = '';
 								}
 
-								echo '<option ' . ( $shp->type == atkp_shop_type::SUB_SHOPS ? 'disabled' : '' ) . ' value="' . esc_attr( $shp->id ) . '"' . esc_attr( $sel ) . ' > ' . esc_html__( $shp->title, ATKP_PLUGIN_PREFIX ) . '</option>';
+								echo '<option ' . ( $shp->type == atkp_shop_type::SUB_SHOPS ? 'disabled' : '' ) . ' value="' . esc_attr( $shp->id ) . '"' . esc_attr( $sel ) . ' > ' . esc_html__( $shp->title, 'affiliate-toolkit-starter' ) . '</option>';
 
 								foreach ( $shp->children as $child ) {
 									if ( $child->selected == true ) {
@@ -672,17 +672,17 @@ class atkp_shortcode_generator2 {
 										$sel = '';
 									}
 
-									echo '<option value="' . esc_attr( $child->id ) . '"' . esc_attr( $sel ) . ' >- ' . esc_html__( $child->title, ATKP_PLUGIN_PREFIX ) . '</option>';
+									echo '<option value="' . esc_attr( $child->id ) . '"' . esc_attr( $sel ) . ' >- ' . esc_html__( $child->title, 'affiliate-toolkit-starter' ) . '</option>';
 								}
 							}
 
 							?>
                         </select>&nbsp;
 
-                        <label for=""><?php echo esc_html__( 'Keyword:', ATKP_PLUGIN_PREFIX ) ?></label>
+                        <label for=""><?php echo esc_html__( 'Keyword:', 'affiliate-toolkit-starter' ) ?></label>
                         <input type="text" id="atkp_txt_createsearch" name="atkp_txt_createsearch" value="">
                         <input type="submit" class="button" id="atkp_btn_createsearch"
-                               value="<?php esc_attr_e( 'Search', ATKP_PLUGIN_PREFIX ) ?>">
+                               value="<?php esc_attr_e( 'Search', 'affiliate-toolkit-starter' ) ?>">
                     </div>
 
                     <div id="atkp_createloading" style="display: none;text-align:center">
@@ -697,7 +697,7 @@ class atkp_shortcode_generator2 {
                 </div>
 
                 <a onclick="atkp_previouspage()" href="javascript:void(0);" id="atkp-back"
-                   class="button atkp-nav"><?php echo esc_html__( 'Back', ATKP_PLUGIN_PREFIX ) ?></a>
+                   class="button atkp-nav"><?php echo esc_html__( 'Back', 'affiliate-toolkit-starter' ) ?></a>
             </div>
 
             <div id="atkp-createlist">
@@ -707,7 +707,7 @@ class atkp_shortcode_generator2 {
                         <table style="width:100%">
                             <tr>
                                 <td style="width:30%">
-                                    <label for=""><?php echo esc_html__( 'Name', ATKP_PLUGIN_PREFIX ) ?>:</label>
+                                    <label for=""><?php echo esc_html__( 'Name', 'affiliate-toolkit-starter' ) ?>:</label>
                                 </td>
                                 <td>
                                     <input type="text" id="atkp_txt_createlistname" name="atkp_txt_createlistname"
@@ -716,13 +716,13 @@ class atkp_shortcode_generator2 {
                             </tr>
                             <tr>
                                 <td>
-                                    <label for=""><?php echo esc_html__( 'Shop', ATKP_PLUGIN_PREFIX ) ?>:</label>
+                                    <label for=""><?php echo esc_html__( 'Shop', 'affiliate-toolkit-starter' ) ?>:</label>
                                 </td>
                                 <td>
                                     <select id="atkp_create_listshopid" name="atkp_create_listshopid"
                                             style="width:300px">
 										<?php
-										echo '<option value="" > ' . esc_attr( esc_html__( 'No shop', ATKP_PLUGIN_PREFIX ) ) . '</option>';
+										echo '<option value="" > ' . esc_attr( esc_html__( 'No shop', 'affiliate-toolkit-starter' ) ) . '</option>';
 
 
 										$shps = atkp_shop::get_list();
@@ -737,7 +737,7 @@ class atkp_shortcode_generator2 {
 											$datasources = $shp->provider == null ? '' : $shp->provider->get_supportedlistsources();
 
 											if ( $datasources != '' ) {
-												echo '<option ' . ( $shp->type == atkp_shop_type::SUB_SHOPS ? 'disabled' : '' ) . ' data-sources="' . esc_attr( $datasources ) . '" value="' . esc_attr( $shp->id ) . '"' . esc_attr( $sel ) . ' > ' . esc_html__( $shp->title, ATKP_PLUGIN_PREFIX ) . '</option>';
+												echo '<option ' . ( $shp->type == atkp_shop_type::SUB_SHOPS ? 'disabled' : '' ) . ' data-sources="' . esc_attr( $datasources ) . '" value="' . esc_attr( $shp->id ) . '"' . esc_attr( $sel ) . ' > ' . esc_html__( $shp->title, 'affiliate-toolkit-starter' ) . '</option>';
 
 												foreach ( $shp->children as $child ) {
 
@@ -747,7 +747,7 @@ class atkp_shortcode_generator2 {
 														$sel = '';
 													}
 
-													echo '<option data-sources="' . esc_attr( $datasources ) . '" value="' . esc_attr( $child->id ) . '"' . esc_attr( $sel ) . ' >- ' . esc_html__( $child->title, ATKP_PLUGIN_PREFIX ) . '</option>';
+													echo '<option data-sources="' . esc_attr( $datasources ) . '" value="' . esc_attr( $child->id ) . '"' . esc_attr( $sel ) . ' >- ' . esc_html__( $child->title, 'affiliate-toolkit-starter' ) . '</option>';
 
 												}
 
@@ -760,16 +760,16 @@ class atkp_shortcode_generator2 {
                             </tr>
                             <tr>
                                 <td>
-                                    <label for=""><?php echo esc_html__( 'Source', ATKP_PLUGIN_PREFIX ) ?>:</label>
+                                    <label for=""><?php echo esc_html__( 'Source', 'affiliate-toolkit-starter' ) ?>:</label>
                                 </td>
                                 <td>
                                     <select name="atkp_create_listsource" id="atkp_create_listsource">
 										<?php
 
 										$durations = array(
-											10 => esc_html__( 'Category - Best Seller', ATKP_PLUGIN_PREFIX ),
-											11 => esc_html__( 'Category - New Releases', ATKP_PLUGIN_PREFIX ),
-											20 => esc_html__( 'Search', ATKP_PLUGIN_PREFIX ),
+											10 => esc_html__( 'Category - Best Seller', 'affiliate-toolkit-starter' ),
+											11 => esc_html__( 'Category - New Releases', 'affiliate-toolkit-starter' ),
+											20 => esc_html__( 'Search', 'affiliate-toolkit-starter' ),
 											//30 => __('Extended Search', ATKP_PLUGIN_PREFIX),
 											//24 => __('Search - Order items by keywords. Rank is determined by the keywords in the product description.', ATKP_PLUGIN_PREFIX),
 											//25 => __('Search - Order items by customer reviews, from highest to lowest ranked..', ATKP_PLUGIN_PREFIX),
@@ -777,7 +777,7 @@ class atkp_shortcode_generator2 {
 										);
 
 										foreach ( $durations as $value => $name ) {
-											echo '<option value="' . esc_attr( $value ) . '">' . esc_html__( $name, ATKP_PLUGIN_PREFIX ) . '</option>';
+											echo '<option value="' . esc_attr( $value ) . '">' . esc_html__( $name, 'affiliate-toolkit-starter' ) . '</option>';
 										} ?>
                                     </select>
                                 </td>
@@ -785,7 +785,7 @@ class atkp_shortcode_generator2 {
                             <tr>
                                 <td>
                                     <label id="atkp_lbl_createlistsearchterm"
-                                           for=""><?php echo esc_html__( 'Keyword:', ATKP_PLUGIN_PREFIX ) ?></label>
+                                           for=""><?php echo esc_html__( 'Keyword:', 'affiliate-toolkit-starter' ) ?></label>
                                 </td>
                                 <td>
                                     <input type="text" id="atkp_txt_createlistsearchterm"
@@ -800,7 +800,7 @@ class atkp_shortcode_generator2 {
 
                             <tr>
                                 <td></td>
-                                <td><?php echo esc_html__( 'This is a generation setup. Further adjustments must still be made in the list editor.', ATKP_PLUGIN_PREFIX ); ?></td>
+                                <td><?php echo esc_html__( 'This is a generation setup. Further adjustments must still be made in the list editor.', 'affiliate-toolkit-starter' ); ?></td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -812,7 +812,7 @@ class atkp_shortcode_generator2 {
                                 <td>
                                     <a class="button" id="atkp_btn_createlist"
                                        onclick="atkp_createlist('searchtemplate', cnttype, '')"
-                                       href="javascript:void(0);"><?php echo esc_html__( 'Create list and use', ATKP_PLUGIN_PREFIX ) ?></a>
+                                       href="javascript:void(0);"><?php echo esc_html__( 'Create list and use', 'affiliate-toolkit-starter' ) ?></a>
                                 </td>
                             </tr>
                         </table>
@@ -821,7 +821,7 @@ class atkp_shortcode_generator2 {
                 <br/><br/>
 
                 <a onclick="atkp_previouspage()" href="javascript:void(0);" id="atkp-back"
-                   class="button atkp-nav"><?php echo esc_html__( 'Back', ATKP_PLUGIN_PREFIX ) ?></a>
+                   class="button atkp-nav"><?php echo esc_html__( 'Back', 'affiliate-toolkit-starter' ) ?></a>
             </div>
 
 
@@ -837,23 +837,23 @@ class atkp_shortcode_generator2 {
 
                 <fieldset class="atkp-group" id="atkp-group-template">
                     <legend><input type="radio" name="outputtype" value="template"
-                                   checked> <?php echo esc_html__( 'Template', ATKP_PLUGIN_PREFIX ); ?></legend>
+                                   checked> <?php echo esc_html__( 'Template', 'affiliate-toolkit-starter' ); ?></legend>
                     <table style="width:100%">
                         <tr>
                             <td style="width:30%">
-                                <label for="<?php echo esc_attr( ATKP_SHORTCODE . '_template' ) ?>"><?php echo esc_html__( 'Template', ATKP_PLUGIN_PREFIX ); ?>
+                                <label for="<?php echo esc_attr( ATKP_SHORTCODE . '_template' ) ?>"><?php echo esc_html__( 'Template', 'affiliate-toolkit-starter' ); ?>
                                     :</label>
                             </td>
                             <td>
                                 <select class="widefat" id="<?php echo esc_attr(ATKP_SHORTCODE . '_template') ?>"
                                         name="<?php echo esc_attr(ATKP_SHORTCODE . '_template') ?>">
 									<?php
-									echo '<option value="">' . esc_html__( 'default', ATKP_PLUGIN_PREFIX ) . '</option>';
+									echo '<option value="">' . esc_html__( 'default', 'affiliate-toolkit-starter' ) . '</option>';
 
 									$templates = atkp_template::get_list( true, false );
 
 									foreach ( $templates as $template => $caption ) {
-										echo '<option value="' . esc_attr( $template ) . '">' . esc_html__( htmlentities( $caption ), ATKP_PLUGIN_PREFIX ) . '</option>';
+										echo '<option value="' . esc_attr( $template ) . '">' . esc_html__( htmlentities( $caption ), 'affiliate-toolkit-starter' ) . '</option>';
 									}
 
 									?>
@@ -864,7 +864,7 @@ class atkp_shortcode_generator2 {
 
                         <tr>
                             <td>
-                                <label for="<?php echo esc_attr( ATKP_SHORTCODE . '_containercssclass' ) ?>"><?php echo esc_html__( 'Container CSS Class', ATKP_PLUGIN_PREFIX ); ?>
+                                <label for="<?php echo esc_attr( ATKP_SHORTCODE . '_containercssclass' ) ?>"><?php echo esc_html__( 'Container CSS Class', 'affiliate-toolkit-starter' ); ?>
                                     :</label>
                             </td>
                             <td>
@@ -875,7 +875,7 @@ class atkp_shortcode_generator2 {
 
                         <tr>
                             <td>
-                                <label for="<?php echo esc_attr( ATKP_SHORTCODE . '_elementcssclass' ) ?>"><?php echo esc_html__( 'Element CSS Class', ATKP_PLUGIN_PREFIX ); ?>
+                                <label for="<?php echo esc_attr( ATKP_SHORTCODE . '_elementcssclass' ) ?>"><?php echo esc_html__( 'Element CSS Class', 'affiliate-toolkit-starter' ); ?>
                                     :</label>
                             </td>
                             <td>
@@ -886,23 +886,23 @@ class atkp_shortcode_generator2 {
 
                         <tr>
                             <td>
-                                <label for="<?php echo esc_attr( ATKP_SHORTCODE . '_align' ) ?>"><?php echo esc_html__( 'Align', ATKP_PLUGIN_PREFIX ); ?>
+                                <label for="<?php echo esc_attr( ATKP_SHORTCODE . '_align' ) ?>"><?php echo esc_html__( 'Align', 'affiliate-toolkit-starter' ); ?>
                                     :</label>
                             </td>
                             <td>
                                 <select class="widefat" id="<?php echo esc_attr(ATKP_SHORTCODE . '_align') ?>"
                                         name="<?php echo esc_attr(ATKP_SHORTCODE . '_align') ?>">
-                                    <option value=""><?php echo esc_html__( 'no alignment', ATKP_PLUGIN_PREFIX ); ?></option>
-                                    <option value="atkp-left atkp-clearfix"><?php echo esc_html__( 'left', ATKP_PLUGIN_PREFIX ); ?></option>
-                                    <option value="atkp-center"><?php echo esc_html__( 'center', ATKP_PLUGIN_PREFIX ); ?></option>
-                                    <option value="atkp-right atkp-clearfix"><?php echo esc_html__( 'right', ATKP_PLUGIN_PREFIX ); ?></option>
+                                    <option value=""><?php echo esc_html__( 'no alignment', 'affiliate-toolkit-starter' ); ?></option>
+                                    <option value="atkp-left atkp-clearfix"><?php echo esc_html__( 'left', 'affiliate-toolkit-starter' ); ?></option>
+                                    <option value="atkp-center"><?php echo esc_html__( 'center', 'affiliate-toolkit-starter' ); ?></option>
+                                    <option value="atkp-right atkp-clearfix"><?php echo esc_html__( 'right', 'affiliate-toolkit-starter' ); ?></option>
                                 </select>
                             </td>
                         </tr>
 
                         <tr>
                             <td>
-                                <label for="<?php echo esc_attr( ATKP_SHORTCODE . '_content' ) ?>"><?php echo esc_html__( 'Content', ATKP_PLUGIN_PREFIX ); ?>
+                                <label for="<?php echo esc_attr( ATKP_SHORTCODE . '_content' ) ?>"><?php echo esc_html__( 'Content', 'affiliate-toolkit-starter' ); ?>
                                     :</label>
                             </td>
                             <td>
@@ -913,24 +913,24 @@ class atkp_shortcode_generator2 {
 
                         <tr>
                             <td>
-                                <label for="<?php echo esc_attr( ATKP_SHORTCODE . '_buttontype' ) ?>"><?php echo esc_html__( 'Button type', ATKP_PLUGIN_PREFIX ); ?>
+                                <label for="<?php echo esc_attr( ATKP_SHORTCODE . '_buttontype' ) ?>"><?php echo esc_html__( 'Button type', 'affiliate-toolkit-starter' ); ?>
                                     :</label>
                             </td>
                             <td>
                                 <select class="widefat" id="<?php echo esc_attr(ATKP_SHORTCODE . '_buttontype') ?>"
                                         name="<?php echo esc_attr(ATKP_SHORTCODE . '_buttontype') ?>">
 									<?php
-									echo '<option value="">' . esc_html__( 'default', ATKP_PLUGIN_PREFIX ) . '</option>';
-									echo '<option value="addtocart">' . esc_html__( 'add to cart', ATKP_PLUGIN_PREFIX ) . '</option>';
-									echo '<option value="link">' . esc_html__( 'link', ATKP_PLUGIN_PREFIX ) . '</option>';
-									echo '<option value="product">' . esc_html__( 'product page', ATKP_PLUGIN_PREFIX ) . '</option>';
+									echo '<option value="">' . esc_html__( 'default', 'affiliate-toolkit-starter' ) . '</option>';
+									echo '<option value="addtocart">' . esc_html__( 'add to cart', 'affiliate-toolkit-starter' ) . '</option>';
+									echo '<option value="link">' . esc_html__( 'link', 'affiliate-toolkit-starter' ) . '</option>';
+									echo '<option value="product">' . esc_html__( 'product page', 'affiliate-toolkit-starter' ) . '</option>';
 									?>
                                 </select>
                             </td>
                         </tr>
                         <tr class="atkp-onlylist">
                             <td>
-                                <label for="<?php echo esc_attr( ATKP_SHORTCODE . '_limit' ) ?>"><?php echo esc_html__( 'Limit', ATKP_PLUGIN_PREFIX ); ?>
+                                <label for="<?php echo esc_attr( ATKP_SHORTCODE . '_limit' ) ?>"><?php echo esc_html__( 'Limit', 'affiliate-toolkit-starter' ); ?>
                                     :</label>
                             </td>
                             <td>
@@ -947,7 +947,7 @@ class atkp_shortcode_generator2 {
                                 <input type="checkbox" id="<?php echo esc_attr(ATKP_SHORTCODE . '_random') ?>"
                                        name="<?php echo esc_attr(ATKP_SHORTCODE . '_random') ?>">
                                 <label for="<?php echo esc_attr(ATKP_SHORTCODE . '_random') ?>">
-	                                <?php echo esc_html__( 'Random sort', ATKP_PLUGIN_PREFIX ) ?>
+	                                <?php echo esc_html__( 'Random sort', 'affiliate-toolkit-starter' ) ?>
                                 </label>
                             </td>
                         </tr>
@@ -960,7 +960,7 @@ class atkp_shortcode_generator2 {
                                 <input type="checkbox" id="<?php echo esc_attr(ATKP_SHORTCODE . '_hidedisclaimer') ?>"
                                        name="<?php echo esc_attr(ATKP_SHORTCODE . '_hidedisclaimer') ?>">
                                 <label for="<?php echo esc_attr(ATKP_SHORTCODE . '_hidedisclaimer') ?>">
-	                                <?php echo esc_html__( 'Hide disclaimer', ATKP_PLUGIN_PREFIX ) ?>
+	                                <?php echo esc_html__( 'Hide disclaimer', 'affiliate-toolkit-starter' ) ?>
                                 </label>
                             </td>
                         </tr>
@@ -970,11 +970,11 @@ class atkp_shortcode_generator2 {
 
                 <fieldset class="atkp-group" id="atkp-group-field">
                     <legend><input type="radio" name="outputtype"
-                                   value="field"> <?php echo esc_html__( 'Field', ATKP_PLUGIN_PREFIX ); ?></legend>
+                                   value="field"> <?php echo esc_html__( 'Field', 'affiliate-toolkit-starter' ); ?></legend>
                     <table style="width:100%">
                         <tr>
                             <td style="width:30%">
-                                <label for="<?php echo esc_attr( ATKP_SHORTCODE . '_field' ) ?>"><?php echo esc_html__( 'Field', ATKP_PLUGIN_PREFIX ); ?>
+                                <label for="<?php echo esc_attr( ATKP_SHORTCODE . '_field' ) ?>"><?php echo esc_html__( 'Field', 'affiliate-toolkit-starter' ); ?>
                                     :</label>
 
                             </td>
@@ -991,7 +991,7 @@ class atkp_shortcode_generator2 {
 			                        ATKPSettings::$show_moreoffers = $bak;
 
 			                        foreach ( $placeholders as $placeholder => $caption ) {
-				                        echo '<option value="' . esc_attr( $placeholder ) . '">' . esc_html__( $caption, ATKP_PLUGIN_PREFIX ) . '</option>';
+				                        echo '<option value="' . esc_attr( $placeholder ) . '">' . esc_html__( $caption, 'affiliate-toolkit-starter' ) . '</option>';
 			                        };
 			                        ?>
                                 </select>
@@ -1007,7 +1007,7 @@ class atkp_shortcode_generator2 {
                                 <input type="checkbox" id="<?php echo esc_attr(ATKP_SHORTCODE . '_fieldlink') ?>"
                                        name="<?php echo esc_attr(ATKP_SHORTCODE . '_fieldlink') ?>">
                                 <label for="<?php echo esc_attr(ATKP_SHORTCODE . '_fieldlink') ?>">
-	                                <?php echo esc_html__( 'Hyperlink', ATKP_PLUGIN_PREFIX ) ?>
+	                                <?php echo esc_html__( 'Hyperlink', 'affiliate-toolkit-starter' ) ?>
                                 </label>
                             </td>
                         </tr>
@@ -1017,11 +1017,11 @@ class atkp_shortcode_generator2 {
 
                 <fieldset class="atkp-group" id="atkp-group-link">
                     <legend><input type="radio" name="outputtype"
-                                   value="link"> <?php echo esc_html__( 'Hyperlink', ATKP_PLUGIN_PREFIX ); ?></legend>
+                                   value="link"> <?php echo esc_html__( 'Hyperlink', 'affiliate-toolkit-starter' ); ?></legend>
                     <table style="width:100%">
                         <tr>
                             <td style="width:30%">
-                                <label for="<?php echo esc_attr( ATKP_SHORTCODE . '_contentlink' ) ?>"><?php echo esc_html__( 'Content', ATKP_PLUGIN_PREFIX ); ?>
+                                <label for="<?php echo esc_attr( ATKP_SHORTCODE . '_contentlink' ) ?>"><?php echo esc_html__( 'Content', 'affiliate-toolkit-starter' ); ?>
                                     :</label>
                             </td>
                             <td>
@@ -1034,12 +1034,12 @@ class atkp_shortcode_generator2 {
 
                 <fieldset class="atkp-group" style="display:none" id="atkp-group-compare">
                     <legend><input type="radio" name="outputtype"
-                                   value="compare"> <?php echo esc_html__( 'compare table', ATKP_PLUGIN_PREFIX ); ?>
+                                   value="compare"> <?php echo esc_html__( 'compare table', 'affiliate-toolkit-starter' ); ?>
                     </legend>
                     <table style="width:100%">
                         <tr>
                             <td style="width:30%">
-                                <label for=""><?php echo esc_html__( 'Compare values (multi select)', ATKP_PLUGIN_PREFIX ) ?>
+                                <label for=""><?php echo esc_html__( 'Compare values (multi select)', 'affiliate-toolkit-starter' ) ?>
                                     :</label>
                             </td>
                             <td>
@@ -1055,7 +1055,7 @@ class atkp_shortcode_generator2 {
 			                        ATKPSettings::$show_moreoffers = $bak;
 
 			                        foreach ( $placeholders as $placeholder => $caption ) {
-				                        echo '<option value="' . esc_attr( $placeholder ) . '">' . esc_html__( $caption, ATKP_PLUGIN_PREFIX ) . '</option>';
+				                        echo '<option value="' . esc_attr( $placeholder ) . '">' . esc_html__( $caption, 'affiliate-toolkit-starter' ) . '</option>';
 			                        };
 			                        ?>
                                 </select>
@@ -1071,7 +1071,7 @@ class atkp_shortcode_generator2 {
                                 <input type="checkbox" id="<?php echo esc_attr(ATKP_SHORTCODE . '_link') ?>"
                                        name="<?php echo esc_attr(ATKP_SHORTCODE . '_link') ?>">
                                 <label for="<?php echo esc_attr(ATKP_SHORTCODE . '_link') ?>">
-	                                <?php echo esc_html__( 'Horizontal scrollbars', ATKP_PLUGIN_PREFIX ) ?>
+	                                <?php echo esc_html__( 'Horizontal scrollbars', 'affiliate-toolkit-starter' ) ?>
                                 </label>
                             </td>
                         </tr>
@@ -1085,7 +1085,7 @@ class atkp_shortcode_generator2 {
                                 <input type="checkbox" id="<?php echo esc_attr(ATKP_SHORTCODE . '_link') ?>"
                                        name="<?php echo esc_attr(ATKP_SHORTCODE . '_link') ?>">
                                 <label for="<?php echo esc_attr(ATKP_SHORTCODE . '_link') ?>">
-	                                <?php echo esc_html__( 'Hide header', ATKP_PLUGIN_PREFIX ) ?>
+	                                <?php echo esc_html__( 'Hide header', 'affiliate-toolkit-starter' ) ?>
                                 </label>
                             </td>
                         </tr>
@@ -1097,7 +1097,7 @@ class atkp_shortcode_generator2 {
                                 <input type="checkbox" id="<?php echo esc_attr(ATKP_SHORTCODE . '_hidedisclaimer') ?>"
                                        name="<?php echo esc_attr(ATKP_SHORTCODE . '_hidedisclaimer') ?>">
                                 <label for="<?php echo esc_attr(ATKP_SHORTCODE . '_hidedisclaimer') ?>">
-	                                <?php echo esc_html__( 'Hide disclaimer', ATKP_PLUGIN_PREFIX ) ?>
+	                                <?php echo esc_html__( 'Hide disclaimer', 'affiliate-toolkit-starter' ) ?>
                                 </label>
                             </td>
                         </tr>
@@ -1108,7 +1108,7 @@ class atkp_shortcode_generator2 {
                 <table style="width:100%">
                     <tr>
                         <td style="width:40%">
-                            <label for=""><?php echo esc_html__( 'Override affiliate-id (amazon or ebay)', ATKP_PLUGIN_PREFIX ) ?>
+                            <label for=""><?php echo esc_html__( 'Override affiliate-id (amazon or ebay)', 'affiliate-toolkit-starter' ) ?>
                                 :</label>
                         </td>
                         <td>
@@ -1123,13 +1123,13 @@ class atkp_shortcode_generator2 {
 
                 <div class="atkp-nav" style="display:inline-block">
                     <a onclick="atkp_previouspage()" href="javascript:void(0);" id="atkp-back" class="button"
-                       style="float:left;margin-right:10px"><?php echo esc_html__( 'Back', ATKP_PLUGIN_PREFIX ) ?></a>
+                       style="float:left;margin-right:10px"><?php echo esc_html__( 'Back', 'affiliate-toolkit-starter' ) ?></a>
                     <a onclick="atkp_createshortcode('clipboard')" href="javascript:void(0);" id="atkp-generator-paste"
                        style="float:left;margin-right:10px" class="button"><i
-                                class="fa fa-refresh"></i>&nbsp;<?php echo esc_html__( 'Copy shortcode to clipboard', ATKP_PLUGIN_PREFIX ) ?>
+                                class="fa fa-refresh"></i>&nbsp;<?php echo esc_html__( 'Copy shortcode to clipboard', 'affiliate-toolkit-starter' ) ?>
                     </a>
                     <a onclick="atkp_createshortcode('insert')" href="javascript:void(0);" id='atkp-generator-insert'
-                       class="button button-primary" style="float:left;margin-right:10px"><i class="fa fa-check"></i>&nbsp;<?php echo esc_html__( 'Insert shortcode', ATKP_PLUGIN_PREFIX ) ?>
+                       class="button button-primary" style="float:left;margin-right:10px"><i class="fa fa-check"></i>&nbsp;<?php echo esc_html__( 'Insert shortcode', 'affiliate-toolkit-starter' ) ?>
                     </a>
                 </div>
             </div>
@@ -1143,7 +1143,7 @@ class atkp_shortcode_generator2 {
                 if (value.loading) return value.text;
 
                 if (value.id == '')
-                    return "<?php echo esc_html__( 'None', ATKP_PLUGIN_PREFIX ) ?>";
+                    return "<?php echo esc_html__( 'None', 'affiliate-toolkit-starter' ) ?>";
 
                 var outputresult = '<table style="width:100%">';
                 outputresult += '<tr style="height:50px;">';
@@ -1156,7 +1156,7 @@ class atkp_shortcode_generator2 {
 
             function formatRepoSelection(repo) {
                 if (repo.id == '')
-                    return "<?php echo esc_html__( 'None', ATKP_PLUGIN_PREFIX ) ?>";
+                    return "<?php echo esc_html__( 'None', 'affiliate-toolkit-starter' ) ?>";
                 else
                     return (repo.text || (repo.title) + ' (' + repo.id + ')');
             }
@@ -1212,7 +1212,7 @@ class atkp_shortcode_generator2 {
 
                                 var noselection = {
                                     id: "",
-                                    name: "<?php echo esc_html__( 'None', ATKP_PLUGIN_PREFIX ) ?>"
+                                    name: "<?php echo esc_html__( 'None', 'affiliate-toolkit-starter' ) ?>"
                                 };
 
                                 if (count == 0)
@@ -1321,11 +1321,11 @@ class atkp_shortcode_generator2 {
                                         $j.each(data, function (index, value) {
 
                                             if (cnttype == '<?php echo esc_html(ATKP_PRODUCT_POSTTYPE); ?>') {
-                                                cnttext = '<?php echo esc_html__( 'Use product', ATKP_PLUGIN_PREFIX ) ?>';
+                                                cnttext = '<?php echo esc_html__( 'Use product', 'affiliate-toolkit-starter' ) ?>';
                                                 outputresult += '<tr style="height:100px;">';
                                                 outputresult += '<td style="margin:5px;width:110px;max-height:90px;text-align:center"><img style="max-width:100px" src="' + value.imageurl + '" /></td>';
                                             } else {
-                                                cnttext = '<?php echo esc_html__( 'Use list', ATKP_PLUGIN_PREFIX ) ?>';
+                                                cnttext = '<?php echo esc_html__( 'Use list', 'affiliate-toolkit-starter' ) ?>';
                                                 outputresult += '<tr style="">';
                                             }
 
@@ -1338,7 +1338,7 @@ class atkp_shortcode_generator2 {
                                         $j("#atkp_prdresult").html(outputresult);
                                     }
                                 } else {
-                                    $j("#atkp_prdresult").html('<span><?php echo esc_html__( 'No results', ATKP_PLUGIN_PREFIX ); ?></span>');
+                                    $j("#atkp_prdresult").html('<span><?php echo esc_html__( 'No results', 'affiliate-toolkit-starter' ); ?></span>');
                                 }
                             } catch (err) {
 
@@ -1402,13 +1402,13 @@ class atkp_shortcode_generator2 {
 
                                             if (cnttype == '<?php echo esc_html(ATKP_PRODUCT_POSTTYPE); ?>') {
                                                 if (value.productid != 'null')
-                                                    cnttext = '<?php echo esc_html__( 'Use product', ATKP_PLUGIN_PREFIX ) ?>';
+                                                    cnttext = '<?php echo esc_html__( 'Use product', 'affiliate-toolkit-starter' ) ?>';
                                                 else
-                                                    cnttext = '<?php echo esc_html__( 'Import and use product', ATKP_PLUGIN_PREFIX ) ?>';
+                                                    cnttext = '<?php echo esc_html__( 'Import and use product', 'affiliate-toolkit-starter' ) ?>';
                                                 outputresult += '<tr style="height:100px;">';
                                                 outputresult += '<td style="margin:5px;width:110px;max-height:90px;text-align:center"><img style="max-width:100px" src="' + value.imageurl + '" /></td>';
                                             } else {
-                                                cnttext = '<?php echo esc_html__( 'Use list', ATKP_PLUGIN_PREFIX ) ?>';
+                                                cnttext = '<?php echo esc_html__( 'Use list', 'affiliate-toolkit-starter' ) ?>';
                                                 outputresult += '<tr style="">';
                                             }
 
@@ -1427,7 +1427,7 @@ class atkp_shortcode_generator2 {
                                         $j("#atkp_createresult").html(outputresult);
                                     }
                                 } else {
-                                    $j("#atkp_createresult").html('<span><?php echo esc_html__( 'No results', ATKP_PLUGIN_PREFIX ); ?></span>');
+                                    $j("#atkp_createresult").html('<span><?php echo esc_html__( 'No results', 'affiliate-toolkit-starter' ); ?></span>');
                                 }
                             } catch (err) {
                                 $j("#atkp_createresult").html('<span style="color:red">' + err.message + '</span>');
@@ -1451,9 +1451,9 @@ class atkp_shortcode_generator2 {
                 $j('#atkp_create_listsource').change(function () {
 
                     if ($j('#atkp_create_listsource').val() == 10 || $j('#atkp_create_listsource').val() == 11) {
-                        $j('#atkp_lbl_createlistsearchterm').html('<?php echo esc_html__( 'Browsenode-ID', ATKP_PLUGIN_PREFIX ) ?>:');
+                        $j('#atkp_lbl_createlistsearchterm').html('<?php echo esc_html__( 'Browsenode-ID', 'affiliate-toolkit-starter' ) ?>:');
                     } else {
-                        $j('#atkp_lbl_createlistsearchterm').html('<?php echo esc_html__( 'Keyword', ATKP_PLUGIN_PREFIX ) ?>:');
+                        $j('#atkp_lbl_createlistsearchterm').html('<?php echo esc_html__( 'Keyword', 'affiliate-toolkit-starter' ) ?>:');
                     }
 
                 });
@@ -1598,7 +1598,7 @@ class atkp_shortcode_generator2 {
                 switch (type) {
 
                     case 'clipboard':
-                        var result = window.prompt('<?php echo esc_html__( 'Copy to clipboard: Ctrl+C, Enter', ATKP_PLUGIN_PREFIX ) ?>', shortcode);
+                        var result = window.prompt('<?php echo esc_html__( 'Copy to clipboard: Ctrl+C, Enter', 'affiliate-toolkit-starter' ) ?>', shortcode);
 
                         // Close popup
                         if (result != null)
@@ -1766,11 +1766,11 @@ class atkp_shortcode_generator2 {
                             }
 
                             btn.attr('data-id', data[0].postid);
-                            btn.html('<?php echo esc_html__( 'Use product', ATKP_PLUGIN_PREFIX ) ?>');
+                            btn.html('<?php echo esc_html__( 'Use product', 'affiliate-toolkit-starter' ) ?>');
 
 
                             atkp_nextpage(pagetype, type, data[0].postid);
-                            //$j('#atkp-btn-'+$asin).html('<img style="vertical-align:middle" src="<?php echo esc_url( plugins_url( 'images/yes.png', ATKP_PLUGIN_FILE ) ) ?>" alt="<?php echo esc_html__( 'Imported', ATKP_PLUGIN_PREFIX ) ?>"/><a style="margin-left:5px" href="'+$posturl+'" target="_blank"><?php echo esc_html__( 'Product imported.', ATKP_PLUGIN_PREFIX ) ?></a><br />');
+                            //$j('#atkp-btn-'+$asin).html('<img style="vertical-align:middle" src="<?php echo esc_url( plugins_url( 'images/yes.png', ATKP_PLUGIN_FILE ) ) ?>" alt="<?php echo esc_html__( 'Imported', 'affiliate-toolkit-starter' ) ?>"/><a style="margin-left:5px" href="'+$posturl+'" target="_blank"><?php echo esc_html__( 'Product imported.', ATKP_PLUGIN_PREFIX ) ?></a><br />');
 
                         } catch (err) {
                             alert(err.message);
@@ -1819,7 +1819,7 @@ class atkp_shortcode_generator2 {
                                 }
 
                                 if (data.title == '')
-                                    data.title = '<?php echo esc_html__( 'New post', ATKP_PLUGIN_PREFIX ); ?>';
+                                    data.title = '<?php echo esc_html__( 'New post', 'affiliate-toolkit-starter' ); ?>';
 
                                 //div.html(JSON.stringify(data.title, null, 2));
                                 div.html('<a href="' + data.edit_url + '" target="_blank">' + data.title + '</a>'); //'Type: '+ type + ', ID: ' + id + ', Title: '+ JSON.stringify(data, null, 2));
@@ -1852,20 +1852,20 @@ class atkp_shortcode_generator2 {
                 switch (pagetype) {
                     default:
                         $j('#atkp-firstpage').show();
-                        $j('#atkp-steptitle').html('<?php echo esc_html__( 'What do you want?', ATKP_PLUGIN_PREFIX ) ?>');
+                        $j('#atkp-steptitle').html('<?php echo esc_html__( 'What do you want?', 'affiliate-toolkit-starter' ) ?>');
 
                         break;
                     case 'formsearch':
                         $j('#atkp-' + pagetype).show();
 
-                        $j('#atkp-steptitle').html('<?php echo esc_html__( 'Embed a searchform', ATKP_PLUGIN_PREFIX ) ?>');
+                        $j('#atkp-steptitle').html('<?php echo esc_html__( 'Embed a searchform', 'affiliate-toolkit-starter' ) ?>');
                         break;
                     case 'dynamicfilter':
 
 
                         $j('#atkp-' + pagetype).show();
 
-                        $j('#atkp-steptitle').html('<?php echo esc_html__( 'Build dynamic filter', ATKP_PLUGIN_PREFIX ) ?>');
+                        $j('#atkp-steptitle').html('<?php echo esc_html__( 'Build dynamic filter', 'affiliate-toolkit-starter' ) ?>');
 
 
                         break;
@@ -1877,19 +1877,19 @@ class atkp_shortcode_generator2 {
                         }
 
                         if (type == '<?php echo esc_html(ATKP_PRODUCT_POSTTYPE); ?>')
-                            $j('#atkp-steptitle').html('<?php echo esc_html__( 'Search product', ATKP_PLUGIN_PREFIX ) ?>');
+                            $j('#atkp-steptitle').html('<?php echo esc_html__( 'Search product', 'affiliate-toolkit-starter' ) ?>');
                         else
-                            $j('#atkp-steptitle').html('<?php echo esc_html__( 'Search list', ATKP_PLUGIN_PREFIX ) ?>');
+                            $j('#atkp-steptitle').html('<?php echo esc_html__( 'Search list', 'affiliate-toolkit-starter' ) ?>');
                         break;
                     case 'createproduct':
                         $j('#atkp-' + pagetype).show();
 
-                        $j('#atkp-steptitle').html('<?php echo esc_html__( 'Create product', ATKP_PLUGIN_PREFIX ) ?>');
+                        $j('#atkp-steptitle').html('<?php echo esc_html__( 'Create product', 'affiliate-toolkit-starter' ) ?>');
                         break;
                     case 'createlist':
                         $j('#atkp-' + pagetype).show();
 
-                        $j('#atkp-steptitle').html('<?php echo esc_html__( 'Create list', ATKP_PLUGIN_PREFIX ) ?>');
+                        $j('#atkp-steptitle').html('<?php echo esc_html__( 'Create list', 'affiliate-toolkit-starter' ) ?>');
                         break;
                     case 'searchtemplate':
                         atkp_show_info($j('#atkp-current'), type, id);
@@ -1913,7 +1913,7 @@ class atkp_shortcode_generator2 {
 
                         $j('#atkp-' + pagetype).show();
 
-                        $j('#atkp-steptitle').html('<?php echo esc_html__( 'Output', ATKP_PLUGIN_PREFIX ) ?>');
+                        $j('#atkp-steptitle').html('<?php echo esc_html__( 'Output', 'affiliate-toolkit-starter' ) ?>');
                         break;
 
                 }

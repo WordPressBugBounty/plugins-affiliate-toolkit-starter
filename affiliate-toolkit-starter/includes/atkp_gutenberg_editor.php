@@ -41,7 +41,7 @@ class atkp_gutenberg_editor {
 
 		wp_localize_script( 'shortcodes-atkp-block-editor', 'ATKPSETT', array(
 			'iconurl' => plugins_url( '/images/affiliate_toolkit_menu.png', ATKP_PLUGIN_FILE ),
-			'insertShortcode' => __( 'AT shortcode', ATKP_PLUGIN_PREFIX ),
+			'insertShortcode' => __( 'AT shortcode', 'affiliate-toolkit-starter' ),
 			'supportedBlocks' => $supportedblocks
 		) );
 

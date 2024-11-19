@@ -128,19 +128,19 @@ class atkp_productservice {
 					$notfound = false;
 
 					if ( $message != '' ) {
-						$errormessage = sprintf( __( 'Shop error: %s', ATKP_PLUGIN_PREFIX ), $message );
+						$errormessage = sprintf( __( 'Shop error: %s', 'affiliate-toolkit-starter' ), $message );
 					} else if ( $atresponse->errormessage != '' ) {
-						$errormessage = sprintf( __( 'Request error: %s', ATKP_PLUGIN_PREFIX ), $atresponse->errormessage );
+						$errormessage = sprintf( __( 'Request error: %s', 'affiliate-toolkit-starter' ), $atresponse->errormessage );
 					} else if ( $responseitem == null || count( $responseitem ) == 0 ) {
-						$errormessage = sprintf( __( 'Product not returned: %s', ATKP_PLUGIN_PREFIX ), $asin );;
+						$errormessage = sprintf( __( 'Product not returned: %s', 'affiliate-toolkit-starter' ), $asin );;
 						$notfound = true;
 						if ( $asintypex != $asintype ) {
 							continue;
 						}
 					} else if ( $responseitem[0]->errormessage != '' ) {
-						$errormessage = sprintf( __( 'Item error: %s', ATKP_PLUGIN_PREFIX ), $responseitem[0]->errormessage );
+						$errormessage = sprintf( __( 'Item error: %s', 'affiliate-toolkit-starter' ), $responseitem[0]->errormessage );
 					} else if ( $responseitem[0]->productitem == null ) {
-						$errormessage = sprintf( __( 'Product not returned: %s', ATKP_PLUGIN_PREFIX ), $asin );
+						$errormessage = sprintf( __( 'Product not returned: %s', 'affiliate-toolkit-starter' ), $asin );
 						$notfound     = true;
 					} /* else if( $responseitem[0]->productitem->salepricefloat <= 0)  {
 						$errormessage = sprintf(__('Sale price is equal 0: %s',ATKP_PLUGIN_PREFIX), $asin);
@@ -229,7 +229,7 @@ class atkp_productservice {
 					}
 
 					if ( $errormessage == '' && $responseitem[0]->productitem->salepricefloat <= 0 ) {
-						$errormessage = sprintf( __( 'Sale price is equal 0: %s', ATKP_PLUGIN_PREFIX ), $asin );
+						$errormessage = sprintf( __( 'Sale price is equal 0: %s', 'affiliate-toolkit-starter' ), $asin );
 						$notfound     = true;
 					}
 
@@ -291,7 +291,7 @@ class atkp_productservice {
 	public function update_product_categories( $post_id ) {
 
 
-		$category = get_option( ATKP_PLUGIN_PREFIX . '_product_category_taxonomy', strtolower( __( 'Productcategory', ATKP_PLUGIN_PREFIX ) ) );
+		$category = get_option( ATKP_PLUGIN_PREFIX . '_product_category_taxonomy', strtolower( __( 'Productcategory', 'affiliate-toolkit-starter' ) ) );
 
 		$atkp = atkp_product_collection::load( $post_id );
 
@@ -548,7 +548,7 @@ class atkp_productservice {
 				ATKPTools::set_post_setting( $post_id, ATKP_PRODUCT_POSTTYPE . '_iswarehouse', $product->iswarehouse );
 
 				if ( $product->saleprice == '' ) {
-					throw new Exception( __( 'sale\'s price is empty', ATKP_PLUGIN_PREFIX ) );
+					throw new Exception( __( 'sale\'s price is empty', 'affiliate-toolkit-starter' ) );
 				}
 
 				do_action( 'atkp_product_save_pricefields', $post_id );

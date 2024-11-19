@@ -26,7 +26,7 @@ class atkp_settings_license {
 			//speichern der einstellungen
 
 			if ( ! current_user_can( 'manage_options' ) ) {
-				wp_die( esc_html__( 'You do not have sufficient permissions to access this page', ATKP_PLUGIN_PREFIX ) );
+				wp_die( esc_html__( 'You do not have sufficient permissions to access this page', 'affiliate-toolkit-starter' ) );
 			}
 
 			foreach ( $modules as $moduleid => $modulename ) {
@@ -86,7 +86,7 @@ class atkp_settings_license {
 
 							<?php
 							if ( count( $modules ) == 0 ) {
-								echo '<div class="error"><p>' . esc_html__( 'There are no extensions activated.', ATKP_PLUGIN_PREFIX ) . '</div>';
+								echo '<div class="error"><p>' . esc_html__( 'There are no extensions activated.', 'affiliate-toolkit-starter' ) . '</div>';
 							} else {
 
 								$allPlugins = get_plugins();
@@ -137,20 +137,20 @@ class atkp_settings_license {
 
 											<?php
 											if ( $extension_version == $appdata['version'] ) {
-												echo sprintf( esc_html__( 'Current version installed (%s)', ATKP_PLUGIN_PREFIX ), esc_html($extension_version) );
+												echo sprintf( esc_html__( 'Current version installed (%s)', 'affiliate-toolkit-starter' ), esc_html($extension_version) );
 											} else
-												echo sprintf( esc_html__( 'Installed version: %s / Current version: %s', ATKP_PLUGIN_PREFIX ), esc_html($extension_version), esc_html($appdata['version']) )
+												echo sprintf( esc_html__( 'Installed version: %s / Current version: %s', 'affiliate-toolkit-starter' ), esc_html($extension_version), esc_html($appdata['version']) )
 
 
 											?><br/>
 
 											<?php if ( $license == '' ) { ?>
-                                                <span><?php echo esc_html__( 'enter license key', ATKP_PLUGIN_PREFIX ); ?></span>
+                                                <span><?php echo esc_html__( 'enter license key', 'affiliate-toolkit-starter' ); ?></span>
 											<?php } else if ( $license_status == 'valid' ) { ?>
-                                                <span style="color:green;"><?php echo esc_html__( 'active', ATKP_PLUGIN_PREFIX );
-													echo( $license_owner == '' ? '' : sprintf( esc_html__( ', license owner: %s', ATKP_PLUGIN_PREFIX ), esc_html($license_owner) ) ) ?> </span>
+                                                <span style="color:green;"><?php echo esc_html__( 'active', 'affiliate-toolkit-starter' );
+													echo( $license_owner == '' ? '' : sprintf( esc_html__( ', license owner: %s', 'affiliate-toolkit-starter' ), esc_html($license_owner) ) ) ?> </span>
 											<?php } else if ( $license != '' ) { ?>
-                                                <span style="color:red;"><?php echo esc_attr($license_message); ?><?php echo( $license_status == 'expired' ? ' ' . sprintf( __( '<a href="%s" target="_blank">Renew now</a>', ATKP_PLUGIN_PREFIX ), esc_attr('https://www.affiliate-toolkit.com/' . ( ATKPTools::is_lang_de() ? 'de/kasse' : 'checkout' ) . '/?nocache=true&edd_license_key=' . urlencode( esc_html($license) ) . '&download_id=' . esc_html($moduleid)) ) : '' ) ?></span>
+                                                <span style="color:red;"><?php echo esc_attr($license_message); ?><?php echo( $license_status == 'expired' ? ' ' . sprintf( __( '<a href="%s" target="_blank">Renew now</a>', 'affiliate-toolkit-starter' ), esc_attr('https://www.affiliate-toolkit.com/' . ( ATKPTools::is_lang_de() ? 'de/kasse' : 'checkout' ) . '/?nocache=true&edd_license_key=' . urlencode( esc_html($license) ) . '&download_id=' . esc_html($moduleid)) ) : '' ) ?></span>
 											<?php } ?></div>
 
                                     </div>

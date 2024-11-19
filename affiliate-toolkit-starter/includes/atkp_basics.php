@@ -60,10 +60,10 @@ function my_atkp_variation_name( $variationName ) {
 		case 'Size':
 			// return 'Größe';
 
-			return __( 'Size', ATKP_PLUGIN_PREFIX );
+			return __( 'Size', 'affiliate-toolkit-starter' );
 			break;
 		case 'Color':
-			return __( 'Color', ATKP_PLUGIN_PREFIX );
+			return __( 'Color', 'affiliate-toolkit-starter' );
 			break;
 		default:
 			return $variationName;
@@ -415,7 +415,7 @@ function my_atkp_out_redirect() {
 			}
 
 			if ( $image_url == '' ) {
-				wp_die( esc_html__('image not found in our db: ' . $image_name, ATKP_PLUGIN_PREFIX) );
+				wp_die( esc_html__('image not found in our db: ' . $image_name, 'affiliate-toolkit-starter') );
 			}
 
 			$uploads_dir = wp_upload_dir()['basedir'];

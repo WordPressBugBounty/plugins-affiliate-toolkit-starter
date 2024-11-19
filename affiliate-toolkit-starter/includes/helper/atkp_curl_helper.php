@@ -47,14 +47,14 @@ class atkp_curl_helper {
 		$this->init();
 		$this->setOptions( $submit_url );
 		curl_exec( $this->ch );
-		echo esc_html__( curl_error( $this->ch ), ATKP_PLUGIN_PREFIX );
+		echo esc_html__( curl_error( $this->ch ), 'affiliate-toolkit-starter' );
 	}
 
 	// Grab hidden fields
 	public function get_form_fields( $submit_url ) {
 		curl_setopt( $this->ch, CURLOPT_URL, $submit_url );
 		$result = curl_exec( $this->ch );
-		echo esc_html__( curl_error( $this->ch ), ATKP_PLUGIN_PREFIX );
+		echo esc_html__( curl_error( $this->ch ), 'affiliate-toolkit-starter' );
 
 		return $this->getFormFields( $result );
 	}
@@ -67,7 +67,7 @@ class atkp_curl_helper {
 		curl_setopt( $this->ch, CURLOPT_POSTFIELDS, $post );
 		curl_setopt( $this->ch, CURLOPT_REFERER, $referer );
 		$result = curl_exec( $this->ch );
-		echo esc_html__( curl_error( $this->ch ), ATKP_PLUGIN_PREFIX );
+		echo esc_html__( curl_error( $this->ch ), 'affiliate-toolkit-starter' );
 		$this->close();
 
 		return $result;
@@ -77,7 +77,7 @@ class atkp_curl_helper {
 	public function show_page( $submit_url ) {
 		curl_setopt( $this->ch, CURLOPT_URL, $submit_url );
 		$result = curl_exec( $this->ch );
-		echo esc_html__( curl_error( $this->ch ), ATKP_PLUGIN_PREFIX );
+		echo esc_html__( curl_error( $this->ch ), 'affiliate-toolkit-starter' );
 
 		return $result;
 	}

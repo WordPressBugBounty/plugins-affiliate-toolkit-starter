@@ -2,7 +2,7 @@
 Contributors: cservit 
 Tags: affiliate, marketing, amazon, ebay, awin, belboon, billiger.de, shopping24, csv feed, tradedoubler, yadore, woocommerce, AmazonSimpleAdmin, aawp, affiliatetheme, asa, affiliate plugin
 Requires at least: 5.6
-Tested up to: 6.6
+Tested up to: 6.7
 Stable tag: 3.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -137,6 +137,10 @@ You just need to install the extension from our website.
 
  
 == Changelog ==
+= 3.6.8 =
+*   Fixed: Language issue (wp 6.7 update)
+*   Fixed: Security issue (thanks to Peter Thaleikis)
+
 = 3.6.7 =
 *   Added option "Languages Of Preference" to the Amazon API
 

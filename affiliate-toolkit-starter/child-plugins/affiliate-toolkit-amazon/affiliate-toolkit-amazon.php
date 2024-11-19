@@ -30,7 +30,7 @@ add_action('atkp_initialize_extensions', function() {
 		add_action( 'admin_notices', 'atkp_amazon_admin_notice' );
 
 		function atkp_amazon_admin_notice() {
-			ATKPTools::show_notification( sprintf( __( '<span style="font-weight:bold">affiliate-toolkit - Amazon:</span> You are using affiliate-toolkit from the WordPress directory. Please uninstall the Amazon extension. It\'s already included in the main plugin.', ATKP_PLUGIN_PREFIX ), admin_url( 'admin.php?page=ATKP_affiliate_toolkit-tools&tab=2' ) ), 'notice', 'warning' );
+			ATKPTools::show_notification( sprintf( __( '<span style="font-weight:bold">affiliate-toolkit - Amazon:</span> You are using affiliate-toolkit from the WordPress directory. Please uninstall the Amazon extension. It\'s already included in the main plugin.', 'affiliate-toolkit-starter' ), admin_url( 'admin.php?page=ATKP_affiliate_toolkit-tools&tab=2' ) ), 'notice', 'warning' );
 		}
 
 	} else {
@@ -58,7 +58,7 @@ add_action('atkp_initialize_extensions', function() {
 			?>
             <tr>
                 <th colspan="5" style="background-color:#bde4ea; padding:7px">
-	                <?php esc_html__( 'Amazon', ATKP_PLUGIN_PREFIX ) ?>
+	                <?php esc_html__( 'Amazon', 'affiliate-toolkit-starter' ) ?>
                 </th>
             </tr>
 
@@ -70,7 +70,7 @@ add_action('atkp_initialize_extensions', function() {
                            class="atkp-template-option"
                            value="1" <?php echo checked( 1, $parameters->get_showprimelogo(), true ); ?>>
                     <label for="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_show_primelogo') ?>">
-	                    <?php esc_html__( 'Show Prime logo', ATKP_PLUGIN_PREFIX ) ?>
+	                    <?php echo esc_html__( 'Show Prime logo', 'affiliate-toolkit-starter' ) ?>
                     </label>
                 </td>
                 <td>
@@ -79,7 +79,7 @@ add_action('atkp_initialize_extensions', function() {
                            class="atkp-template-option"
                            value="1" <?php echo checked( 1, $parameters->get_linkprime(), true ); ?>>
                     <label for="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_linkprime') ?>">
-	                    <?php esc_html__( 'Link Prime logo', ATKP_PLUGIN_PREFIX ) ?>
+	                    <?php echo esc_html__( 'Link Prime logo', 'affiliate-toolkit-starter' ) ?>
                     </label>
                 </td>
             </tr>

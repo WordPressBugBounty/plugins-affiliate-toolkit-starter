@@ -164,28 +164,28 @@ class atkp_template {
 
 		} else {
 
-			$templates['moreoffers']  = __( 'Additional offers (List)', ATKP_PLUGIN_PREFIX );
-			$templates['moreoffers2'] = __( 'Additional offers (Dropdown)', ATKP_PLUGIN_PREFIX );
-			$templates['moreoffers3'] = __( 'Additional offers (Buttons)', ATKP_PLUGIN_PREFIX );
-			$templates['moreoffers4'] = __( 'Additional offers (Logos)', ATKP_PLUGIN_PREFIX );
+			$templates['moreoffers']  = __( 'Additional offers (List)', 'affiliate-toolkit-starter' );
+			$templates['moreoffers2'] = __( 'Additional offers (Dropdown)', 'affiliate-toolkit-starter' );
+			$templates['moreoffers3'] = __( 'Additional offers (Buttons)', 'affiliate-toolkit-starter' );
+			$templates['moreoffers4'] = __( 'Additional offers (Logos)', 'affiliate-toolkit-starter' );
 
 
-			$templates['wide']                = __( 'Productbox with description (wide box)', ATKP_PLUGIN_PREFIX );
-			$templates['secondwide']          = __( 'Productbox without description (wide box)', ATKP_PLUGIN_PREFIX );
-			$templates['box']                 = __( 'Productbox (narrow box)', ATKP_PLUGIN_PREFIX );
-			$templates['detailoffers']        = __( 'Price comparison', ATKP_PLUGIN_PREFIX );
-			$templates['detailoffers_nologo'] = __( 'Price comparison (no logo)', ATKP_PLUGIN_PREFIX );
-			$templates['offers_table']        = __( 'Price comparison (simple)', ATKP_PLUGIN_PREFIX );
-			$templates['grid_2_columns']      = __( 'Grid with 2 columns', ATKP_PLUGIN_PREFIX );
-			$templates['grid_3_columns']      = __( 'Grid with 3 columns', ATKP_PLUGIN_PREFIX );
-			$templates['list_display']        = __( 'Numbered product list', ATKP_PLUGIN_PREFIX );
+			$templates['wide']                = __( 'Productbox with description (wide box)', 'affiliate-toolkit-starter' );
+			$templates['secondwide']          = __( 'Productbox without description (wide box)', 'affiliate-toolkit-starter' );
+			$templates['box']                 = __( 'Productbox (narrow box)', 'affiliate-toolkit-starter' );
+			$templates['detailoffers']        = __( 'Price comparison', 'affiliate-toolkit-starter' );
+			$templates['detailoffers_nologo'] = __( 'Price comparison (no logo)', 'affiliate-toolkit-starter' );
+			$templates['offers_table']        = __( 'Price comparison (simple)', 'affiliate-toolkit-starter' );
+			$templates['grid_2_columns']      = __( 'Grid with 2 columns', 'affiliate-toolkit-starter' );
+			$templates['grid_3_columns']      = __( 'Grid with 3 columns', 'affiliate-toolkit-starter' );
+			$templates['list_display']        = __( 'Numbered product list', 'affiliate-toolkit-starter' );
 
-			$templates['notavailable'] = __( 'Box (Product is not available)', ATKP_PLUGIN_PREFIX );
+			$templates['notavailable'] = __( 'Box (Product is not available)', 'affiliate-toolkit-starter' );
 
 
-			$templates['bestseller'] = __( 'Bestsellerbox with description', ATKP_PLUGIN_PREFIX );
+			$templates['bestseller'] = __( 'Bestsellerbox with description', 'affiliate-toolkit-starter' );
 
-			$templates['productbox'] = __( 'Productbox with description and variations (wide box)', ATKP_PLUGIN_PREFIX );
+			$templates['productbox'] = __( 'Productbox with description and variations (wide box)', 'affiliate-toolkit-starter' );
 		}
 
 
@@ -251,10 +251,10 @@ class atkp_template {
 		$product = get_post( $post_id );
 
 		if ( ! isset( $product ) || $product == null ) {
-			throw new Exception( esc_html__( 'template not found: ' . $post_id, ATKP_PLUGIN_PREFIX ) );
+			throw new Exception( esc_html__( 'template not found: ' . $post_id, 'affiliate-toolkit-starter' ) );
 		}
 		if ( $product->post_type != ATKP_TEMPLATE_POSTTYPE ) {
-			throw new Exception( esc_html__( 'invalid post_type: ' . $product->post_type . ', $post_id: ' . $post_id, ATKP_PLUGIN_PREFIX ) );
+			throw new Exception( esc_html__( 'invalid post_type: ' . $product->post_type . ', $post_id: ' . $post_id, 'affiliate-toolkit-starter' ) );
 		}
 
 		$prd = new atkp_template();

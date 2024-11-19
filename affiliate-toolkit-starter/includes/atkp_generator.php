@@ -14,7 +14,7 @@ class atkp_generator {
 
 	public function show_generator_backend_page() {
 		if ( ! is_user_logged_in() ) {
-			wp_die( esc_html__( 'You do not have sufficient permissions to access this page', ATKP_PLUGIN_PREFIX ) );
+			wp_die( esc_html__( 'You do not have sufficient permissions to access this page', 'affiliate-toolkit-starter' ) );
 		}
 
 
@@ -49,21 +49,21 @@ class atkp_generator {
             <!-- Section 1 -->
             <li class="acc_section displaytype_section">
                 <div class="acc_head"><h3
-                            id="atkp-displaytype-caption"><?php echo esc_html__( 'Select a display type', ATKP_PLUGIN_FILE ) ?></h3>
+                            id="atkp-displaytype-caption"><?php echo esc_html__( 'Select a display type', 'affiliate-toolkit-starter' ) ?></h3>
                 </div>
                 <div class="acc_content">
                     <label for="atkp-display-type">
-	                    <?php echo esc_html__( 'Select a display type', ATKP_PLUGIN_PREFIX ) ?>
+	                    <?php echo esc_html__( 'Select a display type', 'affiliate-toolkit-starter' ) ?>
                     </label>
                     <select class="atkp-display-type" id="atkp-display-type">
-                        <option value=""><?php echo esc_html__( 'Select an option', ATKP_PLUGIN_PREFIX ) ?></option>
+                        <option value=""><?php echo esc_html__( 'Select an option', 'affiliate-toolkit-starter' ) ?></option>
 
 						<?php
 						$prds               = array();
-						$prds['box']        = esc_html__( 'Product Boxes', ATKP_PLUGIN_PREFIX );
-						$prds['field']      = esc_html__( 'Fields (Single product data)', ATKP_PLUGIN_PREFIX );
-						$prds['link']       = esc_html__( 'Text Link', ATKP_PLUGIN_PREFIX );
-						$prds['searchform'] = esc_html__( 'Search Form', ATKP_PLUGIN_PREFIX );
+						$prds['box']        = esc_html__( 'Product Boxes', 'affiliate-toolkit-starter' );
+						$prds['field']      = esc_html__( 'Fields (Single product data)', 'affiliate-toolkit-starter' );
+						$prds['link']       = esc_html__( 'Text Link', 'affiliate-toolkit-starter' );
+						$prds['searchform'] = esc_html__( 'Search Form', 'affiliate-toolkit-starter' );
 						//TODO: Dynamic filter
 
 						$prds = apply_filters( 'atkp_modify_display_types', $prds );
@@ -79,34 +79,34 @@ class atkp_generator {
             <!-- Section 2 -->
             <li class="acc_section datasource_section">
                 <div class="acc_head"><h3
-                            id="atkp-datasource-caption"><?php echo esc_html__( 'Select a data source', ATKP_PLUGIN_FILE ) ?></h3>
+                            id="atkp-datasource-caption"><?php echo esc_html__( 'Select a data source', 'affiliate-toolkit-starter' ) ?></h3>
                 </div>
                 <div class="acc_content">
                     <label for="atkp-display-type">
-	                    <?php echo esc_html__( 'Select a data source', ATKP_PLUGIN_PREFIX ) ?>
+	                    <?php echo esc_html__( 'Select a data source', 'affiliate-toolkit-starter' ) ?>
                     </label>
                     <select class="atkp-display-type" id="atkp-datasource">
-                        <option value=""><?php echo esc_html__( 'Select an option', ATKP_PLUGIN_PREFIX ) ?></option>
+                        <option value=""><?php echo esc_html__( 'Select an option', 'affiliate-toolkit-starter' ) ?></option>
 
 						<?php
 						$prds                                                       = array();
-						$prds[ esc_html__( 'Single Product', ATKP_PLUGIN_PREFIX ) ]         = [
-							'product_search' => esc_html__( 'Search Existing Product', ATKP_PLUGIN_PREFIX ),
-							'product_create' => esc_html__( 'Create Single Product', ATKP_PLUGIN_PREFIX )
+						$prds[ esc_html__( 'Single Product', 'affiliate-toolkit-starter' ) ]         = [
+							'product_search' => esc_html__( 'Search Existing Product', 'affiliate-toolkit-starter' ),
+							'product_create' => esc_html__( 'Create Single Product', 'affiliate-toolkit-starter' )
 						];
-						$prds[ esc_html__( 'Bestseller List', ATKP_PLUGIN_PREFIX ) ]        = [
-							'bestseller_search' => esc_html__( 'Search Existing Bestseller Lists', ATKP_PLUGIN_PREFIX ),
-							'bestseller_create' => esc_html__( 'Create New Bestseller List', ATKP_PLUGIN_PREFIX )
+						$prds[ esc_html__( 'Bestseller List', 'affiliate-toolkit-starter' ) ]        = [
+							'bestseller_search' => esc_html__( 'Search Existing Bestseller Lists', 'affiliate-toolkit-starter' ),
+							'bestseller_create' => esc_html__( 'Create New Bestseller List', 'affiliate-toolkit-starter' )
 						];
-						$prds[ esc_html__( 'New Releases List', ATKP_PLUGIN_PREFIX ) ]      = [
-							'new_search' => esc_html__( 'Search Existing Releases List', ATKP_PLUGIN_PREFIX ),
-							'new_create' => esc_html__( 'Create New Releases List', ATKP_PLUGIN_PREFIX )
+						$prds[ esc_html__( 'New Releases List', 'affiliate-toolkit-starter' ) ]      = [
+							'new_search' => esc_html__( 'Search Existing Releases List', 'affiliate-toolkit-starter' ),
+							'new_create' => esc_html__( 'Create New Releases List', 'affiliate-toolkit-starter' )
 						];
-						$prds[ esc_html__( 'Keyword List', ATKP_PLUGIN_PREFIX ) ]           = [
-							'keyword_search' => esc_html__( 'Search Existing Keyword List', ATKP_PLUGIN_PREFIX ),
-							'keyword_create' => esc_html__( 'Create New Keyword List', ATKP_PLUGIN_PREFIX )
+						$prds[ esc_html__( 'Keyword List', 'affiliate-toolkit-starter' ) ]           = [
+							'keyword_search' => esc_html__( 'Search Existing Keyword List', 'affiliate-toolkit-starter' ),
+							'keyword_create' => esc_html__( 'Create New Keyword List', 'affiliate-toolkit-starter' )
 						];
-						$prds[ esc_html__( 'Dynamic Product Filter', ATKP_PLUGIN_PREFIX ) ] = [ 'productfilter' => esc_html__( 'Dynamic Product Filter', ATKP_PLUGIN_PREFIX ) ];
+						$prds[ esc_html__( 'Dynamic Product Filter', 'affiliate-toolkit-starter' ) ] = [ 'productfilter' => esc_html__( 'Dynamic Product Filter', 'affiliate-toolkit-starter' ) ];
 
 						/*
 						$prds['product_search'] = __('Search Single Product', ATKP_PLUGIN_PREFIX),
@@ -139,7 +139,7 @@ class atkp_generator {
             <!-- Section 3 -->
             <li class="acc_section import_section">
                 <div class="acc_head"><h3
-                            id="atkp-import-caption"><?php echo esc_html__( 'Search or import', ATKP_PLUGIN_FILE ) ?></h3>
+                            id="atkp-import-caption"><?php echo esc_html__( 'Search or import', 'affiliate-toolkit-starter' ) ?></h3>
                 </div>
                 <div class="acc_content">SEARCH OR IMPORT WINDOW</div>
             </li>
@@ -147,7 +147,7 @@ class atkp_generator {
             <!-- Section 3 -->
             <li class="acc_section display_section">
                 <div class="acc_head"><h3
-                            id="atkp-displayoption-caption"><?php echo esc_html__( 'Setup display options', ATKP_PLUGIN_FILE ) ?></h3>
+                            id="atkp-displayoption-caption"><?php echo esc_html__( 'Setup display options', 'affiliate-toolkit-starter' ) ?></h3>
                 </div>
                 <div class="acc_content"><p>Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
                         consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
@@ -159,7 +159,7 @@ class atkp_generator {
         </ul>
 
 
-        <script src="<?php echo esc_js(esc_url(plugins_url( 'dist/accordion.js', ATKP_PLUGIN_FILE ))) ?>"></script>
+        <script src="<?php echo esc_js(esc_url(plugins_url( 'dist/accordion.js', 'affiliate-toolkit-starter' ))) ?>"></script>
 
         <script>
             jQuery(document).ready(function ($) {
@@ -181,7 +181,7 @@ class atkp_generator {
                             break;
                     }
 
-                    jQuery('#atkp-displaytype-caption').html('<?php echo esc_html__( 'Select a display type', ATKP_PLUGIN_FILE ) ?>: ' + txt);
+                    jQuery('#atkp-displaytype-caption').html('<?php echo esc_html__( 'Select a display type', 'affiliate-toolkit-starter' ) ?>: ' + txt);
                     openSection('datasource_section');
 
 
@@ -210,7 +210,7 @@ class atkp_generator {
 
                     }
 //atkp-create-option
-                    jQuery('#atkp-datasource-caption').html('<?php echo esc_html__( 'Select a data source', ATKP_PLUGIN_FILE ) ?>: ' + txt);
+                    jQuery('#atkp-datasource-caption').html('<?php echo esc_html__( 'Select a data source', 'affiliate-toolkit-starter' ) ?>: ' + txt);
                     $('#atkp-import-caption').html(txt);
 
                     openSection('import_section');
@@ -296,7 +296,7 @@ public function generate_modal_header( $id ) {
     <div id="<?php echo esc_attr('atkp-modal-' . $id) ?>" class="atkp-modal lity-hide">
 
         <div class="atkp-modal__header">
-            <div class="atkp-modal__title"><?php echo esc_html__( 'Setup your product box', esc_html( ATKP_PLUGIN_PREFIX ) ); ?></div>
+            <div class="atkp-modal__title"><?php echo esc_html__( 'Setup your product box', esc_html( 'affiliate-toolkit-starter' ) ); ?></div>
             <span class="atkp-modal__close" data-atkp-close-modal="true"><span
                         class="dashicons dashicons-no"></span></span>
         </div>
@@ -311,7 +311,7 @@ public function generate_modal_header( $id ) {
         <div class="atkp-modal__footer">
             <span class="atkp-brand-icon"><img style="max-height:30px"
                                                src="<?php echo esc_url(plugins_url( '/img/affiliate-toolkit-web.png', esc_html(ATKP_GUTENBERG_PLUGIN_FILE)) ) ?>"/></span>
-            <!--<span class="button atkp-modal__button" data-atkp-close-modal="true"><?php echo esc_html__( 'Close', ATKP_PLUGIN_PREFIX ); ?></span>-->
+            <!--<span class="button atkp-modal__button" data-atkp-close-modal="true"><?php echo esc_html__( 'Close', 'affiliate-toolkit-starter' ); ?></span>-->
         </div>
     </div><!-- .atkp-modal -->
 
@@ -322,8 +322,8 @@ public function generate_modal_header( $id ) {
 
 			add_submenu_page(
 				$parentmenu,
-				esc_html__( 'Shortcode Generator', ATKP_PLUGIN_PREFIX ),
-				esc_html__( 'Shortcode Generator', ATKP_PLUGIN_PREFIX ),
+				esc_html__( 'Shortcode Generator', 'affiliate-toolkit-starter' ),
+				esc_html__( 'Shortcode Generator', 'affiliate-toolkit-starter' ),
 				'manage_options',
 				ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-shortcodegenerator',
 				array( &$this, 'show_generator_backend_page' )

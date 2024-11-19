@@ -89,18 +89,18 @@ class atkp_formatter {
 			foreach ( $myproduct->postids as $p ) {
 				$title = get_the_title( $p );
 				if ( ! isset( $title ) || $title == '' ) {
-					$title = __( 'Post', ATKP_PLUGIN_PREFIX );
+					$title = __( 'Post', 'affiliate-toolkit-starter' );
 				}
 
-				$post_list .= sprintf( __( '<li><a href="%s">%s</a></li>', ATKP_PLUGIN_PREFIX ), get_permalink( $p ), $title );
+				$post_list .= sprintf( __( '<li><a href="%s">%s</a></li>', 'affiliate-toolkit-starter' ), get_permalink( $p ), $title );
 			}
 		} else {
 			$title = get_the_title( $myproduct->postids );
 			if ( ! isset( $title ) || $title == '' ) {
-				$title = __( 'Post', ATKP_PLUGIN_PREFIX );
+				$title = __( 'Post', 'affiliate-toolkit-starter' );
 			}
 
-			$post_list .= sprintf( __( '<li><a href="%s">%s</a></li>', ATKP_PLUGIN_PREFIX ), get_permalink( $myproduct->postids ), $title );
+			$post_list .= sprintf( __( '<li><a href="%s">%s</a></li>', 'affiliate-toolkit-starter' ), get_permalink( $myproduct->postids ), $title );
 		}
 		$post_list .= '</ul>';
 
@@ -216,7 +216,7 @@ class atkp_formatter {
 
 	public function get_testresult_raw( $testresult, $testrating, $testdate ) {
 		$testcolor   = get_option( ATKP_PLUGIN_PREFIX . '_review_color', '#9f9f9f' );
-		$testcaption = esc_attr( get_option( ATKP_PLUGIN_PREFIX . '_review_text', __( 'Review', ATKP_PLUGIN_PREFIX ) ) );
+		$testcaption = esc_attr( get_option( ATKP_PLUGIN_PREFIX . '_review_text', __( 'Review', 'affiliate-toolkit-starter' ) ) );
 
 		return '<div class="atkp-testbadge" style="border-color:' . $testcolor . '"><span class="atkp-testtitle" style="background-color:' . $testcolor . '">' . $testcaption . '</span><span class="atkp-testnote" style="color:' . $testcolor . '">' . $testrating . '</span><span class="atkp-testtext">' . $testresult . '</span><span class="atkp-testdate">' . $testdate . '</span></div>';
 
@@ -363,7 +363,7 @@ class atkp_formatter {
 			$target = '';
 		}
 
-		return 'href="' . $this->get_listurl() . '" rel="'.self::get_link_rel().'" ' . $target . ' title="' . __( 'Show me more products', ATKP_PLUGIN_PREFIX ) . '"';
+		return 'href="' . $this->get_listurl() . '" rel="'.self::get_link_rel().'" ' . $target . ' title="' . __( 'Show me more products', 'affiliate-toolkit-starter' ) . '"';
 	}
 
 	public function get_link_mark() {
@@ -472,20 +472,20 @@ class atkp_formatter {
 			case 'addtocart':
 
 				if ( $myproduct->shop == null ) {
-					$linktext = __( 'Add to cart', ATKP_PLUGIN_PREFIX );
+					$linktext = __( 'Add to cart', 'affiliate-toolkit-starter' );
 				} else {
 
-					$linktext = $myproduct->shop->get_addtocart() != '' ? $myproduct->shop->get_addtocart() : __( 'Add to Amazon Cart', ATKP_PLUGIN_PREFIX );
+					$linktext = $myproduct->shop->get_addtocart() != '' ? $myproduct->shop->get_addtocart() : __( 'Add to Amazon Cart', 'affiliate-toolkit-starter' );
 				}
 
 				break;
 			default:
 			case 'link':
 				if ( $myproduct->shop == null ) {
-					$linktext = __( 'Buy now', ATKP_PLUGIN_PREFIX );
+					$linktext = __( 'Buy now', 'affiliate-toolkit-starter' );
 				} else {
 
-					$linktext = $myproduct->shop->get_buyat() != '' ? $myproduct->shop->get_buyat() : __( 'Buy now at Amazon', ATKP_PLUGIN_PREFIX );
+					$linktext = $myproduct->shop->get_buyat() != '' ? $myproduct->shop->get_buyat() : __( 'Buy now at Amazon', 'affiliate-toolkit-starter' );
 				}
 
 				break;
@@ -503,10 +503,10 @@ class atkp_formatter {
 					$minoffer = $this->get_minoffer( $myproduct, true);
 
 				if ( $minoffer->shop == null ) {
-					$linktext = __( 'Buy now', ATKP_PLUGIN_PREFIX );
+					$linktext = __( 'Buy now', 'affiliate-toolkit-starter' );
 				} else {
 
-					$linktext = $minoffer->shop->get_buyat() != '' ? $minoffer->shop->get_buyat() : __( 'Buy now at Amazon', ATKP_PLUGIN_PREFIX );
+					$linktext = $minoffer->shop->get_buyat() != '' ? $minoffer->shop->get_buyat() : __( 'Buy now at Amazon', 'affiliate-toolkit-starter' );
 				}
 
 				break;
@@ -687,7 +687,7 @@ class atkp_formatter {
 		if ( $myproduct->isprime && $this->parameters->get_showprimelogo() ) {
 
 			if ( defined( 'ATKP_AMAZON_PLUGIN_FILE' ) ) {
-				$primelogo = '<img src="' . plugins_url( 'images/prime_amazon.png', ATKP_AMAZON_PLUGIN_FILE ) . '" alt="' . __( 'Prime', ATKP_PLUGIN_PREFIX ) . '"/>';
+				$primelogo = '<img src="' . plugins_url( 'images/prime_amazon.png', ATKP_AMAZON_PLUGIN_FILE ) . '" alt="' . __( 'Prime', 'affiliate-toolkit-starter' ) . '"/>';
 			}
 
 			if ( $this->parameters->get_linkprime() ) {
@@ -696,7 +696,7 @@ class atkp_formatter {
 
 				$primelink = self::redirect_external_url( $this->get_shopid_value( $myproduct ), 'https://www.amazon.' . $amzCountry . '/gp/prime/?primeCampaignId=prime_assoc_ft&tag=' . $amzTag . '&camp=4510&creative=670002&linkCode=ur1&adid=07VBBZ76N7ZKENHMQCDR' );
 
-				$primelogo = '<a href="' . $primelink . '" rel="' . self::get_link_rel() . '" target="_blank" title="' . __( 'More about prime', ATKP_PLUGIN_PREFIX ) . '">' . $primelogo . '</a>';
+				$primelogo = '<a href="' . $primelink . '" rel="' . self::get_link_rel() . '" target="_blank" title="' . __( 'More about prime', 'affiliate-toolkit-starter' ) . '">' . $primelogo . '</a>';
 			}
 		}
 
@@ -1132,7 +1132,7 @@ class atkp_formatter {
 	}
 
 	public function get_priceinfotext() {
-		return __( 'Price incl. VAT., Excl. Shipping', ATKP_PLUGIN_PREFIX );
+		return __( 'Price incl. VAT., Excl. Shipping', 'affiliate-toolkit-starter' );
 	}
 
 	/**
@@ -1227,14 +1227,14 @@ class atkp_formatter {
 				$comparegroup = new  atkp_template_comparegroup();
 				//$comparefield->id = $field->id;
 				$comparegroup->id          = -99;
-				$comparegroup->caption     = __('General', ATKP_PLUGIN_PREFIX);
+				$comparegroup->caption     = __('General', 'affiliate-toolkit-starter');
 
 				$comparegroup->sortorder   = -1;
 				$comparegroup->isvisible   = $grouped && $comparegroup->caption != '';
 
 				$comparefield = new  atkp_template_comparevalue();
 				$comparefield->id          = 'manufacturer';
-				$comparefield->caption     = __('Manufacturer', ATKP_PLUGIN_PREFIX);
+				$comparefield->caption     = __('Manufacturer', 'affiliate-toolkit-starter');
 				$comparefield->detail      = $product->manufacturer;
 				$comparefield->align       = 2;
 
@@ -1391,9 +1391,9 @@ class atkp_formatter {
 				//yesno
 				if ( $newfield->format == 'text' ) {
 					if ( $result == '1' ) {
-						$result = __( 'Yes', ATKP_PLUGIN_PREFIX );
+						$result = __( 'Yes', 'affiliate-toolkit-starter' );
 					} else if ( $result == '0' ) {
-						$result = __( 'No', ATKP_PLUGIN_PREFIX );
+						$result = __( 'No', 'affiliate-toolkit-starter' );
 					} else {
 						$result = '';
 					}
@@ -1402,13 +1402,13 @@ class atkp_formatter {
 						if ( $text_yes != '' ) {
 							$result = $text_yes;
 						} else {
-							$result = '<img src="' . plugins_url( 'images/yes.png', ATKP_PLUGIN_FILE ) . '" style="width: 16px;" alt="' . __( 'Yes', ATKP_PLUGIN_PREFIX ) . '"/>';
+							$result = '<img src="' . plugins_url( 'images/yes.png', ATKP_PLUGIN_FILE ) . '" style="width: 16px;" alt="' . __( 'Yes', 'affiliate-toolkit-starter' ) . '"/>';
 						}
 					} else if ( $result == '0' ) {
 						if ( $text_no != '' ) {
 							$result = $text_no;
 						} else {
-							$result = '<img src="' . plugins_url( 'images/no.png', ATKP_PLUGIN_FILE ) . '" style="width: 16px;" alt="' . __( 'No', ATKP_PLUGIN_PREFIX ) . '"/>';
+							$result = '<img src="' . plugins_url( 'images/no.png', ATKP_PLUGIN_FILE ) . '" style="width: 16px;" alt="' . __( 'No', 'affiliate-toolkit-starter' ) . '"/>';
 						}
 					} else {
 						$result = '';
@@ -1422,7 +1422,7 @@ class atkp_formatter {
 					$val = $result == '' || $result == 0 ? floatval( $newfield->values ) : floatval( $result );
 
 					$class = 'atkp-star-' . number_format( $this->roundRate( $val ), 1, ' atkp-star-0', '' );
-					$title = sprintf( __( '%s of 5 stars', ATKP_PLUGIN_PREFIX ), $val );
+					$title = sprintf( __( '%s of 5 stars', 'affiliate-toolkit-starter' ), $val );
 
 					$tempstr = '<span class="atkp-star-compare atkp-star ' . $class . '" title="' . $title . '"></span>';
 
@@ -1634,7 +1634,7 @@ class atkp_formatter {
 	}
 
 	public function get_offer_linktext() {
-		return __( 'Buy now', ATKP_PLUGIN_PREFIX );
+		return __( 'Buy now', 'affiliate-toolkit-starter' );
 	}
 
 	/**
@@ -1736,7 +1736,7 @@ class atkp_formatter {
 	 */
 	public function get_offer_availability( $myoffer, $format = 'Availability: %s' ) {
 		if ( $format == 'Availability: %s' ) {
-			$formattxt = __( 'Availability: %s', ATKP_PLUGIN_PREFIX );
+			$formattxt = __( 'Availability: %s', 'affiliate-toolkit-starter' );
 		} else {
 			$formattxt = $format;
 		}
@@ -1757,7 +1757,7 @@ class atkp_formatter {
 		$minoffer = $this->get_minoffer( $myproduct, true );
 
 		if ( $minoffer != null && $minoffer->id == $myoffer->id ) {
-			return __( 'Best price', ATKP_PLUGIN_PREFIX );
+			return __( 'Best price', 'affiliate-toolkit-starter' );
 		} else {
 			return '';
 		}
@@ -1790,7 +1790,7 @@ class atkp_formatter {
 	public function get_image_smallimageurl( $myproduct, $myimage ) {
 
 		if ( $myimage->smallimageurl == '' ) {
-			return plugins_url( __( '../../images/image-not-found.jpg', ATKP_PLUGIN_PREFIX ), __FILE__ );
+			return plugins_url( __( '../../images/image-not-found.jpg', 'affiliate-toolkit-starter' ), __FILE__ );
 		}
 
 		return self::replace_image_url( $this->get_shopid_value( $myproduct ), $myimage->smallimageurl, $myproduct->productid, $myproduct->listid );
@@ -1805,7 +1805,7 @@ class atkp_formatter {
 	public function get_image_mediumimageurl( $myproduct, atkp_product_image $myimage ) {
 
 		if ( $myimage->mediumimageurl == '' ) {
-			return plugins_url( __( '../../images/image-not-found.jpg', ATKP_PLUGIN_PREFIX ), __FILE__ );
+			return plugins_url( __( '../../images/image-not-found.jpg', 'affiliate-toolkit-starter' ), __FILE__ );
 		}
 
 		return self::replace_image_url( $this->get_shopid_value( $myproduct ), $myimage->mediumimageurl, $myproduct->productid, $myproduct->listid);
@@ -1820,7 +1820,7 @@ class atkp_formatter {
 	public function get_image_largeimageurl( $myproduct, $myimage ) {
 
 		if ( $myimage->largeimageurl == '' ) {
-			return plugins_url( __( '../../images/image-not-found.jpg', ATKP_PLUGIN_PREFIX ), __FILE__ );
+			return plugins_url( __( '../../images/image-not-found.jpg', 'affiliate-toolkit-starter' ), __FILE__ );
 		}
 
 		return self::replace_image_url( $this->get_shopid_value( $myproduct ), $myimage->largeimageurl, $myproduct->productid, $myproduct->listid);
@@ -1867,7 +1867,7 @@ class atkp_formatter {
 		$smallimageurl = atkp_product::get_mainimage( $myproduct, 'smalltolarge' );
 
 		if ( $smallimageurl == '' ) {
-			return plugins_url( __( '../../images/image-not-found.jpg', ATKP_PLUGIN_PREFIX ), __FILE__ );
+			return plugins_url( __( '../../images/image-not-found.jpg', 'affiliate-toolkit-starter' ), __FILE__ );
 		}
 
 		return self::replace_image_url( $this->get_shopid_value( $myproduct ), $smallimageurl, $myproduct->productid, $myproduct->listid, 'small' );
@@ -1884,7 +1884,7 @@ class atkp_formatter {
 		$smallimageurl = atkp_product::get_mainimage( $myproduct, 'mediumtolarge' );
 
 		if ( $smallimageurl == '' ) {
-			return plugins_url( __( '../../images/image-not-found.jpg', ATKP_PLUGIN_PREFIX ), __FILE__ );
+			return plugins_url( __( '../../images/image-not-found.jpg', 'affiliate-toolkit-starter' ), __FILE__ );
 		}
 
 		return self::replace_image_url( $this->get_shopid_value( $myproduct ), $smallimageurl, $myproduct->productid, $myproduct->listid, 'medium' );
@@ -1902,7 +1902,7 @@ class atkp_formatter {
 
 		if ( $smallimageurl == '' ) {
 			if ( $default_value == '' ) {
-				return plugins_url( __( '../../images/image-not-found.jpg', ATKP_PLUGIN_PREFIX ), __FILE__ );
+				return plugins_url( __( '../../images/image-not-found.jpg', 'affiliate-toolkit-starter' ), __FILE__ );
 			}
 
 			return $default_value;
@@ -1957,7 +1957,7 @@ class atkp_formatter {
 		if ( ! $ignoreSettings && ( ( $itemIdx > 3 && ATKPSettings::$bestsellerribbon == 1 ) || $itemIdx <= 0 ) ) {
 			return '';
 		} else {
-			return sprintf( __( '#%s Best Seller', ATKP_PLUGIN_PREFIX ), $itemIdx );
+			return sprintf( __( '#%s Best Seller', 'affiliate-toolkit-starter' ), $itemIdx );
 		}
 	}
 
@@ -1965,7 +1965,7 @@ class atkp_formatter {
 		if ( ! $ignoreSettings && ( ( $itemIdx > 3 && ATKPSettings::$bestsellerribbon == 1 ) || $itemIdx <= 0 ) ) {
 			return '';
 		} else {
-			return sprintf( __( '#%s', ATKP_PLUGIN_PREFIX ), $itemIdx );
+			return sprintf( __( '#%s', 'affiliate-toolkit-starter' ), $itemIdx );
 		}
 	}
 
@@ -1975,7 +1975,7 @@ class atkp_formatter {
 	 * @return string
 	 */
 	public function get_rating_text( $myproduct ) {
-		return sprintf( __( '%s of 5 stars', ATKP_PLUGIN_PREFIX ), $myproduct->rating );
+		return sprintf( __( '%s of 5 stars', 'affiliate-toolkit-starter' ), $myproduct->rating );
 	}
 
 	/**
@@ -1997,9 +1997,9 @@ class atkp_formatter {
 	 */
 	public function get_reviewstext( $myproduct ) {
 
-		$reviewstextNull = __( 'Show customer reviews', ATKP_PLUGIN_PREFIX );
-		$reviewstext     = __( '%s customer reviews', ATKP_PLUGIN_PREFIX );
-		$reviewstext2    = __( '1 customer review', ATKP_PLUGIN_PREFIX );
+		$reviewstextNull = __( 'Show customer reviews', 'affiliate-toolkit-starter' );
+		$reviewstext     = __( '%s customer reviews', 'affiliate-toolkit-starter' );
+		$reviewstext2    = __( '1 customer review', 'affiliate-toolkit-starter' );
 
 		if ( $myproduct->reviewcount == '' || $myproduct->reviewcount == 0 ) {
 
@@ -2010,7 +2010,7 @@ class atkp_formatter {
 			}
 
 		} else {
-			return sprintf( _n( $reviewstext2, $reviewstext, $myproduct->reviewcount, ATKP_PLUGIN_PREFIX ), $myproduct->reviewcount );
+			return sprintf( _n( $reviewstext2, $reviewstext, $myproduct->reviewcount, 'affiliate-toolkit-starter' ), $myproduct->reviewcount );
 
 		}
 
@@ -2197,7 +2197,7 @@ class atkp_formatter {
 	}
 
 	public function get_offercount( array $offers ) {
-		return count( $offers ) == 1 ? sprintf( __( '%s offer', ATKP_PLUGIN_PREFIX ), count( $offers ) ) : sprintf( __( '%s offers', ATKP_PLUGIN_PREFIX ), count( $offers ) );
+		return count( $offers ) == 1 ? sprintf( __( '%s offer', 'affiliate-toolkit-starter' ), count( $offers ) ) : sprintf( __( '%s offers', 'affiliate-toolkit-starter' ), count( $offers ) );
 
 	}
 
@@ -2378,9 +2378,9 @@ class atkp_formatter {
 	 */
 	public function get_bytext( $myproduct ) {
 		if ( $myproduct->author != '' ) {
-			return sprintf( __( 'by %s', ATKP_PLUGIN_PREFIX ), $myproduct->author );
+			return sprintf( __( 'by %s', 'affiliate-toolkit-starter' ), $myproduct->author );
 		} else if ( $myproduct->manufacturer != '' ) {
-			return sprintf( __( 'by %s', ATKP_PLUGIN_PREFIX ), $myproduct->manufacturer );
+			return sprintf( __( 'by %s', 'affiliate-toolkit-starter' ), $myproduct->manufacturer );
 		} else {
 			return '';
 		}
@@ -2702,19 +2702,19 @@ class atkp_formatter {
 				switch ( (int) $link_type ) {
 					default:
 					case atkp_link_type::Link:
-						$linktypetext = __( 'Link', ATKP_PLUGIN_PREFIX );
+						$linktypetext = __( 'Link', 'affiliate-toolkit-starter' );
 						break;
 					case atkp_link_type::Offer:
-						$linktypetext = __( 'Offer', ATKP_PLUGIN_PREFIX );
+						$linktypetext = __( 'Offer', 'affiliate-toolkit-starter' );
 						break;
 					case atkp_link_type::Cart:
-						$linktypetext = __( 'Cart', ATKP_PLUGIN_PREFIX );
+						$linktypetext = __( 'Cart', 'affiliate-toolkit-starter' );
 						break;
 					case atkp_link_type::Customerreview:
-						$linktypetext = __( 'Customer review', ATKP_PLUGIN_PREFIX );
+						$linktypetext = __( 'Customer review', 'affiliate-toolkit-starter' );
 						break;
 					case atkp_link_type::Image:
-						$linktypetext = __( 'Image', ATKP_PLUGIN_PREFIX );
+						$linktypetext = __( 'Image', 'affiliate-toolkit-starter' );
 						break;
 				}
 
@@ -2724,7 +2724,7 @@ class atkp_formatter {
 				} else if ( $templateid != '' ) {
 					$linktypetext .= ' (' . $templateid . ', ' . $shoptext . ')';
 				} else {
-					$linktypetext = __( 'Textlink', ATKP_PLUGIN_PREFIX ) . ' (' . $shoptext . ')';
+					$linktypetext = __( 'Textlink', 'affiliate-toolkit-starter' ) . ' (' . $shoptext . ')';
 				}
 
 				$listcaption = '';
@@ -2974,7 +2974,7 @@ class atkp_formatter {
 			$shopname = $shop->get_title();
 
 			if ( $minifier_shops ) {
-				$shopname = __( 'All Shops', ATKP_PLUGIN_PREFIX );
+				$shopname = __( 'All Shops', 'affiliate-toolkit-starter' );
 			}
 
 			$data     .= '{
@@ -3100,7 +3100,7 @@ class atkp_formatter {
 			$shopname = $shop->get_title();
 
 			if ( $minifier_shops ) {
-				$shopname = __( 'All Shops', ATKP_PLUGIN_PREFIX );
+				$shopname = __( 'All Shops', 'affiliate-toolkit-starter' );
 			}
 
 			$data .= '{

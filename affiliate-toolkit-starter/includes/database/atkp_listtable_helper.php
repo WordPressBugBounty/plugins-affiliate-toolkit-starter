@@ -290,7 +290,7 @@ class atkp_listtable_helper {
 			);
 
 		} else {
-			throw new Exception( esc_html__( 'unknown producttype: ' . $type, ATKP_PLUGIN_PREFIX ) );
+			throw new Exception( esc_html__( 'unknown producttype: ' . $type, 'affiliate-toolkit-starter' ) );
 		}
 
 		$data = apply_filters( 'atkp_modify_list_before_db_write', $data );

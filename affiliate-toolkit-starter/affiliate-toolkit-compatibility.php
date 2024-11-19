@@ -17,8 +17,8 @@ class atkp_compatibility {
 
 		add_submenu_page(
 			$parentmenu,
-			esc_html__( 'Compatibility', ATKP_PLUGIN_PREFIX ),
-			esc_html__( 'Compatibility', ATKP_PLUGIN_PREFIX ),
+			esc_html__( 'Compatibility', 'affiliate-toolkit-starter' ),
+			esc_html__( 'Compatibility', 'affiliate-toolkit-starter' ),
 			'manage_options',
 			ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-compatibility',
 			array( &$this, 'toolkit_compatibility' )
@@ -29,7 +29,7 @@ class atkp_compatibility {
 
 	public function toolkit_compatibility() {
 		if ( ! is_user_logged_in() ) {
-			wp_die( esc_html__( 'You do not have sufficient permissions to access this page', ATKP_PLUGIN_PREFIX ) );
+			wp_die( esc_html__( 'You do not have sufficient permissions to access this page', 'affiliate-toolkit-starter' ) );
 		}
 
 		?>
@@ -50,7 +50,7 @@ class atkp_compatibility {
 				$class    = ( $mytab == $tab_name ) ? ' nav-tab-active' : '';
 
 				?> <a class="<?php echo esc_attr('nav-tab' . $class) ?>"
-                      href="<?php echo esc_url( admin_url() . 'admin.php?page=' . ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-compatibility' . '&tab=' . $tab_name ) ?>"><?php echo esc_html__( $key, ATKP_PLUGIN_PREFIX ) ?></a><?php
+                      href="<?php echo esc_url( admin_url() . 'admin.php?page=' . ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-compatibility' . '&tab=' . $tab_name ) ?>"><?php echo esc_html__( $key, 'affiliate-toolkit-starter' ) ?></a><?php
 			}
 			?>
 

@@ -16,7 +16,7 @@ class atkp_tools_shopreplace {
 	public function shopreplace_configuration_page() {
 		if ( ATKPTools::exists_post_parameter( 'replaceshops' ) && check_admin_referer( 'save', 'save' ) ) {
 			if ( ! current_user_can( 'manage_options' ) ) {
-				wp_die( esc_html__( 'You do not have sufficient permissions to access this page', ATKP_PLUGIN_PREFIX ) );
+				wp_die( esc_html__( 'You do not have sufficient permissions to access this page', 'affiliate-toolkit-starter' ) );
 			}
 
 			global $wpdb;
@@ -43,7 +43,7 @@ class atkp_tools_shopreplace {
 
 			$wpdb->query( $wpdb->prepare( "update {$wpdb->prefix}atkp_lists set shop_id = %d where shop_id = %d", $atkp_new_shop_id, $atkp_old_shop_id ) );
 
-			echo esc_html__( 'Shops are replaced.', ATKP_PLUGIN_PREFIX );
+			echo esc_html__( 'Shops are replaced.', 'affiliate-toolkit-starter' );
 
 		} else {
 
@@ -59,14 +59,14 @@ class atkp_tools_shopreplace {
                         <table class="form-table" style="width:100%">
                             <tr>
                                 <th scope="row" style="background-color:#bde4ea; padding:7px" colspan="2">
-	                                <?php echo esc_html__( 'Replace old shop by new shop', ATKP_PLUGIN_PREFIX ) ?>
+	                                <?php echo esc_html__( 'Replace old shop by new shop', 'affiliate-toolkit-starter' ) ?>
                                 </th>
                             </tr>
 
                             <tr>
                                 <th scope="row">
                                     <label for="atkp_old_shop_id">
-	                                    <?php echo esc_html__( 'Old shop ID', ATKP_PLUGIN_PREFIX ) ?>:
+	                                    <?php echo esc_html__( 'Old shop ID', 'affiliate-toolkit-starter' ) ?>:
                                     </label>
                                 </th>
                                 <td>
@@ -79,7 +79,7 @@ class atkp_tools_shopreplace {
                             <tr>
                                 <th scope="row">
                                     <label for="atkp_new_shop_id">
-	                                    <?php echo esc_html__( 'New shop ID', ATKP_PLUGIN_PREFIX ) ?>:
+	                                    <?php echo esc_html__( 'New shop ID', 'affiliate-toolkit-starter' ) ?>:
                                     </label>
                                 </th>
                                 <td>
@@ -125,7 +125,7 @@ class atkp_tools_shopreplace {
                             <tr>
                                 <td>&nbsp;</td>
                                 <td>
-									<?php submit_button( esc_html__( 'Replace shops', ATKP_PLUGIN_PREFIX ), 'primary', 'replaceshops', false ); ?>
+									<?php submit_button( esc_html__( 'Replace shops', 'affiliate-toolkit-starter' ), 'primary', 'replaceshops', false ); ?>
                                 </td>
                             </tr>
 
