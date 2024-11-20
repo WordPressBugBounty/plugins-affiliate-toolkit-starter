@@ -1,9 +1,9 @@
-﻿=== affiliate-toolkit ===
+﻿=== affiliate-toolkit – WP Affiliate Plugin with Amazon ===
 Contributors: cservit 
-Tags: affiliate, marketing, amazon, ebay, awin, belboon, billiger.de, shopping24, csv feed, tradedoubler, yadore, woocommerce, AmazonSimpleAdmin, aawp, affiliatetheme, asa, affiliate plugin
+Tags: affiliate, amazon, ebay, awin, aawp, affiliatetheme, asa
 Requires at least: 5.6
 Tested up to: 6.7
-Stable tag: 3.2
+Stable tag: 3.6.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,9 @@ You just need to install the extension from our website.
 
  
 == Changelog ==
+= 3.6.9 =
+*   Fixed: shortcode was not processed
+
 = 3.6.8 =
 *   Fixed: Language issue (wp 6.7 update)
 *   Fixed: Security issue (thanks to Peter Thaleikis)
