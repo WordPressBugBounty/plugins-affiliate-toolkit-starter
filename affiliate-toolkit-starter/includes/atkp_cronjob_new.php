@@ -210,6 +210,9 @@ class atkp_cronjob_new {
 								$entry->save();
 							}
 						} catch ( Exception $e ) {
+
+							$this->send_message( 'atkp_queue_process_entries_' . $functionname . ' exception: '.$e->getMessage() );
+
 							foreach ( $entries as $entry ) {
 								$entry->status         = atkp_queue_entry_status::ERROR;
 								$entry->updatedmessage = sprintf( __( 'Exception in entries hook: %s', 'affiliate-toolkit-starter' ), $e->getMessage() );
@@ -290,7 +293,7 @@ class atkp_cronjob_new {
 			WP_CLI::log( $message );
 		} else {
 			if ( $this->echo_messages ) {
-				echo esc_html__( $message . '<br />' . PHP_EOL, 'affiliate-toolkit-starter' );
+				echo ( esc_html($message) . '<br />' . PHP_EOL);
 			}
 		}
 

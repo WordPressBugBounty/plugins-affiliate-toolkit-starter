@@ -3,7 +3,7 @@ Contributors: cservit
 Tags: affiliate, amazon, ebay, awin, aawp, affiliatetheme, asa
 Requires at least: 5.6
 Tested up to: 6.7
-Stable tag: 3.6.9
+Stable tag: 3.7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,10 @@ You just need to install the extension from our website.
 
  
 == Changelog ==
+= 3.7.0 =
+*   Bugfix: List import not importing product attributes
+*   Bugfix: Shop config import was not working for csv shops
+
 = 3.6.9 =
 *   Fixed: shortcode was not processed
 

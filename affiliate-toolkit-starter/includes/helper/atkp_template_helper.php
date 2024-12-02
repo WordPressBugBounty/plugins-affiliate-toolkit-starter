@@ -1026,6 +1026,7 @@ class atkp_template_helper {
 			$product->item_idx = $idx ++;
 		}
 
+		$shop = null;
 		if ( is_array( $products ) && count( $products ) > 0 ) {
 			if ( $name == 'products' && isset( $products[0] ) ) {
 				$shop = $products[0]->shop;

@@ -1204,6 +1204,10 @@ class atkp_posttypes_shop
                         if ($unval != null) {
                             require_once(ATKP_PLUGIN_DIR . '/includes/shopproviders/subshop.php');
 
+                            if(defined('ATKP_CSV_PLUGIN_DIR')) {
+                                require_once(ATKP_CSV_PLUGIN_DIR . '/includes/columnconfig.php');
+                            }
+
                             $data = @unserialize($unval);
 
                             if ($data !== false) {

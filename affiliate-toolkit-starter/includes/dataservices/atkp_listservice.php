@@ -253,6 +253,7 @@ class atkp_listservice {
 							$product_service->update_product_price_saved( $entry->post_id, $res->productitem );
 
 							$product_service->update_product_short_url( $entry->post_id, $res->productitem, $newshopid );
+							$product_service->update_custom_fields( $entry->post_id, $res->productitem );
 
 							$atkp_listtable_helper->save_productlist( $entry->post_id, $newshopid, [ $res->productitem ] );
 						}
@@ -549,6 +550,11 @@ class atkp_listservice {
 
 						//produkt mit der eindeutigen ID ist nicht in der Datenbank. Also, neu anlegen!
 						$product_id = ATKPTools::create_product( $value->title, $shop->id, $value->asin, $status, 'ASIN' );
+
+						$productservice->update_product_price_saved( $product_id, $value );
+
+						$productservice->update_product_short_url( $product_id, $value, $shop->id );
+						$productservice->update_custom_fields( $product_id, $value);
 
 						$atkp_producttable_helper->save_products( $product_id, $shop->id, $queue_id, [ $value ] );
 
