@@ -426,6 +426,19 @@ class atkp_filter_helper {
 							$has_wp_filter_fields = true;
 						}
 
+					} else {
+						$dropdown = isset( $filterparams[ $fieldname ] ) ? ( is_array( $filterparams[ $fieldname ] ) ? $filterparams[ $fieldname ] : explode( ',', $filterparams[ $fieldname ] ) ) : null;
+
+						$para = array(
+							'key'     => ATKP_PRODUCT_POSTTYPE . '_' . $fieldname,
+							'value'   => $dropdown,
+							'compare' => 'IN',
+							'type'    => 'CHAR'
+						);
+
+						$args['meta_query'][] = $para;
+
+						$has_wp_filter_fields = true;
 					}
 					break;
 			}

@@ -137,6 +137,9 @@ You just need to install the extension from our website.
 
  
 == Changelog ==
+= 3.7.1 =
+*   Fixed: Security issue (thanks to Peter Thaleikis)
+
 = 3.7.0 =
 *   Bugfix: List import not importing product attributes
 *   Bugfix: Shop config import was not working for csv shops

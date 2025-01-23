@@ -92,7 +92,8 @@ class atkp_udtaxonomy {
 
 		$newfields = array_reverse( $newfields );
 
-		$category = get_option( ATKP_PLUGIN_PREFIX . '_product_category_taxonomy', strtolower( __( 'Productcategory', 'affiliate-toolkit-starter' ) ) );
+		$category = atkp_options::$loader->get_product_category_taxonomy();
+		// get_option( ATKP_PLUGIN_PREFIX . '_product_category_taxonomy', strtolower( __( 'Productcategory', 'affiliate-toolkit-starter' ) ) );
 
 		//remove system taxonomies
 
