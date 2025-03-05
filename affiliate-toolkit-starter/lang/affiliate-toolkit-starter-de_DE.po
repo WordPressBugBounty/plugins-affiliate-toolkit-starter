@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: affiliate-toolkit 3.0\n"
-"POT-Creation-Date: 2024-11-19 09:43+0100\n"
-"PO-Revision-Date: 2024-11-19 09:43+0100\n"
+"POT-Creation-Date: 2025-03-05 13:50+0100\n"
+"PO-Revision-Date: 2025-03-05 13:52+0100\n"
 "Last-Translator: Christof Servit <office@servit.biz>\n"
 "Language-Team: SERVIT Software Solutions <office@servit.biz>\n"
 "Language: de\n"
@@ -20,17 +20,17 @@ msgstr ""
 
 #: affiliate-toolkit-amazon/affiliate-toolkit-amazon.php:33
 msgid ""
-"<span style=\"font-weight:bold\">affiliate-toolkit - Amazon:</span> You are using "
-"affiliate-toolkit from the WordPress directory. Please uninstall the Amazon extension. "
-"It's already included in the main plugin."
+"<span style=\"font-weight:bold\">affiliate-toolkit - Amazon:</span> You are using affiliate-"
+"toolkit from the WordPress directory. Please uninstall the Amazon extension. It's already "
+"included in the main plugin."
 msgstr ""
 "<span style=\"font-weight:bold\">affiliate-toolkit - Amazon:</span> Du verwendest das "
-"affiliate-toolkit aus dem WordPress-Verzeichnis. Deinstalliere die Amazon-Erweiterung. Es "
-"ist bereits im Haupt-Plugin enthalten."
+"affiliate-toolkit aus dem WordPress-Verzeichnis. Deinstalliere die Amazon-Erweiterung. Es ist "
+"bereits im Haupt-Plugin enthalten."
 
 #: affiliate-toolkit-amazon/affiliate-toolkit-amazon.php:61
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:137
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:420
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:421
 msgid "Amazon"
 msgstr "Amazon"
 
@@ -65,19 +65,19 @@ msgstr "Trackingcode nicht gefunden:"
 msgid ": "
 msgstr ": "
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:459
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:460
 msgid "Amazon Access Key ID"
 msgstr "Amazon Access Key ID"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:460
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:476
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:491
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:538
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:461
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:477
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:492
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:539
 #: affiliate-toolkit-starter/includes/atkp_posttypes_shop.php:456
 msgid "(required)"
 msgstr "(erforderlich)"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:469
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:470
 msgid ""
 "You can find your API key in the Amazon Partnernet. In the Submenu \"Tools > Product "
 "Advertising API > Manage Your Credentials\"."
@@ -85,302 +85,313 @@ msgstr ""
 "Du findest deinen API-Schlüssel im Amazon Partnernet. Im Untermenü \"Tools > Product "
 "Advertising API > Manage Your Credentials\"."
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:475
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:476
 msgid "Amazon Secret Access Key"
 msgstr "Amazon Secret Access Key"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:490
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:491
 msgid "Amazon Website"
 msgstr "Amazon Webseite"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:500
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:501
 msgid "Amazon Germany"
 msgstr "Amazon Deutschland"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:501
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:502
 msgid "Amazon United States"
 msgstr "Amazon Vereinigte Staaten"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:502
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:503
 msgid "Amazon United Kingdom"
 msgstr "Amazon Vereinigtes Königreich"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:503
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:504
 msgid "Amazon Canada"
 msgstr "Amazon Kanada"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:504
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:505
 msgid "Amazon France"
 msgstr "Amazon Frankreich"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:505
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:506
 msgid "Amazon Japan"
 msgstr "Amazon Japan"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:506
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:507
 msgid "Amazon Italy"
 msgstr "Amazon Italien"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:508
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:509
 msgid "Amazon Spain"
 msgstr "Amazon Spanien"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:509
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:510
 msgid "Amazon India"
 msgstr "Amazon Indien"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:510
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:511
 msgid "Amazon Brazil"
 msgstr "Amazon Brasilien"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:511
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:512
 msgid "Amazon Australia"
 msgstr "Amazon Australien"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:512
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:513
 msgid "Amazon Mexico"
 msgstr "Amazon Mexiko"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:513
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:514
 msgid "Amazon Turkey"
 msgstr "Amazon Türkei"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:514
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:515
 msgid "Amazon Belgium"
 msgstr "Amazon Belgien"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:515
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:516
 msgid "Amazon United Arab Emirates"
 msgstr "Amazon Vereinigte Arabische Emirate"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:516
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:517
 msgid "Amazon Netherlands"
 msgstr "Amazon Niederlande"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:517
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:518
 msgid "Amazon Poland"
 msgstr "Amazon Polen"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:537
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:538
 msgid "Amazon Tracking ID"
 msgstr "Amazon Tracking ID"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:550
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1351
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:551
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1371
 msgid "Languages Of Preference"
 msgstr "Bevorzugte Sprachen"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:558
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:559
 msgid ""
 "You can set an list of languages you want to receive (comma separated). You can find the "
 "valid languages for each marketplace <a href=\"https://webservices.amazon.de/paapi5/"
 "documentation/locale-reference.html\" target=\"_blank\">here</a>."
 msgstr ""
 "Sie können eine Liste der Sprachen angeben, die Sie erhalten möchten (mit Komma getrennt). "
-"Die gültigen Sprachen für jeden Marktplatz finden Sie <a href=\"https://webservices.amazon."
-"de/paapi5/documentation/locale-reference.html\" target=\"_blank\">hier</a>."
+"Die gültigen Sprachen für jeden Marktplatz finden Sie <a href=\"https://webservices.amazon.de/"
+"paapi5/documentation/locale-reference.html\" target=\"_blank\">hier</a>."
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:571
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:572
 msgid "No API mode"
 msgstr "Kein API-Modus"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:581
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:582
 #: affiliate-toolkit-starter/includes/atkp_posttypes_shop.php:773
 msgid "Disabled"
 msgstr "Ausgeschaltet"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:583
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:584
 msgid "Always use"
 msgstr "Immer verwenden"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:585
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:586
 msgid "Use in case of error"
 msgstr "Im Fehlerfall verwenden"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:589
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:590
 msgid ""
-"NoAPI allows you to read the Title, Price and Image from the Amazon Widgets. You can use "
-"this option if you don't have API access or you receiving the \"Too Many\" exception. It's "
-"not a official Amazon functionality."
+"NoAPI allows you to read the Title, Price and Image from the Amazon Widgets. You can use this "
+"option if you don't have API access or you receiving the \"Too Many\" exception. It's not a "
+"official Amazon functionality."
 msgstr ""
 "Mit NoAPI können Sie Titel, Preis und Bild aus den Amazon-Widgets lesen. Sie können diese "
-"Option verwenden, wenn Sie keinen API-Zugriff haben oder die Ausnahme „Zu viele“ erhalten. "
-"Es handelt sich nicht um eine offizielle Amazon-Funktion."
+"Option verwenden, wenn Sie keinen API-Zugriff haben oder die Ausnahme „Zu viele“ erhalten. Es "
+"handelt sich nicht um eine offizielle Amazon-Funktion."
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:603
-msgid "Scrape star ratings from website (not recommended)"
-msgstr "Scrape Sternebewertungen von der Webseite (nicht empfohlen)"
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:597
+msgid "ASIN Data API Key"
+msgstr "ASIN Data API Schlüssel"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:605
 msgid ""
-"This function is reading the star rating from the Amazon webpage. It is not allowed by "
-"Amazon and we don't recommend it."
+"By default our interface allows only 10 product requests per license and tag. If you want "
+"more, you need to purchase a api key <a href=\"https://trajectdata.com/ecommerce/asin-data-"
+"api/pricing/\" target=\"_blank\">here</a>."
+msgstr ""
+"Standardmäßig erlaubt unsere Schnittstelle nur 10 Produktanfragen pro Lizenz und Tag. Wenn "
+"Sie mehr möchten, müssen Sie <a href=\"https://trajectdata.com/ecommerce/asin-data-api/"
+"pricing/\" target=\"_blank\">hier</a> einen API-Schlüssel erwerben."
+
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:619
+msgid "Load star ratings from NoAPI interface (not recommended)"
+msgstr "Sternebewertungen von der NoAPI-Schnittstelle laden (nicht empfohlen)"
+
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:621
+msgid ""
+"This function is reading the star rating from the Amazon webpage. It is not allowed by Amazon "
+"and we don't recommend it."
 msgstr ""
 "Diese Funktion liest die Sternebewertung von der Amazon-Webseite. Es ist von Amazon nicht "
 "erlaubt und wir empfehlen es nicht."
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:614
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:630
 msgid "Please activate the \"affiliate-toolkit - Amazon No API Mode\" extension."
 msgstr "Bitte aktivieren Sie die Erweiterung „affiliate-toolkit – Amazon No API Mode“."
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:641
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:657
 msgid ""
 "Please note: If you are using the official Amazon API everything is fine. If you have no "
-"access to the API (e.g. too many requests exception) you need to download our extension "
-"for this functionality."
+"access to the API (e.g. too many requests exception) you need to download our extension for "
+"this functionality."
 msgstr ""
-"Bitte beachten: Wenn Sie die offizielle Amazon-API verwenden, ist alles in Ordnung. Wenn "
-"Sie keinen Zugriff auf die API haben (z. B. Ausnahme wegen zu vieler Anfragen), müssen Sie "
-"für diese Funktionalität unsere Erweiterung herunterladen."
+"Bitte beachten: Wenn Sie die offizielle Amazon-API verwenden, ist alles in Ordnung. Wenn Sie "
+"keinen Zugriff auf die API haben (z. B. Ausnahme wegen zu vieler Anfragen), müssen Sie für "
+"diese Funktionalität unsere Erweiterung herunterladen."
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:644
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:660
 msgid "Download extension now"
 msgstr "Erweiterung jetzt herunterladen"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:671
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:687
 msgid "Small image size"
 msgstr "Bildgröße klein"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:677
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:691
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:693
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:707
 msgid "px"
 msgstr "px"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:678
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:694
 msgid ""
-"Amazon offers flexible image sizes. If you wan't to override the default size of 75px you "
-"can change it here. Changes for already imported products are visible after the cache "
-"update."
+"Amazon offers flexible image sizes. If you wan't to override the default size of 75px you can "
+"change it here. Changes for already imported products are visible after the cache update."
 msgstr ""
-"Amazon bietet flexible Bildgrößen. Wenn du die Standardgröße von 75px überschreiben "
-"möchten, kannst du dies hier ändern. Änderungen für bereits importierte Produkte sind nach "
-"dem Cache-Update sichtbar."
+"Amazon bietet flexible Bildgrößen. Wenn du die Standardgröße von 75px überschreiben möchten, "
+"kannst du dies hier ändern. Änderungen für bereits importierte Produkte sind nach dem Cache-"
+"Update sichtbar."
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:685
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:701
 msgid "Medium image size"
 msgstr "Bildgröße mittel"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:692
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:708
 msgid ""
 "Amazon offers flexible image sizes. If you wan't to override the default size of 160px you "
-"can change it here. Changes for already imported products are visible after the cache "
-"update."
+"can change it here. Changes for already imported products are visible after the cache update."
 msgstr ""
-"Amazon bietet flexible Bildgrößen. Wenn du die Standardgröße von 75px überschreiben "
-"möchtest, kannst du dies hier ändern. Änderungen für bereits importierte Produkte sind "
-"nach dem Cache-Update sichtbar."
+"Amazon bietet flexible Bildgrößen. Wenn du die Standardgröße von 75px überschreiben möchtest, "
+"kannst du dies hier ändern. Änderungen für bereits importierte Produkte sind nach dem Cache-"
+"Update sichtbar."
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:701
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:717
 msgid "Product condition:"
 msgstr "Produktzustand:"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:712
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:728
 msgid "Any"
 msgstr "Beliebig"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:714
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:730
 msgid "New"
 msgstr "Neu"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:715
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:731
 msgid "Used"
 msgstr "Gebraucht"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:716
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:732
 msgid "Collectible"
 msgstr "Sammlerstück"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:717
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:733
 msgid "Refurbished"
 msgstr "Generalüberholt"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:723
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:739
 msgid ""
 "You can filter if you only wan't prices for special conditions of products. By default you "
 "receive all offers. If you only wan't to show \"used\" products on your website you can "
 "select a different option."
 msgstr ""
 "Du kannst filtern, wenn du nur Preise für Produkte von Sonderkonditionen wünscht. "
-"Standardmäßig erhältst du alle Angebote. Wenn du nur \"gebrauchte\" Produkte nicht auf "
-"deiner Website anzeigen möchtest, kannst du eine andere Option auswählen."
+"Standardmäßig erhältst du alle Angebote. Wenn du nur \"gebrauchte\" Produkte nicht auf deiner "
+"Website anzeigen möchtest, kannst du eine andere Option auswählen."
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:730
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:746
 msgid "Wait x seconds before sending the request"
 msgstr "Warte x Sekunden vorm Request senden"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:736
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:752
 msgid "seconds"
 msgstr "Sekunden"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:737
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:753
 msgid ""
-"In normal cases you don't need to change to a higher limit. By default the API is waiting "
-"one second.."
+"In normal cases you don't need to change to a higher limit. By default the API is waiting one "
+"second.."
 msgstr ""
 "Im Normalfall musst du nicht auf ein höheres Limit wechseln. Standardmäßig wartet die API "
 "eine Sekunde."
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:753
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:769
 msgid "Load variations for products"
 msgstr "Lade Variationen für Produkte"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:755
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:771
 msgid ""
 "If you wan't to retrieve also other colors or variations for one product (e.g. Shirts) you "
 "can enable this option but this cost one extra request per product"
 msgstr ""
-"Wenn du auch andere Farben oder Variationen für ein Produkt (z. B. Hemden) abrufen "
-"möchtest, kannst du diese Option aktivieren, dies kostet jedoch eine zusätzliche Anfrage "
-"pro Produkt"
+"Wenn du auch andere Farben oder Variationen für ein Produkt (z. B. Hemden) abrufen möchtest, "
+"kannst du diese Option aktivieren, dies kostet jedoch eine zusätzliche Anfrage pro Produkt"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:981
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1001
 msgid "Search and import not supported. You enabled \"sitestripe mode\" in your amazon shop."
 msgstr ""
-"Suchen und Importieren werden nicht unterstützt. Du hast den \"Sitestripe-Modus\" in "
-"deinem Amazon-Shop aktiviert."
+"Suchen und Importieren werden nicht unterstützt. Du hast den \"Sitestripe-Modus\" in deinem "
+"Amazon-Shop aktiviert."
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1252
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1272
 msgid "Sorts results according to average customer reviews"
 msgstr "Sortiert die Ergebnisse nach durchschnittlichen Kundenbewertungen"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1253
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1273
 msgid "Sorts results with featured items having higher rank"
 msgstr "Sortiert die Ergebnisse nach ausgewählten Artikeln mit höherem Rang"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1254
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1274
 msgid "Sorts results with according to newest arrivals"
 msgstr "Sortiert die Ergebnisse nach Neuerscheinungen"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1255
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1275
 msgid "Sorts results according to most expensive to least expensive"
 msgstr "Sortiert die Ergebnisse nach dem teuersten bis zum billigstem"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1256
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1276
 msgid "Sorts results according to least expensive to most expensive"
 msgstr "Sortiert die Ergebnisse vom billigsten bis zum teuersten"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1257
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1277
 msgid "Sorts results with relevant items having higher rank"
 msgstr "Sortiert die Ergebnisse nach relevanten Elementen mit höherem Rang"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1340
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1360
 msgid "Not selected"
 msgstr "Nicht gewählt"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1342
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1362
 msgid "Actor"
 msgstr "Darsteller"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1343
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1363
 msgid "Artist"
 msgstr "Künstler"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1344
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1364
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1733
 msgid "Author"
 msgstr "Autor"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1345
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1365
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:820
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2754
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2955
@@ -388,90 +399,86 @@ msgstr "Autor"
 msgid "Availability"
 msgstr "Verfügbarkeit"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1346
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1366
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1762
 #: affiliate-toolkit-starter/includes/helper/atkp_template_helper.php:478
 msgid "Brand"
 msgstr "Marke"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1347
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1367
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:983
 msgid "BrowseNode"
 msgstr "BrowseNode"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1348
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1368
 msgid "Condition"
 msgstr "Bedingung"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1349
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1369
 msgid "Currency Of Preference"
 msgstr "Bevorzugte Währung"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1350
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1370
 msgid "DeliveryFlags"
 msgstr "Lieferflags"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1352
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1372
 msgid "Marketplace"
 msgstr "Marktplatz"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1354
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1374
 msgid "Maximum price"
 msgstr "Höchster Preis"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1355
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1375
 msgid "Minimum price"
 msgstr "Kleinster Preis"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1356
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1376
 msgid "Merchant Id"
 msgstr "Merchant-ID"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1357
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1377
 msgid "Min Reviews Rating"
 msgstr "Minimum Reviews Bewertung"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1358
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1378
 msgid "Min percentage off"
 msgstr "Min. Prozentnachlass"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1360
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1380
 msgid "Keywords"
 msgstr "Schlüsselbegriff"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1361
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1381
 msgid "SearchIndex"
 msgstr "SearchIndex"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1362
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1382
 msgid "Sort"
 msgstr "Sortierung"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1364
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1384
 #: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:228
 #: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:421
-#: affiliate-toolkit-starter/includes/atkp_endpoints.php:709
+#: affiliate-toolkit-starter/includes/atkp_endpoints.php:716
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1412
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:957
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1671
 #: affiliate-toolkit-starter/includes/atkp_posttypes_shop.php:917
 #: affiliate-toolkit-starter/includes/helper/atkp_template_helper.php:463
 #: affiliate-toolkit-starter/includes/pages/atkp_queue_table.php:200
-#: affiliate-toolkit-starter/includes/pages/atkp_template_table.php:204
+#: affiliate-toolkit-starter/includes/pages/atkp_template_table.php:206
 #: affiliate-toolkit-starter/includes/widgets/atkp_widget.php:358
 msgid "Title"
 msgstr "Titel"
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1468
-msgid "Status code: "
-msgstr "Statuscode: "
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1502
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1568
+msgid "The query limit has been reached."
+msgstr "Das Abfragelimit wurde erreicht."
 
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1469
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1470
-msgid "<pre>"
-msgstr "<pre>"
-
-#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1767
+#: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1829
 msgid "unknown id_type: "
 msgstr "unbekannter ID-Typ: "
 
@@ -504,8 +511,8 @@ msgid "Filter Information"
 msgstr "Filterinformationen"
 
 #: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:105
-#: affiliate-toolkit-starter/includes/atkp_endpoints.php:896
-#: affiliate-toolkit-starter/includes/atkp_endpoints.php:910
+#: affiliate-toolkit-starter/includes/atkp_endpoints.php:903
+#: affiliate-toolkit-starter/includes/atkp_endpoints.php:917
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:43
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:276
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:393
@@ -549,7 +556,7 @@ msgstr "EAN(s)"
 #: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:229
 #: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:330
 #: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:467
-#: affiliate-toolkit-starter/includes/atkp_endpoints.php:760
+#: affiliate-toolkit-starter/includes/atkp_endpoints.php:767
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:958
 msgid "Articlenumber"
 msgstr "Artikelnummer"
@@ -613,7 +620,7 @@ msgid "API returned: %s"
 msgstr "API hat zurückgegeben: %s"
 
 #: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:417
-#: affiliate-toolkit-starter/includes/atkp_endpoints.php:705
+#: affiliate-toolkit-starter/includes/atkp_endpoints.php:712
 #: affiliate-toolkit-starter/includes/helper/atkp_formatter.php:2717
 msgid "Image"
 msgstr "Bild"
@@ -623,7 +630,7 @@ msgid "Custom Fields"
 msgstr "Benutzerdefinierte Felder"
 
 #: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:429
-#: affiliate-toolkit-starter/includes/atkp_endpoints.php:714
+#: affiliate-toolkit-starter/includes/atkp_endpoints.php:721
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:17
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:277
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:121
@@ -638,14 +645,14 @@ msgid "Status"
 msgstr "Status"
 
 #: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:460
-#: affiliate-toolkit-starter/includes/atkp_endpoints.php:760
+#: affiliate-toolkit-starter/includes/atkp_endpoints.php:767
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:772
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1365
 msgid "Unique ID"
 msgstr "Eindeutige ID"
 
 #: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:474
-#: affiliate-toolkit-starter/includes/atkp_endpoints.php:761
+#: affiliate-toolkit-starter/includes/atkp_endpoints.php:768
 #: affiliate-toolkit-starter/includes/helper/atkp_template_helper.php:324
 #: affiliate-toolkit-starter/includes/helper/atkp_translator.php:88
 #, php-format
@@ -663,14 +670,14 @@ msgid "Shop: %s"
 msgstr "Shop: %s"
 
 #: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:488
-#: affiliate-toolkit-starter/includes/atkp_endpoints.php:764
+#: affiliate-toolkit-starter/includes/atkp_endpoints.php:771
 msgid "View product"
 msgstr "Produkt anzeigen"
 
 #: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:527
 #: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:732
 #: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:904
-#: affiliate-toolkit-starter/includes/atkp_endpoints.php:808
+#: affiliate-toolkit-starter/includes/atkp_endpoints.php:815
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator2.php:1773
 msgid "Product imported."
 msgstr "Produkt importiert."
@@ -685,7 +692,7 @@ msgid "%s is empty."
 msgstr "%s ist leer."
 
 #: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:904
-#: affiliate-toolkit-starter/includes/atkp_endpoints.php:807
+#: affiliate-toolkit-starter/includes/atkp_endpoints.php:814
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator2.php:1773
 msgid "Imported"
 msgstr "Importiert"
@@ -717,8 +724,8 @@ msgstr "Alle Pakete anzeigen"
 msgid ""
 "There was an error retrieving the extensions list from the server. Please try again later."
 msgstr ""
-"Beim Abrufen der Erweiterungsliste vom Server ist ein Fehler aufgetreten. Bitte versuche "
-"es später erneut."
+"Beim Abrufen der Erweiterungsliste vom Server ist ein Fehler aufgetreten. Bitte versuche es "
+"später erneut."
 
 #: affiliate-toolkit-starter/affiliate-toolkit-extensions.php:77
 #, php-format
@@ -744,53 +751,53 @@ msgstr "Einstellungen"
 msgid "Tools"
 msgstr "Werkzeuge"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:134
+#: affiliate-toolkit-starter/affiliate-toolkit.php:106
 msgid "General settings"
 msgstr "Globale Einstellungen"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:138
+#: affiliate-toolkit-starter/affiliate-toolkit.php:110
 msgid "Advanced settings"
 msgstr "Erweiterte Einstellungen"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:142
+#: affiliate-toolkit-starter/affiliate-toolkit.php:114
 msgid "Display settings"
 msgstr "Anzeige Einstellungen"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:146
+#: affiliate-toolkit-starter/affiliate-toolkit.php:118
 msgid "Licenses"
 msgstr "Lizenzen"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:172
+#: affiliate-toolkit-starter/affiliate-toolkit.php:144
 msgid "Shop replacement"
 msgstr "Shop-Ersatz"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:176
+#: affiliate-toolkit-starter/affiliate-toolkit.php:148
 msgid "Debug"
 msgstr "Debug"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:180
+#: affiliate-toolkit-starter/affiliate-toolkit.php:152
 msgid "Welcome"
 msgstr "Willkommen"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:283
-#: affiliate-toolkit-starter/affiliate-toolkit.php:284
+#: affiliate-toolkit-starter/affiliate-toolkit.php:255
+#: affiliate-toolkit-starter/affiliate-toolkit.php:256
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator2.php:358
 #: affiliate-toolkit-starter/includes/atkp_tools_debug.php:500
 msgid "affiliate-toolkit"
 msgstr "affiliate-toolkit"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:537
+#: affiliate-toolkit-starter/affiliate-toolkit.php:509
 #, php-format
 msgid ""
-"<span style=\"font-weight:bold\">affiliate-toolkit:</span> You must migrate your products "
-"to newest version (v2 to v3). Please <a href=\"%s\">click here</a> to migrate now. Please "
-"create a backup before you migrate."
+"<span style=\"font-weight:bold\">affiliate-toolkit:</span> You must migrate your products to "
+"newest version (v2 to v3). Please <a href=\"%s\">click here</a> to migrate now. Please create "
+"a backup before you migrate."
 msgstr ""
 "<span style=\"font-weight:bold\">affiliate-toolkit:</span> Du musst deine Produkte auf die "
 "neueste Version (v2 zu v3) migrieren. Bitte <a href=\"%s\">klicke hier</a> , um jetzt zu "
 "migrieren. Bitte erstelle ein Backup, bevor du migrierst."
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:557
+#: affiliate-toolkit-starter/affiliate-toolkit.php:529
 #, php-format
 msgid ""
 "<span style=\"font-weight:bold\">affiliate-toolkit:</span> Please check your display "
@@ -800,12 +807,12 @@ msgstr ""
 "Anzeigeeinstellungen. Bitte <a href=\"%s\">klicken Sie hier</a> , um zu Ihrer "
 "Anzeigeeinstellungsseite zu gelangen."
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:568
+#: affiliate-toolkit-starter/affiliate-toolkit.php:540
 #, php-format
 msgid "<span style=\"font-weight:bold\">affiliate-toolkit: %s</span>"
 msgstr "<span style=\"font-weight:bold\">affiliate-toolkit: %s</span>"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:582
+#: affiliate-toolkit-starter/affiliate-toolkit.php:554
 #, php-format
 msgid ""
 "<span style=\"font-weight:bold\">affiliate-toolkit - %s:</span> <a target=\"_blank\" "
@@ -834,22 +841,17 @@ msgstr "Status des Shops ungültig: "
 msgid "Entry was not updated via function"
 msgstr "Eintrag wurde nicht über Funktion aktualisiert"
 
-#: affiliate-toolkit-starter/includes/atkp_cronjob_new.php:215
+#: affiliate-toolkit-starter/includes/atkp_cronjob_new.php:218
 #, php-format
 msgid "Exception in entries hook: %s"
 msgstr "Fehler im Eintrags-Hook: %s"
 
-#: affiliate-toolkit-starter/includes/atkp_cronjob_new.php:293
-#: affiliate-toolkit-starter/includes/dataservices/atkp_queueservices.php:907
-msgid "<br />"
-msgstr "<br />"
-
-#: affiliate-toolkit-starter/includes/atkp_endpoints.php:687
+#: affiliate-toolkit-starter/includes/atkp_endpoints.php:694
 msgid "Search term is required"
 msgstr "Suchbegriff ist erforderlich"
 
-#: affiliate-toolkit-starter/includes/atkp_endpoints.php:894
-#: affiliate-toolkit-starter/includes/atkp_endpoints.php:908
+#: affiliate-toolkit-starter/includes/atkp_endpoints.php:901
+#: affiliate-toolkit-starter/includes/atkp_endpoints.php:915
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:33
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:162
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:402
@@ -1218,12 +1220,12 @@ msgstr " um "
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:442
 msgid ""
-"You can create you list by using a shop as source (retrieved from the API) or you can "
-"create a \"hand selected\" list from already imported products (select \"no shop\")."
+"You can create you list by using a shop as source (retrieved from the API) or you can create "
+"a \"hand selected\" list from already imported products (select \"no shop\")."
 msgstr ""
 "Du kannst eine Liste erstellen, indem du einen Shop als Quelle verwendest (aus der API "
-"abgerufen) oder du kannst eine \"handselektierte\" Liste aus bereits importierten "
-"Produkten erstellen (wähle \"kein Shop\")."
+"abgerufen) oder du kannst eine \"handselektierte\" Liste aus bereits importierten Produkten "
+"erstellen (wähle \"kein Shop\")."
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:459
 msgid "List updated on %refresh_date% at %refresh_time%"
@@ -1259,8 +1261,7 @@ msgstr "Abteilung"
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1017
 msgid ""
-"You can only find the root categories of the shop. We are not loading the full category "
-"tree."
+"You can only find the root categories of the shop. We are not loading the full category tree."
 msgstr ""
 "Sie können nur die Stammkategorien des Shops finden. Wir laden nicht den gesamten "
 "Kategorienbaum."
@@ -1283,19 +1284,18 @@ msgstr "Lokale Produktinformationen bevorzugen"
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1152
 msgid ""
-"The plugin is searching in your local product database (by id) if you imported this "
-"product already and will use the local information."
+"The plugin is searching in your local product database (by id) if you imported this product "
+"already and will use the local information."
 msgstr ""
-"Das Plugin sucht in Ihrer lokalen Produktdatenbank (nach ID), wenn du dieses Produkt "
-"bereits importiert hast, werden die lokalen Informationen verwendet."
+"Das Plugin sucht in Ihrer lokalen Produktdatenbank (nach ID), wenn du dieses Produkt bereits "
+"importiert hast, werden die lokalen Informationen verwendet."
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1164
 msgid "Auto import products"
 msgstr "Produkte automatisch importieren"
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1166
-msgid ""
-"If you enable this option the products from this list will be imported as local product."
+msgid "If you enable this option the products from this list will be imported as local product."
 msgstr ""
 "Wenn du diese Option aktivierst, werden die Produkte aus dieser Liste als lokales Produkt "
 "importiert."
@@ -1306,8 +1306,8 @@ msgstr "Produkte automatisch löschen"
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1180
 msgid ""
-"All products from this list will be deleted in your local product database. Take care: If "
-"you enable \"Auto import\" and \"Auto delete\" the products will be deleted directly after "
+"All products from this list will be deleted in your local product database. Take care: If you "
+"enable \"Auto import\" and \"Auto delete\" the products will be deleted directly after "
 "creation."
 msgstr ""
 "Alle Produkte aus dieser Liste werden in Ihrer lokalen Produktdatenbank gelöscht. Achtung: "
@@ -1320,11 +1320,11 @@ msgstr "Lade Angebote von anderen Shops"
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1195
 msgid ""
-"If you want to search for offers from other shops you need to activate this option. The "
-"price search will be performed in the background."
+"If you want to search for offers from other shops you need to activate this option. The price "
+"search will be performed in the background."
 msgstr ""
-"Wenn du nach Angeboten aus anderen Shops suchen möchtest, musst du diese Option "
-"aktivieren. Die Preissuche wird im Hintergrund durchgeführt."
+"Wenn du nach Angeboten aus anderen Shops suchen möchtest, musst du diese Option aktivieren. "
+"Die Preissuche wird im Hintergrund durchgeführt."
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1205
 msgid "Title filter (one keyword per line)"
@@ -1332,15 +1332,14 @@ msgstr "Titel-Filter (ein Schlüsselbegriff pro Zeile)"
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1216
 msgid ""
-"For removing entries from your list you can use this field. Add one keyword per line. If "
-"you add \"<b>keyword</b>\" only products including this keyword will be displayed. If you "
-"add \"<b>-keyword</b>\" the plugin remove only products including the \"keyword\"."
+"For removing entries from your list you can use this field. Add one keyword per line. If you "
+"add \"<b>keyword</b>\" only products including this keyword will be displayed. If you add "
+"\"<b>-keyword</b>\" the plugin remove only products including the \"keyword\"."
 msgstr ""
 "Um Einträge aus deiner Liste zu entfernen, kannst du dieses Feld verwenden. Füge einen "
 "Schlüsselwort pro Zeile hinzu. Wenn du einen \"Schlüsselwort\" hinzufügst, werden nur "
-"Produkte angezeigt, welche  dieses <b>Schlüsselwort</b> enthalten. Wenn du \"-"
-"Schlüsselwort\" hinzufügen, entfernt das Plugin nur Produkte, die das \"<b>Schlüsselwort</"
-"b>\" enthalten."
+"Produkte angezeigt, welche  dieses <b>Schlüsselwort</b> enthalten. Wenn du \"-Schlüsselwort\" "
+"hinzufügen, entfernt das Plugin nur Produkte, die das \"<b>Schlüsselwort</b>\" enthalten."
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1229
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1002
@@ -1356,8 +1355,8 @@ msgstr "Dein Suchbegriff..."
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1242
 msgid ""
-"This list shows the first 25 products. Please use the search if you cannot find your "
-"product below."
+"This list shows the first 25 products. Please use the search if you cannot find your product "
+"below."
 msgstr ""
 "Die Liste zeigt die ersten 25 Produkte. Bitte nutze die Suche, wenn du die Produkte unten "
 "nicht finden kannst."
@@ -1638,8 +1637,7 @@ msgstr "Lade Produkte aus den Shops beim Speichern"
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1162
 msgid "If you select this option the product will be searched in the selected shop on save."
 msgstr ""
-"Wenn du diese Option auswählst, wird das Produkt im ausgewählten Shop beim Speichern "
-"gesucht."
+"Wenn du diese Option auswählst, wird das Produkt im ausgewählten Shop beim Speichern gesucht."
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1172
 msgid "Product updated on %refresh_date% at %refresh_time%"
@@ -2100,8 +2098,7 @@ msgstr "Erweiterungen anzeigen"
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_shop.php:492
 msgid ""
-"Please select the API you want to use for this shop. You can download more APIs as "
-"extensions."
+"Please select the API you want to use for this shop. You can download more APIs as extensions."
 msgstr ""
 "Bitte wähle die API aus, die du für diesen Shop verwenden möchtest. Du kannst weitere APIs "
 "als Erweiterungen herunterladen."
@@ -2136,8 +2133,8 @@ msgstr "Automatisches Laden von Angeboten für den Preisvergleich"
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_shop.php:673
 msgid ""
-"If you want that the plugin searches for more offers (by EAN, GTIN and ISBN) you can "
-"enable this option."
+"If you want that the plugin searches for more offers (by EAN, GTIN and ISBN) you can enable "
+"this option."
 msgstr ""
 "Wenn du möchtest, dass das Plugin nach weiteren Angeboten sucht (von EAN, GTIN und ISBN), "
 "kannst du diese Option aktivieren."
@@ -2227,8 +2224,8 @@ msgid ""
 "If you change the value to a lower value than 100 the shop is on top. If you cange it to a "
 "higher value than 100 it's at the end"
 msgstr ""
-"Wenn du den Wert auf einen niedrigeren Wert als 100 änderst, ist der Shop an der Spitze. "
-"Wenn du es auf einen höheren Wert als 100 setzt, ist das Angebot am Ende"
+"Wenn du den Wert auf einen niedrigeren Wert als 100 änderst, ist der Shop an der Spitze. Wenn "
+"du es auf einen höheren Wert als 100 setzt, ist das Angebot am Ende"
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_shop.php:1058
 msgid "Chart color"
@@ -2258,15 +2255,15 @@ msgstr "Benutzerdefiniertes Feld 2 (html)"
 msgid "Custom Field 3 (html)"
 msgstr "Benutzerdefiniertes Feld 3 (html)"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_shop.php:1226
+#: affiliate-toolkit-starter/includes/atkp_posttypes_shop.php:1230
 msgid "Connecting..."
 msgstr "Verbinde..."
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_shop.php:1239
+#: affiliate-toolkit-starter/includes/atkp_posttypes_shop.php:1243
 msgid "provider not found: "
 msgstr "Anbieter nicht gefunden: "
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_shop.php:1310
+#: affiliate-toolkit-starter/includes/atkp_posttypes_shop.php:1314
 #: affiliate-toolkit-starter/includes/models/atkp_shop.php:62
 #: affiliate-toolkit-starter/includes/models/atkp_shop.php:66
 #: affiliate-toolkit-starter/includes/models/atkp_shop.php:70
@@ -2901,11 +2898,11 @@ msgstr "Weitere Angebote"
 #: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1597
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:1007
 msgid ""
-"The system templates are not showing the price comparision by default. Activate this "
-"option to display different prices."
+"The system templates are not showing the price comparision by default. Activate this option "
+"to display different prices."
 msgstr ""
-"Die Systemvorlagen zeigen den Preisvergleich standardmäßig nicht an. Aktiviere diese "
-"Option, um abweichende Preise anzuzeigen."
+"Die Systemvorlagen zeigen den Preisvergleich standardmäßig nicht an. Aktiviere diese Option, "
+"um abweichende Preise anzuzeigen."
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1608
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:1018
@@ -2947,9 +2944,8 @@ msgid ""
 "For simple product boxes you can use \"product template\". Search forms are fields for "
 "filtering. You can add more template types by installing extensions."
 msgstr ""
-"Für einfache Produktboxen kannst du \"Produktvorlage\" verwenden. Suchformulare sind "
-"Felder zum Filtern. Du kannst weitere Vorlagentypen hinzufügen, indem du Erweiterungen "
-"installierst."
+"Für einfache Produktboxen kannst du \"Produktvorlage\" verwenden. Suchformulare sind Felder "
+"zum Filtern. Du kannst weitere Vorlagentypen hinzufügen, indem du Erweiterungen installierst."
 
 #: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:90
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:178
@@ -2966,12 +2962,12 @@ msgstr "\"sponsored\" Linkattribut deaktivieren"
 
 #: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:116
 msgid ""
-"The new sponsored attribute can be used to identify links on your site that were created "
-"as part of advertisements, sponsorships or other compensation agreements."
+"The new sponsored attribute can be used to identify links on your site that were created as "
+"part of advertisements, sponsorships or other compensation agreements."
 msgstr ""
 "Das neue gesponserte Attribut kann verwendet werden, um Links auf deiner Website zu "
-"identifizieren, die im Rahmen von Werbung, Sponsoring oder anderen "
-"Vergütungsvereinbarungen erstellt wurden."
+"identifizieren, die im Rahmen von Werbung, Sponsoring oder anderen Vergütungsvereinbarungen "
+"erstellt wurden."
 
 #: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:125
 msgid "Main product selector"
@@ -3019,8 +3015,8 @@ msgstr "Umami Tracking (umami)"
 
 #: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:198
 msgid ""
-"It is required that the base script is embedded and loaded. The plugin only fires the "
-"event and does no integration."
+"It is required that the base script is embedded and loaded. The plugin only fires the event "
+"and does no integration."
 msgstr ""
 "Es ist erforderlich, dass das Basisskript eingebettet und geladen ist. Das Plugin löst nur "
 "das Ereignis aus und führt keine Integration durch."
@@ -3051,8 +3047,8 @@ msgstr "Mehr über Featured Image from URL (FIFU)"
 
 #: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:246
 msgid ""
-"By default the plugin does not import affiliate images. If you dont want to import the "
-"image but display it you need to use the FIFU plugin."
+"By default the plugin does not import affiliate images. If you dont want to import the image "
+"but display it you need to use the FIFU plugin."
 msgstr ""
 "Standardmäßig importiert das Plugin keine Affiliate-Bilder. Wenn du das Bild nicht "
 "importieren, sondern anzeigen möchten, musst du das FIFU-Plugin verwenden."
@@ -3075,13 +3071,13 @@ msgstr "Bild umleiten und Hauptbild berücksichtigen"
 
 #: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:272
 msgid ""
-"If you want to be GDPR compliant you need to use a image proxy (it will stress your "
-"server). If you already import the post thumbnail you can also use the imported image and "
-"all other images will be redirected."
+"If you want to be GDPR compliant you need to use a image proxy (it will stress your server). "
+"If you already import the post thumbnail you can also use the imported image and all other "
+"images will be redirected."
 msgstr ""
 "Wenn du DSGVO-konform sein möchtest, musst du einen Bild-Proxy verwenden (dies wird deinen "
-"Server belasten). Wenn du das Bild als Beitragsbild bereits importiert hast, kannst du "
-"auch das importierte Bild verwenden und alle anderen Bilder werden umgeleitet."
+"Server belasten). Wenn du das Bild als Beitragsbild bereits importiert hast, kannst du auch "
+"das importierte Bild verwenden und alle anderen Bilder werden umgeleitet."
 
 #: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:279
 msgid "Imports"
@@ -3114,8 +3110,8 @@ msgstr "Alte Produktkategorie entfernen"
 
 #: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:335
 msgid ""
-"If a category changes this option will delete the old one otherwise both categories will "
-"be displayed."
+"If a category changes this option will delete the old one otherwise both categories will be "
+"displayed."
 msgstr ""
 "Wenn sich eine Kategorie ändert, löscht diese Option die alte, andernfalls werden beide "
 "Kategorien angezeigt."
@@ -3130,12 +3126,12 @@ msgstr "Produkttitel und Permalink bei Änderung aktualisieren"
 
 #: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:369
 msgid ""
-"By default a product title and URL will not be updated if the product behind changes. If "
-"you enable this option it will update the data regulary."
+"By default a product title and URL will not be updated if the product behind changes. If you "
+"enable this option it will update the data regulary."
 msgstr ""
-"Standardmäßig werden ein Produkttitel und eine URL nicht aktualisiert, wenn sich das "
-"dahinter liegende Produkt ändert. Wenn du diese Option aktivierst, werden die Daten "
-"regelmäßig aktualisiert."
+"Standardmäßig werden ein Produkttitel und eine URL nicht aktualisiert, wenn sich das dahinter "
+"liegende Produkt ändert. Wenn du diese Option aktivierst, werden die Daten regelmäßig "
+"aktualisiert."
 
 #: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:398
 msgid "Show additional shortcode button"
@@ -3150,8 +3146,8 @@ msgid ""
 "This option disables the main JS library from the plugin. Please pay attention that some "
 "features are not working after disabling."
 msgstr ""
-"Diese Option deaktiviert die Haupt-JS-Bibliothek aus dem Plugin. Bitte beachte, dass "
-"einige Funktionen nach der Deaktivierung nicht funktionieren."
+"Diese Option deaktiviert die Haupt-JS-Bibliothek aus dem Plugin. Bitte beachte, dass einige "
+"Funktionen nach der Deaktivierung nicht funktionieren."
 
 #: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:428
 msgid "Disable all styles from the plugin"
@@ -3159,11 +3155,11 @@ msgstr "Alle Styles vom Plugin deaktivieren"
 
 #: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:430
 msgid ""
-"This option will prevent the plugin to output any style file. Also inline styles will not "
-"be displayed"
+"This option will prevent the plugin to output any style file. Also inline styles will not be "
+"displayed"
 msgstr ""
-"Diese Option verhindert, dass das Plugin eine Style-Datei ausgibt. Auch Inline-Stile "
-"werden nicht angezeigt"
+"Diese Option verhindert, dass das Plugin eine Style-Datei ausgibt. Auch Inline-Stile werden "
+"nicht angezeigt"
 
 #: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:444
 msgid "Disable select2 fields"
@@ -3183,8 +3179,8 @@ msgstr "Deaktivieren Sie select2-Felder für Widgets"
 
 #: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:461
 msgid ""
-"If you have problems in the widgets area (controls are not opening or hiding) you can try "
-"to disable select2."
+"If you have problems in the widgets area (controls are not opening or hiding) you can try to "
+"disable select2."
 msgstr ""
 "Wenn Sie Probleme im Widgetbereich haben (Steuerelemente werden nicht geöffnet oder "
 "ausgeblendet), können Sie versuchen, select2 zu deaktivieren."
@@ -3202,7 +3198,7 @@ msgid "Shortcode-Generator post-types"
 msgstr "Shortcode-Generator in diesen Posttypen verwenden"
 
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:236
-#: affiliate-toolkit-starter/includes/pages/atkp_template_table.php:213
+#: affiliate-toolkit-starter/includes/pages/atkp_template_table.php:215
 msgid "Preview"
 msgstr "Vorschau"
 
@@ -3242,8 +3238,8 @@ msgid ""
 "The plugin removes all html characters on your webpage. By using this option the html will "
 "not be filtered but the output will be in full length."
 msgstr ""
-"Das Plugin entfernt alle HTML-Zeichen auf deiner Webseite. Wenn du diese Option "
-"verwendest, wird der HTML-Code nicht gefiltert, aber die Ausgabe erfolgt in voller Länge."
+"Das Plugin entfernt alle HTML-Zeichen auf deiner Webseite. Wenn du diese Option verwendest, "
+"wird der HTML-Code nicht gefiltert, aber die Ausgabe erfolgt in voller Länge."
 
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:1208
 msgid "Hide duplicate shops"
@@ -3251,8 +3247,8 @@ msgstr "Doppelte Shops im Preisvergleich ausblenden"
 
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:1211
 msgid ""
-"This option filter duplicate offers. If price, shipping costs and product name is equal "
-"the second offer will be not displayed."
+"This option filter duplicate offers. If price, shipping costs and product name is equal the "
+"second offer will be not displayed."
 msgstr ""
 "Diese Option filtert doppelte Angebote. Wenn Preis, Versandkosten und Produktname gleich "
 "sind, wird das zweite Angebot nicht angezeigt."
@@ -3272,8 +3268,8 @@ msgstr "Laden von Produktanzeigen über AJAX-Requests"
 
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:1243
 msgid ""
-"If you have problems when using a caching plugin or you want to use geo targeting "
-"extension you need to activate this option."
+"If you have problems when using a caching plugin or you want to use geo targeting extension "
+"you need to activate this option."
 msgstr ""
 "Wenn du Probleme bei der Verwendung eines Caching-Plugins hast oder eine Geo-Targeting-"
 "Erweiterung verwenden möchtest, musst du diese Option aktivieren."
@@ -3287,8 +3283,8 @@ msgid ""
 "This option is only enabling the AJAX handler. It will not load all product boxes via AJAX "
 "request."
 msgstr ""
-"Mit dieser Option wird nur der AJAX-Handler aktiviert. Es werden nicht alle Produktboxen "
-"per AJAX-Anfrage geladen."
+"Mit dieser Option wird nur der AJAX-Handler aktiviert. Es werden nicht alle Produktboxen per "
+"AJAX-Anfrage geladen."
 
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:1274
 msgid "Show admin section"
@@ -3296,11 +3292,11 @@ msgstr "Adminlinks anzeigen"
 
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:1276
 msgid ""
-"This displays links to template and product or list of the shortcode. It is only visible "
-"for a administrator."
+"This displays links to template and product or list of the shortcode. It is only visible for "
+"a administrator."
 msgstr ""
-"Dadurch werden Links zur Vorlage und einem Produkt oder einer Liste des Shortcodes "
-"angezeigt. Es ist nur für einen Administrator sichtbar."
+"Dadurch werden Links zur Vorlage und einem Produkt oder einer Liste des Shortcodes angezeigt. "
+"Es ist nur für einen Administrator sichtbar."
 
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:1285
 msgid "Default for the button"
@@ -3421,11 +3417,11 @@ msgstr "Vorlage anzeigen wenn nicht verfügbar"
 
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:1483
 msgid ""
-"If no offer is available this display can be displayed by default. It shows a button which "
-"is linked to the affiliate network."
+"If no offer is available this display can be displayed by default. It shows a button which is "
+"linked to the affiliate network."
 msgstr ""
-"Wenn kein Angebot verfügbar ist, kann diese Anzeige standardmäßig angezeigt werden. Es "
-"wird ein Button angezeigt, der mit dem Affiliate-Netzwerk verknüpft ist."
+"Wenn kein Angebot verfügbar ist, kann diese Anzeige standardmäßig angezeigt werden. Es wird "
+"ein Button angezeigt, der mit dem Affiliate-Netzwerk verknüpft ist."
 
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:1492
 msgid "Not available template"
@@ -3511,8 +3507,8 @@ msgstr ""
 msgid ""
 "Please setup a server side cronjob on your hosting account. Call this URL every 10 minutes:"
 msgstr ""
-"Bitte richte einen serverseitigen Cronjob auf deinem Hosting-Account ein. Rufe diese URL "
-"alle 10 Minuten auf:"
+"Bitte richte einen serverseitigen Cronjob auf deinem Hosting-Account ein. Rufe diese URL alle "
+"10 Minuten auf:"
 
 #: affiliate-toolkit-starter/includes/atkp_settings_toolkit.php:179
 msgid "Cronjob was never started yet."
@@ -3520,8 +3516,8 @@ msgstr "Der Cronjob wurde noch nicht gestartet."
 
 #: affiliate-toolkit-starter/includes/atkp_settings_toolkit.php:180
 msgid ""
-"This is normal if you installed the plugin freshly. If you have been using the plugin for "
-"a while, you need to check where the problem is."
+"This is normal if you installed the plugin freshly. If you have been using the plugin for a "
+"while, you need to check where the problem is."
 msgstr ""
 "Das ist normal, wenn Sie das Plugin neu installiert haben. Wenn Sie das Plugin schon eine "
 "Weile verwenden, müssen Sie prüfen, wo das Problem liegt."
@@ -3529,20 +3525,19 @@ msgstr ""
 #: affiliate-toolkit-starter/includes/atkp_settings_toolkit.php:182
 #: affiliate-toolkit-starter/includes/atkp_settings_toolkit.php:199
 msgid ""
-"You can try to save this settings page and attach the plugin again in the WordPress "
-"scheduler."
+"You can try to save this settings page and attach the plugin again in the WordPress scheduler."
 msgstr ""
-"Sie können versuchen, diese Einstellungsseite zu speichern und das Plugin erneut im "
-"WordPress Scheduler einzubinden."
+"Sie können versuchen, diese Einstellungsseite zu speichern und das Plugin erneut im WordPress "
+"Scheduler einzubinden."
 
 #: affiliate-toolkit-starter/includes/atkp_settings_toolkit.php:184
 #: affiliate-toolkit-starter/includes/atkp_settings_toolkit.php:201
 msgid ""
-"Please check the server-side cronjob configuration on the server. There seems to be "
-"something not configured correctly outside of the plugin."
+"Please check the server-side cronjob configuration on the server. There seems to be something "
+"not configured correctly outside of the plugin."
 msgstr ""
-"Bitte überprüfen Sie die serverseitige Cronjob-Konfiguration auf dem Server. Es scheint "
-"etwas außerhalb des Plugins nicht korrekt konfiguriert zu sein."
+"Bitte überprüfen Sie die serverseitige Cronjob-Konfiguration auf dem Server. Es scheint etwas "
+"außerhalb des Plugins nicht korrekt konfiguriert zu sein."
 
 #: affiliate-toolkit-starter/includes/atkp_settings_toolkit.php:196
 #: affiliate-toolkit-starter/includes/atkp_settings_toolkit.php:208
@@ -3553,8 +3548,8 @@ msgstr "Letzte Cronjob-Ausführung war vor %s"
 
 #: affiliate-toolkit-starter/includes/atkp_settings_toolkit.php:197
 msgid ""
-"The cronjob was last called a day ago. This is suspicious. If you don't know why this is, "
-"you should check the problem more closely."
+"The cronjob was last called a day ago. This is suspicious. If you don't know why this is, you "
+"should check the problem more closely."
 msgstr ""
 "Der Cronjob wurde zuletzt vor einem Tag aufgerufen. Das ist verdächtig. Wenn Sie nicht "
 "wissen, warum das so ist, sollten Sie das Problem genauer untersuchen."
@@ -3588,8 +3583,8 @@ msgid ""
 "Gratualation, the configuration of the cronjob seems to be correct. The product update is "
 "called regularly."
 msgstr ""
-"Gratulation, die Konfiguration des Cronjobs scheint korrekt zu sein. Das Produktupdate "
-"wird regelmäßig aufgerufen."
+"Gratulation, die Konfiguration des Cronjobs scheint korrekt zu sein. Das Produktupdate wird "
+"regelmäßig aufgerufen."
 
 #: affiliate-toolkit-starter/includes/atkp_settings_toolkit.php:282
 msgid "Productdata updates between"
@@ -3632,9 +3627,9 @@ msgid ""
 "You can configure how many products, lists or shops should be in one queue object. For "
 "database problems try a value around 200 items or lower."
 msgstr ""
-"Du kannst konfigurieren, wie viele Produkte, Listen oder Shops in einem "
-"Warteschlangenobjekt enthalten sein sollen. Versuche bei Datenbankproblemen einen Wert um "
-"200 Elemente oder weniger."
+"Du kannst konfigurieren, wie viele Produkte, Listen oder Shops in einem Warteschlangenobjekt "
+"enthalten sein sollen. Versuche bei Datenbankproblemen einen Wert um 200 Elemente oder "
+"weniger."
 
 #: affiliate-toolkit-starter/includes/atkp_settings_toolkit.php:347
 msgid "Settings for data check"
@@ -3715,9 +3710,8 @@ msgid ""
 "This is the duration how long product data is cached. If the cache expires the plugin is "
 "updating the product data. It has nothing todo with WordPress cache plugins."
 msgstr ""
-"Dies ist die Dauer, für die Produktdaten zwischengespeichert werden. Wenn der Cache "
-"abläuft, aktualisiert das Plugin die Produktdaten. Es hat nichts mit WordPress-Cache-"
-"Plugins zu tun."
+"Dies ist die Dauer, für die Produktdaten zwischengespeichert werden. Wenn der Cache abläuft, "
+"aktualisiert das Plugin die Produktdaten. Es hat nichts mit WordPress-Cache-Plugins zu tun."
 
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator.php:174
 msgid "Affiliate-Toolkit shortcodes"
@@ -3919,11 +3913,10 @@ msgid "Back"
 msgstr "Zurück"
 
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator2.php:803
-msgid ""
-"This is a generation setup. Further adjustments must still be made in the list editor."
+msgid "This is a generation setup. Further adjustments must still be made in the list editor."
 msgstr ""
-"Dies ist eine Erstellungsmaske. Weitere Anpassungen müssen noch im Listeneditor "
-"vorgenommen werden."
+"Dies ist eine Erstellungsmaske. Weitere Anpassungen müssen noch im Listeneditor vorgenommen "
+"werden."
 
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator2.php:815
 msgid "Create list and use"
@@ -4028,8 +4021,7 @@ msgstr ""
 #: affiliate-toolkit-starter/includes/atkp_tools_debug.php:70
 #: affiliate-toolkit-starter/includes/atkp_tools_debug.php:161
 msgid "I made a backup before I migrate my products - Migrate now!"
-msgstr ""
-"Ich habe ein Backup erstellt, bevor ich meine Produkte migriert habe - Migriere jetzt!"
+msgstr "Ich habe ein Backup erstellt, bevor ich meine Produkte migriert habe - Migriere jetzt!"
 
 #: affiliate-toolkit-starter/includes/atkp_tools_debug.php:70
 msgid "Migrate my products (including productdata) to V3"
@@ -4037,11 +4029,11 @@ msgstr "Migrieren meiner Produkte (einschließlich Produktdaten) auf V3"
 
 #: affiliate-toolkit-starter/includes/atkp_tools_debug.php:159
 msgid ""
-"If you modified product data (title, brand, manufacturer, make, description, features,..) "
-"you should use this upgrade function:"
+"If you modified product data (title, brand, manufacturer, make, description, features,..) you "
+"should use this upgrade function:"
 msgstr ""
-"Wenn du Produktdaten (Titel, Marke, Hersteller, Marke, Beschreibung, Funktionen,..) "
-"geändert hast, solltest du diese Upgrade-Funktion verwenden:"
+"Wenn du Produktdaten (Titel, Marke, Hersteller, Marke, Beschreibung, Funktionen,..) geändert "
+"hast, solltest du diese Upgrade-Funktion verwenden:"
 
 #: affiliate-toolkit-starter/includes/atkp_tools_debug.php:161
 msgid "Migrate my products to V3"
@@ -4171,8 +4163,7 @@ msgid "Welcome to affiliate-toolkit"
 msgstr "Willkommen bei affiliate-toolkit"
 
 #: affiliate-toolkit-starter/includes/atkp_tools_welcome.php:30
-msgid ""
-"Thank you for choosing affiliate-toolkit - the most powerful WordPress affiliate plugin."
+msgid "Thank you for choosing affiliate-toolkit - the most powerful WordPress affiliate plugin."
 msgstr ""
 "Vielen Dank, dass Sie sich für affiliate-toolkit entschieden haben - das leistungsstärkste "
 "WordPress-Plugin für Affiliates."
@@ -4211,16 +4202,16 @@ msgstr "Zentrales Management"
 
 #: affiliate-toolkit-starter/includes/atkp_tools_welcome.php:66
 msgid ""
-"All product information is stored in one place in the WordPress backend. This information "
-"can be overwritten as you wish. You can also see which products were found in other stores "
-"through the price comparison. If you want to exchange the product later, do it at this "
-"place and not at every place where you have embedded it in the blog."
+"All product information is stored in one place in the WordPress backend. This information can "
+"be overwritten as you wish. You can also see which products were found in other stores "
+"through the price comparison. If you want to exchange the product later, do it at this place "
+"and not at every place where you have embedded it in the blog."
 msgstr ""
 "Alle Produktinformationen sind an einem Ort im WordPress-Backend gespeichert. Diese "
 "Informationen können beliebig überschrieben werden. Sie sehen außerdem welche Produkte in "
 "anderen Shops durch den Preisvergleich gefunden wurden. Möchten Sie das Produkt später "
-"tauschen, erledigen Sie das an dieser Stelle und nicht an jeder Stelle wo Sie dieses im "
-"Blog eingebettet haben."
+"tauschen, erledigen Sie das an dieser Stelle und nicht an jeder Stelle wo Sie dieses im Blog "
+"eingebettet haben."
 
 #: affiliate-toolkit-starter/includes/atkp_tools_welcome.php:72
 msgid "Product imports via backend"
@@ -4228,14 +4219,13 @@ msgstr "Produktimporte übers Backend"
 
 #: affiliate-toolkit-starter/includes/atkp_tools_welcome.php:73
 msgid ""
-"You can search for EAN, keyword or ASIN directly from the WordPress backend. You will see "
-"the found products directly in the backend. Once you have found the product, click on "
-"\"import\" and the product is available for embedding in the blog."
+"You can search for EAN, keyword or ASIN directly from the WordPress backend. You will see the "
+"found products directly in the backend. Once you have found the product, click on \"import\" "
+"and the product is available for embedding in the blog."
 msgstr ""
-"Sie können direkt aus dem WordPress Backend nach EAN-, Schlüsselwort- oder ASIN suchen. "
-"Sie erhalten direkt im Backend die gefundenen Produkte angezeigt. Sobald Sie das Produkt "
-"gefunden haben, klicken Sie auf \"importieren\" und das Produkt ist zum einbinden im Blog "
-"verfügbar."
+"Sie können direkt aus dem WordPress Backend nach EAN-, Schlüsselwort- oder ASIN suchen. Sie "
+"erhalten direkt im Backend die gefundenen Produkte angezeigt. Sobald Sie das Produkt gefunden "
+"haben, klicken Sie auf \"importieren\" und das Produkt ist zum einbinden im Blog verfügbar."
 
 #: affiliate-toolkit-starter/includes/atkp_tools_welcome.php:79
 msgid "Product boxes"
@@ -4244,14 +4234,14 @@ msgstr "Produkt-Boxen"
 #: affiliate-toolkit-starter/includes/atkp_tools_welcome.php:80
 msgid ""
 "You can embed the product data directly as a text link, product box or listing in your "
-"WordPress website. These product boxes are already attractively designed \"out of the "
-"box\". However, you can customize these boxes as you like or even design your own box with "
-"HTML & CSS."
+"WordPress website. These product boxes are already attractively designed \"out of the box\". "
+"However, you can customize these boxes as you like or even design your own box with HTML & "
+"CSS."
 msgstr ""
 "Sie können die Produktdaten direkt als Textlink, Produktbox oder Auflistung in Ihrer "
-"WordPress-Webseite einbetten. Diese Produktboxen sind bereits \"Out of the Box\" "
-"ansprechend gestaltet. Sie können diese Boxen allerdings beliebig anpassen oder sogar eine "
-"eigene Box mit HTML & CSS gestalten."
+"WordPress-Webseite einbetten. Diese Produktboxen sind bereits \"Out of the Box\" ansprechend "
+"gestaltet. Sie können diese Boxen allerdings beliebig anpassen oder sogar eine eigene Box mit "
+"HTML & CSS gestalten."
 
 #: affiliate-toolkit-starter/includes/atkp_tools_welcome.php:86
 msgid "Bestsellers, new releases and search lists"
@@ -4260,13 +4250,13 @@ msgstr "Bestseller, Neuerscheinungen und Suchlisten"
 #: affiliate-toolkit-starter/includes/atkp_tools_welcome.php:87
 msgid ""
 "With bestseller lists, you can add a conversation-boosting element to your website. These "
-"lists convert especially well because people like to follow others. You can output 3, 10 "
-"or 20 entries. Searching is done either via BrowseNode or via a search term."
+"lists convert especially well because people like to follow others. You can output 3, 10 or "
+"20 entries. Searching is done either via BrowseNode or via a search term."
 msgstr ""
-"Mit Bestseller-Listen kannst du deine Webseite um ein conversationstarkes Element "
-"aufrüsten. Diese Listen konvertieren besonders gut, da sich Menschen gerne an anderen "
-"orientieren. Sie können 3, 10 oder 20 Einträge ausgeben. Die Suche erfolgt entweder über "
-"BrowseNode oder über einen Suchbegriff."
+"Mit Bestseller-Listen kannst du deine Webseite um ein conversationstarkes Element aufrüsten. "
+"Diese Listen konvertieren besonders gut, da sich Menschen gerne an anderen orientieren. Sie "
+"können 3, 10 oder 20 Einträge ausgeben. Die Suche erfolgt entweder über BrowseNode oder über "
+"einen Suchbegriff."
 
 #: affiliate-toolkit-starter/includes/atkp_tools_welcome.php:93
 msgid "Products in WooCommerce"
@@ -4274,15 +4264,14 @@ msgstr "Produkte in WooCommerce"
 
 #: affiliate-toolkit-starter/includes/atkp_tools_welcome.php:94
 msgid ""
-"With our WooCommerce support, you can import affiliate products into WooCommerce as "
-"external products. You can include product descriptions, product images and also the price "
-"comparison. This also allows you to use already prepared themes as WooCommerce affiliate "
-"store."
+"With our WooCommerce support, you can import affiliate products into WooCommerce as external "
+"products. You can include product descriptions, product images and also the price comparison. "
+"This also allows you to use already prepared themes as WooCommerce affiliate store."
 msgstr ""
 "Mit unserer WooCommerce-Unterstützung können Sie Affiliate-Produkte in WooCommerce als "
 "externe Produkte importieren. Sie können Produktbeschreibungen, Produktbilder und auch den "
-"Preisvergleich einbinden. Dadurch können Sie auch bereits vorbereitete Themes als "
-"WooCommerce Affiliate Shop nutzen."
+"Preisvergleich einbinden. Dadurch können Sie auch bereits vorbereitete Themes als WooCommerce "
+"Affiliate Shop nutzen."
 
 #: affiliate-toolkit-starter/includes/atkp_tools_welcome.php:100
 msgid "Automatic feed updates"
@@ -4295,8 +4284,8 @@ msgid ""
 msgstr ""
 "Aktuelle Produktdaten sind wichtig für Ihren Publisher und haben gleichzeitig auch starken "
 "Einfluss auf die Conversation-Rate. Unser Plugin aktualisiert daher die Produktdaten "
-"regelmäßig im Hintergrund. Diese Updates erfolgen für CSV-Feeds, AWIN und natürlich auch "
-"für Produkt- und Listendaten."
+"regelmäßig im Hintergrund. Diese Updates erfolgen für CSV-Feeds, AWIN und natürlich auch für "
+"Produkt- und Listendaten."
 
 #: affiliate-toolkit-starter/includes/atkp_tools_welcome.php:106
 msgid "GeoIP Targeting"
@@ -4304,11 +4293,11 @@ msgstr "GeoIP Targeting"
 
 #: affiliate-toolkit-starter/includes/atkp_tools_welcome.php:107
 msgid ""
-"With this extension you can show your visitors a suitable offer per country. This works "
-"via GeoIP targeting."
+"With this extension you can show your visitors a suitable offer per country. This works via "
+"GeoIP targeting."
 msgstr ""
-"Mit dieser Erweiterung können Sie Ihren Besuchern je Land ein passendes Angebot anzeigen. "
-"Das funktioniert über GeoIP Targeting."
+"Mit dieser Erweiterung können Sie Ihren Besuchern je Land ein passendes Angebot anzeigen. Das "
+"funktioniert über GeoIP Targeting."
 
 #: affiliate-toolkit-starter/includes/atkp_tools_welcome.php:113
 msgid "Email notifications"
@@ -4316,8 +4305,8 @@ msgstr "E-Mail-Benachrichtigungen"
 
 #: affiliate-toolkit-starter/includes/atkp_tools_welcome.php:115
 msgid ""
-"If a product is no longer available or an error occurs regarding a product, you will "
-"receive a report with the errors upon request."
+"If a product is no longer available or an error occurs regarding a product, you will receive "
+"a report with the errors upon request."
 msgstr ""
 "Sollte ein Produkt nicht mehr verfügbar sein oder ein Fehler bezüglich eines Produkts "
 "auftreten, erhalten Sie auf Wunsch einen Bericht mit den Fehlern."
@@ -4342,35 +4331,35 @@ msgstr "Testimonials"
 msgid ""
 "Affiliate Toolkit is a powerful, comprehensive and flexible WordPress plugin that makes my "
 "daily work on my niche sites easier. Besides the \"standard\" features, Affiliate Toolkit "
-"also contains other helpful and valuable additional features that currently no other "
-"plugin offer. With the help of the Affiliate Toolkit, I have been able to demonstrably "
-"increase my earnings. In addition, I can now implement projects that were not possible "
-"before. In addition to the technical refinements, I especially appreciate the "
-"exceptionally good support that Christof offers customers here. He kindly helps with any "
-"problem and patiently answers even complex questions. All in all, the investment in the "
-"handy affiliate toolkit has been more than worth it!"
+"also contains other helpful and valuable additional features that currently no other plugin "
+"offer. With the help of the Affiliate Toolkit, I have been able to demonstrably increase my "
+"earnings. In addition, I can now implement projects that were not possible before. In "
+"addition to the technical refinements, I especially appreciate the exceptionally good support "
+"that Christof offers customers here. He kindly helps with any problem and patiently answers "
+"even complex questions. All in all, the investment in the handy affiliate toolkit has been "
+"more than worth it!"
 msgstr ""
-"Das Affiliate-Toolkit ist ein leistungsstarkes, umfangreiches und flexibles WordPress-"
-"Plugin, das mir die tägliche Arbeit auf meinen Nischenseiten erleichtert. Neben den "
-"„Standard“-Features enthält das Affiliate-Toolkit auch weitere hilfreiche und wertvolle "
-"Zusatzfunktionen, die derzeit keine bieten anderen Plugin. Mit Hilfe des Affiliate-"
-"Toolkits konnte ich meine Einnahmen nachweislich steigern. Außerdem kann ich jetzt "
-"Projekte umsetzen, die vorher nicht möglich waren. Neben den technischen Raffinessen "
-"schätze ich besonders den außergewöhnlich guten Support, den Christof hier bietet Kunden. "
-"Er hilft freundlich bei jedem Problem und beantwortet auch komplexe Fragen geduldig. Alles "
-"in allem hat sich die Investition in das praktische Affiliate-Toolkit mehr als gelohnt!"
+"Das Affiliate-Toolkit ist ein leistungsstarkes, umfangreiches und flexibles WordPress-Plugin, "
+"das mir die tägliche Arbeit auf meinen Nischenseiten erleichtert. Neben den „Standard“-"
+"Features enthält das Affiliate-Toolkit auch weitere hilfreiche und wertvolle "
+"Zusatzfunktionen, die derzeit keine bieten anderen Plugin. Mit Hilfe des Affiliate-Toolkits "
+"konnte ich meine Einnahmen nachweislich steigern. Außerdem kann ich jetzt Projekte umsetzen, "
+"die vorher nicht möglich waren. Neben den technischen Raffinessen schätze ich besonders den "
+"außergewöhnlich guten Support, den Christof hier bietet Kunden. Er hilft freundlich bei jedem "
+"Problem und beantwortet auch komplexe Fragen geduldig. Alles in allem hat sich die "
+"Investition in das praktische Affiliate-Toolkit mehr als gelohnt!"
 
 #: affiliate-toolkit-starter/includes/atkp_tools_welcome.php:222
 msgid ""
 "The Affiliate Toolkit plugin seriously surprised me. The first impression was slightly dry "
-"and it is missing some kind of introduction to the plugin. But in principle it is very "
-"easy to use it and offers many functions. The free version is also very helpful but just "
-"the paid version holds all the aces."
+"and it is missing some kind of introduction to the plugin. But in principle it is very easy "
+"to use it and offers many functions. The free version is also very helpful but just the paid "
+"version holds all the aces."
 msgstr ""
 "Das Affiliate-Toolkit-Plugin hat mich ernsthaft überrascht. Der erste Eindruck war etwas "
-"trocken und es fehlt eine Art Einführung in das Plugin. Aber im Prinzip ist es sehr "
-"einfach zu bedienen und bietet viele Funktionen. Die kostenlose Version ist aber auch sehr "
-"hilfreich nur die kostenpflichtige Version hat alle Trümpfe."
+"trocken und es fehlt eine Art Einführung in das Plugin. Aber im Prinzip ist es sehr einfach "
+"zu bedienen und bietet viele Funktionen. Die kostenlose Version ist aber auch sehr hilfreich "
+"nur die kostenpflichtige Version hat alle Trümpfe."
 
 #: affiliate-toolkit-starter/includes/atkp_wp_cronjob.php:25
 msgid "Every 10 minutes"
@@ -4379,24 +4368,29 @@ msgstr "Alle 10 Minuten"
 #: affiliate-toolkit-starter/includes/basics/ATKPTools.php:40
 #, php-format
 msgid ""
-"Die Anzeige der Produkte wurde mit dem <a href=\"%s\" %s target=\"_blank\" "
-"title=\"Affiliate WordPress Plugin\">affiliate-toolkit</a> <a href=\"https://servit.dev/?"
+"Die Anzeige der Produkte wurde mit dem <a href=\"%s\" %s target=\"_blank\" title=\"Affiliate "
+"WordPress Plugin\">affiliate-toolkit</a> WordPress Plugin von <a href=\"https://servit.dev/?"
 "utm_medium=credits&utm_content=Footer+Link&utm_source=WordPress&utm_campaign=starterpass\" "
-"target=\"_blank\" title=\"WordPress Webentwicklung\">WordPress Plugin</a> umgesetzt."
+"target=\"_blank\" title=\"SERVIT Webentwicklung\">SERVIT Software Solutions</a> umgesetzt."
 msgstr ""
-"Die Anzeige der Produkte wurde mit dem <a href=\"%s\" %s target=\"_blank\" "
-"title=\"Affiliate WordPress Plugin\">affiliate-toolkit</a> <a href=\"https://servit.dev/?"
+"Die Anzeige der Produkte wurde mit dem <a href=\"%s\" %s target=\"_blank\" title=\"Affiliate "
+"WordPress Plugin\">affiliate-toolkit</a> WordPress Plugin von <a href=\"https://servit.dev/?"
 "utm_medium=credits&utm_content=Footer+Link&utm_source=WordPress&utm_campaign=starterpass\" "
-"target=\"_blank\" title=\"WordPress Webentwicklung\">WordPress Plugin</a> umgesetzt."
+"target=\"_blank\" title=\"SERVIT Webentwicklung\">SERVIT Software Solutions</a> umgesetzt."
 
 #: affiliate-toolkit-starter/includes/basics/ATKPTools.php:42
 #, php-format
 msgid ""
-"The display of the products was implemented with the <a href=\"%s\" %s target=\"_blank\" "
-"title=\"Affiliate WordPress Plugin\">affiliate-toolkit</a> plugin."
+"The product display was implemented using the <a href=\"%s\" %s target=\"_blank\" "
+"title=\"Affiliate WordPress Plugin\">affiliate-toolkit</a> WordPress plugin by <a "
+"href=\"https://servit.dev/?"
+"utm_medium=credits&utm_content=Footer+Link&utm_source=WordPress&utm_campaign=starterpass\" "
+"target=\"_blank\" title=\"SERVIT Web Development\">SERVIT Software Solutions</a>."
 msgstr ""
-"Die Anzeige der Produkte wurde mit dem <a href=\"%s\" %s target=\"_blank\" "
-"title=\"Affiliate WordPress Plugin\">affiliate-toolkit</a> Plugin umgesetzt."
+"Die Anzeige der Produkte wurde mit dem <a href=\"%s\" %s target=\"_blank\" title=\"Affiliate "
+"WordPress Plugin\">affiliate-toolkit</a> WordPress Plugin von <a href=\"https://servit.dev/?"
+"utm_medium=credits&utm_content=Footer+Link&utm_source=WordPress&utm_campaign=starterpass\" "
+"target=\"_blank\" title=\"SERVIT Webentwicklung\">SERVIT Software Solutions</a> umgesetzt."
 
 #: affiliate-toolkit-starter/includes/basics/ATKPTools.php:85
 msgid "WordPress CLI Cronjob"
@@ -4408,7 +4402,6 @@ msgstr "affiliate-toolkit Cronjob"
 
 #: affiliate-toolkit-starter/includes/basics/ATKPTools.php:216
 #: affiliate-toolkit-starter/includes/dataservices/atkp_productservice.php:294
-#: affiliate-toolkit-starter/includes/models/atkp_udtaxonomy.php:95
 msgid "Productcategory"
 msgstr "Produktkategorie"
 
@@ -4524,8 +4517,8 @@ msgid ""
 "Last updated on %refresh_date% at %refresh_time% - Image source: Amazon Affiliate Program. "
 "All statements without guarantee."
 msgstr ""
-"Zuletzt aktualisiert am %refresh_date% um %refresh_time% . Wir weisen darauf hin, dass "
-"sich hier angezeigte Preise inzwischen geändert haben können. Alle Angaben ohne Gewähr."
+"Zuletzt aktualisiert am %refresh_date% um %refresh_time% . Wir weisen darauf hin, dass sich "
+"hier angezeigte Preise inzwischen geändert haben können. Alle Angaben ohne Gewähr."
 
 #: affiliate-toolkit-starter/includes/basics/atkp_options.php:600
 #: affiliate-toolkit-starter/includes/helper/atkp_formatter.php:1135
@@ -4535,11 +4528,9 @@ msgstr "Preis inkl. MwSt., zzgl. Versandkosten"
 #: affiliate-toolkit-starter/includes/controllers/ATKP_LicenseController.php:53
 #, php-format
 msgid ""
-"There is an extension without a license key. Please go to the <a href=\"%s\">license page</"
-"a>."
+"There is an extension without a license key. Please go to the <a href=\"%s\">license page</a>."
 msgstr ""
-"Es gibt eine Erweiterung ohne Lizenzschlüssel. Bitte gehe zur <a href=\"%s\">Lizenzseite</"
-"a>."
+"Es gibt eine Erweiterung ohne Lizenzschlüssel. Bitte gehe zur <a href=\"%s\">Lizenzseite</a>."
 
 #: affiliate-toolkit-starter/includes/controllers/ATKP_LicenseController.php:61
 msgid "There is an extension with an expired license key"
@@ -4638,8 +4629,7 @@ msgstr "Verkaufspreis ist leer"
 #: affiliate-toolkit-starter/includes/dataservices/atkp_queueservices.php:70
 msgid "Products not found for search request. Open Queue History for details."
 msgstr ""
-"Produkte mit dieser Suchanfrage nicht gefunden. Öffne den Warteschlangenverlauf für "
-"Details."
+"Produkte mit dieser Suchanfrage nicht gefunden. Öffne den Warteschlangenverlauf für Details."
 
 #: affiliate-toolkit-starter/includes/dataservices/atkp_queueservices.php:84
 msgid "Product found but salesprice is empty"
@@ -4652,6 +4642,10 @@ msgstr "affiliate-toolkit Bericht"
 #: affiliate-toolkit-starter/includes/dataservices/atkp_queueservices.php:304
 msgid "Attached you can find the report."
 msgstr "Anbei findest du den Bericht."
+
+#: affiliate-toolkit-starter/includes/dataservices/atkp_queueservices.php:907
+msgid "<br />"
+msgstr "<br />"
 
 #: affiliate-toolkit-starter/includes/helper/atkp_control_helper.php:65
 msgid "unknown newfield->type: "
@@ -4746,12 +4740,12 @@ msgstr "Marke eingeben"
 msgid "input productid"
 msgstr "Produkt-ID eingeben"
 
-#: affiliate-toolkit-starter/includes/helper/atkp_filter_helper.php:545
-#: affiliate-toolkit-starter/includes/helper/atkp_filter_helper.php:647
+#: affiliate-toolkit-starter/includes/helper/atkp_filter_helper.php:558
+#: affiliate-toolkit-starter/includes/helper/atkp_filter_helper.php:660
 msgid "No products found for these search criteria."
 msgstr "Kein Produkt mit diesen Suchkriterien gefunden."
 
-#: affiliate-toolkit-starter/includes/helper/atkp_filter_helper.php:630
+#: affiliate-toolkit-starter/includes/helper/atkp_filter_helper.php:643
 #, php-format
 msgid "Error occurred on search: %s"
 msgstr "Fehler bei der Suche: %s"
@@ -5197,8 +5191,8 @@ msgstr "Vorlage nicht gefunden:"
 msgid "invalid post_type: "
 msgstr "ungültiger Post-Typ:"
 
-#: affiliate-toolkit-starter/includes/models/atkp_udtaxonomy.php:113
 #: affiliate-toolkit-starter/includes/models/atkp_udtaxonomy.php:114
+#: affiliate-toolkit-starter/includes/models/atkp_udtaxonomy.php:115
 msgid "Product category"
 msgstr "Produktkategorie"
 
@@ -5292,51 +5286,50 @@ msgstr "Laufzeit"
 msgid "Retries"
 msgstr "Wiederholungen"
 
-#: affiliate-toolkit-starter/includes/pages/atkp_template_table.php:26
+#: affiliate-toolkit-starter/includes/pages/atkp_template_table.php:28
 msgid "Custom template"
 msgstr "Benutzerdefinierte Vorlage"
 
-#: affiliate-toolkit-starter/includes/pages/atkp_template_table.php:31
+#: affiliate-toolkit-starter/includes/pages/atkp_template_table.php:33
 msgid "System template"
 msgstr "Systemvorlage"
 
-#: affiliate-toolkit-starter/includes/pages/atkp_template_table.php:67
+#: affiliate-toolkit-starter/includes/pages/atkp_template_table.php:69
 msgid "No templates available."
 msgstr "Keine Vorlagen verfügbar."
 
-#: affiliate-toolkit-starter/includes/pages/atkp_template_table.php:176
+#: affiliate-toolkit-starter/includes/pages/atkp_template_table.php:178
 #, php-format
 msgid "<a href=\"post.php?post=%s&action=edit\">Edit</a>"
 msgstr "<a href=\"post.php?post=%s&action=edit\">Bearbeiten</a>"
 
-#: affiliate-toolkit-starter/includes/pages/atkp_template_table.php:177
+#: affiliate-toolkit-starter/includes/pages/atkp_template_table.php:179
 #, php-format
 msgid "<a href=\"?page=%s&action=%s&templateid=%s&_wpnonce=%s\">Delete</a>"
 msgstr "<a href=\"?page=%s&action=%s&templateid=%s&_wpnonce=%s\">Löschen</a>"
 
-#: affiliate-toolkit-starter/includes/pages/atkp_template_table.php:178
-#: affiliate-toolkit-starter/includes/pages/atkp_template_table.php:187
+#: affiliate-toolkit-starter/includes/pages/atkp_template_table.php:180
+#: affiliate-toolkit-starter/includes/pages/atkp_template_table.php:189
 #, php-format
-msgid ""
-"<a href=\"?page=%s&action=%s&templateid=%s&templatename=%s&_wpnonce=%s\">Duplicate</a>"
+msgid "<a href=\"?page=%s&action=%s&templateid=%s&templatename=%s&_wpnonce=%s\">Duplicate</a>"
 msgstr ""
 "<a href=\"?page=%s&action=%s&templateid=%s&templatename=%s&_wpnonce=%s\">Duplizieren</a>"
 
-#: affiliate-toolkit-starter/includes/pages/atkp_template_table.php:179
+#: affiliate-toolkit-starter/includes/pages/atkp_template_table.php:181
 #, php-format
 msgid "<a href=\"%s?action=atkp_export_template&templateid=%s&request_nonce=%s\">Export</a>"
 msgstr ""
 "<a href=\"%s?action=atkp_export_template&templateid=%s&request_nonce=%s\">Exportieren</a>"
 
-#: affiliate-toolkit-starter/includes/pages/atkp_template_table.php:205
+#: affiliate-toolkit-starter/includes/pages/atkp_template_table.php:207
 msgid "Shortcode"
 msgstr "Shortcode"
 
-#: affiliate-toolkit-starter/includes/pages/atkp_template_table.php:206
+#: affiliate-toolkit-starter/includes/pages/atkp_template_table.php:208
 msgid "Template Type"
 msgstr "Vorlagentyp"
 
-#: affiliate-toolkit-starter/includes/pages/atkp_template_table.php:207
+#: affiliate-toolkit-starter/includes/pages/atkp_template_table.php:209
 msgid "Last modified"
 msgstr "Zuletzt geändert"
 
@@ -5358,8 +5351,7 @@ msgid "Template file"
 msgstr "Template Datei"
 
 #: affiliate-toolkit-starter/includes/pages/atkp_template_view.php:257
-msgid ""
-"Upload your exported template. The file extension must be \".txt\" to import the file."
+msgid "Upload your exported template. The file extension must be \".txt\" to import the file."
 msgstr ""
 "Lade deine exportierte Vorlage hoch. Die Dateierweiterung muss \".txt\" sein, um die Datei "
 "importieren zu können."
@@ -5433,6 +5425,20 @@ msgstr "Du hast nicht genug Berechtigungen um ein Plugin zu installieren."
 msgid "#"
 msgstr "#"
 
+#~ msgid "Status code: "
+#~ msgstr "Statuscode: "
+
+#~ msgid "<pre>"
+#~ msgstr "<pre>"
+
+#, php-format
+#~ msgid ""
+#~ "The display of the products was implemented with the <a href=\"%s\" %s target=\"_blank\" "
+#~ "title=\"Affiliate WordPress Plugin\">affiliate-toolkit</a> plugin."
+#~ msgstr ""
+#~ "Die Anzeige der Produkte wurde mit dem <a href=\"%s\" %s target=\"_blank\" "
+#~ "title=\"Affiliate WordPress Plugin\">affiliate-toolkit</a> Plugin umgesetzt."
+
 #~ msgid "<a href=\"javascript:void(0)\" class=\"atkp-insert\" data-insertvalue=\"{!!"
 #~ msgstr "<a href=\"javascript:void(0)\" class=\"atkp-insert\" data-insertvalue=\"{!!"
 
@@ -5492,26 +5498,24 @@ msgstr "#"
 
 #~ msgid "Here you can match existing templates in AAWP to templates in affiliate-toolkit."
 #~ msgstr ""
-#~ "Hier kannst du vorhandene Vorlagen in AAWP mit Vorlagen von affiliate-toolkit "
-#~ "verknüpfen."
+#~ "Hier kannst du vorhandene Vorlagen in AAWP mit Vorlagen von affiliate-toolkit verknüpfen."
 
 #~ msgid "Last import result"
 #~ msgstr "Letzter Import"
 
 #~ msgid ""
 #~ "After click on save the plugin will run threw all posts and pages and collect the AAWP "
-#~ "shortcodes. The products and lists were automatically created. Depending on size this "
-#~ "may take several minutes to complete. If you are getting a timeout you can save it "
-#~ "again."
+#~ "shortcodes. The products and lists were automatically created. Depending on size this may "
+#~ "take several minutes to complete. If you are getting a timeout you can save it again."
 #~ msgstr ""
-#~ "Nach einem Klick auf Speichern wird das Plugin alle Beiträge und Seiten laden und "
-#~ "sammelt die AAWP-Shortcodes. Die Produkte und Listen wurden automatisch erstellt. Je "
-#~ "nach Größe kann dies einige Minuten dauern. Wenn du ein Timeout erhältst, kannst du es "
-#~ "erneut speichern."
+#~ "Nach einem Klick auf Speichern wird das Plugin alle Beiträge und Seiten laden und sammelt "
+#~ "die AAWP-Shortcodes. Die Produkte und Listen wurden automatisch erstellt. Je nach Größe "
+#~ "kann dies einige Minuten dauern. Wenn du ein Timeout erhältst, kannst du es erneut "
+#~ "speichern."
 
 #~ msgid ""
-#~ "After you are getting \"import finished\" in the import result textbox you can enable "
-#~ "the compatiblity mode and deactivate the AAWP plugin."
+#~ "After you are getting \"import finished\" in the import result textbox you can enable the "
+#~ "compatiblity mode and deactivate the AAWP plugin."
 #~ msgstr ""
 #~ "Nachdem du im Textfeld \"Import abgeschlossen\" erhältst, kannst du den "
 #~ "Kompatibilitätsmodus aktivieren und das AAWP-Plugin deaktivieren."
@@ -5550,18 +5554,17 @@ msgstr "#"
 
 #~ msgid ""
 #~ "After click on save the plugin will run threw all posts and pages and collect the ASA1 "
-#~ "shortcodes. The products and lists were automatically created. Depending on size this "
-#~ "may take several minutes to complete. If you are getting a timeout you can save it "
-#~ "again."
+#~ "shortcodes. The products and lists were automatically created. Depending on size this may "
+#~ "take several minutes to complete. If you are getting a timeout you can save it again."
 #~ msgstr ""
-#~ "Nach einem Klick auf Speichern wird das Plugin alle Beiträge und Seiten laden und "
-#~ "sammelt die ASA1-Shortcodes. Die Produkte und Listen wurden automatisch erstellt. Je "
-#~ "nach Größe kann dies einige Minuten dauern. Wenn du ein Timeout erhältst, kannst du es "
-#~ "erneut speichern."
+#~ "Nach einem Klick auf Speichern wird das Plugin alle Beiträge und Seiten laden und sammelt "
+#~ "die ASA1-Shortcodes. Die Produkte und Listen wurden automatisch erstellt. Je nach Größe "
+#~ "kann dies einige Minuten dauern. Wenn du ein Timeout erhältst, kannst du es erneut "
+#~ "speichern."
 
 #~ msgid ""
-#~ "After you are getting \"import finished\" in the import result textbox you can enable "
-#~ "the compatiblity mode and deactivate the ASA1 plugin."
+#~ "After you are getting \"import finished\" in the import result textbox you can enable the "
+#~ "compatiblity mode and deactivate the ASA1 plugin."
 #~ msgstr ""
 #~ "Nachdem du im Textfeld \"Import abgeschlossen\" erhältst, kannst du den "
 #~ "Kompatibilitätsmodus aktivieren und das ASA1-Plugin deaktivieren."
@@ -5575,25 +5578,24 @@ msgstr "#"
 
 #~ msgid ""
 #~ "After click on save the plugin will run threw all posts and pages and collect the ASA2 "
-#~ "shortcodes. The products and lists were automatically created. Depending on size this "
-#~ "may take several minutes to complete. If you are getting a timeout you can save it "
-#~ "again."
+#~ "shortcodes. The products and lists were automatically created. Depending on size this may "
+#~ "take several minutes to complete. If you are getting a timeout you can save it again."
 #~ msgstr ""
-#~ "Nach einem Klick auf Speichern wird das Plugin alle Beiträge und Seiten laden und "
-#~ "sammelt die ASA2-Shortcodes. Die Produkte und Listen wurden automatisch erstellt. Je "
-#~ "nach Größe kann dies einige Minuten dauern. Wenn du ein Timeout erhältst, kannst du es "
-#~ "erneut speichern."
+#~ "Nach einem Klick auf Speichern wird das Plugin alle Beiträge und Seiten laden und sammelt "
+#~ "die ASA2-Shortcodes. Die Produkte und Listen wurden automatisch erstellt. Je nach Größe "
+#~ "kann dies einige Minuten dauern. Wenn du ein Timeout erhältst, kannst du es erneut "
+#~ "speichern."
 
 #~ msgid ""
-#~ "After you are getting \"import finished\" in the import result textbox you can enable "
-#~ "the compatiblity mode and deactivate the ASA2 plugin."
+#~ "After you are getting \"import finished\" in the import result textbox you can enable the "
+#~ "compatiblity mode and deactivate the ASA2 plugin."
 #~ msgstr ""
 #~ "Nachdem du im Textfeld \"Import abgeschlossen\" erhältst, kannst du den "
 #~ "Kompatibilitätsmodus aktivieren und das ASA2-Plugin deaktivieren."
 
 #~ msgid ""
-#~ "We are not supporting the migration from different shops. We only support the migration "
-#~ "of Amazon products."
+#~ "We are not supporting the migration from different shops. We only support the migration of "
+#~ "Amazon products."
 #~ msgstr ""
 #~ "Wir unterstützen nicht die Migration von verschiedenen Shops. Wir unterstützen nur die "
 #~ "Migration von Amazon-Produkten."
@@ -5754,11 +5756,10 @@ msgstr "#"
 #~ msgstr "CSV-URL"
 
 #~ msgid ""
-#~ "This is the URL you are getting from your shop. Make sure that this is not a shorted "
-#~ "URL."
+#~ "This is the URL you are getting from your shop. Make sure that this is not a shorted URL."
 #~ msgstr ""
-#~ "Dies ist die URL, die Sie von Ihrem Shop erhalten. Achten Sie darauf, dass es sich "
-#~ "nicht um eine verkürzte URL handelt."
+#~ "Dies ist die URL, die Sie von Ihrem Shop erhalten. Achten Sie darauf, dass es sich nicht "
+#~ "um eine verkürzte URL handelt."
 
 #~ msgid "CSV-Encoding"
 #~ msgstr "CSV-Zeichensatz"
@@ -5964,8 +5965,8 @@ msgstr "#"
 #~ "saving the permalinks is necessary (Settings-> Permalinks-> Save Changes)."
 #~ msgstr ""
 #~ "Notiz: Nachträgliche Umbenennung der Taxanomien wird nicht unterstützt. Nach Ändern der "
-#~ "Taxonomien ist ein erneutes Speichern der Permalinks notwendig (Einstellungen-"
-#~ ">Permalinks->Änderungen speichern)."
+#~ "Taxonomien ist ein erneutes Speichern der Permalinks notwendig (Einstellungen->Permalinks-"
+#~ ">Änderungen speichern)."
 
 #~ msgid "eBay API"
 #~ msgstr "eBay API"
@@ -6066,8 +6067,7 @@ msgstr "#"
 #~ msgid ""
 #~ "Scrape customer reviews, availability and shipping costs from website (not recommended)"
 #~ msgstr ""
-#~ "Scrape Kundenbewertungen, Verfügbarkeit und Lieferkosten von der Webseite (nicht "
-#~ "empfohlen)"
+#~ "Scrape Kundenbewertungen, Verfügbarkeit und Lieferkosten von der Webseite (nicht empfohlen)"
 
 #, php-format
 #~ msgid "Delivery in %s business days after in-payment"
@@ -6287,8 +6287,7 @@ msgstr "#"
 
 #~ msgid "For using this extension you need a free MaxMind license key."
 #~ msgstr ""
-#~ "Für die Nutzung dieser Erweiterung benötigen Sie einen kostenlosen MaxMind-"
-#~ "Lizenzschlüssel."
+#~ "Für die Nutzung dieser Erweiterung benötigen Sie einen kostenlosen MaxMind-Lizenzschlüssel."
 
 #~ msgid "We detected the following data for you: <br/>"
 #~ msgstr "Wir haben die folgenden Daten für Sie ermittelt: <br/>"
@@ -6407,16 +6406,15 @@ msgstr "#"
 #~ msgstr "Maximale Anzahl von Produkten"
 
 #~ msgid ""
-#~ "You can limit the maximum of products from the source. Please note that most APIs have "
-#~ "a limit of 10 products per request."
+#~ "You can limit the maximum of products from the source. Please note that most APIs have a "
+#~ "limit of 10 products per request."
 #~ msgstr ""
-#~ "Sie können die maximale Anzahl der Produkte aus der Quelle begrenzen. Bitte beachten "
-#~ "Sie, dass die meisten APIs ein Limit von 10 Produkten pro Anfrage haben."
+#~ "Sie können die maximale Anzahl der Produkte aus der Quelle begrenzen. Bitte beachten Sie, "
+#~ "dass die meisten APIs ein Limit von 10 Produkten pro Anfrage haben."
 
 #~ msgid "If you select this option the import set will be add to the next queue."
 #~ msgstr ""
-#~ "Wenn Sie diese Option wählen, wird der Importsatz zur nächsten Warteschlange "
-#~ "hinzugefügt."
+#~ "Wenn Sie diese Option wählen, wird der Importsatz zur nächsten Warteschlange hinzugefügt."
 
 #~ msgid "Import set updated on %refresh_date% at %refresh_time%"
 #~ msgstr "Importsatz aktualisiert am %refresh_date% um %refresh_time%"
@@ -6502,9 +6500,8 @@ msgstr "#"
 #~ msgstr "Produktkategorie Taxonomie"
 
 #~ msgid ""
-#~ "This is the name of you product category. Equal to the Post \"category\". Don't change "
-#~ "the name after you created products and mapped to categories. You will lose your "
-#~ "categories."
+#~ "This is the name of you product category. Equal to the Post \"category\". Don't change the "
+#~ "name after you created products and mapped to categories. You will lose your categories."
 #~ msgstr ""
 #~ "Dies ist der Name deiner Produktkategorie. Entspricht \"Kategorie\" beim Beitrag. Änder "
 #~ "den Namen nicht mehr, nachdem das Produkte erstellt und Kategorien zugewiesen wurden. "
@@ -6512,8 +6509,8 @@ msgstr "#"
 
 #~ msgid "Hide product when price is empty and publish product when offer exists"
 #~ msgstr ""
-#~ "Produkt offline schalten wenn kein Angebot vorhanden ist und sobald wieder eines "
-#~ "vorhanden ist, veröffentlichen"
+#~ "Produkt offline schalten wenn kein Angebot vorhanden ist und sobald wieder eines vorhanden "
+#~ "ist, veröffentlichen"
 
 #~ msgid ""
 #~ "If the product has no salesprice, the plugin will move the product to draft. This can "
@@ -6530,8 +6527,7 @@ msgstr "#"
 #~ msgstr "Kommentare erlauben"
 
 #~ msgid ""
-#~ "If you want to display the comment section on your product page you can enable this "
-#~ "option."
+#~ "If you want to display the comment section on your product page you can enable this option."
 #~ msgstr ""
 #~ "Wenn du den Kommentarbereich auf deiner Produktseite anzeigen möchtest, kannst du diese "
 #~ "Option aktivieren."
@@ -6546,8 +6542,8 @@ msgstr "#"
 #~ "[atkp_product field='info_text'][/atkp_product]\n"
 #~ "<br />\n"
 #~ "<h2>Available offers</h2>\n"
-#~ "[atkp_product template='detailoffers'][/atkp_product] <br />Last Updated on "
-#~ "[atkp_product field='refresh_date'] at [atkp_product field='refresh_time'].</div>"
+#~ "[atkp_product template='detailoffers'][/atkp_product] <br />Last Updated on [atkp_product "
+#~ "field='refresh_date'] at [atkp_product field='refresh_time'].</div>"
 #~ msgstr ""
 #~ "<div class=\"atkp-page\">\n"
 #~ "[atkp_product template='secondwide'][/atkp_product][atkp_product field='content'][/"
@@ -6582,12 +6578,12 @@ msgstr "#"
 #~ "eigene Vorlagen anzeigen möchtest."
 
 #~ msgid ""
-#~ "After activating the product page or changing the product slugs you need to re-save the "
-#~ "WP permalinks (Go to Settings-> Permalinks-> Save Changes)."
+#~ "After activating the product page or changing the product slugs you need to re-save the WP "
+#~ "permalinks (Go to Settings-> Permalinks-> Save Changes)."
 #~ msgstr ""
-#~ "Nachdem du die Produktseite aktiviert oder die Produkt-Slugs geändert hast, musst du "
-#~ "die WP-Permalinks erneut speichern (Gehe dazu in Einstellungen-> Permalinks-> "
-#~ "Änderungen speichern)."
+#~ "Nachdem du die Produktseite aktiviert oder die Produkt-Slugs geändert hast, musst du die "
+#~ "WP-Permalinks erneut speichern (Gehe dazu in Einstellungen-> Permalinks-> Änderungen "
+#~ "speichern)."
 
 #~ msgid "Manual product"
 #~ msgstr "Hauptprodukt"
@@ -6738,21 +6734,21 @@ msgstr "#"
 #~ msgstr "Duplikate beim Import prüfen"
 
 #~ msgid ""
-#~ "Show plugin credits and <a href=\"https://www.affiliate-toolkit.com/account/affiliate-"
-#~ "area/\" target=\"_blank\">earn money</a>"
+#~ "Show plugin credits and <a href=\"https://www.affiliate-toolkit.com/account/affiliate-area/"
+#~ "\" target=\"_blank\">earn money</a>"
 #~ msgstr ""
-#~ "Plugin-Credits anzeigen und <a href=\"https://www.affiliate-toolkit.com/de/konto/"
-#~ "affiliate-bereich/\" target=\"_blank\">Geld verdienen</a>"
+#~ "Plugin-Credits anzeigen und <a href=\"https://www.affiliate-toolkit.com/de/konto/affiliate-"
+#~ "bereich/\" target=\"_blank\">Geld verdienen</a>"
 
 #~ msgid "Rocketscrape Key"
 #~ msgstr "Rocketscrape Schlüssel"
 
 #~ msgid ""
-#~ "We are using Rocketscrape for scraping extended data from external websites. Please "
-#~ "enter your key if you want use this feature."
+#~ "We are using Rocketscrape for scraping extended data from external websites. Please enter "
+#~ "your key if you want use this feature."
 #~ msgstr ""
-#~ "Wir verwenden Rocketscrape zum Scraping erweiterter Daten von externen Websites. Bitte "
-#~ "gib deinen Schlüssel ein, wenn du diese Funktion nutzen möchtest."
+#~ "Wir verwenden Rocketscrape zum Scraping erweiterter Daten von externen Websites. Bitte gib "
+#~ "deinen Schlüssel ein, wenn du diese Funktion nutzen möchtest."
 
 #~ msgid "Get your key"
 #~ msgstr "Hole deinen Schlüssel"
@@ -7050,12 +7046,11 @@ msgstr "#"
 
 #~ msgid ""
 #~ "By default the plugin is only writing the Title&Permalink on creation. If you want that "
-#~ "this should be updated regulary you need to enable this option. URL changes can affect "
-#~ "SEO."
+#~ "this should be updated regulary you need to enable this option. URL changes can affect SEO."
 #~ msgstr ""
-#~ "Standardmäßig schreibt das Plugin nur den Titel und Permalink bei der Erstellung. Wenn "
-#~ "du möchtest, dass dies regelmäßig aktualisiert wird, muss diese Option aktiviert "
-#~ "werden. URL-Änderungen können sich auf SEO auswirken."
+#~ "Standardmäßig schreibt das Plugin nur den Titel und Permalink bei der Erstellung. Wenn du "
+#~ "möchtest, dass dies regelmäßig aktualisiert wird, muss diese Option aktiviert werden. URL-"
+#~ "Änderungen können sich auf SEO auswirken."
 
 #~ msgid "Button text"
 #~ msgstr "Button-Text"
@@ -7091,24 +7086,22 @@ msgstr "#"
 #~ "If you want a different \"sale price\". Default is the sale price. If regular and sale "
 #~ "price are equal only regular price will be written"
 #~ msgstr ""
-#~ "Wenn du einen anderen \"Verkaufspreis\" wünscht. Standard ist der Verkaufspreis. Wenn "
-#~ "der reguläre Preis und der Verkaufspreis gleich sind, wird nur der reguläre Preis "
-#~ "geschrieben"
+#~ "Wenn du einen anderen \"Verkaufspreis\" wünscht. Standard ist der Verkaufspreis. Wenn der "
+#~ "reguläre Preis und der Verkaufspreis gleich sind, wird nur der reguläre Preis geschrieben"
 
 #~ msgid ""
 #~ "Change product status to draft when price is equal zero and publish product when offer "
 #~ "exists"
 #~ msgstr ""
-#~ "Produkt offline schalten wenn kein Angebot vorhanden ist und sobald wieder eines "
-#~ "vorhanden ist, veröffentlichen"
+#~ "Produkt offline schalten wenn kein Angebot vorhanden ist und sobald wieder eines vorhanden "
+#~ "ist, veröffentlichen"
 
 #~ msgid "Change catalog visibility to hidden when price is equal zero"
-#~ msgstr ""
-#~ "Ändere die Sichtbarkeit des Katalogs in ausgeblendet, wenn der Preis gleich Null ist"
+#~ msgstr "Ändere die Sichtbarkeit des Katalogs in ausgeblendet, wenn der Preis gleich Null ist"
 
 #~ msgid ""
-#~ "If the product has no salesprice, the plugin will hide the product from the shop page "
-#~ "but the product page still exists."
+#~ "If the product has no salesprice, the plugin will hide the product from the shop page but "
+#~ "the product page still exists."
 #~ msgstr ""
 #~ "Wenn das Produkt keinen Verkaufspreis hat, blendet das Plugin das Produkt von der Shop-"
 #~ "Seite aus, aber die Produktseite existiert noch."
@@ -7151,8 +7144,8 @@ msgstr "#"
 #~ msgstr "Benutzerdefiniertes EAN-Feld"
 
 #~ msgid ""
-#~ "We are using by default the field \"sku\". If you are using this field, you can change "
-#~ "it here. Don't change the field afterwards. You will lose your product mapping."
+#~ "We are using by default the field \"sku\". If you are using this field, you can change it "
+#~ "here. Don't change the field afterwards. You will lose your product mapping."
 #~ msgstr ""
 #~ "Wir verwenden standardmäßig das Feld \"sku\". Wenn du dieses Feld bereits verwendest, "
 #~ "kannst du es hier ändern. Ändere das Feld danach nicht. Du verlierst sonst das Produkt-"
@@ -7175,8 +7168,7 @@ msgstr "#"
 #~ msgstr "Kein Bild über das Affiliate-Toolkit einfügen"
 
 #~ msgid ""
-#~ "We recommend to use the FIFU plugin. Import of images will slow down your product "
-#~ "updates.."
+#~ "We recommend to use the FIFU plugin. Import of images will slow down your product updates.."
 #~ msgstr ""
 #~ "Wir empfehlen die Verwendung des FIFU-Plugins. Der Import von Bildern verlangsamt die "
 #~ "Produktaktualisierungen."
@@ -7286,8 +7278,8 @@ msgstr "#"
 #~ msgstr "Alle Erweiterungen anzeigen"
 
 #~ msgid ""
-#~ "<a href=\"%link_get-amazon-search-department%\" target=\"_blank\">Additional "
-#~ "information</a>"
+#~ "<a href=\"%link_get-amazon-search-department%\" target=\"_blank\">Additional information</"
+#~ "a>"
 #~ msgstr ""
 #~ "<a href=\"%link_get-amazon-search-department%\" target=\"_blank\">Zusätzliche "
 #~ "Informationen</a>"
@@ -7323,8 +7315,8 @@ msgstr "#"
 #~ msgstr "Einstellungen für Haftungsausschluss"
 
 #~ msgid ""
-#~ "Amazon and many other partner programs recommends including a disclaimer additionally "
-#~ "to the pricing or availability information."
+#~ "Amazon and many other partner programs recommends including a disclaimer additionally to "
+#~ "the pricing or availability information."
 #~ msgstr ""
 #~ "Amazon und viele weitere Partnerprogramme empfehlen, einen Haftungsausschluss neben den "
 #~ "Preis- oder Verfügbarkeitsinformationen anzuzeigen."
@@ -7333,16 +7325,15 @@ msgstr "#"
 #~ "You can use the placeholders %refresh_date% and %refresh_time% for displaying when the "
 #~ "product was updated."
 #~ msgstr ""
-#~ "Du kannst die Platzhalter %refresh_date% und %refresh_time% verwenden, um anzuzeigen, "
-#~ "wann das Produkt aktualisiert wurde."
+#~ "Du kannst die Platzhalter %refresh_date% und %refresh_time% verwenden, um anzuzeigen, wann "
+#~ "das Produkt aktualisiert wurde."
 
 #~ msgid "Disable frontend select2 fields"
-#~ msgstr ""
-#~ "\"select2\"-Felder im Frontend deaktivieren (nur bei Javascript-Fehlern aktvieren)"
+#~ msgstr "\"select2\"-Felder im Frontend deaktivieren (nur bei Javascript-Fehlern aktvieren)"
 
 #~ msgid ""
-#~ "If you have problems in the frontend (other controls are not working or loading "
-#~ "anymore) you can try to disable select2."
+#~ "If you have problems in the frontend (other controls are not working or loading anymore) "
+#~ "you can try to disable select2."
 #~ msgstr ""
 #~ "Wenn du Probleme im Frontend hast (andere Elemente funktionieren nicht mehr oder werden "
 #~ "nicht mehr geladen), kannst du versuchen, select2 zu deaktivieren."
@@ -7356,8 +7347,8 @@ msgstr "#"
 #~ "minutes to complete."
 #~ msgstr ""
 #~ "Notiz: Wenn der Kompatibilitätsmodus aktiviert ist, werden alle Beiträge und Seiten "
-#~ "analysiert. Die Produkte und Listen werden dabei automatisch angelegt. Dies kann (je "
-#~ "nach Größe) einige Minuten in Anspruch nehmen."
+#~ "analysiert. Die Produkte und Listen werden dabei automatisch angelegt. Dies kann (je nach "
+#~ "Größe) einige Minuten in Anspruch nehmen."
 
 #~ msgid "Show shop name"
 #~ msgstr "Shop-Namen anzeigen"
@@ -7441,11 +7432,11 @@ msgstr "#"
 #~ msgstr "Teuerstes Angebot"
 
 #~ msgid ""
-#~ "You can change if always the minimum or maximum offer should be displayed in your "
-#~ "product box. By default the main product will be displayed."
+#~ "You can change if always the minimum or maximum offer should be displayed in your product "
+#~ "box. By default the main product will be displayed."
 #~ msgstr ""
-#~ "Du kannst ändern, ob immer das Mindest- oder Maximalangebot in deiner Produktbox "
-#~ "angezeigt werden soll. Standardmäßig wird das Hauptprodukt angezeigt."
+#~ "Du kannst ändern, ob immer das Mindest- oder Maximalangebot in deiner Produktbox angezeigt "
+#~ "werden soll. Standardmäßig wird das Hauptprodukt angezeigt."
 
 #~ msgid "Mark links (*)"
 #~ msgstr "Links markieren (*)"
@@ -7559,11 +7550,11 @@ msgstr "#"
 #~ msgstr "Expertenmodus"
 
 #~ msgid ""
-#~ "Our plugin is saving the product data in a separate database table. If you want to use "
-#~ "it in filter plugins you need to use this tool."
+#~ "Our plugin is saving the product data in a separate database table. If you want to use it "
+#~ "in filter plugins you need to use this tool."
 #~ msgstr ""
-#~ "Unser Plugin speichert die Produktdaten in einer separaten Datenbanktabelle. Wenn du "
-#~ "die Felder in Filter-Plugins verwenden möchtest, musst du dieses Tool verwenden."
+#~ "Unser Plugin speichert die Produktdaten in einer separaten Datenbanktabelle. Wenn du die "
+#~ "Felder in Filter-Plugins verwenden möchtest, musst du dieses Tool verwenden."
 
 #~ msgid "formatted by WP hook"
 #~ msgstr "formatiert durch WP-Hook"
@@ -7582,19 +7573,19 @@ msgstr "#"
 
 #~ msgid ""
 #~ "If you want to be GDPR complaint you need to use a image proxy (it will stress your "
-#~ "server). If you already import the post thumbnail you can also use the imported image "
-#~ "and all other images will be redirected."
+#~ "server). If you already import the post thumbnail you can also use the imported image and "
+#~ "all other images will be redirected."
 #~ msgstr ""
-#~ "Wenn du DSGVO-konform sein möchtest, musst du einen Bild-Proxy verwenden (dies wird "
-#~ "deinen Server belasten). Wenn du das Bild als Beitragsbild bereits importiert hast, "
-#~ "kannst du auch das importierte Bild verwenden und alle anderen Bilder werden umgeleitet."
+#~ "Wenn du DSGVO-konform sein möchtest, musst du einen Bild-Proxy verwenden (dies wird deinen "
+#~ "Server belasten). Wenn du das Bild als Beitragsbild bereits importiert hast, kannst du "
+#~ "auch das importierte Bild verwenden und alle anderen Bilder werden umgeleitet."
 
 #~ msgid ""
-#~ "This caracter will be attached do your affiliate links. You can also use html for "
-#~ "special formatting."
+#~ "This caracter will be attached do your affiliate links. You can also use html for special "
+#~ "formatting."
 #~ msgstr ""
-#~ "Dieses Zeichen wird an deine Affiliate-Links angehängt. Du kannst HTML auch für "
-#~ "spezielle Formatierungen verwenden."
+#~ "Dieses Zeichen wird an deine Affiliate-Links angehängt. Du kannst HTML auch für spezielle "
+#~ "Formatierungen verwenden."
 
 #~ msgid "Add new fieldexport"
 #~ msgstr "Neues Feld hinzufügen"
@@ -7614,8 +7605,7 @@ msgstr "#"
 #~ msgid "title link"
 #~ msgstr "Titellink"
 
-#~ msgid ""
-#~ "<a href=\"%link_mark-affiliate-links%\" target=\"_blank\">Additional information</a>"
+#~ msgid "<a href=\"%link_mark-affiliate-links%\" target=\"_blank\">Additional information</a>"
 #~ msgstr "<a href=\"%link_mark-affiliate-links%\" target=\"_blank\">Mehr Informationen</a>"
 
 #~ msgid "Disable lightslider"
@@ -7654,13 +7644,13 @@ msgstr "#"
 #~ msgstr "Benötigst du Hilfe?"
 
 #~ msgid ""
-#~ "If you have any problems with our plugin, first take a look at our <a href=\"%link_help%"
-#~ "\" target=\"_blank\">Help Center</a>. If you need further assistance, please <a "
+#~ "If you have any problems with our plugin, first take a look at our <a href=\"%link_help%\" "
+#~ "target=\"_blank\">Help Center</a>. If you need further assistance, please <a "
 #~ "href=\"%link_support%\" target=\"_blank\">contact us</a>."
 #~ msgstr ""
-#~ "Falls du Probleme mit unserem Plugin hast, schau zuerst in unser <a href=\"%link_help%"
-#~ "\" target=\"_blank\">Hilfe Center</a>. Benötigst du mehr Hilfe, bitte <a "
-#~ "href=\"%link_support%\" target=\"_blank\">kontaktiere uns</a>."
+#~ "Falls du Probleme mit unserem Plugin hast, schau zuerst in unser <a href=\"%link_help%\" "
+#~ "target=\"_blank\">Hilfe Center</a>. Benötigst du mehr Hilfe, bitte <a href=\"%link_support%"
+#~ "\" target=\"_blank\">kontaktiere uns</a>."
 
 #~ msgid "Do you like the plugin?"
 #~ msgstr "Gefällt dir das Plugin?"
@@ -7670,17 +7660,16 @@ msgstr "#"
 #~ "ordering! More information is available <a href=\"%link_affiliate%\" "
 #~ "target=\"_blank\">here</a>!"
 #~ msgstr ""
-#~ "Schreibe eine Bewertung und empfehle es weiter. Als Affiliate-Partner kannst du mit "
-#~ "jeder Bestellung Geld verdienen! Mehr Informationen findest du <a "
-#~ "href=\"%link_affiliate%\" target=\"_blank\">hier</a>!"
+#~ "Schreibe eine Bewertung und empfehle es weiter. Als Affiliate-Partner kannst du mit jeder "
+#~ "Bestellung Geld verdienen! Mehr Informationen findest du <a href=\"%link_affiliate%\" "
+#~ "target=\"_blank\">hier</a>!"
 
 #~ msgid ""
 #~ "We appreciate any form of feedback to improve the plugin. Send us your praise or your "
 #~ "criticism. Simply use the <a href=\"%link_contact%\" target=\"_blank\">contact form</a>."
 #~ msgstr ""
-#~ "WIr freuen uns über jedes Feedback um unser Plugin zu erweitern. Sende uns dein Lob "
-#~ "oder deine Kritik einfach per <a href=\"%link_contact%\" "
-#~ "target=\"_blank\">Kontaktformular</a>."
+#~ "WIr freuen uns über jedes Feedback um unser Plugin zu erweitern. Sende uns dein Lob oder "
+#~ "deine Kritik einfach per <a href=\"%link_contact%\" target=\"_blank\">Kontaktformular</a>."
 
 #~ msgid "Getting Started"
 #~ msgstr "Erste Schritte"
@@ -7702,8 +7691,8 @@ msgstr "#"
 #~ "To make it as easy as possible for you to get started, we have summarized the most "
 #~ "important links and steps for you here."
 #~ msgstr ""
-#~ "Damit wir dir den Start so leicht wie möglich machen, haben wir dir hier die "
-#~ "wichtigsten Links und Schritte zusammengefasst."
+#~ "Damit wir dir den Start so leicht wie möglich machen, haben wir dir hier die wichtigsten "
+#~ "Links und Schritte zusammengefasst."
 
 #~ msgid "Quick links:"
 #~ msgstr "Schnelle Links:"
@@ -7717,15 +7706,15 @@ msgstr "#"
 #, php-format
 #~ msgid ""
 #~ "\n"
-#~ "To be able to import products from your affiliate partner, you need to enter your "
-#~ "access data. \n"
+#~ "To be able to import products from your affiliate partner, you need to enter your access "
+#~ "data. \n"
 #~ "You must create a shop for each affiliate network. You can create your first shop %s."
 #~ msgstr ""
 #~ "\n"
 #~ "Damit du Produkte von deinem Affiliate-Partner importieren kannst, musst du deine "
 #~ "Zugangsdaten eintragen. \n"
-#~ "Für jedes Affiliate-Netzwerk musst du einen Shop anlegen. Du kannst deinen ersten Shop "
-#~ "%s anlegen."
+#~ "Für jedes Affiliate-Netzwerk musst du einen Shop anlegen. Du kannst deinen ersten Shop %s "
+#~ "anlegen."
 
 #~ msgid "To help with this"
 #~ msgstr "Hilfe dazu"
@@ -7741,9 +7730,9 @@ msgstr "#"
 #~ "After you have created a shop, you can import your first products.  %s <br /> You can "
 #~ "import them directly in the post via the short code generator or you can use our %s."
 #~ msgstr ""
-#~ "Nachdem du einen Shop angelegt hast, kannst du deine ersten Produkte importieren. %s "
-#~ "<br />Du kannst diese direkt im Beitrag über den Shortcode-Generator importieren oder "
-#~ "du verwendest unseren %s."
+#~ "Nachdem du einen Shop angelegt hast, kannst du deine ersten Produkte importieren. %s <br /"
+#~ ">Du kannst diese direkt im Beitrag über den Shortcode-Generator importieren oder du "
+#~ "verwendest unseren %s."
 
 #~ msgid "product import"
 #~ msgstr "Produktimport"
@@ -7754,8 +7743,8 @@ msgstr "#"
 #, php-format
 #~ msgid ""
 #~ "With a list you can view several products and update them automatically. %s <br /> This "
-#~ "allows you to retrieve bestseller lists, new releases and any search lists. You can "
-#~ "create your first list %s."
+#~ "allows you to retrieve bestseller lists, new releases and any search lists. You can create "
+#~ "your first list %s."
 #~ msgstr ""
 #~ "Mit einer Liste kannst du mehrere Produkte anzeigen und diese automatisch aktualisieren "
 #~ "lassen. %s <br />Damit kannst du Bestseller-Listen, Neuerscheinungen und beliebige "
@@ -7768,8 +7757,7 @@ msgstr "#"
 #~ msgid ""
 #~ "In order to save as many comparison values as possible for your products, there are "
 #~ "separate fields and field groups. %s <br /> The settings contain the %s and %s that are "
-#~ "created for each product category. <br /> You must first activate field groups in the "
-#~ "%s."
+#~ "created for each product category. <br /> You must first activate field groups in the %s."
 #~ msgstr ""
 #~ "Damit du möglichst viele Vergleichswerte zu deinen Produkten speichern kannst, gibt es "
 #~ "eigene Felder und Feldgruppen. %s <br />In den Einstellungen gibt es die %s und die %s "
@@ -7791,10 +7779,10 @@ msgstr "#"
 #~ "create a new %s. <br />As a basis for your new template you can import our standard "
 #~ "templates. For comparison tables you can find more information here: %s"
 #~ msgstr ""
-#~ "Falls du keine Lust auf unsere mitgelieferten Templates hast, kannst du eigene "
-#~ "erstellen. Hier kannst du eine neue %s anlegen.<br />Als Basis für deine neuen Vorlage "
-#~ "kannst du unsere Standard-Vorlagen importieren. Für Vergleichstabellen findest du hier "
-#~ "mehr Informationen. %s"
+#~ "Falls du keine Lust auf unsere mitgelieferten Templates hast, kannst du eigene erstellen. "
+#~ "Hier kannst du eine neue %s anlegen.<br />Als Basis für deine neuen Vorlage kannst du "
+#~ "unsere Standard-Vorlagen importieren. Für Vergleichstabellen findest du hier mehr "
+#~ "Informationen. %s"
 
 #~ msgid "Help with that"
 #~ msgstr "Hilfe anzeigen"
@@ -7807,9 +7795,9 @@ msgstr "#"
 #~ "If you want to use WooCommerce as an affiliate shop, all you have to do is activate %s. "
 #~ "<br />In our documentation we have summarized the most important points for you: %s"
 #~ msgstr ""
-#~ "Wenn du WooCommerce als Affilate-Shop verwenden möchtest, dann musst du lediglich %s "
-#~ "dafür aktivieren.<br />In unserer Dokumentation haben wir dir die wichtigsten Punkte "
-#~ "dazu zusammengefasst: %s"
+#~ "Wenn du WooCommerce als Affilate-Shop verwenden möchtest, dann musst du lediglich %s dafür "
+#~ "aktivieren.<br />In unserer Dokumentation haben wir dir die wichtigsten Punkte dazu "
+#~ "zusammengefasst: %s"
 
 #~ msgid "Extra: Price comparison"
 #~ msgstr "Extra: Preisvergleich"
@@ -7817,11 +7805,11 @@ msgstr "#"
 #, php-format
 #~ msgid ""
 #~ "Our plugin allows an automatic price comparison via EAN. All you have to do is activate "
-#~ "the automatic search in the shop. <br />You can read more about this in our "
-#~ "documentation: %s"
+#~ "the automatic search in the shop. <br />You can read more about this in our documentation: "
+#~ "%s"
 #~ msgstr ""
-#~ "Unser Plugin ermöglicht einen automatischen Preisvergleich über die EAN. Du musst nur "
-#~ "im Shop die automatische Suche dafür aktivieren. <br />Mehr dazu findest du in unserer "
+#~ "Unser Plugin ermöglicht einen automatischen Preisvergleich über die EAN. Du musst nur im "
+#~ "Shop die automatische Suche dafür aktivieren. <br />Mehr dazu findest du in unserer "
 #~ "Dokumentation: %s"
 
 #~ msgid "Extra: replace ASA1 or ASA2"
@@ -7829,9 +7817,9 @@ msgstr "#"
 
 #, php-format
 #~ msgid ""
-#~ "So far you have used Amazon Simple Amazon 1 or Amazon Simple Affiliate 2 and now want "
-#~ "to upgrade? <br />With our plugin you can replace the plugin with just one click and "
-#~ "you don't have to exchange short codes! %s"
+#~ "So far you have used Amazon Simple Amazon 1 or Amazon Simple Affiliate 2 and now want to "
+#~ "upgrade? <br />With our plugin you can replace the plugin with just one click and you "
+#~ "don't have to exchange short codes! %s"
 #~ msgstr ""
 #~ "Du hast bisher Amazon Simple Amazon 1 oder Amazon Simple Affiliate 2 verwendet und "
 #~ "möchtest nun umsteigen? <br/>Mit unserem Plugin kannst du das Plugin mit einem Klick "
@@ -7856,8 +7844,8 @@ msgstr "#"
 
 #, php-format
 #~ msgid ""
-#~ "<span style=\"font-weight:bold\">affiliate-toolkit:</span> You must enter a valid "
-#~ "license for affiliate-toolkit: %s.  Check the <a href=\"%s\">license page</a>"
+#~ "<span style=\"font-weight:bold\">affiliate-toolkit:</span> You must enter a valid license "
+#~ "for affiliate-toolkit: %s.  Check the <a href=\"%s\">license page</a>"
 #~ msgstr ""
 #~ "<span style=\"font-weight:bold\">affiliate-toolkit:</span> Du musst einen gültigen "
 #~ "Lizenzschlüssel für %s eingeben. <a href=\"%s\">Zur Lizenzseite</a>"
@@ -7884,8 +7872,7 @@ msgstr "#"
 #~ msgstr "Eindeutige Produkt-ID suchen"
 
 #~ msgid "Update product information upon saving (overwrites existing data)"
-#~ msgstr ""
-#~ "Produktinformationen beim Speichern aktualisieren (überschreibt existierende Daten)"
+#~ msgstr "Produktinformationen beim Speichern aktualisieren (überschreibt existierende Daten)"
 
 #~ msgid "Disable Hover-Link"
 #~ msgstr "Hover-Link deaktivieren"
@@ -7897,11 +7884,10 @@ msgstr "#"
 #~ "\"Produktseite URL\", \"Kundenbewertung URL\" und \"Zum Warenkorb hinzufügen URL\" beim "
 #~ "Speichern aktualisieren"
 
-#~ msgid ""
-#~ "Constantly update \"product url\", \"customer reviews url\" and \"add to cart url\""
+#~ msgid "Constantly update \"product url\", \"customer reviews url\" and \"add to cart url\""
 #~ msgstr ""
-#~ "\"Produktseite URL\", \"Kundenbewertung URL\" und \"Zum Warenkorb hinzufügen URL\" "
-#~ "laufend aktualisieren"
+#~ "\"Produktseite URL\", \"Kundenbewertung URL\" und \"Zum Warenkorb hinzufügen URL\" laufend "
+#~ "aktualisieren"
 
 #~ msgid "Override customer reviews"
 #~ msgstr "Kundenbewertungen übersteuern"
@@ -7934,8 +7920,8 @@ msgstr "#"
 #~ msgstr "Weitere Angebote laufend aktualisieren"
 
 #~ msgid ""
-#~ "Note: Offers are either loaded in cronjob (background) or when clicking \"Load "
-#~ "additional offers upon saving\".\"."
+#~ "Note: Offers are either loaded in cronjob (background) or when clicking \"Load additional "
+#~ "offers upon saving\".\"."
 #~ msgstr ""
 #~ "Hinweis: Weitere Angebote werden durch den Cronjob (Hintergrundprozess) aktualisiert. "
 #~ "Durch anhaken der Auswahlbox \"Mehr Angebote beim Speichern aktualisieren\" werden die "
@@ -8018,9 +8004,9 @@ msgstr "#"
 #~ msgstr "Verfügbare Plugin-Module:"
 
 #~ msgid ""
-#~ "By using the custom fields, you can extend and enter or import your products with "
-#~ "useful fields and entire product groups. These fields can then be displayed in the "
-#~ "comparison tables or templates."
+#~ "By using the custom fields, you can extend and enter or import your products with useful "
+#~ "fields and entire product groups. These fields can then be displayed in the comparison "
+#~ "tables or templates."
 #~ msgstr ""
 #~ "Mit der Nutzung der benutzerdefinierten Felder kannst du deine Produkte um nützliche "
 #~ "Felder und ganze Produktgruppen erweitern und diese eingeben oder importieren. Diese "
@@ -8030,11 +8016,11 @@ msgstr "#"
 #~ msgstr "Aktiviere \"Advanced Custom Fields\"-Unterstützung"
 
 #~ msgid ""
-#~ "If you use the ACF Pro plugin, you can enable this option. This allows you to access "
-#~ "the fields with their own placeholders in the templates."
+#~ "If you use the ACF Pro plugin, you can enable this option. This allows you to access the "
+#~ "fields with their own placeholders in the templates."
 #~ msgstr ""
-#~ "Wenn du das ACF Pro Plugin verwendest, kannst du diese Option aktivieren. Damit kannst "
-#~ "du in den Vorlagen auf die Felder mit eigenen Platzhaltern zugreifen."
+#~ "Wenn du das ACF Pro Plugin verwendest, kannst du diese Option aktivieren. Damit kannst du "
+#~ "in den Vorlagen auf die Felder mit eigenen Platzhaltern zugreifen."
 
 #~ msgid ""
 #~ "The product pages allow you to post products on your website to your visitors. The "
@@ -8052,8 +8038,8 @@ msgstr "#"
 #~ "The Bulk Import feature allows you to bulk-create products and lists. All you need is a "
 #~ "CSV list of product IDs or keywords."
 #~ msgstr ""
-#~ "Mit der Massenimport-Funktion kannst du Produkte und Listen im Bulk anlegen. Du "
-#~ "benötigst lediglich eine CSV-Liste mit Produkt-IDs oder Suchwörtern."
+#~ "Mit der Massenimport-Funktion kannst du Produkte und Listen im Bulk anlegen. Du benötigst "
+#~ "lediglich eine CSV-Liste mit Produkt-IDs oder Suchwörtern."
 
 #~ msgid ""
 #~ "With the WooCommerce extension, you can import affiliate products into your WooCommerce "
@@ -8061,15 +8047,15 @@ msgstr "#"
 #~ "entirely up to you."
 #~ msgstr ""
 #~ "Mit der WooCommerce-Erweiterung kannst du Affiliate-Produkte in deinen WooCommerce-Shop "
-#~ "importieren und automatisch aktualisieren lassen können. Die Darstellung der "
-#~ "Produktseite obliegt ganz dir."
+#~ "importieren und automatisch aktualisieren lassen können. Die Darstellung der Produktseite "
+#~ "obliegt ganz dir."
 
 #~ msgid ""
-#~ "If the support needs a logfile, you can create it with this module. In regular "
-#~ "operation, this module is not necessary."
+#~ "If the support needs a logfile, you can create it with this module. In regular operation, "
+#~ "this module is not necessary."
 #~ msgstr ""
-#~ "Falls der Support ein Logfile benötigt, kannst du dieses mit diesem Modul erzeugen "
-#~ "lassen. Im regulären Betrieb ist dieses Modul nicht notwendig."
+#~ "Falls der Support ein Logfile benötigt, kannst du dieses mit diesem Modul erzeugen lassen. "
+#~ "Im regulären Betrieb ist dieses Modul nicht notwendig."
 
 #~ msgid "Shortcode generator"
 #~ msgstr "Shortcode-Generator anzeigen"
@@ -8079,8 +8065,7 @@ msgstr "#"
 #~ "text editor. By default you will find a button in the tool list."
 #~ msgstr ""
 #~ "Mit dem Shortcode-Generator kannst du im Texteditor die Shortcodes für die Produkte und "
-#~ "Listen generieren lassen. Standardmäßig findet man dazu in der Werkzeugliste einen "
-#~ "Button."
+#~ "Listen generieren lassen. Standardmäßig findet man dazu in der Werkzeugliste einen Button."
 
 #~ msgid "Gutenberg Shortcode generator"
 #~ msgstr "Shortcode-Generator in Gutenberg anzeigen"
@@ -8096,18 +8081,18 @@ msgstr "#"
 #~ msgstr "ASA1 Unterstützung"
 
 #~ msgid ""
-#~ "If you would like to replace Amazon Simple Admin 1, enable this option and configure it "
-#~ "in Preferences."
+#~ "If you would like to replace Amazon Simple Admin 1, enable this option and configure it in "
+#~ "Preferences."
 #~ msgstr ""
-#~ "Falls du Amazon Simple Admin 1 ablösen möchtest, aktiviere diese Option und "
-#~ "konfiguriere es in den Einstellungen."
+#~ "Falls du Amazon Simple Admin 1 ablösen möchtest, aktiviere diese Option und konfiguriere "
+#~ "es in den Einstellungen."
 
 #~ msgid "ASA2 support"
 #~ msgstr "ASA2 Unterstützung"
 
 #~ msgid ""
-#~ "If you would like to replace Amazon Simple Affiliate 2, enable this option and "
-#~ "configure it in Preferences."
+#~ "If you would like to replace Amazon Simple Affiliate 2, enable this option and configure "
+#~ "it in Preferences."
 #~ msgstr ""
 #~ "Falls du Amazon Simple Affiliate 2 ablösen möchtest, aktiviere diese Option und "
 #~ "konfiguriere es in den Einstellungen."
@@ -8118,15 +8103,15 @@ msgstr "#"
 #~ msgid ""
 #~ "If you would like to replace AAWP, enable this option and configure it in Preferences."
 #~ msgstr ""
-#~ "Falls du AAWP (Amazon Affiliate WordPress Plugin) ablösen möchtest, aktiviere diese "
-#~ "Option und konfiguriere es in den Einstellungen."
+#~ "Falls du AAWP (Amazon Affiliate WordPress Plugin) ablösen möchtest, aktiviere diese Option "
+#~ "und konfiguriere es in den Einstellungen."
 
 #~ msgid "livelist shortcodes"
 #~ msgstr "\"livelist\"-ShortCodes"
 
 #~ msgid ""
-#~ "If you want to submit search queries directly to the Apis using the \"livelist\" code, "
-#~ "you need to activate this module."
+#~ "If you want to submit search queries directly to the Apis using the \"livelist\" code, you "
+#~ "need to activate this module."
 #~ msgstr ""
 #~ "Wenn du Suchabfragen über den \"livelist\"-Shortcode direkt auf die Apis abschicken "
 #~ "möchtest, musst du dieses Modul aktivieren."
@@ -8155,8 +8140,8 @@ msgstr "#"
 #~ msgstr "Floatingbar"
 
 #~ msgid ""
-#~ "With the Floatingbar, you can display product information on product pages or posts. "
-#~ "These fade in when scrolling."
+#~ "With the Floatingbar, you can display product information on product pages or posts. These "
+#~ "fade in when scrolling."
 #~ msgstr ""
 #~ "Mit der Floatingbar kannst du Produktinformationen auf Produktseiten oder Beiträge "
 #~ "darstellen. Diese blenden sich beim scrollen ein."
@@ -8165,44 +8150,44 @@ msgstr "#"
 #~ msgstr "Produktkategorien-Taxonomie aktivieren"
 
 #~ msgid ""
-#~ "The product groups are like \"categories\" in the posts. These are also necessary if "
-#~ "you want to use the field groups. These are used to assign the groups to a product."
+#~ "The product groups are like \"categories\" in the posts. These are also necessary if you "
+#~ "want to use the field groups. These are used to assign the groups to a product."
 #~ msgstr ""
-#~ "Die Produktgruppen sind wie \"Kategorien\" in den Beiträgen. Diese sind außerdem "
-#~ "notwendig wenn du die Feldgruppen verwenden möchtest. Über diese werden die Gruppen "
-#~ "einem Produkt zugeordnet."
+#~ "Die Produktgruppen sind wie \"Kategorien\" in den Beiträgen. Diese sind außerdem notwendig "
+#~ "wenn du die Feldgruppen verwenden möchtest. Über diese werden die Gruppen einem Produkt "
+#~ "zugeordnet."
 
 #~ msgid "Enable field groups (requires product groups)"
 #~ msgstr "Feldgruppen aktivieren (erfordert Produktkategorien)"
 
 #~ msgid ""
 #~ "You can create your own fields with the field groups. So you can z.b. Create the field "
-#~ "group TV and create fields such as \"refresh rate\" or \"screen width\". You assign "
-#~ "this field group to a product group. All products in this product group will then have "
-#~ "these fields under Custom Fields."
+#~ "group TV and create fields such as \"refresh rate\" or \"screen width\". You assign this "
+#~ "field group to a product group. All products in this product group will then have these "
+#~ "fields under Custom Fields."
 #~ msgstr ""
-#~ "Mit den Feldgruppen können Sie eigene Felder anlegen. So können Sie z.b. die Feldgruppe "
-#~ "TV erstellen und Felder wie \"Bildwiederholfrequenz\" oder \"Bildschirmbreite\" "
-#~ "anlegen. Diese Feldgruppe ordnen Sie einer Produktgruppe zu. Alle Produkte in dieser "
-#~ "Produktgruppe haben dann diese Felder unter Benutzerdefinierte Felder im Produkt."
+#~ "Mit den Feldgruppen können Sie eigene Felder anlegen. So können Sie z.b. die Feldgruppe TV "
+#~ "erstellen und Felder wie \"Bildwiederholfrequenz\" oder \"Bildschirmbreite\" anlegen. "
+#~ "Diese Feldgruppe ordnen Sie einer Produktgruppe zu. Alle Produkte in dieser Produktgruppe "
+#~ "haben dann diese Felder unter Benutzerdefinierte Felder im Produkt."
 
 #~ msgid "Enable price history"
 #~ msgstr "Preishistory aktivieren"
 
 #~ msgid ""
-#~ "With Pricehistory, every changed price is automatically written off into a separate "
-#~ "table. Over a longer period of time, you can display the price history graphs."
+#~ "With Pricehistory, every changed price is automatically written off into a separate table. "
+#~ "Over a longer period of time, you can display the price history graphs."
 #~ msgstr ""
-#~ "Mit der Pricehistory wird automatisch jeder geänderte Preis in eine gesonderte Tabelle "
-#~ "weg geschrieben. Über einen längeren Zeitraum kann man so die Preisverlaufs-Diagramme "
+#~ "Mit der Pricehistory wird automatisch jeder geänderte Preis in eine gesonderte Tabelle weg "
+#~ "geschrieben. Über einen längeren Zeitraum kann man so die Preisverlaufs-Diagramme "
 #~ "darstellen."
 
 #~ msgid "Enable product statistics"
 #~ msgstr "Produktstatistiken aktivieren"
 
 #~ msgid ""
-#~ "With the product statistics you can easily filter your products, lists and offers in "
-#~ "the database and check whether there are any errors.."
+#~ "With the product statistics you can easily filter your products, lists and offers in the "
+#~ "database and check whether there are any errors.."
 #~ msgstr ""
 #~ "Mit der Produktstatistik kannst du deine Produkte, Listen und Angebote in der Datenbank "
 #~ "einfach filtern und prüfen ob es Fehler gibt."
@@ -8678,8 +8663,8 @@ msgstr "#"
 #~ "The PHP setting \"allow_url_fopen\" should be enabled. This feature is recommended for "
 #~ "reading large files."
 #~ msgstr ""
-#~ "Die PHP-Einstellung \"allow_url_fopen\" sollte aktiviert werden. Diese Funktion wird "
-#~ "für das Lesen von großen Dateien empfohlen."
+#~ "Die PHP-Einstellung \"allow_url_fopen\" sollte aktiviert werden. Diese Funktion wird für "
+#~ "das Lesen von großen Dateien empfohlen."
 
 #~ msgid "Adcell"
 #~ msgstr "Adcell"
@@ -8727,8 +8712,8 @@ msgstr "#"
 #~ "The PHP setting \"allow_url_fopen\" is required. Please enable the feature before using "
 #~ "this api."
 #~ msgstr ""
-#~ "Die PHP-Einstellung \"allow_url_fopen\" ist erforderlich. Diese Funktion ist für das "
-#~ "Lesen von großen Dateien erforderlich."
+#~ "Die PHP-Einstellung \"allow_url_fopen\" ist erforderlich. Diese Funktion ist für das Lesen "
+#~ "von großen Dateien erforderlich."
 
 #~ msgid "The directory must be writeable: "
 #~ msgstr "Das Verzeichnis muss überschreibbar sein:"
@@ -9320,8 +9305,8 @@ msgstr "#"
 
 #~ msgid ""
 #~ "Please enter a license key for Affiliate Toolkit. <a href=\"admin.php?"
-#~ "page=ATKP_affiliate_toolkit-plugin\">Enter License Key</a> - <a href=\"%link_get-"
-#~ "license-key%\" target=\"_blank\">More Information</a>"
+#~ "page=ATKP_affiliate_toolkit-plugin\">Enter License Key</a> - <a href=\"%link_get-license-"
+#~ "key%\" target=\"_blank\">More Information</a>"
 #~ msgstr ""
 #~ "Bitte gib deinen Lizenzschlüssel für das Affiliate Toolkit ein. <a href=\"admin.php?"
 #~ "page=ATKP_affiliate_toolkit-plugin\">Lizenzschlüssel eingeben</a> - <a href=\"%link_get-"

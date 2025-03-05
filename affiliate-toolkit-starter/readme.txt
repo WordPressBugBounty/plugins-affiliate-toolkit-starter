@@ -3,7 +3,7 @@ Contributors: cservit
 Tags: affiliate, amazon, ebay, awin, aawp, affiliatetheme, asa
 Requires at least: 5.6
 Tested up to: 6.7
-Stable tag: 3.7.0
+Stable tag: 3.7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,10 @@ You just need to install the extension from our website.
 
  
 == Changelog ==
+= 3.7.2 =
+*   Bugfix: Shortcode link didn't worked
+*   Changes for the Amazon NO Api Mode 
+
 = 3.7.1 =
 *   Fixed: Security issue (thanks to Peter Thaleikis)
 

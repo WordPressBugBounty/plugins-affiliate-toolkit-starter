@@ -394,6 +394,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 		ATKPTools::set_post_setting( $post_id, ATKP_SHOP_POSTTYPE . '_access_website', ATKPTools::get_post_parameter( ATKP_SHOP_POSTTYPE . '_amz_access_website', 'string' ) );
 		ATKPTools::set_post_setting( $post_id, ATKP_SHOP_POSTTYPE . '_access_tracking_id', ATKPTools::get_post_parameter( ATKP_SHOP_POSTTYPE . '_amz_access_tracking_id', 'string' ) );
 		ATKPTools::set_post_setting( $post_id, ATKP_SHOP_POSTTYPE . '_languages_of_preference', ATKPTools::get_post_parameter( ATKP_SHOP_POSTTYPE . '_languages_of_preference', 'string' ) );
+		ATKPTools::set_post_setting( $post_id, ATKP_SHOP_POSTTYPE . '_asindataapikey', ATKPTools::get_post_parameter( ATKP_SHOP_POSTTYPE . '_asindataapikey', 'string' ) );
 
 		ATKPTools::set_post_setting( $post_id, ATKP_SHOP_POSTTYPE . '_load_customer_reviews', ATKPTools::get_post_parameter( ATKP_SHOP_POSTTYPE . '_amz_load_customer_reviews', 'bool' ) );
 		ATKPTools::set_post_setting( $post_id, ATKP_SHOP_POSTTYPE . '_load_variations', ATKPTools::get_post_parameter( ATKP_SHOP_POSTTYPE . '_amz_load_variations', 'bool' ) );
@@ -592,6 +593,21 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
             </tr>
             <tr>
                 <th scope="row">
+                    <label for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_asindataapikey') ?>">
+						<?php echo esc_html__( 'ASIN Data API Key', 'affiliate-toolkit-starter' ) ?>
+                    </label>
+
+                </th>
+                <td>
+                    <input type="text" id="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_asindataapikey') ?>"
+                           name="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_asindataapikey') ?>"
+                           value="<?php echo esc_attr(ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_asindataapikey' )); ?>">
+					<?php ATKPTools::display_helptext('By default our interface allows only 10 product requests per license and tag. If you want more, you need to purchase a api key <a href="https://trajectdata.com/ecommerce/asin-data-api/pricing/" target="_blank">here</a>.') ?>
+
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
 
                 </th>
                 <td>
@@ -600,7 +616,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
                            value="1" <?php echo checked( 1, ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_load_customer_reviews' ), true ); ?>>
                     <!-- ATKPTools::get_post_setting($post->ID, ATKP_SHOP_POSTTYPE.'_load_customer_reviews') -->
                     <label for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_load_customer_reviews') ?>">
-	                    <?php echo esc_html__( 'Scrape star ratings from website (not recommended)', 'affiliate-toolkit-starter' ) ?>
+	                    <?php echo esc_html__( 'Load star ratings from NoAPI interface (not recommended)', 'affiliate-toolkit-starter' ) ?>
                     </label>
 					<?php ATKPTools::display_helptext( esc_html__( 'This function is reading the star rating from the Amazon webpage. It is not allowed by Amazon and we don\'t recommend it.', 'affiliate-toolkit-starter' ) ) ?>
                 </td>
@@ -803,6 +819,8 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 	private $onlynew = 0;
     private $seconds_wait = 0;
 
+	private $asindataapikey = '';
+
 
 	private function checklogon_v5( $access_website, $access_key, $access_secret_key, $access_tracking_id ) {
 
@@ -818,6 +836,8 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 
         $lang = ATKPTools::get_post_setting( $shop->id, ATKP_SHOP_POSTTYPE . '_languages_of_preference' );
         $this->languages_of_preference = $lang != '' ? explode(',', $lang) : null;
+
+		$this->asindataapikey       = ATKPTools::get_post_setting( $shop->id, ATKP_SHOP_POSTTYPE . '_asindataapikey' );
 
 		$this->load_variations       = ATKPTools::get_post_setting( $shop->id, ATKP_SHOP_POSTTYPE . '_load_variations' );
 		$this->enable_ssl            = true;
@@ -1399,7 +1419,12 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 		$license = ATKP_LicenseController::get_module_license( 'amaznoapi' );
 
 		try {
+
 			$url = 'https://api.affiliate-toolkit.com/amazon/noapi.php?keywords=' . urlencode( $keyword ) . '&tag=' . $this->associateTag . '&country=' . strtoupper( $this->country ) . '&key=' . $license . '&page_number=' . $pagination;
+
+            if($this->asindataapikey != '')
+                $url .= '&apikey='.$this->asindataapikey;
+
 
 			$page       = '';
 			$statusCode = null;
@@ -1431,6 +1456,12 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 			if ( 200 == $statusCode ) {
 				$xx = json_decode( $page );
 
+                if($xx != null && isset($xx->data->errormessage) && $xx->data->errormessage != '') {
+	                $products          = new atkp_search_resp();
+	                $products->message = $xx->data->errormessage.' / '. esc_url( $url );
+
+	                return $products;
+                }
 
 				if ( $xx != null && isset( $xx->products ) ) {
 					foreach ( $xx->products as $p ) {
@@ -1465,10 +1496,14 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 					return $this->search_sitestripeproduct( $keyword, $searchType, $pagination );
 				}
 
-				echo esc_html__( 'Status code: ' . $statusCode, 'affiliate-toolkit-starter' );
-				echo esc_html__( '<pre>' . esc_url( $url ) . '</pre>', 'affiliate-toolkit-starter' );
-				echo esc_html__( '<pre>' . $page . '</pre>', 'affiliate-toolkit-starter' );
 
+				$products          = new atkp_search_resp();
+                if($statusCode == 429)
+	                $products->message = __('The query limit has been reached.', 'affiliate-toolkit-starter');
+                else
+	    			$products->message =  'Invalid Status code: ' . $statusCode .' / '. esc_url( $url ) . ' / Please try again.';
+
+				return $products;
 			}
 
 			return $products;
@@ -1500,6 +1535,9 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 
 			try {
 				$url = 'https://api.affiliate-toolkit.com/amazon/noapi.php?asin=' . $asin . '&tag=' . $this->associateTag . '&country=' . strtoupper( $this->country ) . '&key=' . $license;
+				if($this->asindataapikey != '')
+					$url .= '&apikey='.$this->asindataapikey;
+
                 $page = '';
 
 				if ( function_exists( 'wp_remote_get' ) ) {
@@ -1520,30 +1558,54 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 							$page = $response['body'];
 						}
 					}
+                    if($statusCode != 200) {
+	                    $product               = new atkp_response_item();
+	                    $product->uniqueid     = $asin;
+	                    $product->uniquetype   = 'ASIN';
+
+	                    array_push( $atkpresponse->responseitems, $product );
+	                    if ( $statusCode == 429 ) {
+		                    $product->errormessage = __( 'The query limit has been reached.', 'affiliate-toolkit-starter' );
+	                    } else {
+		                    $product->errormessage = 'Invalid Status code: ' . $statusCode . ' / ' . esc_url( $url ) . ' / Please try again.';
+	                    }
+	                    array_push( $atkpresponse->responseitems, $product );
+                    }
 				}
 
                 $xx = json_decode($page );
 
-				if ( $xx != null && $xx->productitem != null) {
-					$myproduct = new atkp_product();
+				if($xx != null && isset($xx->data->errormessage) && $xx->data->errormessage != '') {
 
-					foreach ( $xx->productitem->data as $key => $val ) {
-						$myproduct->$key = $val;
-					}
-					$myproduct->updatedon = ATKPTools::get_currenttime();
-					$myproduct->shopid    = $this->shopid;
-					$myproduct->asin      = $asin;
-
-					$product = new atkp_response_item();
-					if ( isset( $xx->errormessage ) ) {
-						$product->errormessage = $xx->errormessage;
-					}
-					$product->uniqueid   = $asin;
-					$product->uniquetype = 'ASIN';
-
-					$product->productitem = $myproduct;
+					$product               = new atkp_response_item();
+					$product->errormessage = 'product error: ' . $xx->data->errormessage.' / '. esc_url( $url );
+					$product->uniqueid     = $asin;
+					$product->uniquetype   = 'ASIN';
 
 					array_push( $atkpresponse->responseitems, $product );
+
+				} else {
+					if ( $xx != null && $xx->productitem != null ) {
+						$myproduct = new atkp_product();
+
+						foreach ( $xx->productitem->data as $key => $val ) {
+							$myproduct->$key = $val;
+						}
+						$myproduct->updatedon = ATKPTools::get_currenttime();
+						$myproduct->shopid    = $this->shopid;
+						$myproduct->asin      = $asin;
+
+						$product = new atkp_response_item();
+						if ( isset( $xx->errormessage ) ) {
+							$product->errormessage = $xx->errormessage;
+						}
+						$product->uniqueid   = $asin;
+						$product->uniquetype = 'ASIN';
+
+						$product->productitem = $myproduct;
+
+						array_push( $atkpresponse->responseitems, $product );
+					}
 				}
 
 			} catch ( Exception $e ) {

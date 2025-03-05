@@ -296,9 +296,9 @@ class atkp_output {
 			if ( ATKPSettings::$access_mark_links == 1 && strpos( $content, 'img src' ) == true ) {
 				$capt = __( 'Advertising', 'affiliate-toolkit-starter' );
 
-				$resultValue = '<div class="atkp-link-image ' . esc_attr($containercss) . '"><div class="atkp-affiliateimage atkp-clearfix"><a ' . esc_attr($link) . ' >' . $content . '</a><div style="margin-top:3px">' . $capt . '</div></div></div>';
+				$resultValue = '<div class="atkp-link-image ' . esc_attr($containercss) . '"><div class="atkp-affiliateimage atkp-clearfix"><a ' . ($link) . ' >' . $content . '</a><div style="margin-top:3px">' . $capt . '</div></div></div>';
 			} else {
-				$resultValue = '<a class="atkp-link" ' . esc_attr($link) . ' >' . $content . '</a>';
+				$resultValue = '<a class="atkp-link" ' . ($link) . ' >' . $content . '</a>';
 			}
 		}
 
@@ -308,13 +308,14 @@ class atkp_output {
 		return $resultValue;
 	}
 
-	public function get_css_url() {
-		return plugins_url( '/dist/style.css', ATKP_PLUGIN_FILE );
-	}
 
 	public function get_js_url() {
 		return plugins_url( '/dist/script.js', ATKP_PLUGIN_FILE );
 	}
+	public function get_css_url() {
+		return plugins_url( '/dist/style.css', ATKP_PLUGIN_FILE );
+	}
+
 
 	/**
 	 * @param $parameters atkp_template_parameters|null
