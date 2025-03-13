@@ -780,7 +780,7 @@ function atkp_get_listprice_formatted( $id = '', $format = '%s', $emptytext = ''
  *
  * @return string
  */
-function atkp_get_custom_field( $id = '', $field_name ) {
+function atkp_get_custom_field( $id, $field_name ) {
 	$prd       = atkp_get_product( $id );
 	$formatter = atkp_get_formatter();
 

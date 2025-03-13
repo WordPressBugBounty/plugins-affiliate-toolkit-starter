@@ -575,6 +575,12 @@ class atkp_listservice {
 						do_action( 'atkp_product_updated', $product_id, null );
 						$content = ob_get_contents();
 						ob_end_clean();
+					} else {
+						$product_id = $post_id;
+						//produkt existiert bereits
+						$productservice->update_custom_fields( $product_id, $value);
+
+
 					}
 
 					if ( $post_id > 0 ) {

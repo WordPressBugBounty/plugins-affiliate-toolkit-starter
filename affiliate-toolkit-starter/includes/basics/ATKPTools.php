@@ -37,9 +37,9 @@ class ATKPTools {
 		}
 
 		if ( ATKPTools::is_lang_de() ) {
-			return sprintf( __( 'Die Anzeige der Produkte wurde mit dem <a href="%s" %s target="_blank" title="Affiliate WordPress Plugin">affiliate-toolkit</a> WordPress Plugin von <a href="https://servit.dev/?utm_medium=credits&utm_content=Footer+Link&utm_source=WordPress&utm_campaign=starterpass" target="_blank" title="SERVIT Webentwicklung">SERVIT Software Solutions</a> umgesetzt.', 'affiliate-toolkit-starter' ), esc_url( $url ), esc_attr( $rel ) );
+			return sprintf( __( 'Die Anzeige der Produkte wurde mit dem <a href="%s" %s target="_blank" title="Affiliate WordPress Plugin">affiliate-toolkit</a> WordPress Plugin umgesetzt.', 'affiliate-toolkit-starter' ), esc_url( $url ), esc_attr( $rel ) );
 		} else {
-			return sprintf( __( 'The product display was implemented using the <a href="%s" %s target="_blank" title="Affiliate WordPress Plugin">affiliate-toolkit</a> WordPress plugin by <a href="https://servit.dev/?utm_medium=credits&utm_content=Footer+Link&utm_source=WordPress&utm_campaign=starterpass" target="_blank" title="SERVIT Web Development">SERVIT Software Solutions</a>.', 'affiliate-toolkit-starter' ), esc_url( $url ), esc_attr( $rel ) );
+			return sprintf( __( 'The product display was implemented using the <a href="%s" %s target="_blank" title="Affiliate WordPress Plugin">affiliate-toolkit</a> WordPress plugin.', 'affiliate-toolkit-starter' ), esc_url( $url ), esc_attr( $rel ) );
 		}
 	}
 

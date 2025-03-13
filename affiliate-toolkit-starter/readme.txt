@@ -137,9 +137,12 @@ You just need to install the extension from our website.
 
  
 == Changelog ==
+= 3.7.3 =
+*   Minor fix
+
 = 3.7.2 =
 *   Bugfix: Shortcode link didn't worked
-*   Changes for the Amazon NO Api Mode 
+*   Changes for the Amazon NO Api Mode
 
 = 3.7.1 =
 *   Fixed: Security issue (thanks to Peter Thaleikis)
