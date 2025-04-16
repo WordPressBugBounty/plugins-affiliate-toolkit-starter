@@ -74,11 +74,9 @@ class atkp_template_view {
 	private function import_template( $contents, $template_name = '', $regenerate_styles = true ) {
 		try {
 
-			$mytemplate = unserialize( html_entity_decode( $contents ) );
 
-			if ( $mytemplate == null ) {
 				$mytemplate = json_decode( $contents );
-			}
+
 
 			if ( isset( $mytemplate->data ) ) {
 				$mytemplate = $mytemplate->data;
@@ -87,7 +85,7 @@ class atkp_template_view {
 			$post_id = null;
 
 			if ( $mytemplate == null ) {
-				return 'template not readable: ' . $template_name;
+				return 'template not readable: ' . $contents;
 			} else if ( isset( $mytemplate->fields ) ) {
 
 				$fields = array_keys( get_object_vars( $mytemplate->fields ) );
@@ -206,6 +204,8 @@ class atkp_template_view {
 
 						$importmessage = $this->import_template( $contents );
 
+                        if(is_numeric($importmessage))
+    						echo '<script>window.location.replace("' . ( admin_url( 'post.php?action=edit&post=' . intval($importmessage) ) ) . '");</script>';
 					}
 
 
@@ -254,7 +254,7 @@ class atkp_template_view {
                                                         <td>
                                                             <input type="file"
                                                                    name="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_filetemplate') ?>">
-															<?php ATKPTools::display_helptext( 'Upload your exported template. The file extension must be ".txt" to import the file.' ) ?>
+															<?php ATKPTools::display_helptext( 'Upload your exported template. The file extension must be ".json" to import the file.' ) ?>
 
                                                         </td>
                                                     </tr>
@@ -355,7 +355,7 @@ class atkp_template_view {
 				$new_post_id = $this->import_template( $contents, $this->templatename . ' (2)', false );
 
 				if ( is_numeric( $new_post_id ) ) {
-					echo '<script>window.location.replace("' . esc_url( admin_url( 'post.php?action=edit&post=' . $new_post_id ) ) . '");</script>';
+					echo '<script>window.location.replace("' . ( admin_url( 'post.php?action=edit&post=' . $new_post_id ) ) . '");</script>';
 				} else {
 					echo '<p>' . esc_html__( $new_post_id, 'affiliate-toolkit-starter' ) . '</p>';
 				}
@@ -401,16 +401,33 @@ class atkp_template_view {
 					ATKPTools::set_post_setting( $new_post_id, 'atkp_template_body', $mytemplate );
 				}
 
-				echo '<script>window.location.replace("' . esc_url(admin_url( 'post.php?action=edit&post=' . $new_post_id )) . '");</script>';
+				echo '<script>window.location.replace("' . (admin_url( 'post.php?action=edit&post=' . $new_post_id )) . '");</script>';
 				//wp_redirect( admin_url( 'post.php?action=edit&post=' . $new_post_id ) );
 			}
 
 
 		} else if ( $this->action == 'delete' ) {
+			$nounce = ATKPTools::get_get_parameter( '_wpnonce', 'string' );
 
-			wp_delete_post( $this->templateid, true );
-			echo '<script>window.location.replace("' . sprintf( '?page=%s', esc_attr( $_REQUEST['page'] ) ) . '");</script>';
-			exit;
+			if ( ! wp_verify_nonce( $nounce, 'atkp_edit_template' ) ) {
+				echo ( 'Nonce expired. Please reload page.' );
+                exit;
+			}
+			if ( ! current_user_can( 'manage_options' ) ) {
+				echo( 'User has no permission.' );
+				exit;
+			}
+
+            if(get_post_type($this->templateid) == ATKP_TEMPLATE_POSTTYPE) {
+
+
+	            wp_delete_post( $this->templateid );
+	            echo '<script>window.location.replace("' . sprintf( '?page=%s', esc_attr( $_REQUEST['page'] ) ) . '");</script>';
+	            exit;
+            }else {
+                echo 'not allowed';
+
+            }
 		}
 
 

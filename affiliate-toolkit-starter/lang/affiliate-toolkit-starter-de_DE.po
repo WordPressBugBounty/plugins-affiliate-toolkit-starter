@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: affiliate-toolkit 3.0\n"
-"POT-Creation-Date: 2025-03-05 13:50+0100\n"
-"PO-Revision-Date: 2025-03-05 13:52+0100\n"
+"POT-Creation-Date: 2025-04-16 17:46+0200\n"
+"PO-Revision-Date: 2025-04-16 17:48+0200\n"
 "Last-Translator: Christof Servit <office@servit.biz>\n"
 "Language-Team: SERVIT Software Solutions <office@servit.biz>\n"
 "Language: de\n"
@@ -19,6 +19,7 @@ msgstr ""
 "X-Poedit-SearchPath-2: affiliate-toolkit-amaznoapi\n"
 
 #: affiliate-toolkit-amazon/affiliate-toolkit-amazon.php:33
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/affiliate-toolkit-amazon.php:33
 msgid ""
 "<span style=\"font-weight:bold\">affiliate-toolkit - Amazon:</span> You are using affiliate-"
 "toolkit from the WordPress directory. Please uninstall the Amazon extension. It's already "
@@ -31,41 +32,52 @@ msgstr ""
 #: affiliate-toolkit-amazon/affiliate-toolkit-amazon.php:61
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:137
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:421
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/affiliate-toolkit-amazon.php:61
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:137
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:421
 msgid "Amazon"
 msgstr "Amazon"
 
 #: affiliate-toolkit-amazon/affiliate-toolkit-amazon.php:73
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/affiliate-toolkit-amazon.php:73
 msgid "Show Prime logo"
 msgstr "Prime-Logo anzeigen"
 
 #: affiliate-toolkit-amazon/affiliate-toolkit-amazon.php:82
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/affiliate-toolkit-amazon.php:82
 msgid "Link Prime logo"
 msgstr "Prime-Logo verlinken"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:22
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:22
 msgid "Amazon Product Advertising API"
 msgstr "Amazon Product Advertising API"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:49
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:49
 #: affiliate-toolkit-starter/includes/helper/atkp_formatter.php:488
 #: affiliate-toolkit-starter/includes/helper/atkp_formatter.php:509
 msgid "Buy now at Amazon"
 msgstr "Jetzt auf Amazon kaufen"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:53
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:53
 #: affiliate-toolkit-starter/includes/helper/atkp_formatter.php:478
 msgid "Add to Amazon Cart"
 msgstr "Zum Amazon Warenkorb hinzufügen"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:72
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:72
 msgid "trackingcode not found: "
 msgstr "Trackingcode nicht gefunden:"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:126
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:126
 msgid ": "
 msgstr ": "
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:460
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:460
 msgid "Amazon Access Key ID"
 msgstr "Amazon Access Key ID"
 
@@ -73,11 +85,16 @@ msgstr "Amazon Access Key ID"
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:477
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:492
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:539
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:461
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:477
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:492
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:539
 #: affiliate-toolkit-starter/includes/atkp_posttypes_shop.php:456
 msgid "(required)"
 msgstr "(erforderlich)"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:470
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:470
 msgid ""
 "You can find your API key in the Amazon Partnernet. In the Submenu \"Tools > Product "
 "Advertising API > Manage Your Credentials\"."
@@ -86,91 +103,114 @@ msgstr ""
 "Advertising API > Manage Your Credentials\"."
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:476
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:476
 msgid "Amazon Secret Access Key"
 msgstr "Amazon Secret Access Key"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:491
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:491
 msgid "Amazon Website"
 msgstr "Amazon Webseite"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:501
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:501
 msgid "Amazon Germany"
 msgstr "Amazon Deutschland"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:502
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:502
 msgid "Amazon United States"
 msgstr "Amazon Vereinigte Staaten"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:503
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:503
 msgid "Amazon United Kingdom"
 msgstr "Amazon Vereinigtes Königreich"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:504
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:504
 msgid "Amazon Canada"
 msgstr "Amazon Kanada"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:505
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:505
 msgid "Amazon France"
 msgstr "Amazon Frankreich"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:506
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:506
 msgid "Amazon Japan"
 msgstr "Amazon Japan"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:507
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:507
 msgid "Amazon Italy"
 msgstr "Amazon Italien"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:509
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:509
 msgid "Amazon Spain"
 msgstr "Amazon Spanien"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:510
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:510
 msgid "Amazon India"
 msgstr "Amazon Indien"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:511
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:511
 msgid "Amazon Brazil"
 msgstr "Amazon Brasilien"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:512
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:512
 msgid "Amazon Australia"
 msgstr "Amazon Australien"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:513
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:513
 msgid "Amazon Mexico"
 msgstr "Amazon Mexiko"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:514
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:514
 msgid "Amazon Turkey"
 msgstr "Amazon Türkei"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:515
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:515
 msgid "Amazon Belgium"
 msgstr "Amazon Belgien"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:516
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:516
 msgid "Amazon United Arab Emirates"
 msgstr "Amazon Vereinigte Arabische Emirate"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:517
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:517
 msgid "Amazon Netherlands"
 msgstr "Amazon Niederlande"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:518
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:518
 msgid "Amazon Poland"
 msgstr "Amazon Polen"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:538
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:538
 msgid "Amazon Tracking ID"
 msgstr "Amazon Tracking ID"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:551
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1371
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:551
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1371
 msgid "Languages Of Preference"
 msgstr "Bevorzugte Sprachen"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:559
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:559
 msgid ""
 "You can set an list of languages you want to receive (comma separated). You can find the "
 "valid languages for each marketplace <a href=\"https://webservices.amazon.de/paapi5/"
@@ -181,23 +221,28 @@ msgstr ""
 "paapi5/documentation/locale-reference.html\" target=\"_blank\">hier</a>."
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:572
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:572
 msgid "No API mode"
 msgstr "Kein API-Modus"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:582
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:582
 #: affiliate-toolkit-starter/includes/atkp_posttypes_shop.php:773
 msgid "Disabled"
 msgstr "Ausgeschaltet"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:584
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:584
 msgid "Always use"
 msgstr "Immer verwenden"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:586
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:586
 msgid "Use in case of error"
 msgstr "Im Fehlerfall verwenden"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:590
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:590
 msgid ""
 "NoAPI allows you to read the Title, Price and Image from the Amazon Widgets. You can use this "
 "option if you don't have API access or you receiving the \"Too Many\" exception. It's not a "
@@ -208,10 +253,12 @@ msgstr ""
 "handelt sich nicht um eine offizielle Amazon-Funktion."
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:597
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:597
 msgid "ASIN Data API Key"
 msgstr "ASIN Data API Schlüssel"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:605
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:605
 msgid ""
 "By default our interface allows only 10 product requests per license and tag. If you want "
 "more, you need to purchase a api key <a href=\"https://trajectdata.com/ecommerce/asin-data-"
@@ -222,10 +269,12 @@ msgstr ""
 "pricing/\" target=\"_blank\">hier</a> einen API-Schlüssel erwerben."
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:619
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:619
 msgid "Load star ratings from NoAPI interface (not recommended)"
 msgstr "Sternebewertungen von der NoAPI-Schnittstelle laden (nicht empfohlen)"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:621
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:621
 msgid ""
 "This function is reading the star rating from the Amazon webpage. It is not allowed by Amazon "
 "and we don't recommend it."
@@ -238,6 +287,7 @@ msgid "Please activate the \"affiliate-toolkit - Amazon No API Mode\" extension.
 msgstr "Bitte aktivieren Sie die Erweiterung „affiliate-toolkit – Amazon No API Mode“."
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:657
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:657
 msgid ""
 "Please note: If you are using the official Amazon API everything is fine. If you have no "
 "access to the API (e.g. too many requests exception) you need to download our extension for "
@@ -248,19 +298,24 @@ msgstr ""
 "diese Funktionalität unsere Erweiterung herunterladen."
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:660
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:660
 msgid "Download extension now"
 msgstr "Erweiterung jetzt herunterladen"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:687
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:687
 msgid "Small image size"
 msgstr "Bildgröße klein"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:693
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:707
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:693
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:707
 msgid "px"
 msgstr "px"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:694
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:694
 msgid ""
 "Amazon offers flexible image sizes. If you wan't to override the default size of 75px you can "
 "change it here. Changes for already imported products are visible after the cache update."
@@ -270,10 +325,12 @@ msgstr ""
 "Update sichtbar."
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:701
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:701
 msgid "Medium image size"
 msgstr "Bildgröße mittel"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:708
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:708
 msgid ""
 "Amazon offers flexible image sizes. If you wan't to override the default size of 160px you "
 "can change it here. Changes for already imported products are visible after the cache update."
@@ -283,30 +340,37 @@ msgstr ""
 "Update sichtbar."
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:717
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:717
 msgid "Product condition:"
 msgstr "Produktzustand:"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:728
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:728
 msgid "Any"
 msgstr "Beliebig"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:730
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:730
 msgid "New"
 msgstr "Neu"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:731
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:731
 msgid "Used"
 msgstr "Gebraucht"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:732
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:732
 msgid "Collectible"
 msgstr "Sammlerstück"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:733
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:733
 msgid "Refurbished"
 msgstr "Generalüberholt"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:739
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:739
 msgid ""
 "You can filter if you only wan't prices for special conditions of products. By default you "
 "receive all offers. If you only wan't to show \"used\" products on your website you can "
@@ -317,14 +381,17 @@ msgstr ""
 "Website anzeigen möchtest, kannst du eine andere Option auswählen."
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:746
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:746
 msgid "Wait x seconds before sending the request"
 msgstr "Warte x Sekunden vorm Request senden"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:752
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:752
 msgid "seconds"
 msgstr "Sekunden"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:753
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:753
 msgid ""
 "In normal cases you don't need to change to a higher limit. By default the API is waiting one "
 "second.."
@@ -333,10 +400,12 @@ msgstr ""
 "eine Sekunde."
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:769
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:769
 msgid "Load variations for products"
 msgstr "Lade Variationen für Produkte"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:771
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:771
 msgid ""
 "If you wan't to retrieve also other colors or variations for one product (e.g. Shirts) you "
 "can enable this option but this cost one extra request per product"
@@ -345,53 +414,65 @@ msgstr ""
 "kannst du diese Option aktivieren, dies kostet jedoch eine zusätzliche Anfrage pro Produkt"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1001
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1001
 msgid "Search and import not supported. You enabled \"sitestripe mode\" in your amazon shop."
 msgstr ""
 "Suchen und Importieren werden nicht unterstützt. Du hast den \"Sitestripe-Modus\" in deinem "
 "Amazon-Shop aktiviert."
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1272
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1272
 msgid "Sorts results according to average customer reviews"
 msgstr "Sortiert die Ergebnisse nach durchschnittlichen Kundenbewertungen"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1273
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1273
 msgid "Sorts results with featured items having higher rank"
 msgstr "Sortiert die Ergebnisse nach ausgewählten Artikeln mit höherem Rang"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1274
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1274
 msgid "Sorts results with according to newest arrivals"
 msgstr "Sortiert die Ergebnisse nach Neuerscheinungen"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1275
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1275
 msgid "Sorts results according to most expensive to least expensive"
 msgstr "Sortiert die Ergebnisse nach dem teuersten bis zum billigstem"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1276
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1276
 msgid "Sorts results according to least expensive to most expensive"
 msgstr "Sortiert die Ergebnisse vom billigsten bis zum teuersten"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1277
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1277
 msgid "Sorts results with relevant items having higher rank"
 msgstr "Sortiert die Ergebnisse nach relevanten Elementen mit höherem Rang"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1360
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1360
 msgid "Not selected"
 msgstr "Nicht gewählt"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1362
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1362
 msgid "Actor"
 msgstr "Darsteller"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1363
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1363
 msgid "Artist"
 msgstr "Künstler"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1364
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1364
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1733
 msgid "Author"
 msgstr "Autor"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1365
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1365
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:820
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2754
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2955
@@ -400,67 +481,82 @@ msgid "Availability"
 msgstr "Verfügbarkeit"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1366
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1366
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1762
 #: affiliate-toolkit-starter/includes/helper/atkp_template_helper.php:478
 msgid "Brand"
 msgstr "Marke"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1367
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1367
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:983
 msgid "BrowseNode"
 msgstr "BrowseNode"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1368
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1368
 msgid "Condition"
 msgstr "Bedingung"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1369
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1369
 msgid "Currency Of Preference"
 msgstr "Bevorzugte Währung"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1370
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1370
 msgid "DeliveryFlags"
 msgstr "Lieferflags"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1372
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1372
 msgid "Marketplace"
 msgstr "Marktplatz"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1374
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1374
 msgid "Maximum price"
 msgstr "Höchster Preis"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1375
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1375
 msgid "Minimum price"
 msgstr "Kleinster Preis"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1376
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1376
 msgid "Merchant Id"
 msgstr "Merchant-ID"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1377
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1377
 msgid "Min Reviews Rating"
 msgstr "Minimum Reviews Bewertung"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1378
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1378
 msgid "Min percentage off"
 msgstr "Min. Prozentnachlass"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1380
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1380
 msgid "Keywords"
 msgstr "Schlüsselbegriff"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1381
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1381
 msgid "SearchIndex"
 msgstr "SearchIndex"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1382
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1382
 msgid "Sort"
 msgstr "Sortierung"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1384
 #: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:228
 #: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:421
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1384
 #: affiliate-toolkit-starter/includes/atkp_endpoints.php:716
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1412
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:957
@@ -475,10 +571,13 @@ msgstr "Titel"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1502
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1568
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1502
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1568
 msgid "The query limit has been reached."
 msgstr "Das Abfragelimit wurde erreicht."
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1829
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1829
 msgid "unknown id_type: "
 msgstr "unbekannter ID-Typ: "
 
@@ -751,42 +850,42 @@ msgstr "Einstellungen"
 msgid "Tools"
 msgstr "Werkzeuge"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:106
+#: affiliate-toolkit-starter/affiliate-toolkit.php:102
 msgid "General settings"
 msgstr "Globale Einstellungen"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:110
+#: affiliate-toolkit-starter/affiliate-toolkit.php:106
 msgid "Advanced settings"
 msgstr "Erweiterte Einstellungen"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:114
+#: affiliate-toolkit-starter/affiliate-toolkit.php:110
 msgid "Display settings"
 msgstr "Anzeige Einstellungen"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:118
+#: affiliate-toolkit-starter/affiliate-toolkit.php:114
 msgid "Licenses"
 msgstr "Lizenzen"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:144
+#: affiliate-toolkit-starter/affiliate-toolkit.php:140
 msgid "Shop replacement"
 msgstr "Shop-Ersatz"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:148
+#: affiliate-toolkit-starter/affiliate-toolkit.php:144
 msgid "Debug"
 msgstr "Debug"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:152
+#: affiliate-toolkit-starter/affiliate-toolkit.php:148
 msgid "Welcome"
 msgstr "Willkommen"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:255
-#: affiliate-toolkit-starter/affiliate-toolkit.php:256
+#: affiliate-toolkit-starter/affiliate-toolkit.php:251
+#: affiliate-toolkit-starter/affiliate-toolkit.php:252
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator2.php:358
 #: affiliate-toolkit-starter/includes/atkp_tools_debug.php:500
 msgid "affiliate-toolkit"
 msgstr "affiliate-toolkit"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:509
+#: affiliate-toolkit-starter/affiliate-toolkit.php:505
 #, php-format
 msgid ""
 "<span style=\"font-weight:bold\">affiliate-toolkit:</span> You must migrate your products to "
@@ -797,7 +896,7 @@ msgstr ""
 "neueste Version (v2 zu v3) migrieren. Bitte <a href=\"%s\">klicke hier</a> , um jetzt zu "
 "migrieren. Bitte erstelle ein Backup, bevor du migrierst."
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:529
+#: affiliate-toolkit-starter/affiliate-toolkit.php:525
 #, php-format
 msgid ""
 "<span style=\"font-weight:bold\">affiliate-toolkit:</span> Please check your display "
@@ -807,12 +906,12 @@ msgstr ""
 "Anzeigeeinstellungen. Bitte <a href=\"%s\">klicken Sie hier</a> , um zu Ihrer "
 "Anzeigeeinstellungsseite zu gelangen."
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:540
+#: affiliate-toolkit-starter/affiliate-toolkit.php:536
 #, php-format
 msgid "<span style=\"font-weight:bold\">affiliate-toolkit: %s</span>"
 msgstr "<span style=\"font-weight:bold\">affiliate-toolkit: %s</span>"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:554
+#: affiliate-toolkit-starter/affiliate-toolkit.php:550
 #, php-format
 msgid ""
 "<span style=\"font-weight:bold\">affiliate-toolkit - %s:</span> <a target=\"_blank\" "
@@ -820,6 +919,14 @@ msgid ""
 msgstr ""
 "<span style=\"font-weight:bold\">affiliate-toolkit - %s:</span> <a target=\"_blank\" "
 "href=\"%s\">%s</a> (Endet am %s)"
+
+#: affiliate-toolkit-starter/child-plugins/affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:630
+msgid ""
+"Please activate the \"affiliate-toolkit – Amazon No API Mode\" extension if you don’t have "
+"access to the Amazon API or receive the \"TooManyRequests\" error."
+msgstr ""
+"Bitte aktivieren Sie die Erweiterung „affiliate-toolkit – Amazon No API Mode“, wenn Sie "
+"keinen Zugriff auf die Amazon-API haben oder die Fehlermeldung „TooManyRequests“ erhalten."
 
 #: affiliate-toolkit-starter/includes/atkp_basics.php:63
 msgid "Size"
@@ -4369,28 +4476,19 @@ msgstr "Alle 10 Minuten"
 #, php-format
 msgid ""
 "Die Anzeige der Produkte wurde mit dem <a href=\"%s\" %s target=\"_blank\" title=\"Affiliate "
-"WordPress Plugin\">affiliate-toolkit</a> WordPress Plugin von <a href=\"https://servit.dev/?"
-"utm_medium=credits&utm_content=Footer+Link&utm_source=WordPress&utm_campaign=starterpass\" "
-"target=\"_blank\" title=\"SERVIT Webentwicklung\">SERVIT Software Solutions</a> umgesetzt."
+"WordPress Plugin\">affiliate-toolkit</a> WordPress Plugin umgesetzt."
 msgstr ""
 "Die Anzeige der Produkte wurde mit dem <a href=\"%s\" %s target=\"_blank\" title=\"Affiliate "
-"WordPress Plugin\">affiliate-toolkit</a> WordPress Plugin von <a href=\"https://servit.dev/?"
-"utm_medium=credits&utm_content=Footer+Link&utm_source=WordPress&utm_campaign=starterpass\" "
-"target=\"_blank\" title=\"SERVIT Webentwicklung\">SERVIT Software Solutions</a> umgesetzt."
+"WordPress Plugin\">affiliate-toolkit</a> WordPress Plugin umgesetzt."
 
 #: affiliate-toolkit-starter/includes/basics/ATKPTools.php:42
 #, php-format
 msgid ""
 "The product display was implemented using the <a href=\"%s\" %s target=\"_blank\" "
-"title=\"Affiliate WordPress Plugin\">affiliate-toolkit</a> WordPress plugin by <a "
-"href=\"https://servit.dev/?"
-"utm_medium=credits&utm_content=Footer+Link&utm_source=WordPress&utm_campaign=starterpass\" "
-"target=\"_blank\" title=\"SERVIT Web Development\">SERVIT Software Solutions</a>."
+"title=\"Affiliate WordPress Plugin\">affiliate-toolkit</a> WordPress plugin."
 msgstr ""
-"Die Anzeige der Produkte wurde mit dem <a href=\"%s\" %s target=\"_blank\" title=\"Affiliate "
-"WordPress Plugin\">affiliate-toolkit</a> WordPress Plugin von <a href=\"https://servit.dev/?"
-"utm_medium=credits&utm_content=Footer+Link&utm_source=WordPress&utm_campaign=starterpass\" "
-"target=\"_blank\" title=\"SERVIT Webentwicklung\">SERVIT Software Solutions</a> umgesetzt."
+"Die Produktanzeige wurde mit dem WordPress-Plugin <a href=\"%s\" %s target=\"_blank\" "
+"title=\"Affiliate WordPress Plugin\">affiliate-toolkit</a> umgesetzt."
 
 #: affiliate-toolkit-starter/includes/basics/ATKPTools.php:85
 msgid "WordPress CLI Cronjob"
@@ -5351,10 +5449,10 @@ msgid "Template file"
 msgstr "Template Datei"
 
 #: affiliate-toolkit-starter/includes/pages/atkp_template_view.php:257
-msgid "Upload your exported template. The file extension must be \".txt\" to import the file."
+msgid "Upload your exported template. The file extension must be \".json\" to import the file."
 msgstr ""
-"Lade deine exportierte Vorlage hoch. Die Dateierweiterung muss \".txt\" sein, um die Datei "
-"importieren zu können."
+"Laden Sie Ihre exportierte Vorlage hoch. Die Dateierweiterung muss „.json“ sein, damit die "
+"Datei importiert werden kann."
 
 #: affiliate-toolkit-starter/includes/shopproviders/atkp_shop_provider_base.php:52
 #: affiliate-toolkit-starter/includes/shopproviders/atkp_shop_provider_base.php:60
@@ -5425,19 +5523,39 @@ msgstr "Du hast nicht genug Berechtigungen um ein Plugin zu installieren."
 msgid "#"
 msgstr "#"
 
+#, php-format
+#~ msgid ""
+#~ "Die Anzeige der Produkte wurde mit dem <a href=\"%s\" %s target=\"_blank\" "
+#~ "title=\"Affiliate WordPress Plugin\">affiliate-toolkit</a> WordPress Plugin von <a "
+#~ "href=\"https://servit.dev/?"
+#~ "utm_medium=credits&utm_content=Footer+Link&utm_source=WordPress&utm_campaign=starterpass\" "
+#~ "target=\"_blank\" title=\"SERVIT Webentwicklung\">SERVIT Software Solutions</a> umgesetzt."
+#~ msgstr ""
+#~ "Die Anzeige der Produkte wurde mit dem <a href=\"%s\" %s target=\"_blank\" "
+#~ "title=\"Affiliate WordPress Plugin\">affiliate-toolkit</a> WordPress Plugin von <a "
+#~ "href=\"https://servit.dev/?"
+#~ "utm_medium=credits&utm_content=Footer+Link&utm_source=WordPress&utm_campaign=starterpass\" "
+#~ "target=\"_blank\" title=\"SERVIT Webentwicklung\">SERVIT Software Solutions</a> umgesetzt."
+
+#, php-format
+#~ msgid ""
+#~ "The product display was implemented using the <a href=\"%s\" %s target=\"_blank\" "
+#~ "title=\"Affiliate WordPress Plugin\">affiliate-toolkit</a> WordPress plugin by <a "
+#~ "href=\"https://servit.dev/?"
+#~ "utm_medium=credits&utm_content=Footer+Link&utm_source=WordPress&utm_campaign=starterpass\" "
+#~ "target=\"_blank\" title=\"SERVIT Web Development\">SERVIT Software Solutions</a>."
+#~ msgstr ""
+#~ "Die Anzeige der Produkte wurde mit dem <a href=\"%s\" %s target=\"_blank\" "
+#~ "title=\"Affiliate WordPress Plugin\">affiliate-toolkit</a> WordPress Plugin von <a "
+#~ "href=\"https://servit.dev/?"
+#~ "utm_medium=credits&utm_content=Footer+Link&utm_source=WordPress&utm_campaign=starterpass\" "
+#~ "target=\"_blank\" title=\"SERVIT Webentwicklung\">SERVIT Software Solutions</a> umgesetzt."
+
 #~ msgid "Status code: "
 #~ msgstr "Statuscode: "
 
 #~ msgid "<pre>"
 #~ msgstr "<pre>"
-
-#, php-format
-#~ msgid ""
-#~ "The display of the products was implemented with the <a href=\"%s\" %s target=\"_blank\" "
-#~ "title=\"Affiliate WordPress Plugin\">affiliate-toolkit</a> plugin."
-#~ msgstr ""
-#~ "Die Anzeige der Produkte wurde mit dem <a href=\"%s\" %s target=\"_blank\" "
-#~ "title=\"Affiliate WordPress Plugin\">affiliate-toolkit</a> Plugin umgesetzt."
 
 #~ msgid "<a href=\"javascript:void(0)\" class=\"atkp-insert\" data-insertvalue=\"{!!"
 #~ msgstr "<a href=\"javascript:void(0)\" class=\"atkp-insert\" data-insertvalue=\"{!!"

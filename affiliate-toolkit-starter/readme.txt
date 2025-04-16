@@ -137,6 +137,10 @@ You just need to install the extension from our website.
 
  
 == Changelog ==
+= 3.7.4 =
+*   Bugfix: template import/export
+*   Fixed: Security issue (thanks to stealthcopter)
+
 = 3.7.3 =
 *   Minor fix
 

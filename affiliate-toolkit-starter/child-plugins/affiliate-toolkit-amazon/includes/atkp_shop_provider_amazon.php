@@ -626,8 +626,8 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 			?>
             <tr>
                 <th colspan="2">
-                    <div class="atkp-success">
-	                    <?php echo esc_html__( 'Please activate the "affiliate-toolkit - Amazon No API Mode" extension.', 'affiliate-toolkit-starter' ) ?>
+                    <div class="atkp-info">
+	                    <?php echo esc_html__( 'Please activate the "affiliate-toolkit – Amazon No API Mode" extension if you don’t have access to the Amazon API or receive the "TooManyRequests" error.', 'affiliate-toolkit-starter' ) ?>
                     </div>
 
                     <style>

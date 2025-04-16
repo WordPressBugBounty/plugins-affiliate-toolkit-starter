@@ -244,7 +244,7 @@ class atkp_endpoints {
 			header( "Content-Transfer-Encoding: utf-8" );
 			header( "Content-Length: " . strlen( $string ) );
 
-			echo esc_js($string);
+			echo ($string);
 
 			exit;
 		} catch ( Exception $e ) {
