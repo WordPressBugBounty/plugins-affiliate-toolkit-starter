@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: affiliate-toolkit 3.0\n"
-"POT-Creation-Date: 2025-04-16 17:46+0200\n"
-"PO-Revision-Date: 2025-04-16 17:48+0200\n"
+"POT-Creation-Date: 2025-04-23 15:25+0200\n"
+"PO-Revision-Date: 2025-04-23 15:26+0200\n"
 "Last-Translator: Christof Servit <office@servit.biz>\n"
 "Language-Team: SERVIT Software Solutions <office@servit.biz>\n"
 "Language: de\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.6\n"
 "X-Poedit-Basepath: ../..\n"
 "X-Poedit-KeywordsList: __;_e;_n;_n_noop;esc_html__;display_helptext;display_warntext\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -850,42 +850,42 @@ msgstr "Einstellungen"
 msgid "Tools"
 msgstr "Werkzeuge"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:102
+#: affiliate-toolkit-starter/affiliate-toolkit.php:98
 msgid "General settings"
 msgstr "Globale Einstellungen"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:106
+#: affiliate-toolkit-starter/affiliate-toolkit.php:102
 msgid "Advanced settings"
 msgstr "Erweiterte Einstellungen"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:110
+#: affiliate-toolkit-starter/affiliate-toolkit.php:106
 msgid "Display settings"
 msgstr "Anzeige Einstellungen"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:114
+#: affiliate-toolkit-starter/affiliate-toolkit.php:110
 msgid "Licenses"
 msgstr "Lizenzen"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:140
+#: affiliate-toolkit-starter/affiliate-toolkit.php:136
 msgid "Shop replacement"
 msgstr "Shop-Ersatz"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:144
+#: affiliate-toolkit-starter/affiliate-toolkit.php:140
 msgid "Debug"
 msgstr "Debug"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:148
+#: affiliate-toolkit-starter/affiliate-toolkit.php:144
 msgid "Welcome"
 msgstr "Willkommen"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:251
-#: affiliate-toolkit-starter/affiliate-toolkit.php:252
+#: affiliate-toolkit-starter/affiliate-toolkit.php:247
+#: affiliate-toolkit-starter/affiliate-toolkit.php:248
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator2.php:358
 #: affiliate-toolkit-starter/includes/atkp_tools_debug.php:500
 msgid "affiliate-toolkit"
 msgstr "affiliate-toolkit"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:505
+#: affiliate-toolkit-starter/affiliate-toolkit.php:501
 #, php-format
 msgid ""
 "<span style=\"font-weight:bold\">affiliate-toolkit:</span> You must migrate your products to "
@@ -896,7 +896,7 @@ msgstr ""
 "neueste Version (v2 zu v3) migrieren. Bitte <a href=\"%s\">klicke hier</a> , um jetzt zu "
 "migrieren. Bitte erstelle ein Backup, bevor du migrierst."
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:525
+#: affiliate-toolkit-starter/affiliate-toolkit.php:521
 #, php-format
 msgid ""
 "<span style=\"font-weight:bold\">affiliate-toolkit:</span> Please check your display "
@@ -906,12 +906,12 @@ msgstr ""
 "Anzeigeeinstellungen. Bitte <a href=\"%s\">klicken Sie hier</a> , um zu Ihrer "
 "Anzeigeeinstellungsseite zu gelangen."
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:536
+#: affiliate-toolkit-starter/affiliate-toolkit.php:532
 #, php-format
 msgid "<span style=\"font-weight:bold\">affiliate-toolkit: %s</span>"
 msgstr "<span style=\"font-weight:bold\">affiliate-toolkit: %s</span>"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:550
+#: affiliate-toolkit-starter/affiliate-toolkit.php:546
 #, php-format
 msgid ""
 "<span style=\"font-weight:bold\">affiliate-toolkit - %s:</span> <a target=\"_blank\" "

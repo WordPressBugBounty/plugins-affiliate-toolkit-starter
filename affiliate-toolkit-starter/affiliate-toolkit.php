@@ -3,12 +3,13 @@
  * Plugin Name: affiliate-toolkit
  * Plugin URI: https://www.affiliate-toolkit.com
  * Description: A plugin for smart affiliates. This plugin provides you an interface to the best affiliate platforms.
- * Version: 3.7.4
+ * Version: 3.7.5
  * Requires PHP:      7.4
  * Author: SERVIT Software Solutions
  * Author URI: https://servit.dev
- * Text Domain: affiliate-toolkit-starter
- * Domain Path: /lang
+ *
+ *  Text Domain: affiliate-toolkit-starter
+ *  Domain Path: /lang
  * License: GPL2
  */
 
@@ -28,15 +29,9 @@ require_once ATKP_PLUGIN_DIR . '/includes/atkp_autoloader.php';
 new atkp_autoloader();
 atkp_autoloader::$loader->register_classes();
 
-add_action( 'init', 'my_affiliate_toolkit_lang', 10 );
+add_action( 'init', 'my_affiliate_toolkit_lang');
 function my_affiliate_toolkit_lang() {
-	$plugin = 'affiliate-toolkit-starter';
-
-	if ( is_textdomain_loaded( $plugin ) ) {
-		unload_textdomain( $plugin );
-	}
-
-	load_plugin_textdomain( $plugin, false, dirname( plugin_basename( ATKP_PLUGIN_FILE ) ).'/lang/');
+	load_plugin_textdomain( 'affiliate-toolkit-starter', false, dirname( plugin_basename( ATKP_PLUGIN_FILE ) ).'/lang');
 }
 
 add_action( 'plugins_loaded', 'my_affiliate_toolkit_plugins_loaded' );
