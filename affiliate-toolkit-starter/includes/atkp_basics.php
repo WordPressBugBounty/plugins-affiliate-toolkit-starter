@@ -415,7 +415,20 @@ function my_atkp_out_redirect() {
 			}
 
 			if ( $image_url == '' ) {
-				wp_die( esc_html__('image not found in our db: ' . $image_name, 'affiliate-toolkit-starter') );
+				$hash     = ! isset( $_GET['key'] ) ? null : $_GET['key'];
+				$site_key = atkp_formatter::get_sitekey();
+
+				$checkkey = hash_hmac('sha256', $image_name, $site_key);
+
+				if($checkkey == $hash) {
+					header( 'Content-Type: image/jpeg' );
+					header( 'X-Robots-Tag: noindex' );
+					header( "HTTP/1.1 200 OK" );
+
+					readfile( $image_name );
+					exit;
+				} else
+					wp_die( esc_html__('image not found in our db: ' . $image_name, 'affiliate-toolkit-starter') );
 			}
 
 			$uploads_dir = wp_upload_dir()['basedir'];

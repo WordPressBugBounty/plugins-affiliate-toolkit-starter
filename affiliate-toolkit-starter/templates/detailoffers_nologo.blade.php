@@ -14,7 +14,7 @@
                 <div class="atkp-pricecompare-container atkp-pricecompare-nologo  {{$parameters->get_css_element_class()}}">
                     <div class="atkp-pricecompare-row">
                         <div class="atkp-pricecompare-cell atkp-pricecompare-logo">
-                            {!! $offer->shop->get_logourl() != '' ? '<img src="'.$offer->shop->get_logourl().'" />' : '' !!}
+                            {!! $offer->shop->get_logourl() != '' ? '<img src="'.$offer->shop->get_logourl().'"  alt="'.esc_attr($formatter->get_shop_title($offer->shop)).'" />' : '' !!}
                         </div>
                         <div class="atkp-pricecompare-cell atkp-pricecompare-title">
                             <a {!! $formatter->get_offer_productlink($offer) !!} >{{ ATKPTools::substrwords( $offer->product != null ? $offer->product->title : $product->title, 100)}}</a>

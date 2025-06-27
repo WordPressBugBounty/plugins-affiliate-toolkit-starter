@@ -126,9 +126,10 @@ class atkp_output {
 								$prdfound = atkp_product::loadbyasin( $value->asin );
 
 								if ( $prdfound != null ) {
-									$prodcollection = atkp_product_collection::load( $prdfound->productid );
+									$prodcollection = atkp_product_collection::load( $prdfound->productid, $shop_id);
 									if ( $prodcollection != null ) {
-										$value         = $prodcollection->get_main_product();
+										$value         = $prodcollection->get_main_product($shop_id);
+										$value->shopid = $shop_id;
 										$value->listid = $list_id;
 									} else {
 										$value = null;

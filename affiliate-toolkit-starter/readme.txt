@@ -137,6 +137,9 @@ You just need to install the extension from our website.
 
  
 == Changelog ==
+= 3.7.6 =
+*   Bugfix: image not loaded, shop logo alt text added
+
 = 3.7.5 =
 *   Bugfix: language was not loaded
 

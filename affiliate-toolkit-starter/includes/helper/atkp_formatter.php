@@ -2567,14 +2567,17 @@ class atkp_formatter {
 		if ( ATKPTools::startsWith( $img_url, get_site_url() ) ) {
 			return $img_url;
 		}
+		$site_key = atkp_formatter::get_sitekey();
+
 		$name = base64_encode( $img_url ); //pathinfo($img_url, PATHINFO_FILENAME);; // to get file name
+		$checkkey = hash_hmac('sha256', $name, $site_key);
 		//$outfile = plugins_url( '/tools/atkp_imagereceiver.php', ATKP_PLUGIN_FILE );
 
 		//$site_key = self::get_sitekey();
 
 		//return $outfile . '?image=' . rawurlencode( base64_encode( $img_url ) ) . '&hash=' . ( ( md5( $img_url . $site_key ) ) );
 
-		return home_url() . '/?a_image=1&pid=' . rawurlencode( $productid ) . '&lid=' . rawurlencode( $listid ) . '&sid=' . rawurlencode( $shopid ) . '&name=' . rawurlencode( $name);
+		return home_url() . '/?a_image=1&pid=' . rawurlencode( $productid ) . '&lid=' . rawurlencode( $listid ) . '&sid=' . rawurlencode( $shopid ) . '&name=' . rawurlencode( $name).'&key='.rawurlencode($checkkey);
 	}
 
 	public static function replace_image_url( $shopid, $url, $productid = null, $listid = null, $imagesize = null ) {
