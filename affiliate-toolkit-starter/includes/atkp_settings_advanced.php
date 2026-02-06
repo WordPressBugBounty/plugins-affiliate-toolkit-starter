@@ -58,10 +58,8 @@ class atkp_settings_advanced {
 
 
 			//ATKPTools::set_setting( ATKP_PLUGIN_PREFIX . '_ignoreoffernotfound', ATKPTools::get_post_parameter( ATKP_PLUGIN_PREFIX . '_ignoreoffernotfound', 'bool' ) );
+
 			ATKPTools::set_setting( ATKP_PLUGIN_PREFIX . '_disable_sponsored_attribute', ATKPTools::get_post_parameter( ATKP_PLUGIN_PREFIX . '_disable_sponsored_attribute', 'bool' ) );
-
-
-
 
 			$args = array(
 				'public'   => true,
@@ -82,6 +80,10 @@ class atkp_settings_advanced {
 			ATKPTools::set_setting( ATKP_PLUGIN_PREFIX . '_custom_posttypes', $post_types_sel );
 
 			do_action( 'atkp_settings_advanced_savefields' );
+
+
+			ATKPOptionsCache::flush_cache();
+			wp_cache_flush(); // Leert den gesamten WordPress Object Cache
 		}
 
 		?>
@@ -90,7 +92,7 @@ class atkp_settings_advanced {
                 <!-- <h2><?php echo esc_html__( 'Affiliate Toolkit - Advanced Settings', 'affiliate-toolkit-starter' ) ?></h2>      -->
 
                 <form method="POST"
-                      action="?page=<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin&tab=advanced_configuration_page') ?>">
+                      action="?page=<?php echo esc_attr( ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin&tab=advanced_configuration_page' ) ?>">
 
 					<?php wp_nonce_field( "save", "save" ); ?>
                     <table class="form-table" style="width:100%">
@@ -105,7 +107,8 @@ class atkp_settings_advanced {
 
                             </th>
                             <td>
-                                <input type="checkbox"
+
+                            <input type="checkbox"
                                        id="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_disable_sponsored_attribute') ?>"
                                        name="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_disable_sponsored_attribute') ?>"
                                        value="1" <?php echo checked( 1, atkp_options::$loader->get_disable_sponsored_attribute(), true ); ?>>
@@ -126,7 +129,8 @@ class atkp_settings_advanced {
                                 </label>
                             </th>
                             <td>
-                                <select id="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_pricecomparisonsort') ?>"
+
+                            <select id="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_pricecomparisonsort') ?>"
                                         name="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_pricecomparisonsort') ?>"
                                         style="width:300px">
 									<?php
@@ -483,7 +487,8 @@ class atkp_settings_advanced {
                         <tr>
                             <th scope="row">
                                 <label for="">
-	                                <?php echo esc_html__( 'Shortcode-Generator post-types', 'affiliate-toolkit-starter' ) ?>:
+	                                <?php echo esc_html__( 'Shortcode-Generator post-types', 'affiliate-toolkit-starter' ) ?>
+                                    :
                                 </label>
                             </th>
                             <td>

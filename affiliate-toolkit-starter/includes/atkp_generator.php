@@ -60,9 +60,9 @@ class atkp_generator {
 
 						<?php
 						$prds               = array();
-						$prds['box']        = esc_html__( 'Product Boxes', 'affiliate-toolkit-starter' );
-						$prds['field']      = esc_html__( 'Fields (Single product data)', 'affiliate-toolkit-starter' );
-						$prds['link']       = esc_html__( 'Text Link', 'affiliate-toolkit-starter' );
+						$prds['box'] = esc_html__( 'Product Boxes', 'affiliate-toolkit-starter' );
+						$prds['field'] = esc_html__( 'Fields (Single product data)', 'affiliate-toolkit-starter' );
+						$prds['link'] = esc_html__( 'Text Link', 'affiliate-toolkit-starter' );
 						$prds['searchform'] = esc_html__( 'Search Form', 'affiliate-toolkit-starter' );
 						//TODO: Dynamic filter
 
@@ -90,19 +90,19 @@ class atkp_generator {
 
 						<?php
 						$prds                                                       = array();
-						$prds[ esc_html__( 'Single Product', 'affiliate-toolkit-starter' ) ]         = [
+						$prds[ esc_html__( 'Single Product', 'affiliate-toolkit-starter' ) ] = [
 							'product_search' => esc_html__( 'Search Existing Product', 'affiliate-toolkit-starter' ),
 							'product_create' => esc_html__( 'Create Single Product', 'affiliate-toolkit-starter' )
 						];
-						$prds[ esc_html__( 'Bestseller List', 'affiliate-toolkit-starter' ) ]        = [
+						$prds[ esc_html__( 'Bestseller List', 'affiliate-toolkit-starter' ) ] = [
 							'bestseller_search' => esc_html__( 'Search Existing Bestseller Lists', 'affiliate-toolkit-starter' ),
 							'bestseller_create' => esc_html__( 'Create New Bestseller List', 'affiliate-toolkit-starter' )
 						];
-						$prds[ esc_html__( 'New Releases List', 'affiliate-toolkit-starter' ) ]      = [
+						$prds[ esc_html__( 'New Releases List', 'affiliate-toolkit-starter' ) ] = [
 							'new_search' => esc_html__( 'Search Existing Releases List', 'affiliate-toolkit-starter' ),
 							'new_create' => esc_html__( 'Create New Releases List', 'affiliate-toolkit-starter' )
 						];
-						$prds[ esc_html__( 'Keyword List', 'affiliate-toolkit-starter' ) ]           = [
+						$prds[ esc_html__( 'Keyword List', 'affiliate-toolkit-starter' ) ] = [
 							'keyword_search' => esc_html__( 'Search Existing Keyword List', 'affiliate-toolkit-starter' ),
 							'keyword_create' => esc_html__( 'Create New Keyword List', 'affiliate-toolkit-starter' )
 						];
@@ -159,7 +159,7 @@ class atkp_generator {
         </ul>
 
 
-        <script src="<?php echo esc_js(esc_url(plugins_url( 'dist/accordion.js', 'affiliate-toolkit-starter' ))) ?>"></script>
+        <script src="<?php echo esc_js( esc_url( plugins_url( 'dist/accordion.js', 'affiliate-toolkit-starter' ) ) ) ?>"></script>
 
         <script>
             jQuery(document).ready(function ($) {

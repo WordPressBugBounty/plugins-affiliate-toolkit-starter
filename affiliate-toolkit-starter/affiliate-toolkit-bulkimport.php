@@ -153,7 +153,8 @@ class atkp_bulkimport {
                                         <tr>
                                             <th scope="row">
                                                 <label id="searchcaption" for="">
-	                                                <?php echo esc_html__( 'Search by', 'affiliate-toolkit-starter' ) ?>:
+	                                                <?php echo esc_html__( 'Search by', 'affiliate-toolkit-starter' ) ?>
+                                                    :
                                                 </label>
                                             </th>
                                             <td>
@@ -258,16 +259,16 @@ class atkp_bulkimport {
 
                                                 <input type="hidden" id="page"
                                                        name="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_page') ?>"
-                                                       value="<?php echo esc_attr_e($page, 'affiliate-toolkit-starter') ?>">
+                                                       value="<?php echo esc_attr_e( $page, 'affiliate-toolkit-starter' ) ?>">
                                                 <input type="hidden" id="keyword_search"
                                                        name="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_keyword_search') ?>"
-                                                       value="<?php echo esc_attr_e($keyword, 'affiliate-toolkit-starter') ?>">
+                                                       value="<?php echo esc_attr_e( $keyword, 'affiliate-toolkit-starter' ) ?>">
                                                 <input type="hidden" id="shop_search"
                                                        name="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_shop_search') ?>"
-                                                       value="<?php echo esc_attr_e($selectedshopid, 'affiliate-toolkit-starter') ?>">
+                                                       value="<?php echo esc_attr_e( $selectedshopid, 'affiliate-toolkit-starter' ) ?>">
                                                 <input type="hidden" id="option_search"
                                                        name="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_option_search') ?>"
-                                                       value="<?php echo esc_attr_e($searchoption, 'affiliate-toolkit-starter') ?>">
+                                                       value="<?php echo esc_attr_e( $searchoption, 'affiliate-toolkit-starter' ) ?>">
                                             </td>
                                         </tr>
 
@@ -364,14 +365,42 @@ class atkp_bulkimport {
 
 						echo '<h2>' . esc_html__( $shop->title, 'affiliate-toolkit-starter' ) . ' (' . esc_html( $shop->id ) . ')</h2>';
 
-						echo '<div ' . ( $shop->type == atkp_shop_type::SUB_SHOPS ? 'disabled' : '' ) . ' class="atkp-backend-livesearch" init="' . esc_attr( ! $searched ? "1" : "0" ) . '" shopid="' . esc_attr($shop->id) . '" keyword="' . esc_attr( $keyword ) . '" searchoption="' . esc_attr( $searchoption ) . '" asintype="' . esc_attr( $asintype ) . '" endpointurl="' . esc_url( ATKPTools::get_endpointurl() ) . '" ></div>';
+						$plugin_name = ATKPTools::get_plugin_name_from_object( $shop->provider );
+
+// Prüfe Lizenz
+						if ( ! ATKPTools::is_license_active_for_plugin( $plugin_name ) ) {
+							?>
+                            <div style="max-width: 800px; margin: 40px auto; padding: 30px; background: #fff; border-left: 4px solid #dc3232; box-shadow: 0 1px 3px rgba(0,0,0,0.13);">
+                                <h2 style="margin-top: 0; color: #dc3232; font-size: 24px;">
+                                    <span class="dashicons dashicons-lock"
+                                          style="font-size: 24px; vertical-align: middle; margin-right: 8px;"></span>
+									<?php echo esc_html__( 'License Required', 'affiliate-toolkit-starter' ); ?>
+                                </h2>
+                                <p style="font-size: 16px; line-height: 1.6; color: #444; margin: 20px 0;">
+									<?php echo esc_html__( 'No active license found for this extension. Please activate your license to access this shop.', 'affiliate-toolkit-starter' ); ?>
+                                </p>
+                                <p style="margin-top: 25px;">
+                                    <a href="<?php echo esc_url( admin_url( 'admin.php?page=' . ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin&tab=license_configuration_page' ) ); ?>"
+                                       class="button button-primary button-large">
+                                        <span class="dashicons dashicons-admin-network"
+                                              style="vertical-align: middle; margin-right: 5px;"></span>
+										<?php echo esc_html__( 'Manage Licenses', 'affiliate-toolkit-starter' ); ?>
+                                    </a>
+                                </p>
+                            </div>
+							<?php
+
+						} else {
+
+							echo '<div ' . ( $shop->type == atkp_shop_type::SUB_SHOPS ? 'disabled' : '' ) . ' class="atkp-backend-livesearch" init="' . esc_attr( ! $searched ? "1" : "0" ) . '" shopid="' . esc_attr( $shop->id ) . '" keyword="' . esc_attr( $keyword ) . '" searchoption="' . esc_attr( $searchoption ) . '" asintype="' . esc_attr( $asintype ) . '" endpointurl="' . esc_url( ATKPTools::get_endpointurl() ) . '" ></div>';
 
 
-						foreach ( $shop->children as $child ) {
-							echo '<h2>- ' . esc_html__( $child->title, 'affiliate-toolkit-starter' ) . ' (' . esc_html( $child->id ) . ')</h2>';
+							foreach ( $shop->children as $child ) {
+								echo '<h2>- ' . esc_html__( $child->title, 'affiliate-toolkit-starter' ) . ' (' . esc_html( $child->id ) . ')</h2>';
 
-							echo '<div  class="atkp-backend-livesearch" init="' . esc_attr( ! $searched ? "1" : "0" ) . '" shopid="' . esc_attr($child->id) . '" keyword="' . esc_attr( $keyword ) . '" searchoption="' . esc_attr( $searchoption ) . '" asintype="' . esc_attr( $asintype ) . '" endpointurl="' . esc_url( ATKPTools::get_endpointurl() ) . '" ></div>';
+								echo '<div  class="atkp-backend-livesearch" init="' . esc_attr( ! $searched ? "1" : "0" ) . '" shopid="' . esc_attr( $child->id ) . '" keyword="' . esc_attr( $keyword ) . '" searchoption="' . esc_attr( $searchoption ) . '" asintype="' . esc_attr( $asintype ) . '" endpointurl="' . esc_url( ATKPTools::get_endpointurl() ) . '" ></div>';
 
+							}
 						}
 					}
 
@@ -384,6 +413,36 @@ class atkp_bulkimport {
 
 						$searched = false;
 					} else {
+
+
+// Ermittle Plugin-Namen vom Provider
+						$plugin_name = ATKPTools::get_plugin_name_from_object( $shop->provider );
+
+// Prüfe Lizenz
+						if ( ! ATKPTools::is_license_active_for_plugin( $plugin_name ) ) {
+							?>
+                            <div style="max-width: 800px; margin: 40px auto; padding: 30px; background: #fff; border-left: 4px solid #dc3232; box-shadow: 0 1px 3px rgba(0,0,0,0.13);">
+                                <h2 style="margin-top: 0; color: #dc3232; font-size: 24px;">
+                                    <span class="dashicons dashicons-lock"
+                                          style="font-size: 24px; vertical-align: middle; margin-right: 8px;"></span>
+									<?php echo esc_html__( 'License Required', 'affiliate-toolkit-starter' ); ?>
+                                </h2>
+                                <p style="font-size: 16px; line-height: 1.6; color: #444; margin: 20px 0;">
+									<?php echo esc_html__( 'No active license found for this extension. Please activate your license to access this shop.', 'affiliate-toolkit-starter' ); ?>
+                                </p>
+                                <p style="margin-top: 25px;">
+                                    <a href="<?php echo esc_url( admin_url( 'admin.php?page=' . ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin&tab=license_configuration_page' ) ); ?>"
+                                       class="button button-primary button-large">
+                                        <span class="dashicons dashicons-admin-network"
+                                              style="vertical-align: middle; margin-right: 5px;"></span>
+										<?php echo esc_html__( 'Manage Licenses', 'affiliate-toolkit-starter' ); ?>
+                                    </a>
+                                </p>
+                            </div>
+							<?php
+
+						} else {
+
 						$shop->provider->checklogon( $shop );
 						$result = null;
 						try {
@@ -401,7 +460,7 @@ class atkp_bulkimport {
 
 						if ( $searched && isset( $result ) && $result != null && $result->message != '' ) {
 
-							echo '<div class="atkp-warning">' . sprintf( esc_html__( 'API returned: %s', 'affiliate-toolkit-starter' ), esc_html($result->message) ) . '</div>';
+							echo '<div class="atkp-warning">' . sprintf( esc_html__( 'API returned: %s', 'affiliate-toolkit-starter' ), esc_html( $result->message ) ) . '</div>';
 							$searched = false;
 						}
 
@@ -471,17 +530,17 @@ class atkp_bulkimport {
 														echo '-';
 													}
 													echo '<br />';
-													echo( isset( $product['saleprice'] ) ? sprintf( esc_html__( 'Price: %s', 'affiliate-toolkit-starter' ), esc_html($product['saleprice']) ) : '-' );
+	                                                echo( isset( $product['saleprice'] ) ? sprintf( esc_html__( 'Price: %s', 'affiliate-toolkit-starter' ), esc_html( $product['saleprice'] ) ) : '-' );
 
 													$cname = '';
 													$ss    = isset( $product['shopid'] ) && $product['shopid'] != '' ? atkp_shop::load_shopid( $shop, $product['shopid'] ) : null;
 
 													if ( $ss == null && isset( $product['shopname'] ) && $product['shopname'] != '' ) {
-														$cname = sprintf( esc_html__( '%s (shop is not enabled)', 'affiliate-toolkit-starter' ), esc_html($product['shopname']) );
+														$cname = sprintf( esc_html__( '%s (shop is not enabled)', 'affiliate-toolkit-starter' ), esc_html( $product['shopname'] ) );
 													} else if ( $ss != null ) {
 														$cname = $ss->title;
 													}
-													echo( $cname != '' ? ', ' . sprintf( esc_html__( 'Shop: %s', 'affiliate-toolkit-starter' ), esc_html($cname) ) : '' );
+	                                                echo( $cname != '' ? ', ' . sprintf( esc_html__( 'Shop: %s', 'affiliate-toolkit-starter' ), esc_html( $cname ) ) : '' );
 													echo( isset( $product['info'] ) ? ', Information: ' . esc_html( $product['info'] ) : '' ) ?>
                                                     <br/>
                                                     <a href="<?php echo esc_url($product['producturl']); ?>"
@@ -523,13 +582,13 @@ class atkp_bulkimport {
 													if ( $post_id > 0 ) {
 
 
-														echo '<img style="vertical-align:middle" src="' . esc_url(plugins_url( 'images/yes.png', ATKP_PLUGIN_FILE )) . '" alt="' . esc_attr_e( 'Imported', 'affiliate-toolkit-starter' ) . '"/>';
+														echo '<img style="vertical-align:middle" src="' . esc_url( plugins_url( 'images/yes.png', ATKP_PLUGIN_FILE ) ) . '" alt="' . esc_attr_e( 'Imported', 'affiliate-toolkit-starter' ) . '"/>';
 														echo '<a style="margin-left:5px" href="' . esc_url( get_edit_post_link( $post_id ) ) . '" target="_blank">' . esc_html__( 'Product imported.', 'affiliate-toolkit-starter' ) . '</a><br />';
 
 													}
 													if ( $asin == '' ) {
 														echo '<img style="vertical-align:middle" src="' . esc_url( plugins_url( 'images/no.png', ATKP_PLUGIN_FILE ) ) . '" alt="' . esc_html__( 'Key is empty', 'affiliate-toolkit-starter' ) . '"/>';
-														echo sprintf( esc_html__( '%s is empty.', 'affiliate-toolkit-starter' ), esc_html($asintype) ) . '<br />';
+														echo sprintf( esc_html__( '%s is empty.', 'affiliate-toolkit-starter' ), esc_html( $asintype ) ) . '<br />';
 
 													}
 													/*
@@ -603,6 +662,7 @@ class atkp_bulkimport {
 								echo '</span>';
 								$searched = false;
 							}
+						}
 						}
 					}
 				}
@@ -729,7 +789,7 @@ class atkp_bulkimport {
                                         var posturl = data[0].edit_url;
 
                                         $j('#atkp-status-' + asin).removeClass('atkp-spinloader');
-                                        $j('#atkp-status-' + asin).html('<img style="vertical-align:middle" src="<?php echo esc_url(plugins_url( 'images/yes.png', ATKP_PLUGIN_FILE )) ?>" alt="<?php echo esc_attr_e( 'Imported', 'affiliate-toolkit-starter' ) ?>"/><a style="margin-left:5px" href="'+posturl+'" target="_blank"><?php echo esc_html__( 'Product imported.', 'affiliate-toolkit-starter' ) ?></a><br />');
+                                        $j('#atkp-status-' + asin).html('<img style="vertical-align:middle" src="<?php echo esc_url( plugins_url( 'images/yes.png', ATKP_PLUGIN_FILE ) ) ?>" alt="<?php echo esc_attr_e( 'Imported', 'affiliate-toolkit-starter' ) ?>"/><a style="margin-left:5px" href="' + posturl + '" target="_blank"><?php echo esc_html__( 'Product imported.', 'affiliate-toolkit-starter' ) ?></a><br />');
 
                                         if ($j("#atkp-attachproduct option[value='" + data[0].postid + "']").length == 0)
                                             $j('#atkp-attachproduct').append('<option value="' + data[0].postid + '">' + data[0].title + '</option>');
@@ -757,55 +817,140 @@ class atkp_bulkimport {
                 });
 
                 $j(".atkp-backend-livesearch").each(function (i, obj) {
+                    var $element = $j(obj);
 
-                    var shopid = $j(obj).attr("shopid");
-                    var keyword = $j(obj).attr("keyword");
-                    var searchoption = $j(obj).attr("searchoption");
-                    var endpointurl = $j(obj).attr('endpointurl');
-                    var asintype = $j(obj).attr('asintype');
-                    var init = $j(obj).attr('init');
+                    // Validierung der erforderlichen Attribute
+                    var shopid = $element.attr("shopid");
+                    var keyword = $element.attr("keyword");
+                    var searchoption = $element.attr("searchoption");
+                    var endpointurl = $element.attr('endpointurl');
+                    var asintype = $element.attr('asintype');
+                    var init = $element.attr('init');
 
-                    if (init == "1") {
+                    console.log(endpointurl);
+
+                    // Prüfe ob alle erforderlichen Attribute vorhanden sind
+                    if (!shopid || !endpointurl) {
+                        console.error('ATKP Live Search: Missing required attributes', {
+                            shopid: shopid,
+                            endpointurl: endpointurl,
+                            element: obj
+                        });
+                        $element.html('<div class="atkp-error">Configuration error: Missing required attributes</div>');
                         return;
                     }
 
-                    $j(obj).addClass('atkp-spinloader');
+                    if (init === "1") {
+                        return;
+                    }
+
+                    $element.addClass('atkp-spinloader');
                     $j('.atkp-livesearch-searching').show();
 
-                    $j.post(endpointurl,
-                        {
-                            action: 'atkp_live_search_backend',
-                            shopid: shopid,
-                            keyword: keyword,
-                            asintype: asintype,
-                            searchoption: searchoption,
-                        },
-                        function (data, status) {
-                            //alert("Data: " + data + "\nStatus: " + status);
-                            if (status == 'success') {
+                    $j.post(endpointurl, {
+                        action: 'atkp_live_search_backend',
+                        shopid: shopid,
+                        keyword: keyword || '',
+                        asintype: asintype || '',
+                        searchoption: searchoption || '',
+                        request_nonce: '<?php echo wp_create_nonce( "atkp_live_search_nonce" ); ?>' // NEU
+                    })
+                        .done(function (data, status, xhr) {
+                            try {
                                 $j('.atkp-livesearch-searching').hide();
 
-                                if (data[0].html == 'noresultfound')
+                                // Validiere Response-Daten
+                                if (!data || !Array.isArray(data) || data.length === 0) {
+                                    console.error('ATKP Live Search: Invalid response format', data);
+                                    $element.html('<div class="atkp-error">Invalid server response</div>');
+                                    return;
+                                }
+
+                                // Prüfe auf Server-Fehler
+                                if (data[0].error) {
+                                    console.error('ATKP Live Search: Server error', data[0].error, data[0].message);
+                                    $element.html('<div class="atkp-error">' +
+                                        esc_html(data[0].error) +
+                                        (data[0].message ? ': ' + esc_html(data[0].message) : '') +
+                                        '</div>');
+                                    return;
+                                }
+
+                                // Verarbeite verschiedene Response-Typen
+                                if (data[0].html === 'noresultfound') {
                                     $j('.atkp-livesearch-noresult').show();
-                                else if (data[0].html == 'searchtermrequired')
+                                } else if (data[0].html === 'searchtermrequired') {
                                     $j('.atkp-livesearch-searchtermrequired').show();
-                                else
-                                    $j(obj).html(data[0].html);
+                                } else if (data[0].html) {
+                                    $element.html(data[0].html);
 
-                                $j('.selectAll').click(function (e) {
-                                    var table = $j(e.target).closest('table');
-                                    $j('td input:checkbox', table).prop('checked', this.checked);
-                                });
-                            } else if (typeof data[0].error != 'undefined')
-                                $j(obj).html("error on loading: " + data[0].error);
-                            else
-                                $j(obj).html("error on loading");
+                                    // Event-Handler für "Select All" Checkboxen
+                                    $element.find('.selectAll').off('click').on('click', function (e) {
+                                        var $table = $j(e.target).closest('table');
+                                        $table.find('td input:checkbox').prop('checked', this.checked);
+                                    });
+                                } else {
+                                    console.warn('ATKP Live Search: Empty response', data);
+                                    $element.html('<div class="atkp-warning">No data received from server</div>');
+                                }
 
-                            $j(obj).removeClass('atkp-spinloader');
+                            } catch (err) {
+                                console.error('ATKP Live Search: Error processing response', err, data);
+                                $element.html('<div class="atkp-error">Error processing server response: ' + esc_html(err.message) + '</div>');
+                            }
+                        })
+                        .fail(function (xhr, status, error) {
+                            $j('.atkp-livesearch-searching').hide();
+
+                            var errorMessage = 'Connection error';
+
+                            // Detaillierte Fehlerinformationen
+                            if (xhr.status === 0) {
+                                errorMessage = 'No connection. Please check your network.';
+                            } else if (xhr.status === 404) {
+                                errorMessage = 'Endpoint not found (404).';
+                            } else if (xhr.status === 500) {
+                                errorMessage = 'Server error (500).';
+                            } else if (status === 'parsererror') {
+                                errorMessage = 'JSON parsing error.';
+                            } else if (status === 'timeout') {
+                                errorMessage = 'Request timeout.';
+                            } else if (status === 'abort') {
+                                errorMessage = 'Request aborted.';
+                            } else if (xhr.responseText) {
+                                errorMessage = 'Server error: ' + xhr.responseText.substring(0, 200);
+                            }
+
+                            console.error('ATKP Live Search: AJAX error', {
+                                status: xhr.status,
+                                statusText: status,
+                                error: error,
+                                responseText: xhr.responseText,
+                                shopid: shopid
+                            });
+
+                            $element.html('<div class="atkp-error">' + esc_html(errorMessage) + '</div>');
+                        })
+                        .always(function () {
+                            $element.removeClass('atkp-spinloader');
                         });
-
-
                 });
+
+// Hilfsfunktion zum Escapen von HTML
+                function esc_html(text) {
+                    if (!text) return '';
+                    var map = {
+                        '&': '&amp;',
+                        '<': '&lt;',
+                        '>': '&gt;',
+                        '"': '&quot;',
+                        "'": '&#039;'
+                    };
+                    return String(text).replace(/[&<>"']/g, function (m) {
+                        return map[m];
+                    });
+                }
+
             });
 
 
@@ -882,7 +1027,7 @@ class atkp_bulkimport {
 				            <?php
                             if ( isset( $this->list ) ) {
 								foreach ( $this->list as $entry ) {
-		                    ?> <?php echo  $entry ?>,
+		                    ?> <?php echo $entry ?>,
 									<?php
 								}
 							}
@@ -901,7 +1046,7 @@ class atkp_bulkimport {
 
                                 var $posturl = data[0].edit_url;
 
-                                statusfield.html('<img style="vertical-align:middle" src="<?php echo esc_url( plugins_url( 'images/yes.png', ATKP_PLUGIN_FILE ) ) ?>" alt="<?php echo esc_html__( 'Imported', 'affiliate-toolkit-starter' ) ?>"/><a style="margin-left:5px" href="' +  $posturl + '" target="_blank"><?php echo esc_html__( 'Product imported.', 'affiliate-toolkit-starter' ) ?></a><br />');
+                                statusfield.html('<img style="vertical-align:middle" src="<?php echo esc_url( plugins_url( 'images/yes.png', ATKP_PLUGIN_FILE ) ) ?>" alt="<?php echo esc_html__( 'Imported', 'affiliate-toolkit-starter' ) ?>"/><a style="margin-left:5px" href="' + $posturl + '" target="_blank"><?php echo esc_html__( 'Product imported.', 'affiliate-toolkit-starter' ) ?></a><br />');
 
                             } catch (err) {
                                 alert(err.message);

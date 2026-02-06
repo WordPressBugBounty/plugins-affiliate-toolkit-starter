@@ -38,7 +38,7 @@ class atkp_tools_welcome {
                                 allowfullscreen></iframe>
                     </div>
                     <div style="padding-top: 0;" class="block">
-                        <h6><?php echo esc_html__( 'This video describes the most minimal steps you need to', 'affiliate-toolkit-starter' ) . '<br/>' . esc_html__( 'take to set up a shop and import an affiliate product.', 'affiliate-toolkit-starter'); ?> </h6>
+                        <h6><?php echo esc_html__( 'This video describes the most minimal steps you need to', 'affiliate-toolkit-starter' ) . '<br/>' . esc_html__( 'take to set up a shop and import an affiliate product.', 'affiliate-toolkit-starter' ); ?> </h6>
                         <div class="button-wrap atkp-welcome-clearfix">
                             <div class="left">
                                 <a href="<?php echo esc_url(admin_url( 'post-new.php?post_type=atkp_shop', ATKP_PLUGIN_FILE )) ?>"

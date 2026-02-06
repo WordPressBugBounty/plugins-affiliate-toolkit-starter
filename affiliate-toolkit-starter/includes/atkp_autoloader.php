@@ -33,6 +33,7 @@ class atkp_autoloader {
 		$this->add_class( 'atkp_widget', '/includes/widgets/atkp_widget.php' );
 		$this->add_class( 'atkp_settings', '/affiliate-toolkit-settings.php' );
 
+		$this->add_class( 'ATKPOptionsCache', '/includes/basics/ATKPOptionsCache.php' );
 		$this->add_class( 'ATKPSettings', '/includes/basics/ATKPSettings.php' );
 		$this->add_class( 'ATKPLog', '/includes/basics/ATKPLog.php' );
 		$this->add_class( 'ATKPTools', '/includes/basics/ATKPTools.php' );
@@ -61,6 +62,7 @@ class atkp_autoloader {
 		$this->add_class( 'atkp_posttypes_list', '/includes/atkp_posttypes_list.php' );
 		$this->add_class( 'atkp_posttypes_template', '/includes/atkp_posttypes_template.php' );
 		$this->add_class( 'atkp_shortcode_generator2', '/includes/atkp_shortcode_generator2.php' );
+		$this->add_class( 'atkp_shortcode_generator_modern', '/includes/atkp_shortcode_generator_modern.php' );
 		$this->add_class( 'atkp_bulkimport', '/affiliate-toolkit-bulkimport.php' );
 		$this->add_class( 'atkp_shortcodes_product', '/includes/atkp_shortcodes_product.php' );
 		$this->add_class( 'atkp_shortcodes_list', '/includes/atkp_shortcodes_list.php' );
@@ -70,6 +72,7 @@ class atkp_autoloader {
 		$this->add_class( 'atkp_endpoints', '/includes/atkp_endpoints.php' );
 
 		$this->add_class( 'atkp_shop_provider_base', '/includes/shopproviders/atkp_shop_provider_base.php' );
+		$this->add_class( 'subshop', '/includes/shopproviders/subshop.php' );
 
 		$this->add_class( 'atkp_control_helper', '/includes/helper/atkp_control_helper.php' );
 		$this->add_class( 'atkp_cronjob_new', '/includes/atkp_cronjob_new.php' );
@@ -153,6 +156,10 @@ class atkp_autoloader {
 
 		$this->add_class( 'atkp_output_handle', '/includes/basics/atkp_output_handle.php' );
 
+		if ( ! class_exists( 'subshop' ) && file_exists( ATKP_PLUGIN_DIR . '/includes/shopproviders/subshop.php' ) ) {
+			// in deinem Save-Code wird subshop.php verwendet — hier ebenfalls laden
+			require_once ATKP_PLUGIN_DIR . '/includes/shopproviders/subshop.php';
+		}
 	}
 
 

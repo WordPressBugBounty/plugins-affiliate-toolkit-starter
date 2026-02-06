@@ -1,9 +1,8 @@
 <?php
-/**
- * Plugin Name: affiliate-toolkit
+/*** Plugin Name: affiliate-toolkit – Multi-Network Affiliate & Amazon Product Display
  * Plugin URI: https://www.affiliate-toolkit.com
- * Description: A plugin for smart affiliates. This plugin provides you an interface to the best affiliate platforms.
- * Version: 3.7.6
+ * Description: Display products from Amazon, AWIN, CJ, eBay and 10+ affiliate networks with beautiful product boxes, comparison tables, and automatic price updates.
+ * Version: 3.8.4
  * Requires PHP:      7.4
  * Author: SERVIT Software Solutions
  * Author URI: https://servit.dev
@@ -13,7 +12,7 @@
  * License: GPL2
  */
 
-define( 'ATKP_UPDATE_VERSION', '3.7.6' );
+define( 'ATKP_UPDATE_VERSION', '3.8.4' );
 define( 'ATKP_UPDATE_ITEM_ID', '7680' );
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -29,9 +28,9 @@ require_once ATKP_PLUGIN_DIR . '/includes/atkp_autoloader.php';
 new atkp_autoloader();
 atkp_autoloader::$loader->register_classes();
 
-add_action( 'init', 'my_affiliate_toolkit_lang');
+add_action( 'init', 'my_affiliate_toolkit_lang' );
 function my_affiliate_toolkit_lang() {
-	load_plugin_textdomain( 'affiliate-toolkit-starter', false, dirname( plugin_basename( ATKP_PLUGIN_FILE ) ).'/lang');
+	load_plugin_textdomain( 'affiliate-toolkit-starter', false, dirname( plugin_basename( ATKP_PLUGIN_FILE ) ) . '/lang' );
 }
 
 add_action( 'plugins_loaded', 'my_affiliate_toolkit_plugins_loaded' );
@@ -68,6 +67,7 @@ function my_affiliate_toolkit_to_trash( $post ) {
 }
 
 require_once ATKP_PLUGIN_DIR . '/includes/atkp_basics.php';
+require_once ATKP_PLUGIN_DIR . '/includes/atkp_newsletter_popup.php';
 
 
 add_action( 'atkp_initialize_widgets', 'my_affiliate_toolkit_initialize_widgets' );
@@ -80,7 +80,7 @@ function my_affiliate_toolkit_initialize_widgets() {
 
 //** Plugin initialisieren **//
 
-add_action( 'init', 'my_affiliate_toolkit_init' );
+add_action( 'init', 'my_affiliate_toolkit_init', 11 );
 
 function my_affiliate_toolkit_init() {
 	if ( version_compare( get_bloginfo( 'version' ), '4.0', '<' ) ) {
@@ -88,84 +88,24 @@ function my_affiliate_toolkit_init() {
 	}
 
 
+	// Register Custom Post Types (needed for both admin and frontend)
+	new atkp_posttypes_shop( array() );
+	new atkp_posttypes_product( array() );
+	new atkp_posttypes_list( array() );
+	new atkp_posttypes_template( array() );
+
+	do_action( 'atkp_register_cpt' );
+
+	// Modern Shortcode Generator mit Gutenberg-Unterstützung
+	// Initialize for both frontend and backend to support block rendering
+	atkp_shortcode_generator_modern::get_instance( array() );
+
 	if ( is_admin() ) {
 		add_action( 'admin_menu', 'atkp_init_menu', 20 );
 
-		$atkp_settings = new atkp_settings( array() );
+		// Alternative: Alter Generator (deprecated)
+		// new atkp_shortcode_generator2( array() );
 
-		$tempsettings = array(
-			__( 'General settings', 'affiliate-toolkit-starter' )  => array(
-				new atkp_settings_toolkit( array() ),
-				'toolkit_configuration_page'
-			),
-			__( 'Advanced settings', 'affiliate-toolkit-starter' ) => array(
-				new atkp_settings_advanced( array() ),
-				'advanced_configuration_page'
-			),
-			__( 'Display settings', 'affiliate-toolkit-starter' )  => array(
-				new atkp_settings_display( array() ),
-				'display_configuration_page'
-			),
-			__( 'Licenses', 'affiliate-toolkit-starter' )          => array(
-				new atkp_settings_license( array() ),
-				'license_configuration_page'
-			)
-		);
-
-
-		$tempsettings = apply_filters( 'atkp_pages_settings', $tempsettings );
-
-
-		$atkp_settings::$settings = $tempsettings;
-
-		$compatibility = array();
-		$compatibility = apply_filters( 'atkp_pages_compatibility', $compatibility );
-
-		if ( count( $compatibility ) > 0 ) {
-			$atkp_compatibility         = new atkp_compatibility( array() );
-			$atkp_compatibility::$modes = $compatibility;
-		}
-
-
-		$temptools = array();
-
-
-		$temptools = apply_filters( 'atkp_pages_tools', $temptools );
-
-		$temptools[ __( 'Shop replacement', 'affiliate-toolkit-starter' ) ] = array(
-			new atkp_tools_shopreplace( array() ),
-			'shopreplace_configuration_page'
-		);
-		$temptools[ __( 'Debug', 'affiliate-toolkit-starter' ) ]            = array(
-			new atkp_tools_debug( array() ),
-			'debug_configuration_page'
-		);
-		$temptools[ __( 'Welcome', 'affiliate-toolkit-starter' ) ] = array(
-			new atkp_tools_welcome( array() ),
-			'welcome_page'
-		);
-		//$temptools[ __( 'Import template', ATKP_PLUGIN_PREFIX ) ] = array(
-		//	new atkp_tools_import_template( array() ),
-		//		'importtools_configuration_page'
-		//);
-
-
-		new atkp_tools_shortcodegenerator( array() );
-
-
-		if ( count( $temptools ) > 0 ) {
-			$atkp_tools         = new atkp_tools( array() );
-			$atkp_tools::$tools = $temptools;
-		}
-
-		new atkp_posttypes_shop( array() );
-		new atkp_posttypes_product( array() );
-		new atkp_posttypes_list( array() );
-		new atkp_posttypes_template( array() );
-
-		do_action( 'atkp_register_cpt' );
-
-		new atkp_shortcode_generator2( array() );
 		//$g = new atkp_generator();
 		//$g->register_subpage();
 
@@ -239,6 +179,76 @@ add_action( 'plugins_loaded', 'my_atkp_loaded' );
 function my_atkp_loaded() {
 	do_action( 'atkp_initialize_extensions' );
 
+	if ( is_admin() ) {
+
+		$atkp_settings = new atkp_settings( array() );
+
+		$tempsettings = array(
+			__( 'General settings', 'affiliate-toolkit-starter' )  => array(
+				new atkp_settings_toolkit( array() ),
+				'toolkit_configuration_page'
+			),
+			__( 'Advanced settings', 'affiliate-toolkit-starter' ) => array(
+				new atkp_settings_advanced( array() ),
+				'advanced_configuration_page'
+			),
+			__( 'Display settings', 'affiliate-toolkit-starter' )  => array(
+				new atkp_settings_display( array() ),
+				'display_configuration_page'
+			),
+			__( 'Licenses', 'affiliate-toolkit-starter' )          => array(
+				new atkp_settings_license( array() ),
+				'license_configuration_page'
+			)
+		);
+
+
+		$tempsettings = apply_filters( 'atkp_pages_settings', $tempsettings );
+
+
+		$atkp_settings::$settings = $tempsettings;
+
+		$compatibility = array();
+		$compatibility = apply_filters( 'atkp_pages_compatibility', $compatibility );
+
+		if ( count( $compatibility ) > 0 ) {
+			$atkp_compatibility         = new atkp_compatibility( array() );
+			$atkp_compatibility::$modes = $compatibility;
+		}
+
+
+		$temptools = array();
+
+
+		$temptools = apply_filters( 'atkp_pages_tools', $temptools );
+
+		$temptools[ __( 'Shop replacement', 'affiliate-toolkit-starter' ) ] = array(
+			new atkp_tools_shopreplace( array() ),
+			'shopreplace_configuration_page'
+		);
+		$temptools[ __( 'Debug', 'affiliate-toolkit-starter' ) ]            = array(
+			new atkp_tools_debug( array() ),
+			'debug_configuration_page'
+		);
+		$temptools[ __( 'Welcome', 'affiliate-toolkit-starter' ) ]          = array(
+			new atkp_tools_welcome( array() ),
+			'welcome_page'
+		);
+		//$temptools[ __( 'Import template', ATKP_PLUGIN_PREFIX ) ] = array(
+		//	new atkp_tools_import_template( array() ),
+		//		'importtools_configuration_page'
+		//);
+
+
+		new atkp_tools_shortcodegenerator( array() );
+
+
+		if ( count( $temptools ) > 0 ) {
+			$atkp_tools         = new atkp_tools( array() );
+			$atkp_tools::$tools = $temptools;
+		}
+
+	}
 }
 
 function atkp_init_menu() {
@@ -455,6 +465,23 @@ function atkp_template_list_previewtemplates( $templates ) {
 
 add_filter( 'atkp_template_preview_list', 'atkp_template_list_previewtemplates', 10 );
 
+function atkp_template_list_remove_search_templates( $templates, $add_systemdir, $is_searchform ) {
+	// Remove search templates from product template list
+	if ( ! $is_searchform ) {
+		unset( $templates['comparebox'] );
+		unset( $templates['compareproduct'] );
+		unset( $templates['default_live'] );
+		unset( $templates['simple_live'] );
+		unset( $templates['searchbox'] );
+		unset( $templates['searchform'] );
+		unset( $templates['searchtext'] );
+		unset( $templates['productcompare_form'] );
+		unset( $templates['productcompare_form-widget'] );
+	}
+	return $templates;
+}
+
+add_filter( 'atkp_template_list', 'atkp_template_list_remove_search_templates', 10, 3 );
 
 do_action( 'atkp_initialize_widgets' );
 
@@ -538,7 +565,8 @@ function atkp_admin_discounts() {
 	}
 
 	$discounts = ATKP_StoreController::get_product_discounts();
-	if ( $discounts->active &&
+
+	if ( ! is_string( $discounts ) && $discounts->active &&
 	     ( ( isset( $_GET['page'] ) && ATKPTools::startsWith( $_GET['page'], 'ATKP' ) ) || ( isset( $_GET['post_type'] ) && ATKPTools::startsWith( $_GET['post_type'], 'affiliate-toolkit-starter' ) ) ) ) {
 		$aktion_bis = new DateTime( $discounts->aktion_bis );
 
@@ -546,13 +574,29 @@ function atkp_admin_discounts() {
 	}
 }
 
+function atkp_param_starts_with( $param, $prefix ) {
+	if ( is_string( $param ) ) {
+		return substr( $param, 0, strlen( $prefix ) ) === $prefix;
+	}
+	if ( is_array( $param ) ) {
+		foreach ( $param as $p ) {
+			if ( is_string( $p ) && substr( $p, 0, strlen( $prefix ) ) === $prefix ) {
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
 function is_atkp_page() {
 	$is_atkp = false;
-	if ( isset( $_GET['post_type'] ) && substr( $_GET['post_type'], 0, 4 ) == 'affiliate-toolkit-starter' ) {
+
+	if ( isset( $_GET['post_type'] ) && atkp_param_starts_with( $_GET['post_type'], 'affiliate-toolkit-starter' ) ) {
 		$is_atkp = true;
 	}
 
-	if ( isset( $_GET['page'] ) && substr( $_GET['page'], 0, 4 ) == 'ATKP' ) {
+	if ( isset( $_GET['page'] ) && atkp_param_starts_with( $_GET['page'], 'ATKP' ) ) {
 		$is_atkp = true;
 	}
 
@@ -592,7 +636,7 @@ function atkp_admin_rateus() {
 
 // directory handle
 $child_plugin_dir = ATKP_PLUGIN_DIR . '/child-plugins/';
-if(file_exists($child_plugin_dir)) {
+if ( file_exists( $child_plugin_dir ) ) {
 	$dir = dir( $child_plugin_dir );
 	if ( ! ! $dir ) {
 		while ( false !== ( $entry = $dir->read() ) ) {

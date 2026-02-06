@@ -70,6 +70,13 @@ class atkp_queueservices {
 					$message = __( 'Products not found for search request. Open Queue History for details.', 'affiliate-toolkit-starter' );
 
 					ATKPTools::set_post_setting( $entry->post_id, ATKP_PRODUCT_POSTTYPE . '_message', $message );
+
+					$message = sprintf(
+						__( 'Products not found for search request. Products count: %d, Has temp product: %s', 'affiliate-toolkit-starter' ),
+						count( $products ),
+						$has_temp_product ? 'true' : 'false'
+					);
+
 				} else {
 
 					$saleprice = 0;
@@ -961,6 +968,15 @@ class atkp_queueservices {
 
 		$newgroup = array();
 		foreach ( $lr as $x ) {
+			$s = atkp_shop::load( $x->shop_id );
+
+			$plugin_name = ATKPTools::get_plugin_name_from_object( $s->provider );
+
+			// Prüfe Lizenz
+			if ( ! ATKPTools::is_license_active_for_plugin( $plugin_name ) ) {
+				continue;
+			}
+
 			if ( ! isset( $newgroup[ $x->shop_id ] ) ) {
 				$newgroup[ $x->shop_id ] = array();
 			}

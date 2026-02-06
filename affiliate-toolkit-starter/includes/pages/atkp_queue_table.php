@@ -144,7 +144,7 @@ class atkp_queue_table extends WP_List_Table {
 			case 'updatedon':
 			case 'createdon':
 
-				return ATKPTools::get_formatted_date( strtotime( $item[ $column_name ] ) ) . __( ' at ', 'affiliate-toolkit-starter' ) . ATKPTools::get_formatted_time( strtotime( $item[ $column_name ] ) );
+			return ATKPTools::get_formatted_date( strtotime( $item[ $column_name ] ) ) . __( ' at ', 'affiliate-toolkit-starter' ) . ATKPTools::get_formatted_time( strtotime( $item[ $column_name ] ) );
 				break;
 
 

@@ -74,7 +74,7 @@ class atkp_extensions {
                             <p><?php echo esc_html__( $product->info->excerpt, 'affiliate-toolkit-starter' ) ?><?php ?></p>
                             <div>
                                 <div>
-									<?php echo sprintf( esc_html__( 'Version: %s - %s', 'affiliate-toolkit-starter' ), esc_html($product->licensing->version), ( isset( $product->pricing->amount ) && $product->pricing->amount == '0.00' ? 'Free' : ( sprintf( esc_html__( 'Price starts at: %s€', 'affiliate-toolkit-starter' ), esc_html(str_replace( '.', ',', ( ( ! isset( $product->pricing->amount ) ) ? esc_html($product->pricing->singlesite) : esc_html($product->pricing->amount) ) )) ) ) ) ) ?>
+	                                <?php echo sprintf( esc_html__( 'Version: %s - %s', 'affiliate-toolkit-starter' ), esc_html( $product->licensing->version ), ( isset( $product->pricing->amount ) && $product->pricing->amount == '0.00' ? 'Free' : ( sprintf( esc_html__( 'Price starts at: %s€', 'affiliate-toolkit-starter' ), esc_html( str_replace( '.', ',', ( ( ! isset( $product->pricing->amount ) ) ? esc_html( $product->pricing->singlesite ) : esc_html( $product->pricing->amount ) ) ) ) ) ) ) ) ?>
                                 </div>
 
                                 <div>

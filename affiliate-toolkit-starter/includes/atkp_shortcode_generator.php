@@ -203,10 +203,10 @@ class atkp_shortcode_generator {
         $button = '<a href="javascript:void(0);" class="atkp-generator-button ' . $args['class'] . '" title="' . $args['text'] . '" data-target="' . $args['target'] . '" data-mfp-src="#atkp-generator" data-shortcode="' . (string) $args['shortcode'] . '">' . $args['icon'] . $args['text'] . '</a>';
 
 		if ( $args['echo'] ) {
-            echo '<a href="javascript:void(0);" class="atkp-generator-button ' . esc_attr( $args['class'] ) . 
-                '" title="' . esc_html__( $args['text'], 'affiliate-toolkit-starter' ) . '" data-target="' . esc_attr( $args['target'] ) .
-                '" data-mfp-src="#atkp-generator" data-shortcode="' . esc_html__( (string) $args['shortcode'], 'affiliate-toolkit-starter') . '">' .
-                wp_kses( $args['icon'], array( 'img' => array( 'src' => array() ) ) ) . esc_html__( $args['text'], 'affiliate-toolkit-starter' ) . '</a>';
+			echo '<a href="javascript:void(0);" class="atkp-generator-button ' . esc_attr( $args['class'] ) .
+			     '" title="' . esc_html__( $args['text'], 'affiliate-toolkit-starter' ) . '" data-target="' . esc_attr( $args['target'] ) .
+			     '" data-mfp-src="#atkp-generator" data-shortcode="' . esc_html__( (string) $args['shortcode'], 'affiliate-toolkit-starter' ) . '">' .
+			     wp_kses( $args['icon'], array( 'img' => array( 'src' => array() ) ) ) . esc_html__( $args['text'], 'affiliate-toolkit-starter' ) . '</a>';
 		} else {
 			return $button;
 		}

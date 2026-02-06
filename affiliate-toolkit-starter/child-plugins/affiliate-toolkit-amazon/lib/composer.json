@@ -1,5 +1,15 @@
 {
     "require": {
-        "drunomics/paapi5-php-sdk": "^1.0"
+        "php": ">=5.5",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "guzzlehttp/guzzle": "^6.2 || ^7.0",
+        "guzzlehttp/psr7": "^1.8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Amazon\\ProductAdvertisingAPI\\v1\\": "paapi5-custom/src/"
+        }
     }
 }

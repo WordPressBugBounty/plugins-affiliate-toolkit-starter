@@ -509,7 +509,7 @@ class atkp_template_helper {
 				case 'thumbimages_5':
 				case 'thumbimages_6':
 					$splitted                       = explode( '_', $placeholder );
-					$myplaceholders[ $placeholder ] = sprintf( __( 'Image small %s', 'affiliate-toolkit-starter' ), $splitted[1] );
+				$myplaceholders[ $placeholder ] = sprintf( __( 'Image small %s', 'affiliate-toolkit-starter' ), $splitted[1] );
 					break;
 				case 'mediumimages_1':
 				case 'mediumimages_2':
@@ -518,7 +518,7 @@ class atkp_template_helper {
 				case 'mediumimages_5':
 				case 'mediumimages_6':
 					$splitted                       = explode( '_', $placeholder );
-					$myplaceholders[ $placeholder ] = sprintf( __( 'Image medium %s', 'affiliate-toolkit-starter' ), $splitted[1] );
+				$myplaceholders[ $placeholder ] = sprintf( __( 'Image medium %s', 'affiliate-toolkit-starter' ), $splitted[1] );
 					break;
 				case 'images_1':
 				case 'images_2':
@@ -527,7 +527,7 @@ class atkp_template_helper {
 				case 'images_5':
 				case 'images_6':
 					$splitted                       = explode( '_', $placeholder );
-					$myplaceholders[ $placeholder ] = sprintf( __( 'Image large %s', 'affiliate-toolkit-starter' ), $splitted[1] );
+				$myplaceholders[ $placeholder ] = sprintf( __( 'Image large %s', 'affiliate-toolkit-starter' ), $splitted[1] );
 					break;
 				case 'by_text':
 					$myplaceholders[ $placeholder ] = __( '"by"-Text', 'affiliate-toolkit-starter' );
@@ -960,7 +960,7 @@ class atkp_template_helper {
 
 
 			if ( $page > 1 ) {
-				$paging    .= '<a class="atkp-prevpage-btn atkp-infobutton" href="' . $nextpagelink . ( strpos( $nextpagelink, '?' ) > - 1 ? '&' : '?' ) . 'tpage=' . ( $page - 1 ) . '">' . __( 'Previous page', 'affiliate-toolkit-starter' ) . '</a>';
+				$paging .= '<a class="atkp-prevpage-btn atkp-infobutton" href="' . $nextpagelink . ( strpos( $nextpagelink, '?' ) > - 1 ? '&' : '?' ) . 'tpage=' . ( $page - 1 ) . '">' . __( 'Previous page', 'affiliate-toolkit-starter' ) . '</a>';
 				$addpaging = true;
 			}
 
@@ -971,7 +971,7 @@ class atkp_template_helper {
 				if ( $addpaging ) {
 					$paging .= '&nbsp;';
 				}
-				$paging    .= '<a class="atkp-nextpage-btn atkp-infobutton" href="' . $nextpagelink . ( strpos( $nextpagelink, '?' ) > - 1 ? '&' : '?' ) . 'tpage=' . ( $page + 1 ) . '">' . __( 'Next page', 'affiliate-toolkit-starter' ) . '</a>';
+				$paging .= '<a class="atkp-nextpage-btn atkp-infobutton" href="' . $nextpagelink . ( strpos( $nextpagelink, '?' ) > - 1 ? '&' : '?' ) . 'tpage=' . ( $page + 1 ) . '">' . __( 'Next page', 'affiliate-toolkit-starter' ) . '</a>';
 				$addpaging = true;
 			}
 
@@ -1069,7 +1069,56 @@ class atkp_template_helper {
 					do_action('atkp_add_inline_script', $script, $parameters->templateid);
 		*/
 
-		return $blade->runString( $bladecontent, $bladearray );
+		// Add error handling to prevent fatal errors
+		try {
+			return $blade->runString( $bladecontent, $bladearray );
+		} catch ( ErrorException $e ) {
+			// Log the error for debugging
+			ATKPLog::LogError( 'ATKP Template Error: ' . $e->getMessage() );
+			ATKPLog::LogError( 'Template ID: ' . ( isset( $parameters->templateid ) ? $parameters->templateid : 'unknown' ) );
+			ATKPLog::LogError( 'Available variables: ' . implode( ', ', array_keys( $bladearray ) ) );
+
+			// Return user-friendly error message
+			if ( ATKPSettings::$hideerrormessages ) {
+				return '';
+			} else {
+				return '<div style="padding:15px;background:#ffebee;border:2px solid #f44336;border-radius:4px;margin:10px 0;">'
+					. '<strong>Template Rendering Error:</strong><br>'
+					. esc_html( $e->getMessage() ) . '<br>'
+					. '<small>Check error log for details. This template may require additional plugins or variables.</small>'
+					. '</div>';
+			}
+		} catch ( Exception $e ) {
+			// Log the error for debugging
+			ATKPLog::LogError( 'ATKP Template Exception: ' . $e->getMessage() );
+			ATKPLog::LogError( 'Template ID: ' . ( isset( $parameters->templateid ) ? $parameters->templateid : 'unknown' ) );
+
+			// Return user-friendly error message
+			if ( ATKPSettings::$hideerrormessages ) {
+				return '';
+			} else {
+				return '<div style="padding:15px;background:#ffebee;border:2px solid #f44336;border-radius:4px;margin:10px 0;">'
+					. '<strong>Template Error:</strong><br>'
+					. esc_html( $e->getMessage() )
+					. '</div>';
+			}
+		} catch ( Error $e ) {
+			// Catch PHP 7+ Error objects (like calling methods on null)
+			ATKPLog::LogError( 'ATKP Template Fatal Error prevented: ' . $e->getMessage() );
+			ATKPLog::LogError( 'Template ID: ' . ( isset( $parameters->templateid ) ? $parameters->templateid : 'unknown' ) );
+			ATKPLog::LogError( 'Stack trace: ' . $e->getTraceAsString() );
+
+			// Return user-friendly error message
+			if ( ATKPSettings::$hideerrormessages ) {
+				return '';
+			} else {
+				return '<div style="padding:15px;background:#ffebee;border:2px solid #f44336;border-radius:4px;margin:10px 0;">'
+					. '<strong>Template Fatal Error Prevented:</strong><br>'
+					. esc_html( $e->getMessage() ) . '<br>'
+					. '<small>This template may be incompatible or require additional plugins. Check error log for details.</small>'
+					. '</div>';
+			}
+		}
 	}
 
 	public function replace_placeholders( $result, $placeholders ) {

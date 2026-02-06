@@ -14,49 +14,46 @@ class atkp_options {
 
 	/* @var $loader atkp_options */
 	public static $loader = null;
-	private $loaded_values;
-
-	public $edd_plugin_data;
-
 
 	public function __construct() {
-		$this->loaded_values  = array();
 		atkp_options::$loader = $this;
-		$edd_plugin_data      = array();
 	}
 
 	/**
 	 * Get the value of a settings field
-	 *
-	 * @param string $option settings field name
-	 * @param string $section the section name this field belongs to
-	 * @param string $default default text if it's not found
-	 *
-	 * @return mixed
 	 */
-	private function get_option_pfx( $option, $default = false ) {
-
-		$option_value = get_option( ATKP_PLUGIN_PREFIX . $option, $default );
-
-		return $option_value;
+	private function get_option_pfx( $option_name, $default = false ) {
+		return ATKPOptionsCache::get_option( $option_name, $default );
 	}
 
+	/**
+	 * Diese Methode bleibt für Abwärtskompatibilität erhalten
+	 */
 	private function get_cachedoption( $name, $default ) {
-		if ( isset( $this->loaded_values[ $name ] ) ) {
-			return $this->loaded_values[ $name ];
-		} else {
-			$optionvalue                  = $this->get_option_pfx( $name, $default );
-			$this->loaded_values[ $name ] = $optionvalue;
-
-			return $optionvalue;
-		}
+		return $this->get_option_pfx( $name, $default );
 	}
 
+	/**
+	 * Option aktualisieren - Cache wird automatisch durch ATKPOptionsCache verwaltet
+	 */
 	public function set_option( $name, $value ) {
-		$this->loaded_values[ $name ] = $value;
 		update_option( ATKP_PLUGIN_PREFIX . $name, $value );
-
+		// Cache wird automatisch invalidiert
+		wp_cache_delete( ATKP_PLUGIN_PREFIX . $name, 'options' );
 	}
+
+	/**
+	 * Cache leeren - delegiert an zentralen Cache
+	 */
+	public function clear_options_cache() {
+		ATKPOptionsCache::flush_cache();
+	}
+
+	// Rest der Klasse bleibt gleich
+
+
+	// Alle anderen Getter-Methoden bleiben unverändert, da sie get_cachedoption verwenden
+	// Diese Methode wurde optimiert, um den neuen Cache zu nutzen
 
 	public function get_sitekey() {
 		$sitekey = $this->get_cachedoption( '_sitekey', '' );
@@ -146,8 +143,6 @@ class atkp_options {
 		return $this->get_cachedoption( '_license_owner_' . $moduleid, '' );
 
 	}
-
-
 
 	public function get_licensemessage_module( $moduleid ) {
 		return $this->get_cachedoption( '_license_message_' . $moduleid, '' );

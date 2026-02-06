@@ -211,7 +211,7 @@ class atkp_cronjob_new {
 							}
 						} catch ( Exception $e ) {
 
-							$this->send_message( 'atkp_queue_process_entries_' . $functionname . ' exception: '.$e->getMessage() );
+							$this->send_message( 'atkp_queue_process_entries_' . $functionname . ' exception: ' . $e->getMessage() );
 
 							foreach ( $entries as $entry ) {
 								$entry->status         = atkp_queue_entry_status::ERROR;
@@ -293,7 +293,7 @@ class atkp_cronjob_new {
 			WP_CLI::log( $message );
 		} else {
 			if ( $this->echo_messages ) {
-				echo ( esc_html($message) . '<br />' . PHP_EOL);
+				echo( esc_html( $message ) . '<br />' . PHP_EOL );
 			}
 		}
 

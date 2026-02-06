@@ -826,9 +826,9 @@ class atkp_product {
 		//$this->offers = atkp_product_offer::load_offers_by_listid( $list_id, $this->asin );
 
 		if ( $shop_id != '' && $shop_id != 0 ) {
-			if($this->shopid == 0)
+			if ( $this->shopid == 0 )
 				$this->shopid = $shop_id;
-			$this->shop   = atkp_shop::load( $this->shopid  );
+			$this->shop = atkp_shop::load( $this->shopid );
 		}
 	}
 

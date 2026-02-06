@@ -194,10 +194,10 @@ class atkp_tools_debug {
 		} else {
 
 
-			echo( $tablename[0] ? '<span style="">' . sprintf( esc_html__( 'SQL table "%s" exists', 'affiliate-toolkit-starter' ), esc_html($tablename[1]) ) . '</span>' : '<span style="">' . sprintf( esc_html__( 'SQL table "%s" does not exist', 'affiliate-toolkit-starter' ), esc_html($tablename[1]) ) . '</span>' ) ?>
+			echo( $tablename[0] ? '<span style="">' . sprintf( esc_html__( 'SQL table "%s" exists', 'affiliate-toolkit-starter' ), esc_html( $tablename[1] ) ) . '</span>' : '<span style="">' . sprintf( esc_html__( 'SQL table "%s" does not exist', 'affiliate-toolkit-starter' ), esc_html( $tablename[1] ) ) . '</span>' ) ?>
             <br/>
 			<?php
-			echo( $tablename2[0] ? '<span style="">' . sprintf( esc_html__( 'SQL table "%s" exists', 'affiliate-toolkit-starter' ), esc_html($tablename2[1]) ) . '</span>' : '<span style="">' . sprintf( esc_html__( 'SQL table "%s" does not exist', 'affiliate-toolkit-starter' ), esc_html($tablename2[1]) ) . '</span>' ) ?>
+			echo( $tablename2[0] ? '<span style="">' . sprintf( esc_html__( 'SQL table "%s" exists', 'affiliate-toolkit-starter' ), esc_html( $tablename2[1] ) ) . '</span>' : '<span style="">' . sprintf( esc_html__( 'SQL table "%s" does not exist', 'affiliate-toolkit-starter' ), esc_html( $tablename2[1] ) ) . '</span>' ) ?>
             <br/>
 
 
@@ -233,7 +233,7 @@ class atkp_tools_debug {
 		} else {
 
 
-			echo( $tablename[0] ? '<span style="">' . sprintf( esc_html__( 'SQL table "%s" exists', 'affiliate-toolkit-starter' ), esc_html($tablename[1]) ) . '</span>' : '<span style="">' . sprintf( esc_html__( 'SQL table "%s" does not exist', ATKP_PLUGIN_PREFIX ), esc_html($tablename[1]) ) . '</span>' ) ?>
+			echo( $tablename[0] ? '<span style="">' . sprintf( esc_html__( 'SQL table "%s" exists', 'affiliate-toolkit-starter' ), esc_html( $tablename[1] ) ) . '</span>' : '<span style="">' . sprintf( esc_html__( 'SQL table "%s" does not exist', ATKP_PLUGIN_PREFIX ), esc_html( $tablename[1] ) ) . '</span>' ) ?>
             <br/>
 
 			<?php echo '<a class="button" onclick="return confirm(\'' . esc_html__( 'Are you sure (all product table entries will be deleted)?', 'affiliate-toolkit-starter' ) . '\')" href="?page=ATKP_affiliate_toolkit-tools&tab=debug_configuration_page&atkp_action=recreate_producttable">' . esc_html__( 'Drop & create list table (data will be deleted)', ATKP_PLUGIN_PREFIX ) . '</a>'; ?>
@@ -269,7 +269,7 @@ class atkp_tools_debug {
 
 			$tbl       = new atkp_listtable_helper();
 			$tablename = $tbl->exists_table();
-			echo( $tablename[0] ? '<span style="">' . sprintf( esc_html__( 'SQL table "%s" exists', 'affiliate-toolkit-starter' ), esc_html($tablename[1]) ) . '</span>' : '<span style="">' . sprintf( esc_html__( 'SQL table "%s" does not exist', ATKP_PLUGIN_PREFIX ), esc_html($tablename[1]) ) . '</span>' ) ?>
+			echo( $tablename[0] ? '<span style="">' . sprintf( esc_html__( 'SQL table "%s" exists', 'affiliate-toolkit-starter' ), esc_html( $tablename[1] ) ) . '</span>' : '<span style="">' . sprintf( esc_html__( 'SQL table "%s" does not exist', ATKP_PLUGIN_PREFIX ), esc_html( $tablename[1] ) ) . '</span>' ) ?>
             <br/>
 
 			<?php echo '<a class="button" onclick="return confirm(\'' . esc_html__( 'Are you sure (all list table entries will be deleted)?', 'affiliate-toolkit-starter' ) . '\')" href="?page=ATKP_affiliate_toolkit-tools&tab=debug_configuration_page&atkp_action=recreate_listtable">' . esc_html__( 'Drop & create list table (data will be deleted)', ATKP_PLUGIN_PREFIX ) . '</a>'; ?>
@@ -497,7 +497,7 @@ class atkp_tools_debug {
 	private function get_wpinfo() {
 
 		$context = array(
-			'plugin_name'      => esc_html__( 'affiliate-toolkit', 'affiliate-toolkit-starter' ),
+			'plugin_name' => esc_html__( 'affiliate-toolkit', 'affiliate-toolkit-starter' ),
 			'plugin_version'   => ATKPSettings::plugin_get_version(),
 			'OS'               => PHP_OS,
 			'uname'            => php_uname(),

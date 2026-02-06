@@ -445,7 +445,7 @@ class atkp_posttypes_template {
                     </div>
 
                     <textarea style="width:100%;height:220px" id="<?php echo esc_attr(ATKP_TEMPLATE_POSTTYPE . '_body') ?>"
-                              name="<?php echo esc_attr(ATKP_TEMPLATE_POSTTYPE . '_body') ?>"><?php echo esc_textarea( ATKPTools::get_post_setting( $post_id, ATKP_TEMPLATE_POSTTYPE . '_body', true ) ); ?></textarea>
+                              name="<?php echo esc_attr( ATKP_TEMPLATE_POSTTYPE . '_body' ) ?>"><?php echo esc_textarea( ATKPTools::get_post_setting( $post_id, ATKP_TEMPLATE_POSTTYPE . '_body', '' ) ); ?></textarea>
                 </td>
             </tr>
 
@@ -803,10 +803,10 @@ class atkp_posttypes_template {
 			echo "<script src='" . esc_url(plugins_url( '/dist/script.js', ATKP_PLUGIN_FILE )) . "' id='atkp-scripts-js'></script>";
 
 			echo '<style>';
-			echo  $output->get_css_output() ;
+			echo $output->get_css_output();
 			echo '</style>';
 			echo '<script>';
-			 $output->get_js_output() ;
+			$output->get_js_output();
 			echo '</script>';
 
 			$template_id      = $post->ID;
@@ -824,10 +824,10 @@ class atkp_posttypes_template {
 
             <input type="hidden" value="" id="<?php echo esc_attr(ATKP_TEMPLATE_POSTTYPE . '_templateparams') ?>"/>
             <script type="application/json" id="<?php echo esc_attr('atkp-data-parameters-' . $uid) ?>">
-                <?php echo $str_params ; ?>
+                <?php echo $str_params; ?>
             </script>
             <script type="application/json" id="<?php echo esc_attr( 'atkp-data-products-' . $uid ) ?>">
-                <?php echo $str_products ; ?>
+                <?php echo $str_products; ?>
             </script>
 
             <div style="max-width:700px;margin-left:auto;margin-right:auto;padding: 20px; border-left: 1px solid #005162;border-right: 1px solid #005162">
@@ -968,7 +968,7 @@ class atkp_posttypes_template {
             <input type="checkbox" id="<?php echo esc_attr(ATKP_TEMPLATE_POSTTYPE . '_custom_styles') ?>"
                    name="<?php echo esc_attr(ATKP_TEMPLATE_POSTTYPE . '_custom_styles') ?>"
                    class="atkp-custom_styles"
-                   value="1" <?php echo checked( 1, ATKPTools::get_post_setting( $post->ID, ATKP_TEMPLATE_POSTTYPE . '_custom_styles' ), true ); ?>>
+                   value="1" <?php echo checked( 1, ATKPTools::get_post_setting( $post->ID, ATKP_TEMPLATE_POSTTYPE . '_custom_styles' ), '' ); ?>>
             <label for="<?php echo esc_attr(ATKP_TEMPLATE_POSTTYPE . '_custom_styles') ?>">
 	            <?php echo esc_html__( 'Use your own styles (independent of the global style)', 'affiliate-toolkit-starter' ) ?>
             </label>
@@ -1751,7 +1751,7 @@ class atkp_posttypes_template {
 
                     <textarea style="width:100%;height:160px" id="<?php echo esc_attr(ATKP_TEMPLATE_POSTTYPE . '_css') ?>"
                               data-lang="css"
-                              name="<?php echo esc_attr(ATKP_TEMPLATE_POSTTYPE . '_css') ?>"><?php echo esc_textarea( ATKPTools::get_post_setting( $post_id, ATKP_TEMPLATE_POSTTYPE . '_css', true ) ); ?></textarea>
+                              name="<?php echo esc_attr( ATKP_TEMPLATE_POSTTYPE . '_css' ) ?>"><?php echo esc_textarea( ATKPTools::get_post_setting( $post_id, ATKP_TEMPLATE_POSTTYPE . '_css', '' ) ); ?></textarea>
 
 					<?php if ( $post_id != '' ) { ?>
                         <div style="margin-top:10px"><?php echo esc_html__( 'CSS selector for this template:', 'affiliate-toolkit-starter' ) ?></div>
@@ -1802,7 +1802,7 @@ class atkp_posttypes_template {
 								echo '<option value="' . esc_attr( $value ) . '"' . esc_attr( $sel ) . '>' . esc_html__( $name, 'affiliate-toolkit-starter' ) . '</option>';
 							} ?>
                         </select>
-						<?php ATKPTools::display_helptext( 'For simple product boxes you can use "product template". Search forms are fields for filtering. You can add more template types by installing extensions.', get_admin_url() . 'admin.php?page=ATKP_affiliate_toolkit-Extensions', __( 'View extensions', 'affiliate-toolkit-starter' ) ) ?>
+	                    <?php ATKPTools::display_helptext( 'For simple product boxes you can use "product template". Search forms are fields for filtering. You can add more template types by installing extensions.', get_admin_url() . 'admin.php?page=ATKP_affiliate_toolkit-Extensions', __( 'View extensions', 'affiliate-toolkit-starter' ) ) ?>
                     </td>
                 </tr>
 				<?php

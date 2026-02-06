@@ -58,7 +58,7 @@ class atkp_settings_toolkit {
 
 
 			do_action( 'atkp_settings_toolkit_savefields' );
-
+			ATKPOptionsCache::flush_cache();
 			$cronjob = new atkp_wp_cronjob( false );
 
 			if ( isset( $cronjob ) ) {
@@ -80,7 +80,7 @@ class atkp_settings_toolkit {
 
 
                 <form method="POST"
-                      action="?page=<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin') ?>&tab=toolkit_configuration_page">
+                      action="?page=<?php echo esc_attr( ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin' ) ?>&tab=toolkit_configuration_page">
 					<?php wp_nonce_field( "save", "save" ); ?>
                     <table class="form-table" style="width:100%">
 
@@ -193,7 +193,7 @@ class atkp_settings_toolkit {
 									if ( $minutes_ago > ( 60 * 24 ) ) {
 										?>
                                         <div class="atkp-validation">
-                                            <b><?php echo sprintf( esc_html__( 'Last cronjob execution was %s ago', 'affiliate-toolkit-starter' ), esc_html($timesince) ); ?></b>
+                                            <b><?php echo sprintf( esc_html__( 'Last cronjob execution was %s ago', 'affiliate-toolkit-starter' ), esc_html( $timesince ) ); ?></b>
                                             <p><?php echo esc_html__( 'The cronjob was last called a day ago. This is suspicious. If you don\'t know why this is, you should check the problem more closely.', 'affiliate-toolkit-starter' ); ?></p>
 											<?php if ( $crontype == 2 ) { ?>
                                                 <p><?php echo esc_html__( 'You can try to save this settings page and attach the plugin again in the WordPress scheduler.', 'affiliate-toolkit-starter' ) ?></p>
@@ -205,7 +205,7 @@ class atkp_settings_toolkit {
 									} else if ( $minutes_ago > 30 ) {
 										?>
                                         <div class="atkp-info">
-                                            <b><?php echo sprintf( esc_html__( 'Last cronjob execution was %s ago', 'affiliate-toolkit-starter' ), esc_html($timesince) ); ?></b>
+                                            <b><?php echo sprintf( esc_html__( 'Last cronjob execution was %s ago', 'affiliate-toolkit-starter' ), esc_html( $timesince ) ); ?></b>
                                             <p><?php echo esc_html__( 'The cronjob was last called more than 30 minutes ago. Depending on the configuration (e.g. execution in special time windows) this can be normal.', 'affiliate-toolkit-starter' ); ?></p>
                                         </div>
 										<?php
@@ -217,7 +217,7 @@ class atkp_settings_toolkit {
 										if ( $last_processed == '' || $minutes_ago2 > 30 ) {
 											?>
                                             <div class="atkp-validation">
-                                                <b><?php echo sprintf( esc_html__( 'Last cronjob execution was %s ago but nothing was processed.', 'affiliate-toolkit-starter' ), esc_html($timesince) ); ?></b>
+                                                <b><?php echo sprintf( esc_html__( 'Last cronjob execution was %s ago but nothing was processed.', 'affiliate-toolkit-starter' ), esc_html( $timesince ) ); ?></b>
                                                 <p><?php echo esc_html__( 'The cronjob was called correctly but nothing was processed. This is an could be an issue.', 'affiliate-toolkit-starter' ); ?></p>
 
                                                 <p><?php echo esc_html__( 'Please check if the cronjob is running into an HTTP 500 error.', 'affiliate-toolkit-starter' ) ?></p>
@@ -227,7 +227,7 @@ class atkp_settings_toolkit {
 										} else {
 											?>
                                             <div class="atkp-success">
-                                                <b><?php echo sprintf( esc_html__( 'Last cronjob execution was %s ago', 'affiliate-toolkit-starter' ), esc_html($timesince) ); ?></b>
+                                                <b><?php echo sprintf( esc_html__( 'Last cronjob execution was %s ago', 'affiliate-toolkit-starter' ), esc_html( $timesince ) ); ?></b>
                                                 <p><?php echo esc_html__( 'Gratualation, the configuration of the cronjob seems to be correct. The product update is called regularly.', 'affiliate-toolkit-starter' ); ?></p>
                                             </div>
 											<?php
@@ -279,7 +279,8 @@ class atkp_settings_toolkit {
                         <tr>
                             <th scope="row">
                                 <label for="">
-	                                <?php echo esc_html__( 'Productdata updates between', 'affiliate-toolkit-starter' ) ?>:
+	                                <?php echo esc_html__( 'Productdata updates between', 'affiliate-toolkit-starter' ) ?>
+                                    :
                                 </label>
                             </th>
                             <td>
@@ -398,7 +399,8 @@ class atkp_settings_toolkit {
                         <tr>
                             <th scope="row">
                                 <label for="">
-	                                <?php echo esc_html__( 'Recipient of e-mail report', 'affiliate-toolkit-starter' ) ?>:
+	                                <?php echo esc_html__( 'Recipient of e-mail report', 'affiliate-toolkit-starter' ) ?>
+                                    :
                                 </label>
                             </th>
                             <td>

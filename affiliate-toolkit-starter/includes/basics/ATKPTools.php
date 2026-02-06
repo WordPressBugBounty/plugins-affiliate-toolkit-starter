@@ -123,7 +123,7 @@ class ATKPTools {
 	public static function display_helptext( $text, $url = '', $urltitle = 'Read more' ) {
 		$link = '';
 		if ( $url != '' ) {
-			$link = ' <a href="' . esc_url($url) . '" target="_blank">' . esc_html__( $urltitle, 'affiliate-toolkit-starter' ) . '</a>';
+			$link = ' <a href="' . esc_url( $url ) . '" target="_blank">' . esc_html__( $urltitle, 'affiliate-toolkit-starter' ) . '</a>';
 		}
 		$allowed_html = array(
 			'div' => array(
@@ -141,7 +141,7 @@ class ATKPTools {
 			)
 		);
 
-		echo wp_kses( '<div class="atkp-helptext" style="margin: 5px;font-size: 11px;display:table;"><span class="dashicons dashicons-editor-help" style="color:#2271b1;display:table-cell;"></span><span style="vertical-align: middle;display:table-cell;padding-left:5px;">' . __($text, 'affiliate-toolkit-starter' ).$link . '</span></div>', $allowed_html );
+		echo wp_kses( '<div class="atkp-helptext" style="margin: 5px;font-size: 11px;display:table;"><span class="dashicons dashicons-editor-help" style="color:#2271b1;display:table-cell;"></span><span style="vertical-align: middle;display:table-cell;padding-left:5px;">' . __( $text, 'affiliate-toolkit-starter' ) . $link . '</span></div>', $allowed_html );
 	}
 
 
@@ -167,7 +167,7 @@ class ATKPTools {
 		);
 
 
-		echo wp_kses( '<div class="atkp-helptext" style="margin: 5px;font-size: 11px;display:table;"><span class="dashicons dashicons-info" style="color:orangered;display:table-cell;"></span> <span style="vertical-align: middle;display:table-cell;padding-left:5px;">' . __($text, 'affiliate-toolkit-starter' ).$link . '</span></div>', $allowed_html );
+		echo wp_kses( '<div class="atkp-helptext" style="margin: 5px;font-size: 11px;display:table;"><span class="dashicons dashicons-info" style="color:orangered;display:table-cell;"></span> <span style="vertical-align: middle;display:table-cell;padding-left:5px;">' . __( $text, 'affiliate-toolkit-starter' ) . $link . '</span></div>', $allowed_html );
 	}
 
 
@@ -213,7 +213,7 @@ class ATKPTools {
 
 	public static function get_fieldgroups_by_productid( $postId ) {
 
-		$category       = get_option( ATKP_PLUGIN_PREFIX . '_product_category_taxonomy', strtolower( __( 'Productcategory', 'affiliate-toolkit-starter' ) ) );
+		$category = get_option( ATKP_PLUGIN_PREFIX . '_product_category_taxonomy', strtolower( __( 'Productcategory', 'affiliate-toolkit-starter' ) ) );
 		$categoryvalues = array();
 
 		//$terms = get_the_terms( $postId, $category );
@@ -1192,7 +1192,7 @@ class ATKPTools {
 			$class = 'notice';
 		}
 
-		echo ( '<div class="' . $class . ' ' . $class . '-' . $type . '"><p>' . $text . '</p></div>' );
+		echo( '<div class="' . $class . ' ' . $class . '-' . $type . '"><p>' . $text . '</p></div>' );
 
 	}
 
@@ -1322,12 +1322,12 @@ class ATKPTools {
 				if ( $parametervalue == null || $parametervalue == '' ) {
 					return '';
 				} else {
-/*
-					return  strip_tags(
-						stripslashes(
-							filter_var($parametervalue, FILTER_VALIDATE_URL)
-						)
-					);*/
+					/*
+										return  strip_tags(
+											stripslashes(
+												filter_var($parametervalue, FILTER_VALIDATE_URL)
+											)
+										);*/
 					return $parametervalue; //sanitize_text_field( $parametervalue );
 				}
 				break;
@@ -1349,59 +1349,121 @@ class ATKPTools {
 		}
 	}
 
+	private static $post_meta_cache = array();
+
 	/**
-	 * Lädt ein Metafield von einem Post nach Key/Feldname
+	 * Lädt ein Metafield von einem Post mit Cache-Unterstützung
 	 *
 	 * @param int $post_id Die Post-ID von welchem das Metafield geladen werden soll
 	 * @param string $key Der Name des Metafields
+	 * @param mixed $default_value Der Standardwert, falls das Metafield nicht existiert
 	 *
-	 * @return mixed|string Gibt entweder einen Leerstring oder das gespeicherte Objekt zurück
+	 * @return mixed Der Wert des Metafields
 	 */
 	public static function get_post_setting( $post_id, $key, $default_value = '' ) {
-		$value = get_post_meta( $post_id, $key );
 
-		if ( $value != null && is_array( $value ) && count( $value ) > 0 ) {
-			return $value[0];
+		// Überprüfen, ob der Cache für diesen Post bereits existiert
+		if ( ! isset( self::$post_meta_cache[ $post_id ] ) ) {
+			global $wpdb;
+
+			// Alle Metafelder auf einmal abrufen ohne LIKE-Filter
+			$query = $wpdb->prepare(
+				"SELECT meta_key, meta_value FROM {$wpdb->postmeta} 
+         WHERE post_id = %d",
+				$post_id
+			);
+
+			$results = $wpdb->get_results( $query );
+
+			// Cache für diesen Post initialisieren
+			self::$post_meta_cache[ $post_id ] = array();
+
+			// Nur die relevanten Ergebnisse in den Cache laden
+			$prefix        = ATKP_PLUGIN_PREFIX;
+			$prefix_length = strlen( $prefix );
+
+			if ( $results ) {
+				foreach ( $results as $row ) {
+
+					// Im PHP-Code auf das Präfix prüfen
+					if ( strtolower( substr( $row->meta_key, 0, $prefix_length ) ) === strtolower( $prefix ) ) {
+						self::$post_meta_cache[ $post_id ][ $row->meta_key ] = maybe_unserialize( $row->meta_value );
+					}
+				}
+			}
+
+		}
+
+
+		// Wert aus dem Cache zurückgeben oder Standardwert, falls nicht vorhanden
+		if ( isset( self::$post_meta_cache[ $post_id ][ $key ] ) ) {
+			return self::$post_meta_cache[ $post_id ][ $key];
 		} else {
-			return '';
+			return ''; //$default_value;
 		}
 	}
 
-
 	/**
-	 * Schreibt ein Metafield von einem Post
+	 * Schreibt ein Metafield von einem Post und aktualisiert den Cache
 	 *
 	 * @param int $post_id Die Post-ID von welchem das Metafield geladen werden soll
 	 * @param string $key Der Name des Metafields
 	 * @param mixed $value Der Wert des Metafields
 	 */
 	public static function set_post_setting( $post_id, $key, $value ) {
-
+		// Bestehenden Metawert löschen
 		delete_post_meta( $post_id, $key );
-		if ( $value != null ) {
-			add_post_meta( $post_id, $key, $value );
-		}
 
+		// Neuen Wert hinzufügen, wenn nicht null
+		if ( $value !== null ) {
+			add_post_meta( $post_id, $key, $value );
+
+			// Cache aktualisieren, falls er existiert
+			if ( isset( self::$post_meta_cache[ $post_id ] ) ) {
+				self::$post_meta_cache[ $post_id ][ $key ] = $value;
+			}
+		} else {
+			// Wenn der Wert null ist und der Cache existiert, den Eintrag aus dem Cache entfernen
+			if ( isset( self::$post_meta_cache[ $post_id ] ) && isset( self::$post_meta_cache[ $post_id ][ $key ] ) ) {
+				unset( self::$post_meta_cache[ $post_id ][ $key ] );
+			}
+		}
 	}
 
+	/**
+	 * Cache für einen bestimmten Post oder den gesamten Cache leeren
+	 *
+	 * @param int|null $post_id Optional: Die Post-ID, deren Cache geleert werden soll (null für gesamten Cache)
+	 */
+	public static function clear_post_settings_cache( $post_id = null ) {
+		if ( $post_id === null ) {
+			self::$post_meta_cache = array();
+		} else if ( isset( self::$post_meta_cache[ $post_id ] ) ) {
+			unset( self::$post_meta_cache[ $post_id ] );
+		}
+	}
+
+
 	public static function set_setting( $key, $value ) {
-
 		delete_option( $key );
-
 		add_option( $key, $value );
 
 	}
 
 	public static function get_setting( $key, $defaultvalue = null ) {
+		// Wenn es eine Plugin-Option ist, Cache verwenden
+		if ( strpos( $key, ATKP_PLUGIN_PREFIX . '_' ) === 0 ) {
+			$option_name = str_replace( ATKP_PLUGIN_PREFIX, '', $key );
 
+			return ATKPOptionsCache::get_option( $option_name, $defaultvalue );
+		}
+
+		// Für andere Optionen direkt aus DB
 		$value = get_option( $key );
 
-		if ( isset( $value ) ) {
-			return $value;
-		} else {
-			return $defaultvalue;
-		}
+		return isset( $value ) ? $value : $defaultvalue;
 	}
+
 
 	public static function delete_all_options() {
 		global $wpdb;
@@ -1623,4 +1685,116 @@ class ATKPTools {
 
 		return $format ? ( '<pre>' . print_r( $array_names, true ) . '</pre>' ) : $array_names;
 	}
+
+	public static function get_plugin_name_from_callable( $callable ) {
+		try {
+			if ( is_array( $callable ) && count( $callable ) === 2 ) {
+				// Array mit [Objekt/Klasse, Methode]
+				$reflection = new ReflectionMethod( $callable[0], $callable[1] );
+			} elseif ( is_string( $callable ) ) {
+				// Funktionsname als String
+				$reflection = new ReflectionFunction( $callable );
+			} elseif ( $callable instanceof Closure ) {
+				// Closure
+				$reflection = new ReflectionFunction( $callable );
+			} else {
+				return 'unknown';
+			}
+
+			$filename = $reflection->getFileName();
+
+			// Extrahiere Plugin-Namen aus dem Dateipfad
+			// Annahme: Datei liegt in wp-content/plugins/plugin-name/...
+			if ( preg_match( '#/plugins/([^/]+)/#', $filename, $matches ) ) {
+				return $matches[1];
+			}
+
+			return 'unknown';
+		} catch ( Exception $e ) {
+			return 'unknown';
+		}
+	}
+
+	public static function get_plugins_for_hook( $hook_name ) {
+		global $wp_filter;
+
+		if ( ! isset( $wp_filter[ $hook_name ] ) ) {
+			return array();
+		}
+
+		$plugins = array();
+
+		foreach ( $wp_filter[ $hook_name ]->callbacks as $priority => $callbacks ) {
+			foreach ( $callbacks as $callback ) {
+				$plugin_name = ATKPTools::get_plugin_name_from_callable( $callback['function'] );
+
+				if ( $plugin_name !== 'unknown' && ! in_array( $plugin_name, $plugins ) ) {
+					$plugins[] = $plugin_name;
+				}
+			}
+		}
+
+		return $plugins;
+	}
+
+	public static function get_plugin_name_from_object( $object ) {
+		if ( ! is_object( $object ) ) {
+			return 'unknown';
+		}
+
+		try {
+			$reflection = new ReflectionClass( $object );
+			$filename   = $reflection->getFileName();
+
+			// Extrahiere Plugin-Namen aus dem Dateipfad
+			if ( preg_match( '#/plugins/([^/]+)/#', $filename, $matches ) ) {
+				return $matches[1];
+			}
+
+			return 'unknown';
+		} catch ( Exception $e ) {
+			return 'unknown';
+		}
+	}
+
+
+	public static function is_license_active_for_plugin( $plugin_name ) {
+
+		if ( ! isset( atkp_options::$loader->edd_plugin_data ) || empty( atkp_options::$loader->edd_plugin_data ) ) {
+			return true; // Keine Lizenzprüfung erforderlich
+		}
+
+		// Suche die Modul-ID anhand des Plugin-Slugs
+		$module_id = null;
+		foreach ( atkp_options::$loader->edd_plugin_data as $slug => $appdata ) {
+			if ( strpos( $plugin_name, $slug ) !== false ) {
+				$module_id = $appdata['item_id'];
+				break;
+			}
+		}
+
+		if ( $module_id === null ) {
+			return true; // Plugin nicht in edd_plugin_data -> keine Lizenzprüfung
+		}
+
+		$modules = ATKP_LicenseController::get_modules();
+		foreach ( $modules as $moduleid => $modulename ) {
+			if ( $moduleid != $module_id ) {
+				continue;
+			}
+
+			$license = ATKP_LicenseController::get_module_license( $modulename );
+			if ( $license == '' ) {
+				return false;
+			}
+
+			$license_status = ATKP_LicenseController::get_module_license_status( $modulename );
+
+			return $license_status === 'valid';
+		}
+
+		return true; // Standardmäßig gültig
+	}
+
+
 }

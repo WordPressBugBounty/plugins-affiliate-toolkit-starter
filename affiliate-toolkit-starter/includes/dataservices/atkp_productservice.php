@@ -77,6 +77,13 @@ class atkp_productservice {
 		} catch ( Exception $e ) {
 			$message = 'Shop Logon Exception: ' . $e->getMessage();
 		}
+		/* Update für bestehende Produkte erlauben
+		$plugin_name = ATKPTools::get_plugin_name_from_object($shop->provider);
+		$licensed    = ATKPTools::is_license_active_for_plugin( $plugin_name );
+		if ( ! $licensed ) {
+			$message = 'Shop plugin not licensed: ' . $plugin_name;
+		}
+		*/
 
 		if ( $message != '' ) {
 			foreach ( $entries as $entry ) {

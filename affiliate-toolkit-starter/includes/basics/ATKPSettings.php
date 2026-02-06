@@ -69,63 +69,52 @@ class ATKPSettings {
 		return $plugin_version;
 	}
 
+	/**
+	 * Lädt alle Plugin-Einstellungen mit einer einzigen Datenbankabfrage
+	 */
 	public static function load_settings() {
+		global $wpdb;
 
-		ATKPSettings::$disablestyles     = get_option( ATKP_PLUGIN_PREFIX . '_disablestyles', 0 );
-		ATKPSettings::$hideerrormessages = get_option( ATKP_PLUGIN_PREFIX . '_hideerrormessages', 1 );
+		// Präfix für alle Plugin-Optionen
+		$prefix  = ATKP_PLUGIN_PREFIX . '_';
+		$options = ATKPOptionsCache::get_options();
 
+		// Werte den Klassenvariablen zuweisen
+		ATKPSettings::$disablestyles          = $options[ $prefix . 'disablestyles' ];
+		ATKPSettings::$hideerrormessages      = $options[ $prefix . 'hideerrormessages' ];
+		ATKPSettings::$linktracking           = $options[ $prefix . 'link_click_tracking' ];
+		ATKPSettings::$access_cache_duration  = $options[ $prefix . 'cache_duration' ];
+		ATKPSettings::$access_mark_links      = $options[ $prefix . 'mark_links' ];
+		ATKPSettings::$access_show_disclaimer = $options[ $prefix . 'show_disclaimer' ];
+		ATKPSettings::$access_disclaimer_text = $options[ $prefix . 'disclaimer_text' ];
+		ATKPSettings::$add_to_cart            = $options[ $prefix . 'add_to_cart' ];
+		ATKPSettings::$open_window            = $options[ $prefix . 'open_window' ];
+		ATKPSettings::$show_linkinfo          = $options[ $prefix . 'show_linkinfo' ];
+		ATKPSettings::$linkinfo_template      = $options[ $prefix . 'linkinfo_template' ];
+		ATKPSettings::$access_csv_intervall   = $options[ $prefix . 'access_csv_intervall' ];
+		ATKPSettings::$check_enabled          = $options[ $prefix . 'check_enabled' ];
+		ATKPSettings::$notification_interval  = $options[ $prefix . 'notification_interval' ];
+		ATKPSettings::$email_recipient        = $options[ $prefix . 'email_recipient' ];
+		ATKPSettings::$short_title_length     = $options[ $prefix . 'short_title_length' ];
+		ATKPSettings::$show_moreoffers        = $options[ $prefix . 'show_moreoffers' ];
+		ATKPSettings::$moreoffers_template    = $options[ $prefix . 'moreoffers_template' ];
+		ATKPSettings::$list_default_count     = $options[ $prefix . 'list_default_count' ];
+		ATKPSettings::$feature_count          = $options[ $prefix . 'feature_count' ];
+		ATKPSettings::$description_length     = $options[ $prefix . 'description_length' ];
+		ATKPSettings::$boxcontent             = $options[ $prefix . 'boxcontent' ];
+		ATKPSettings::$boxstyle               = $options[ $prefix . 'boxstyle' ];
+		ATKPSettings::$bestsellerribbon       = 2; // Dieser Wert scheint hardcodiert zu sein
+		ATKPSettings::$showprice              = $options[ $prefix . 'showprice' ];
+		ATKPSettings::$linkprime              = $options[ $prefix . 'linkprime' ];
+		ATKPSettings::$jslink                 = $options[ $prefix . 'jslink' ];
+		ATKPSettings::$pricecomparisonsort    = $options[ $prefix . 'pricecomparisonsort' ];
+		ATKPSettings::$affiliate_char         = $options[ $prefix . 'affiliatechar' ];
+		ATKPSettings::$showpricediscount      = $options[ $prefix . 'showpricediscount' ];
+		ATKPSettings::$showstarrating         = $options[ $prefix . 'showstarrating' ];
+		ATKPSettings::$showrating             = $options[ $prefix . 'showrating' ];
 
-		ATKPSettings::$linktracking = get_option( ATKP_PLUGIN_PREFIX . '_link_click_tracking', 0 );
-
-		ATKPSettings::$access_cache_duration = get_option( ATKP_PLUGIN_PREFIX . '_cache_duration', 1440 );
-		ATKPSettings::$access_mark_links     = get_option( ATKP_PLUGIN_PREFIX . '_mark_links', 1 );
-
-		ATKPSettings::$access_show_disclaimer = get_option( ATKP_PLUGIN_PREFIX . '_show_disclaimer', 0 );
-		ATKPSettings::$access_disclaimer_text = get_option( ATKP_PLUGIN_PREFIX . '_disclaimer_text' );
-
-		ATKPSettings::$add_to_cart = get_option( ATKP_PLUGIN_PREFIX . '_add_to_cart', 0 );
-		ATKPSettings::$open_window = get_option( ATKP_PLUGIN_PREFIX . '_open_window', 1 );
-
-		ATKPSettings::$show_linkinfo     = get_option( ATKP_PLUGIN_PREFIX . '_show_linkinfo', 0 );
-		ATKPSettings::$linkinfo_template = get_option( ATKP_PLUGIN_PREFIX . '_linkinfo_template' );
-
-
-		ATKPSettings::$access_csv_intervall = get_option( ATKP_PLUGIN_PREFIX . '_access_csv_intervall', 1440 );
-
-		ATKPSettings::$check_enabled         = get_option( ATKP_PLUGIN_PREFIX . '_check_enabled' );
-		ATKPSettings::$notification_interval = get_option( ATKP_PLUGIN_PREFIX . '_notification_interval', 4320 );
-		ATKPSettings::$email_recipient       = get_option( ATKP_PLUGIN_PREFIX . '_email_recipient' );
-
-		ATKPSettings::$short_title_length = get_option( ATKP_PLUGIN_PREFIX . '_short_title_length', 0 );
-
-		ATKPSettings::$show_moreoffers     = get_option( ATKP_PLUGIN_PREFIX . '_show_moreoffers', 0 );
-		ATKPSettings::$moreoffers_template = get_option( ATKP_PLUGIN_PREFIX . '_moreoffers_template', '' );
-
-
-		ATKPSettings::$list_default_count = get_option( ATKP_PLUGIN_PREFIX . '_list_default_count', 0 );
-		ATKPSettings::$feature_count      = get_option( ATKP_PLUGIN_PREFIX . '_feature_count', 0 );
-		ATKPSettings::$description_length = get_option( ATKP_PLUGIN_PREFIX . '_description_length', 0 );
-		ATKPSettings::$boxcontent         = get_option( ATKP_PLUGIN_PREFIX . '_boxcontent', '' );
-
-		ATKPSettings::$boxstyle         = get_option( ATKP_PLUGIN_PREFIX . '_boxstyle', 1 );
-		ATKPSettings::$bestsellerribbon = 2;
-		ATKPSettings::$showprice        = get_option( ATKP_PLUGIN_PREFIX . '_showprice', 1 );
-		ATKPSettings::$linkprime        = get_option( ATKP_PLUGIN_PREFIX . '_linkprime', 0 );
-		ATKPSettings::$jslink           = get_option( ATKP_PLUGIN_PREFIX . '_jslink', 0 );
-
-		ATKPSettings::$pricecomparisonsort = get_option( ATKP_PLUGIN_PREFIX . '_pricecomparisonsort', 1 );
-
-
-		ATKPSettings::$affiliate_char = get_option( ATKP_PLUGIN_PREFIX . '_affiliatechar', '*' );
-
-		ATKPSettings::$showpricediscount = get_option( ATKP_PLUGIN_PREFIX . '_showpricediscount', 1 );
-		ATKPSettings::$showstarrating    = get_option( ATKP_PLUGIN_PREFIX . '_showstarrating', 1 );
-		ATKPSettings::$showrating        = get_option( ATKP_PLUGIN_PREFIX . '_showrating', 1 );
-
-		$loglevel = get_option( ATKP_PLUGIN_PREFIX . '_loglevel', 'off' );
-
-		ATKPLog::Init( ATKP_LOGFILE, $loglevel );
-
+		// Log-Level initialisieren
+		ATKPLog::Init( ATKP_LOGFILE, $options[ $prefix . 'loglevel' ] );
 	}
 
 	public static function atkp_version_compare( $ver1, $ver2, $operator = null ) {

@@ -126,9 +126,9 @@ class atkp_output {
 								$prdfound = atkp_product::loadbyasin( $value->asin );
 
 								if ( $prdfound != null ) {
-									$prodcollection = atkp_product_collection::load( $prdfound->productid, $shop_id);
+									$prodcollection = atkp_product_collection::load( $prdfound->productid, $shop_id );
 									if ( $prodcollection != null ) {
-										$value         = $prodcollection->get_main_product($shop_id);
+										$value = $prodcollection->get_main_product( $shop_id );
 										$value->shopid = $shop_id;
 										$value->listid = $list_id;
 									} else {
@@ -268,7 +268,7 @@ class atkp_output {
 
 
 			if ( $containercss != '' ) {
-				$resultValue = '<div class="' . esc_attr($containercss) . '">' . $resultValue . '</div>';
+				$resultValue = '<div class="' . esc_attr( $containercss ) . '">' . $resultValue . '</div>';
 			}
 		} else {
 
@@ -297,9 +297,9 @@ class atkp_output {
 			if ( ATKPSettings::$access_mark_links == 1 && strpos( $content, 'img src' ) == true ) {
 				$capt = __( 'Advertising', 'affiliate-toolkit-starter' );
 
-				$resultValue = '<div class="atkp-link-image ' . esc_attr($containercss) . '"><div class="atkp-affiliateimage atkp-clearfix"><a ' . ($link) . ' >' . $content . '</a><div style="margin-top:3px">' . $capt . '</div></div></div>';
+				$resultValue = '<div class="atkp-link-image ' . esc_attr( $containercss ) . '"><div class="atkp-affiliateimage atkp-clearfix"><a ' . ( $link ) . ' >' . $content . '</a><div style="margin-top:3px">' . $capt . '</div></div></div>';
 			} else {
-				$resultValue = '<a class="atkp-link" ' . ($link) . ' >' . $content . '</a>';
+				$resultValue = '<a class="atkp-link" ' . ( $link ) . ' >' . $content . '</a>';
 			}
 		}
 

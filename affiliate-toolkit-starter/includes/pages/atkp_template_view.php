@@ -44,7 +44,7 @@ class atkp_template_view {
 		$hook = add_submenu_page(
 
 			$parentmenu,
-			esc_html__('Templates', 'affiliate-toolkit-starter' ),
+			esc_html__( 'Templates', 'affiliate-toolkit-starter' ),
 			esc_html__( 'Templates', 'affiliate-toolkit-starter' ),
 			'edit_pages',
 			ATKP_PLUGIN_PREFIX . '_viewtemplate',
@@ -75,8 +75,16 @@ class atkp_template_view {
 		try {
 
 
-				$mytemplate = json_decode( $contents );
+			$mytemplate = json_decode( $contents );
 
+			if ( $mytemplate === null && json_last_error() !== JSON_ERROR_NONE ) {
+				// Fallback zu unserialize wenn JSON decode fehlschlägt
+				$mytemplate = @unserialize( $contents );
+
+				if ( $mytemplate === false ) {
+					return 'template not readable: invalid format';
+				}
+			}
 
 			if ( isset( $mytemplate->data ) ) {
 				$mytemplate = $mytemplate->data;
@@ -204,8 +212,9 @@ class atkp_template_view {
 
 						$importmessage = $this->import_template( $contents );
 
-                        if(is_numeric($importmessage))
-    						echo '<script>window.location.replace("' . ( admin_url( 'post.php?action=edit&post=' . intval($importmessage) ) ) . '");</script>';
+						if ( is_numeric( $importmessage ) ) {
+							echo '<script>window.location.replace("' . ( admin_url( 'post.php?action=edit&post=' . intval( $importmessage ) ) ) . '");</script>';
+						}
 					}
 
 
@@ -254,7 +263,7 @@ class atkp_template_view {
                                                         <td>
                                                             <input type="file"
                                                                    name="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_filetemplate') ?>">
-															<?php ATKPTools::display_helptext( 'Upload your exported template. The file extension must be ".json" to import the file.' ) ?>
+	                                                        <?php ATKPTools::display_helptext( 'Upload your exported template. The file extension must be ".json" to import the file.' ) ?>
 
                                                         </td>
                                                     </tr>
@@ -268,7 +277,7 @@ class atkp_template_view {
                                                     <tr>
                                                         <td></td>
                                                         <td>
-															<?php submit_button( esc_html__('Import template', 'affiliate-toolkit-starter' ), 'primary', 'saveimporttemplate', false ); ?>
+	                                                        <?php submit_button( esc_html__( 'Import template', 'affiliate-toolkit-starter' ), 'primary', 'saveimporttemplate', false ); ?>
                                                         </td>
                                                     </tr>
 
@@ -401,7 +410,7 @@ class atkp_template_view {
 					ATKPTools::set_post_setting( $new_post_id, 'atkp_template_body', $mytemplate );
 				}
 
-				echo '<script>window.location.replace("' . (admin_url( 'post.php?action=edit&post=' . $new_post_id )) . '");</script>';
+				echo '<script>window.location.replace("' . ( admin_url( 'post.php?action=edit&post=' . $new_post_id ) ) . '");</script>';
 				//wp_redirect( admin_url( 'post.php?action=edit&post=' . $new_post_id ) );
 			}
 
@@ -410,24 +419,24 @@ class atkp_template_view {
 			$nounce = ATKPTools::get_get_parameter( '_wpnonce', 'string' );
 
 			if ( ! wp_verify_nonce( $nounce, 'atkp_edit_template' ) ) {
-				echo ( 'Nonce expired. Please reload page.' );
-                exit;
+				echo( 'Nonce expired. Please reload page.' );
+				exit;
 			}
 			if ( ! current_user_can( 'manage_options' ) ) {
 				echo( 'User has no permission.' );
 				exit;
 			}
 
-            if(get_post_type($this->templateid) == ATKP_TEMPLATE_POSTTYPE) {
+			if ( get_post_type( $this->templateid ) == ATKP_TEMPLATE_POSTTYPE ) {
 
 
-	            wp_delete_post( $this->templateid );
-	            echo '<script>window.location.replace("' . sprintf( '?page=%s', esc_attr( $_REQUEST['page'] ) ) . '");</script>';
-	            exit;
-            }else {
-                echo 'not allowed';
+				wp_delete_post( $this->templateid );
+				echo '<script>window.location.replace("' . sprintf( '?page=%s', esc_attr( $_REQUEST['page'] ) ) . '");</script>';
+				exit;
+			} else {
+				echo 'not allowed';
 
-            }
+			}
 		}
 
 

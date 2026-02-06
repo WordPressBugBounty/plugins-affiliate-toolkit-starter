@@ -319,31 +319,31 @@ class atkp_widget extends WP_Widget {
 		}
 
 		if ( $product != '' && $product != 0 ) {
-			echo ( $args['before_widget'] );
+			echo( $args['before_widget'] );
 			if ( ! empty( $title ) ) {
-				echo ( $args['before_title'] . $title . $args['after_title'] );
+				echo( $args['before_title'] . $title . $args['after_title'] );
 			}
 
 			try {
-				echo ( $output->get_product_output( $product, $template, $content, 'notset', '', false, $elementcssclass, $containercssclass, false ) );
+				echo( $output->get_product_output( $product, $template, $content, 'notset', '', false, $elementcssclass, $containercssclass, false ) );
 			} catch ( Exception $e ) {
-				echo ( 'Exception: ' . $e->getMessage() );
+				echo( 'Exception: ' . $e->getMessage() );
 			}
 
-			echo ( $args['after_widget'] );
+			echo( $args['after_widget'] );
 		} else if ( $list != '' && $list != 0 ) {
-			echo ( $args['before_widget'] );
+			echo( $args['before_widget'] );
 			if ( ! empty( $title ) ) {
-				echo ( $args['before_title'] . $title . $args['after_title'] );
+				echo( $args['before_title'] . $title . $args['after_title'] );
 			}
 
 			//create list and output
 			try {
-				echo ( $output->get_list_output( $list, $template, $content, 'notset', $elementcssclass, $containercssclass, $limit, $randomsort, false ) );
+				echo( $output->get_list_output( $list, $template, $content, 'notset', $elementcssclass, $containercssclass, $limit, $randomsort, false ) );
 			} catch ( Exception $e ) {
-				echo ( 'Exception: ' . $e->getMessage() );
+				echo( 'Exception: ' . $e->getMessage() );
 			}
-			echo ( $args['after_widget'] );
+			echo( $args['after_widget'] );
 		}
 
 

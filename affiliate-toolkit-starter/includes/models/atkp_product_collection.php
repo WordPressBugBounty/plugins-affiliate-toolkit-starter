@@ -671,7 +671,7 @@ These pages contain EVERYTHING you need to start an online business in the affil
 			$sourceproduct->postids      = $overrideproduct->postids;
 			$sourceproduct->outputashtml = $overrideproduct->outputashtml;
 			$sourceproduct->sortorder    = $overrideproduct->sortorder;
-			$sourceproduct->shopid    = $overrideproduct->shopid;
+			$sourceproduct->shopid = $overrideproduct->shopid;
 
 
 		}

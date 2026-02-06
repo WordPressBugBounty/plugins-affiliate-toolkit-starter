@@ -168,7 +168,7 @@ class atkp_control_helper {
 				break;
 
 		}
-		echo ($result);
+		echo( $result );
 	}
 
 	public function get_minmaxvalue( $newfield, $order = 'ASC' ) {
@@ -648,11 +648,11 @@ class atkp_control_helper {
 				case "product3":
 				case "product4":
 				case "product5":
-					$caption    = __( 'select product', 'affiliate-toolkit-starter' );
+				$caption = __( 'select product', 'affiliate-toolkit-starter' );
 
 					$productid = isset( $filterparams[$controlname] )  ? intval( $filterparams[$controlname] ) : 0;
 
-					$inputtooshort = __( 'You must enter at least 3 characters.', 'affiliate-toolkit-starter' );
+				$inputtooshort = __( 'You must enter at least 3 characters.', 'affiliate-toolkit-starter' );
 
 					$result = '<select id="' . esc_attr( $controlname . ( random_int( 1, 9999 ) ) ) . '" name="' . esc_attr( $controlname ) . '"  class="atkp-product-selectcontrol" style="width:100%" data-placeholder= "' . esc_attr( $caption ) . '" placeholder="' . esc_attr( $caption ) . '" searchnounce="' . esc_attr( $caption ) . '" inputtooshort="' . esc_attr( $inputtooshort ) . '" endpointurl="' . esc_attr( ATKPTools::get_endpointurl()) . '">  ';
 
@@ -660,7 +660,7 @@ class atkp_control_helper {
 
 
 					if ( $productid != 0 ) {
-						$productitle = ATKPTools::get_post_setting( $productid, ATKP_PRODUCT_POSTTYPE . '_title', true );
+						$productitle = ATKPTools::get_post_setting( $productid, ATKP_PRODUCT_POSTTYPE . '_title', '' );
 						$result      .= '<option value="' . esc_attr( $productid ) . '" selected>' . esc_textarea( $productitle ) . '</option>';
 					}
 
@@ -711,7 +711,12 @@ class atkp_control_helper {
 							$minvalue = 0; //$this->get_minmaxvalue($newfield, $order = 'ASC');
 
 
-							$result = '<input id="minprice" name="min' . $controlname . '" type="number" value="' . esc_attr( $minvalue ) . '"  class="atkp-backend-filter" /> - <input id="maxprice"  class="atkp-backend-filter" name="max' . $controlname . '" type="number" value="' . esc_attr( $maxvalue ) . '" />';
+							$result = '<div style="display:flex;align-items:center;gap:10px;">';
+						$result .= '<div style="flex:1;"><label style="display:block;margin-bottom:4px;font-size:12px;color:#666;">' . __( 'From', 'affiliate-toolkit-starter' ) . '</label>';
+						$result .= '<input id="min' . esc_attr( $controlname ) . '" name="min' . $controlname . '" type="number" value="' . esc_attr( $minvalue ) . '"  class="atkp-backend-filter" style="width:100%;" /></div>';
+						$result .= '<div style="flex:1;"><label style="display:block;margin-bottom:4px;font-size:12px;color:#666;">' . __( 'To', 'affiliate-toolkit-starter' ) . '</label>';
+						$result .= '<input id="max' . esc_attr( $controlname ) . '"  class="atkp-backend-filter" name="max' . $controlname . '" type="number" value="' . esc_attr( $maxvalue ) . '" style="width:100%;" /></div>';
+						$result .= '</div>';
 							break;
 						case 'url':
 							break;
@@ -786,12 +791,12 @@ class atkp_control_helper {
 					//produktname auf bzw. absteigend
 
 					$values = array(
-						'price-asc'      => __( 'Price', 'affiliate-toolkit-starter' ),
-						'price-desc'     => __( 'Price (descending)', 'affiliate-toolkit-starter' ),
-						'amountsaved-asc'      => __( 'Amount saved', 'affiliate-toolkit-starter' ),
-						'amountsaved-desc'     => __( 'Amount saved (descending)', 'affiliate-toolkit-starter' ),
-						'titlerank-asc'  => __( 'Alphabetic (A to Z)', 'affiliate-toolkit-starter' ),
-						'titlerank-desc' => __( 'Alphabetic (Z to A)', 'affiliate-toolkit-starter' ),
+						'price-asc'        => __( 'Price', 'affiliate-toolkit-starter' ),
+						'price-desc'       => __( 'Price (descending)', 'affiliate-toolkit-starter' ),
+						'amountsaved-asc'  => __( 'Amount saved', 'affiliate-toolkit-starter' ),
+						'amountsaved-desc' => __( 'Amount saved (descending)', 'affiliate-toolkit-starter' ),
+						'titlerank-asc'    => __( 'Alphabetic (A to Z)', 'affiliate-toolkit-starter' ),
+						'titlerank-desc'   => __( 'Alphabetic (Z to A)', 'affiliate-toolkit-starter' ),
 					);
 
 
@@ -816,43 +821,81 @@ class atkp_control_helper {
 					$result .= ' </select>';
 					break;
 				case "shop":
-					$caption = __( 'input shopid', 'affiliate-toolkit-starter' );
-					$result  = '<input type="number" id="' . esc_attr( $controlname ) . '" name="' . esc_attr( $controlname ) . '" class="atkp-backend-filter"  style="width:100%" placeholder="' . esc_attr( $caption ) . '" />  ';
+					$caption = __( 'select shop', 'affiliate-toolkit-starter' );
+					$result = '<select id="' . esc_attr( $controlname ) . '" name="' . esc_attr( $controlname ) . '" class="atkp-backend-filter"  style="width:100%" placeholder="' . esc_attr( $caption ) . '" multiple="multiple">  ';
 
-
+					$shops = atkp_shop::get_list();
+					foreach ( $shops as $shop ) {
+						if ( $shop->type == atkp_shop_type::SUB_SHOPS ) {
+							$result .= '<optgroup label="' . esc_attr( $shop->title ) . '">';
+							foreach ( $shop->children as $child ) {
+								$result .= '<option value="' . esc_attr( $child->id ) . '">' . esc_html( $child->title ) . '</option>';
+							}
+							$result .= '</optgroup>';
+						} else {
+							$result .= '<option value="' . esc_attr( $shop->id ) . '">' . esc_html( $shop->title ) . '</option>';
+						}
+					}
+					$result .= '</select>';
 					break;
+
 				case 'manufacturer':
-					$caption = __( 'input manufacturer', 'affiliate-toolkit-starter' );
-					$result  = '<input type="number" id="' . esc_attr( $controlname ) . '" name="' . esc_attr( $controlname ) . '" class="atkp-backend-filter"  style="width:100%" placeholder="' . esc_attr( $caption ) . '" />  ';
-
-					break;
-
 				case 'brand':
-					$caption = __( 'input brand', 'affiliate-toolkit-starter' );
-					$result  = '<input type="number" id="' . esc_attr( $controlname ) . '" name="' . esc_attr( $controlname ) . '" class="atkp-backend-filter"  style="width:100%" placeholder="' . esc_attr( $caption ) . '" />  ';
+					// Text fields for manufacturer and brand
+					$caption = sprintf( __( 'Enter %s', 'affiliate-toolkit-starter' ), $controlname );
+					$result = '<input type="text" id="' . esc_attr( $controlname ) . '" name="' . esc_attr( $controlname ) . '" class="atkp-backend-filter" style="width:100%" placeholder="' . esc_attr( $caption ) . '" />';
+					break;
+				case 'productcategory':
+					// Get taxonomy name
+					$taxonomy_name = '';
+					$taxonomies = atkp_udtaxonomy::load_taxonomies();
+					if ( $taxonomies != null ) {
+						foreach ( $taxonomies as $taxonomy ) {
+							if ( $taxonomy->issystemfield ) {
+								if ( $controlname == 'productcategory' && $taxonomy->isproductcategory ) {
+									$taxonomy_name = $taxonomy->name;
+									break;
+								}
+							}
+						}
+					}
 
+					$caption = sprintf( __( 'select %s', 'affiliate-toolkit-starter' ), $controlname );
+					$result = '<select id="' . esc_attr( $controlname ) . '" name="' . esc_attr( $controlname ) . '" class="atkp-backend-filter"  style="width:100%" placeholder="' . esc_attr( $caption ) . '" multiple="multiple">  ';
+
+					if ( $taxonomy_name ) {
+						$categories = get_categories( 'orderby=name&hide_empty=0&taxonomy=' . $taxonomy_name );
+						foreach ( $categories as $category ) {
+							$result .= '<option value="' . esc_attr( $category->term_id ) . '">' . esc_html( $category->cat_name ) . '</option>';
+						}
+					}
+
+					$result .= '</select>';
 					break;
 				case "product1":
 				case "product2":
 				case "product3":
 				case "product4":
 				case "product5":
-					$caption = __( 'input productid', 'affiliate-toolkit-starter' );
+					$caption = __( 'select product', 'affiliate-toolkit-starter' );
 
-					$inputtooshort = __( 'You must enter at least 3 characters.', 'affiliate-toolkit-starter' );
+					$result = '<select id="' . esc_attr( $controlname ) . '" name="' . esc_attr( $controlname ) . '" class="atkp-backend-filter atkp-product-box"  style="width:100%" placeholder="' . esc_attr( $caption ) . '">  ';
+					$result .= '<option value="">' . __( 'None', 'affiliate-toolkit-starter' ) . '</option>';
 
-					//atkp-product-box
-					$disable_select2 = true; // ATKPTools::get_setting(ATKP_PLUGIN_PREFIX.'_disableselect2', false);
-
-					if ( $disable_select2 ) {
-						$result = '<input type="number" id="' . esc_attr( $controlname ) . '" name="' . esc_attr( $controlname ) . '" class="atkp-backend-filter"  style="width:100%" placeholder="' . esc_attr( $caption ) . '" />  ';
-					} else {
-						$result = '<select id="' . esc_attr( $controlname ) . '" name="' . esc_attr( $controlname ) . '" class="atkp-backend-filter atkp-product-box"  style="width:100%">  ';
-						$result .= '<option value="" selected>' . __( 'None', 'affiliate-toolkit-starter' ) . '</option>';
-						$result .= ' </select>';
+					// Load limited number of products for performance
+					$args = array(
+						'post_type' => ATKP_PRODUCT_POSTTYPE,
+						'posts_per_page' => 100,
+						'post_status' => array( 'publish', 'draft' ),
+						'orderby' => 'date',
+						'order' => 'DESC'
+					);
+					$products = get_posts( $args );
+					foreach ( $products as $product ) {
+						$result .= '<option value="' . esc_attr( $product->ID ) . '">' . esc_html( $product->post_title ) . '</option>';
 					}
 
-
+					$result .= '</select>';
 					break;
 			}
 

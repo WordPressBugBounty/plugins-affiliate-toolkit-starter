@@ -178,7 +178,7 @@ class atkp_settings_display {
                 <!-- <h2><?php echo esc_html__( 'Affiliate Toolkit - Advanced Settings', 'affiliate-toolkit-starter' ) ?></h2>      -->
 
                 <form method="POST"
-                      action="?page=<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin&tab=display_configuration_page') ?>">
+                      action="?page=<?php echo esc_attr( ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin&tab=display_configuration_page' ) ?>">
                     <!--_affiliate_toolkit-bestseller-->
 					<?php wp_nonce_field( "save", "save" ); ?>
                     <table class="form-table" style="width:100%">
@@ -202,10 +202,10 @@ class atkp_settings_display {
 						echo "<script src='" . esc_attr(plugins_url( plugins_url( '/dist/script.js', ATKP_PLUGIN_FILE ) ) ) . "' id='atkp-scripts-js'></script>";
 
 						echo '<style>';
-						echo ($output->get_css_output());
+						echo( $output->get_css_output() );
 						echo '</style>';
 						echo '<script>';
-						echo ($output->get_js_output());
+						echo( $output->get_js_output() );
 						echo '</script>';
 
 						$template_id      = 'bestseller';
@@ -223,12 +223,12 @@ class atkp_settings_display {
 
                         <input type="hidden" value="" id="<?php echo esc_attr(ATKP_TEMPLATE_POSTTYPE . '_templateparams') ?>"/>
                         <script type="application/json" id="<?php echo esc_attr('atkp-data-parameters-' .  $uid) ?>">
-                           <?php echo $str_params ; ?>
+                           <?php echo $str_params; ?>
 
                         </script>
                         <script type="application/json"
                                 id="<?php echo esc_attr( 'atkp-data-products-' . $uid ) ?>">
-                            <?php echo  $str_products; ?></script>
+	                        <?php echo $str_products; ?></script>
 
                         <div style="max-width:700px;margin-left:auto;margin-right:auto;padding: 20px; border-left: 1px solid #005162;border-right: 1px solid #005162">
                             <div style="">
@@ -343,7 +343,7 @@ class atkp_settings_display {
                                             products: JSON.stringify(atkpproducts),
                                             parameters: JSON.stringify(atkpparameters),
                                             preview: true,
-                                            wp_nounce: '<?php echo wp_create_nonce('generate_atkp_preview'); ?>'
+                                            wp_nounce: '<?php echo wp_create_nonce( 'generate_atkp_preview' ); ?>'
                                         },
                                         function (data, status) {
 
@@ -951,7 +951,8 @@ class atkp_settings_display {
                                 <th class="atkp-settings-group"></th>
                                 <td style="vertical-align: top;">
                                     <label for="">
-	                                    <?php echo esc_html__( 'Description & Features', 'affiliate-toolkit-starter' ) ?>:
+	                                    <?php echo esc_html__( 'Description & Features', 'affiliate-toolkit-starter' ) ?>
+                                        :
                                     </label>
 
                                     <select id="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_boxcontent') ?>"
@@ -970,7 +971,8 @@ class atkp_settings_display {
                                 </td>
                                 <td style="vertical-align: top">
                                     <label for="">
-	                                    <?php echo esc_html__( 'Product page text', 'affiliate-toolkit-starter' ) . ' (html)' ?>:
+	                                    <?php echo esc_html__( 'Product page text', 'affiliate-toolkit-starter' ) . ' (html)' ?>
+                                        :
                                     </label>
 
                                     <input type="text"
@@ -1162,9 +1164,9 @@ class atkp_settings_display {
 									<?php
 									$selected                            = atkp_options::$loader->get_css_inline();
 									$values                              = array();
-									$values[ atkp_css_type::Inline ]     = esc_html__( 'Inline styles', 'affiliate-toolkit-starter' );
+									$values[ atkp_css_type::Inline ] = esc_html__( 'Inline styles', 'affiliate-toolkit-starter' );
 									$values[ atkp_css_type::InlineHead ] = esc_html__( 'Inline styles (head)', 'affiliate-toolkit-starter' );
-									$values[ atkp_css_type::CssFile ]    = esc_html__( 'css file', 'affiliate-toolkit-starter' );
+									$values[ atkp_css_type::CssFile ] = esc_html__( 'css file', 'affiliate-toolkit-starter' );
 
 									foreach ( $values as $value => $caption ) {
 
@@ -1291,8 +1293,8 @@ class atkp_settings_display {
 									<?php
 									$selected               = atkp_options::$loader->get_add_to_cart();
 									$values                 = array();
-									$values['link']         = esc_html__( 'affiliate link (mainproduct)', 'affiliate-toolkit-starter' );
-									$values['addtocart']    = esc_html__( 'add to cart', 'affiliate-toolkit-starter' );
+									$values['link'] = esc_html__( 'affiliate link (mainproduct)', 'affiliate-toolkit-starter' );
+									$values['addtocart'] = esc_html__( 'add to cart', 'affiliate-toolkit-starter' );
 									$values['linkfallback'] = esc_html__( 'affiliate link (mainproduct - if not available use min offer)', 'affiliate-toolkit-starter' );
 									$values['minofferlink'] = esc_html__( 'affiliate link (min offer)', 'affiliate-toolkit-starter' );
 									$values['maxofferlink'] = esc_html__( 'affiliate link (max offer)', 'affiliate-toolkit-starter' );
@@ -1349,7 +1351,7 @@ class atkp_settings_display {
                                        name="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_show_credits') ?>"
                                        value="1" <?php echo checked( 1, atkp_options::$loader->get_show_credits(), true ); ?>>
                                 <label for="<?php echo esc_attr_e(ATKP_PLUGIN_PREFIX . '_show_credits') ?>">
-	                                <?php echo esc_html__( 'Show plugin credits and ', 'affiliate-toolkit-starter') . '<a href="https://www.affiliate-toolkit.com/account/affiliate-area/" target="_blank">' . esc_html__( 'earn money', ATKP_PLUGIN_PREFIX) . '</a>' ?>
+	                                <?php echo esc_html__( 'Show plugin credits and ', 'affiliate-toolkit-starter' ) . '<a href="https://www.affiliate-toolkit.com/account/affiliate-area/" target="_blank">' . esc_html__( 'earn money', ATKP_PLUGIN_PREFIX ) . '</a>' ?>
                                 </label> <br/>
                                 <input type="number" id="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_credits_ref') ?>"
                                        name="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_credits_ref') ?>"
@@ -1547,7 +1549,8 @@ class atkp_settings_display {
                         <tr>
                             <th scope="row">
                                 <label for="">
-	                                <?php echo esc_html__( 'Amount of list entries (fallback)', 'affiliate-toolkit-starter' ) ?>:
+	                                <?php echo esc_html__( 'Amount of list entries (fallback)', 'affiliate-toolkit-starter' ) ?>
+                                    :
                                 </label>
                             </th>
                             <td>

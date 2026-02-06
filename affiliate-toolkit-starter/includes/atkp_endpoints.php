@@ -78,16 +78,17 @@ class atkp_endpoints {
 	public function atkp_render_template() {
 		try {
 			//render
-			$preview        = isset( $_REQUEST['preview'] ) ? $_REQUEST['preview'] : false;
-			if($preview) {
-				$wp_nounce   = $_REQUEST['wp_nounce'];
+			$preview = isset( $_REQUEST['preview'] ) ? $_REQUEST['preview'] : false;
+			if ( $preview ) {
+				$wp_nounce = $_REQUEST['wp_nounce'];
 
-				if(!wp_verify_nonce( $wp_nounce, "generate_atkp_preview" ))
-					throw new Exception('invalid nounce');
+				if ( ! wp_verify_nonce( $wp_nounce, "generate_atkp_preview" ) ) {
+					throw new Exception( 'invalid nounce' );
+				}
 			}
 
 			$products_str   = $_REQUEST['products'];
-			$product_ids     = json_decode( stripslashes( $products_str ), true );
+			$product_ids    = json_decode( stripslashes( $products_str ), true );
 			$parameters_str = $_REQUEST['parameters'];
 			$parameters_data = json_decode( stripslashes( $parameters_str ), true );
 
@@ -244,7 +245,7 @@ class atkp_endpoints {
 			header( "Content-Transfer-Encoding: utf-8" );
 			header( "Content-Length: " . strlen( $string ) );
 
-			echo ($string);
+			echo( $string);
 
 			exit;
 		} catch ( Exception $e ) {
@@ -437,8 +438,20 @@ class atkp_endpoints {
 		try {
 			$nounce = ATKPTools::get_post_parameter( 'request_nonce', 'string' );
 
-			if ( ! wp_verify_nonce( $nounce, 'atkp-import-nonce', false ) )
+			// Accept multiple nonce types for compatibility
+			$nonce_valid = false;
+			if ( wp_verify_nonce( $nounce, 'atkp-import-nonce' ) ) {
+				$nonce_valid = true;
+			} elseif ( wp_verify_nonce( $nounce, 'wp_rest' ) ) {
+				$nonce_valid = true;
+			} elseif ( wp_verify_nonce( $nounce, 'atkp-generator-nonce' ) ) {
+				$nonce_valid = true;
+			}
+
+			if ( ! $nonce_valid ) {
 				throw new Exception( 'Nonce expired. Please reload page.' );
+			}
+
 			if ( ! current_user_can( 'edit_posts' ) )
 				throw new Exception( 'User has no permission.' );
 
@@ -473,8 +486,20 @@ class atkp_endpoints {
 		try {
 			$nounce = ATKPTools::get_post_parameter( 'request_nonce', 'string' );
 
-			if ( ! wp_verify_nonce( $nounce, 'atkp-import-nonce' ) )
+			// Accept multiple nonce types for compatibility
+			$nonce_valid = false;
+			if ( wp_verify_nonce( $nounce, 'atkp-import-nonce' ) ) {
+				$nonce_valid = true;
+			} elseif ( wp_verify_nonce( $nounce, 'wp_rest' ) ) {
+				$nonce_valid = true;
+			} elseif ( wp_verify_nonce( $nounce, 'atkp-generator-nonce' ) ) {
+				$nonce_valid = true;
+			}
+
+			if ( ! $nonce_valid ) {
 				throw new Exception( 'Nonce expired. Please reload page.' );
+			}
+
 			if ( ! current_user_can( 'edit_posts' ) )
 				throw new Exception( 'User has no permission.' );
 
@@ -685,6 +710,12 @@ class atkp_endpoints {
 	}
 
 	function liveSearchBackend() {
+		$nounce = ATKPTools::get_post_parameter( 'request_nonce', 'string' );
+
+		if ( ! wp_verify_nonce( $nounce, 'atkp_live_search_nonce' ) ) {
+			throw new Exception( 'Nonce expired. Please reload page.' );
+		}
+
 		$shopid       = ATKPTools::get_post_parameter( 'shopid', 'int' );
 		$keyword      = ATKPTools::get_post_parameter( 'keyword', 'string' );
 		$searchoption = ATKPTools::get_post_parameter( 'searchoption', 'string' );

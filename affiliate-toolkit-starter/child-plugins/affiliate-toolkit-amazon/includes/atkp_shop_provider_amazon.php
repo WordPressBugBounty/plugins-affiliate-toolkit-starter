@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'ATKP_AMZ_WAIT', 3 );
 
+//https://webservices.amazon.com/paapi5/documentation/quick-start/using-sdk.html
 class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 	//das ist die basis klasse für alle shop provider
 
@@ -69,7 +70,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 				$startpos = strrpos( $url, '?tag=' );
 
 				if ( ! $startpos ) {
-					throw new exception( esc_html__('trackingcode not found: ' . $url, 'affiliate-toolkit-starter') );
+					throw new exception( esc_html__( 'trackingcode not found: ' . $url, 'affiliate-toolkit-starter' ) );
 				} else {
 					$startpos = $startpos + 5;
 				}
@@ -116,14 +117,14 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 			foreach ( $invalidPropertyList as $invalidProperty ) {
 				$txt .= $invalidProperty . PHP_EOL;
 			}
-			throw new Exception( esc_html__($txt, 'affiliate-toolkit-starter') );
+			throw new Exception( esc_html__( $txt, 'affiliate-toolkit-starter' ) );
 		}
 	}
 
 	private function validate_response_v5( $getItemsResponse ) {
 
 		if ( $getItemsResponse->getErrors() != null ) {
-			throw new Exception( esc_html__($getItemsResponse->getErrors()[0]->getCode() . ': ' . $getItemsResponse->getErrors()[0]->getMessage(), 'affiliate-toolkit-starter') );
+			throw new Exception( esc_html__( $getItemsResponse->getErrors()[0]->getCode() . ': ' . $getItemsResponse->getErrors()[0]->getMessage(), 'affiliate-toolkit-starter' ) );
 		}
 	}
 
@@ -134,7 +135,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 
 		//add subshop for amazon
 		$subshop         = new subshop();
-		$subshop->title  = esc_html__( 'Amazon', 'affiliate-toolkit-starter' );
+		$subshop->title = esc_html__( 'Amazon', 'affiliate-toolkit-starter' );
 		$subshop->shopid = $post_id;
 
 		$website = ATKPTools::get_post_setting( $post_id, ATKP_SHOP_POSTTYPE . '_access_website' );
@@ -453,7 +454,227 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 			$apikey       = ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_access_key' );
 			$apisecretkey = ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_access_secret_key' );
 		}
+
+		// Determine the mode: Check if NoAPI plugin is available
+		$noapi_available = defined( 'ATKP_AMAZNOAPI_ITEM_ID' ) && ATKP_LicenseController::get_module_license_status( 'amaznoapi' ) == 'valid';
+		$noapi_mode = ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_sitestripe' );
+
+		// Determine which mode to show (API or NoAPI)
+		$use_mode = 'api'; // default to API
+		if ($noapi_available && ($noapi_mode == 2 || $noapi_mode == 3)) {
+			$use_mode = 'noapi';
+		} else if ($noapi_available && !$apikey) {
+			// If NoAPI is available but no API key is set, suggest NoAPI
+			$use_mode = 'noapi';
+		}
 		?>
+
+		<style>
+			.atkp-mode-selection {
+				background: #f8f9fa;
+				border: 1px solid #ddd;
+				border-radius: 6px;
+				padding: 20px;
+				margin-bottom: 20px;
+			}
+
+			.atkp-mode-selection h3 {
+				margin: 0 0 15px 0;
+				font-size: 16px;
+				color: #23282d;
+			}
+
+			.atkp-mode-options {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 15px;
+				margin-bottom: 15px;
+			}
+
+			.atkp-mode-option {
+				background: #fff;
+				border: 2px solid #ddd;
+				border-radius: 6px;
+				padding: 20px;
+				cursor: pointer;
+				transition: all 0.3s ease;
+				position: relative;
+			}
+
+			.atkp-mode-option:hover {
+				border-color: #54b9ca;
+				box-shadow: 0 2px 8px rgba(84, 185, 202, 0.2);
+			}
+
+			.atkp-mode-option input[type="radio"] {
+				position: absolute;
+				top: 15px;
+				right: 15px;
+				width: 20px;
+				height: 20px;
+				cursor: pointer;
+			}
+
+			.atkp-mode-option.selected {
+				border-color: #005162;
+				background: #f0f8fa;
+				box-shadow: 0 2px 8px rgba(0, 81, 98, 0.15);
+			}
+
+			.atkp-mode-option-title {
+				font-size: 15px;
+				font-weight: 600;
+				color: #005162;
+				margin: 0 0 8px 0;
+				display: flex;
+				align-items: center;
+				gap: 8px;
+			}
+
+			.atkp-mode-option-desc {
+				font-size: 13px;
+				color: #666;
+				line-height: 1.5;
+				margin: 0;
+			}
+
+			/* Config sections are TR elements */
+			tr.atkp-config-section {
+				display: none;
+			}
+
+			tr.atkp-config-section.active {
+				display: table-row;
+			}
+
+			.atkp-config-section h4 {
+				margin: 0 0 15px 0;
+				font-size: 15px;
+				color: #005162;
+				border-bottom: 2px solid #54b9ca;
+				padding-bottom: 10px;
+			}
+		</style>
+
+		<tr>
+			<td colspan="2">
+				<div class="atkp-mode-selection">
+					<h3>🔧 <?php echo esc_html__( 'Select Data Source', 'affiliate-toolkit-starter' ) ?></h3>
+					<p style="margin: 0 0 15px 0; color: #666; font-size: 13px;">
+						<?php echo esc_html__( 'Choose how you want to retrieve Amazon product data:', 'affiliate-toolkit-starter' ) ?>
+					</p>
+
+					<div class="atkp-mode-options">
+						<label class="atkp-mode-option <?php echo $use_mode == 'api' ? 'selected' : ''; ?>" for="atkp_use_api">
+							<input type="radio"
+								   id="atkp_use_api"
+								   name="atkp_mode_selection"
+								   value="api"
+								   <?php echo $use_mode == 'api' ? 'checked' : ''; ?>>
+							<div class="atkp-mode-option-title">
+								🔑 <?php echo esc_html__( 'Amazon Product Advertising API', 'affiliate-toolkit-starter' ) ?>
+							</div>
+							<p class="atkp-mode-option-desc">
+								<?php echo esc_html__( 'Official Amazon API. Requires API credentials and has usage limits based on revenue.', 'affiliate-toolkit-starter' ) ?>
+							</p>
+						</label>
+
+						<label class="atkp-mode-option <?php echo $use_mode == 'noapi' ? 'selected' : ''; ?>" for="atkp_use_noapi">
+							<input type="radio"
+								   id="atkp_use_noapi"
+								   name="atkp_mode_selection"
+								   value="noapi"
+								   <?php echo $use_mode == 'noapi' ? 'checked' : ''; ?>>
+							<div class="atkp-mode-option-title">
+								⚡ <?php echo esc_html__( 'No-API Mode', 'affiliate-toolkit-starter' ) ?>
+								<?php if (!$noapi_available) { ?>
+									<span style="background: #ff9800; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 10px;">
+										<?php echo esc_html__( 'PURCHASE REQUIRED', 'affiliate-toolkit-starter' ) ?>
+									</span>
+								<?php } ?>
+							</div>
+							<p class="atkp-mode-option-desc">
+								<?php echo esc_html__( 'Retrieve product data without API limits. Included in your affiliate-toolkit license.', 'affiliate-toolkit-starter' ) ?>
+							</p>
+						</label>
+					</div>
+				</div>
+
+				<script>
+					jQuery(document).ready(function($) {
+						// Handle mode selection
+						$('.atkp-mode-option').on('click', function() {
+							$('.atkp-mode-option').removeClass('selected');
+							$(this).addClass('selected');
+							$(this).find('input[type="radio"]').prop('checked', true);
+
+							var selectedMode = $(this).find('input[type="radio"]').val();
+
+							// Show/hide relevant config sections
+							$('.atkp-config-section').removeClass('active');
+							$('#atkp-config-' + selectedMode).addClass('active');
+
+							// Show/hide relevant info sections
+							$('.atkp-info-section').removeClass('active');
+							$('#atkp-info-' + selectedMode).addClass('active');
+
+							// Update hidden sitestripe value based on mode
+							var hiddenSitestripeField = $('#<?php echo esc_js(ATKP_SHOP_POSTTYPE . '_sitestripe_hidden'); ?>');
+							var visibleSitestripeField = $('#<?php echo esc_js(ATKP_SHOP_POSTTYPE . '_sitestripe'); ?>');
+
+							if (selectedMode == 'noapi') {
+								// When NoAPI mode is selected, get value from dropdown or default to 2
+								var currentVal = visibleSitestripeField.length ? visibleSitestripeField.val() : hiddenSitestripeField.val();
+								if (!currentVal || currentVal == '1') {
+									currentVal = '2'; // Default to Always Active
+								}
+								hiddenSitestripeField.val(currentVal);
+								if (visibleSitestripeField.length) {
+									visibleSitestripeField.val(currentVal);
+								}
+							} else {
+								// When API mode is selected, set to Disabled (1)
+								hiddenSitestripeField.val('1');
+							}
+						});
+
+						// Sync dropdown changes back to hidden field
+						$('#<?php echo esc_js(ATKP_SHOP_POSTTYPE . '_sitestripe'); ?>').on('change', function() {
+							$('#<?php echo esc_js(ATKP_SHOP_POSTTYPE . '_sitestripe_hidden'); ?>').val($(this).val());
+						});
+
+						// Trigger initial display based on checked radio
+						function initializeModeSelection() {
+							var initialMode = $('input[name="atkp_mode_selection"]:checked');
+							if (initialMode.length) {
+								// Trigger click on the checked option's label
+								initialMode.closest('.atkp-mode-option').trigger('click');
+							} else {
+								// Default to API mode if nothing is checked
+								$('#atkp_use_api').prop('checked', true).closest('.atkp-mode-option').trigger('click');
+							}
+						}
+
+						// Initialize on page load
+						initializeModeSelection();
+					});
+				</script>
+
+				<!-- Hidden field to store sitestripe value - always present in form -->
+				<input type="hidden"
+					   id="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_sitestripe_hidden'); ?>"
+					   name="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_sitestripe'); ?>"
+					   value="<?php echo esc_attr(ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_sitestripe' )); ?>">
+			</td>
+		</tr>
+
+		<!-- Amazon API Configuration Section -->
+		<tr class="atkp-config-section" id="atkp-config-api">
+			<td colspan="2">
+				<div class="atkp-config-section active">
+					<h4>🔑 <?php echo esc_html__( 'Amazon API Configuration', 'affiliate-toolkit-starter' ) ?></h4>
+
+					<table class="form-table">
         <tr>
             <th scope="row">
                 <label for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_access_key') ?>">
@@ -467,7 +688,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
                 <label for="">
 
                 </label>
-	            <?php ATKPTools::display_helptext(esc_html__('You can find your API key in the Amazon Partnernet. In the Submenu "Tools > Product Advertising API > Manage Your Credentials".', 'affiliate-toolkit-starter')) ?>
+	            <?php ATKPTools::display_helptext( esc_html__( 'You can find your API key in the Amazon Partnernet. In the Submenu "Tools > Product Advertising API > Manage Your Credentials".', 'affiliate-toolkit-starter' ) ) ?>
             </td>
         </tr>
         <tr>
@@ -515,7 +736,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 						'com.be' => esc_html__( 'Amazon Belgium', 'affiliate-toolkit-starter' ),
 						'ae'     => esc_html__( 'Amazon United Arab Emirates', 'affiliate-toolkit-starter' ),
 						'nl'     => esc_html__( 'Amazon Netherlands', 'affiliate-toolkit-starter' ),
-						'pl'    => esc_html__( 'Amazon Poland', 'affiliate-toolkit-starter' ),
+						'pl'     => esc_html__( 'Amazon Poland', 'affiliate-toolkit-starter' ),
 					);
 					//'cn'     => esc_html__( 'Amazon China', ATKP_PLUGIN_PREFIX ),
 
@@ -547,139 +768,343 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
         </tr>
         <tr>
             <th scope="row">
-                <label for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_languages_of_preference') ?>">
+                <label for="<?php echo esc_attr( ATKP_SHOP_POSTTYPE . '_languages_of_preference' ) ?>">
 					<?php echo esc_html__( 'Languages Of Preference', 'affiliate-toolkit-starter' ) ?>
                 </label>
 
             </th>
             <td>
-                <input type="text" id="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_languages_of_preference') ?>"
-                       name="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_languages_of_preference') ?>"
-                       value="<?php echo esc_attr(ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_languages_of_preference' )); ?>">
-	            <?php ATKPTools::display_helptext('You can set an list of languages you want to receive (comma separated). You can find the valid languages for each marketplace <a href="https://webservices.amazon.de/paapi5/documentation/locale-reference.html" target="_blank">here</a>.') ?>
+                <input type="text" id="<?php echo esc_attr( ATKP_SHOP_POSTTYPE . '_languages_of_preference' ) ?>"
+                       name="<?php echo esc_attr( ATKP_SHOP_POSTTYPE . '_languages_of_preference' ) ?>"
+                       value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_languages_of_preference' ) ); ?>">
+				<?php ATKPTools::display_helptext( 'You can set an list of languages you want to receive (comma separated). You can find the valid languages for each marketplace <a href="https://webservices.amazon.de/paapi5/documentation/locale-reference.html" target="_blank">here</a>.' ) ?>
 
             </td>
         </tr>
+					</table>
+				</div>
+			</td>
+		</tr>
+
+		<!-- No-API Configuration Section -->
+		<tr class="atkp-config-section" id="atkp-config-noapi">
+			<td colspan="2">
+				<?php if ( defined( 'ATKP_AMAZNOAPI_ITEM_ID' ) && ATKP_LicenseController::get_module_license_status( 'amaznoapi' ) == 'valid' ) { ?>
+					<div class="atkp-config-section">
+						<h4>⚡ <?php echo esc_html__( 'No-API Mode Configuration', 'affiliate-toolkit-starter' ) ?></h4>
+
+						<div style="background: #f0f8fa; border-left: 3px solid #54b9ca; padding: 15px; border-radius: 4px; margin-bottom: 20px;">
+							<p style="margin: 0 0 10px 0; font-weight: 600; color: #005162;">
+								✓ <?php echo esc_html__( 'No-API Extension Active', 'affiliate-toolkit-starter' ) ?>
+							</p>
+							<p style="margin: 0; font-size: 13px; color: #666;">
+								<?php echo esc_html__( 'Product data will be retrieved without Amazon API limits based on your license plan.', 'affiliate-toolkit-starter' ) ?>
+							</p>
+						</div>
+
+						<table class="form-table">
+							<tr>
+								<th scope="row">
+									<label for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_sitestripe') ?>">
+										<?php echo esc_html__( 'Operating Mode', 'affiliate-toolkit-starter' ) ?>
+									</label>
+								</th>
+								<td>
+									<select id="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_sitestripe') ?>"
+											style="width: 100%; max-width: 500px;">
+										<?php
+										$noapi_selected = ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_sitestripe' );
+										if (empty($noapi_selected) || $noapi_selected == 1) $noapi_selected = 2; // Default to Always Active for NoAPI mode
+
+										echo '<option value="2" ' . ( $noapi_selected == 2 ? 'selected' : '' ) . '>' . esc_html__( 'Always Active - Use No-API for all requests', 'affiliate-toolkit-starter' ) . '</option>';
+										echo '<option value="3" ' . ( $noapi_selected == 3 ? 'selected' : '' ) . '>' . esc_html__( 'Smart Mode - No-API as fallback (API key required)', 'affiliate-toolkit-starter' ) . '</option>';
+										?>
+									</select>
+									<?php ATKPTools::display_helptext( esc_html__( 'Always Active: Uses only No-API. Smart Mode: Tries Amazon API first, uses No-API as fallback (requires API credentials).', 'affiliate-toolkit-starter' ) ) ?>
+								</td>
+							</tr>
+
+							<tr id="atkp-noapi-smart-mode-info" style="display: none;">
+								<td colspan="2">
+									<div style="background: #fff3e0; border-left: 3px solid #ff9800; padding: 15px; border-radius: 4px;">
+										<p style="margin: 0; font-size: 13px; color: #e65100;">
+											<strong>⚡ <?php echo esc_html__( 'Smart Mode requires Amazon API credentials', 'affiliate-toolkit-starter' ) ?></strong><br>
+											<?php echo esc_html__( 'Please switch to "Amazon Product Advertising API" mode above and enter your API credentials. Then you can use Smart Mode as fallback.', 'affiliate-toolkit-starter' ) ?>
+										</p>
+									</div>
+								</td>
+							</tr>
+
+							<tr>
+								<th scope="row">
+									<label for="<?php echo esc_attr( ATKP_SHOP_POSTTYPE . '_asindataapikey' ) ?>">
+										<?php echo esc_html__( 'ASIN Data API Key', 'affiliate-toolkit-starter' ) ?><br>
+										<span class="description"><?php echo esc_html__( '(optional)', 'affiliate-toolkit-starter' ) ?></span>
+									</label>
+								</th>
+								<td>
+									<input type="text"
+										   id="<?php echo esc_attr( ATKP_SHOP_POSTTYPE . '_asindataapikey' ) ?>"
+										   name="<?php echo esc_attr( ATKP_SHOP_POSTTYPE . '_asindataapikey' ) ?>"
+										   value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_asindataapikey' ) ); ?>"
+										   placeholder="<?php echo esc_attr__( 'Enter your ASIN Data API key...', 'affiliate-toolkit-starter' ) ?>"
+										   style="width: 100%; max-width: 500px;">
+									<?php ATKPTools::display_helptext( esc_html__( 'No-API requests are included in your affiliate-toolkit license. For unlimited requests, you can purchase an external ASIN Data API key.', 'affiliate-toolkit-starter' ) . ' <a href="https://trajectdata.com/ecommerce/asin-data-api/pricing/" target="_blank">' . esc_html__( 'Get API Key', 'affiliate-toolkit-starter' ) . '</a>' ) ?>
+								</td>
+							</tr>
+
+							<tr>
+								<th scope="row">
+									<?php echo esc_html__( 'Star Ratings', 'affiliate-toolkit-starter' ) ?>
+								</th>
+								<td>
+									<label style="display: flex; align-items: flex-start; gap: 8px;">
+										<input type="checkbox"
+											   id="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_load_customer_reviews') ?>"
+											   name="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_load_customer_reviews') ?>"
+											   value="1"
+											   <?php echo checked( 1, ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_load_customer_reviews' ), true ); ?>>
+										<span>
+											<?php echo esc_html__( 'Load star ratings from Amazon webpages', 'affiliate-toolkit-starter' ) ?>
+											<span style="color: #dc3232; font-weight: 600;"><?php echo esc_html__( '(Not Recommended)', 'affiliate-toolkit-starter' ) ?></span>
+											<br>
+											<span style="font-size: 13px; color: #666;">
+												<?php echo esc_html__( 'Reads star ratings directly from Amazon. Not officially allowed - use at your own risk.', 'affiliate-toolkit-starter' ) ?>
+											</span>
+										</span>
+									</label>
+								</td>
+							</tr>
+						</table>
+					</div>
+				<?php } else { ?>
+					<div class="atkp-config-section">
+						<div style="background: #fff3e0; border-left: 3px solid #ff9800; padding: 20px; border-radius: 4px;">
+							<h4 style="margin: 0 0 15px 0; color: #e65100;">
+								⚠️ <?php echo esc_html__( 'No-API Extension Required', 'affiliate-toolkit-starter' ) ?>
+							</h4>
+							<p style="margin: 0 0 15px 0; font-size: 14px; color: #666;">
+								<?php echo esc_html__( 'To use No-API Mode, you need to activate the "affiliate-toolkit - Amazon No API Mode" extension.', 'affiliate-toolkit-starter' ) ?>
+							</p>
+
+							<?php
+							// Show package information
+							if (file_exists(dirname(__FILE__) . '/../views/noapi-package-info.php')) {
+								include dirname(__FILE__) . '/../views/noapi-package-info.php';
+							}
+							?>
+						</div>
+					</div>
+				<?php } ?>
+			</td>
+		</tr>
+
+		<script>
+			jQuery(document).ready(function($) {
+				// Show/hide Smart Mode info
+				function toggleSmartModeInfo() {
+					var mode = $('#<?php echo esc_js(ATKP_SHOP_POSTTYPE . '_sitestripe'); ?>').val();
+					if (mode == '3') {
+						$('#atkp-noapi-smart-mode-info').show();
+					} else {
+						$('#atkp-noapi-smart-mode-info').hide();
+					}
+				}
+
+				$('#<?php echo esc_js(ATKP_SHOP_POSTTYPE . '_sitestripe'); ?>').on('change', toggleSmartModeInfo);
+				toggleSmartModeInfo();
+			});
+		</script>
 
 
-
-		<?php if ( defined( 'ATKP_AMAZNOAPI_ITEM_ID' ) && ATKP_LicenseController::get_module_license_status( 'amaznoapi' ) == 'valid' ) { ?>
-
-
-            <tr>
-                <th scope="row">
-                    <label for="">
-	                    <?php echo esc_html__( 'No API mode', 'affiliate-toolkit-starter' ) ?>
-                    </label>
-                </th>
-                <td>
-
-                    <select id="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_sitestripe') ?>"
-                            name="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_sitestripe') ?>" style="width:300px">
-						<?php
-						$selected = ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_sitestripe' );
-
-						echo '<option value="1" ' . ( $selected == '' || $selected == 1 ? 'selected' : '' ) . ' >' . esc_html__( 'Disabled', 'affiliate-toolkit-starter' ) . '</option>';
-
-						echo '<option value="2" ' . ( $selected == 2 ? 'selected' : '' ) . '>' . esc_html__( 'Always use', 'affiliate-toolkit-starter' ) . '</option>';
-
-						echo '<option value="3" ' . ( $selected == 3 ? 'selected' : '' ) . '>' . esc_html__( 'Use in case of error', 'affiliate-toolkit-starter' ) . '</option>';
-						?>
-
-                    </select>
-					<?php ATKPTools::display_helptext( esc_html__( 'NoAPI allows you to read the Title, Price and Image from the Amazon Widgets. You can use this option if you don\'t have API access or you receiving the "Too Many" exception. It\'s not a official Amazon functionality.', 'affiliate-toolkit-starter' ) ) ?>
-
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">
-                    <label for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_asindataapikey') ?>">
-						<?php echo esc_html__( 'ASIN Data API Key', 'affiliate-toolkit-starter' ) ?>
-                    </label>
-
-                </th>
-                <td>
-                    <input type="text" id="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_asindataapikey') ?>"
-                           name="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_asindataapikey') ?>"
-                           value="<?php echo esc_attr(ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_asindataapikey' )); ?>">
-					<?php ATKPTools::display_helptext('By default our interface allows only 10 product requests per license and tag. If you want more, you need to purchase a api key <a href="https://trajectdata.com/ecommerce/asin-data-api/pricing/" target="_blank">here</a>.') ?>
-
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">
-
-                </th>
-                <td>
-                    <input type="checkbox" id="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_load_customer_reviews') ?>"
-                           name="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_load_customer_reviews') ?>"
-                           value="1" <?php echo checked( 1, ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_load_customer_reviews' ), true ); ?>>
-                    <!-- ATKPTools::get_post_setting($post->ID, ATKP_SHOP_POSTTYPE.'_load_customer_reviews') -->
-                    <label for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_load_customer_reviews') ?>">
-	                    <?php echo esc_html__( 'Load star ratings from NoAPI interface (not recommended)', 'affiliate-toolkit-starter' ) ?>
-                    </label>
-					<?php ATKPTools::display_helptext( esc_html__( 'This function is reading the star rating from the Amazon webpage. It is not allowed by Amazon and we don\'t recommend it.', 'affiliate-toolkit-starter' ) ) ?>
-                </td>
-            </tr>
-
-		<?php } else if ( ATKP_LicenseController::get_module_license_status( 'amaznoapi' ) != 'valid' ) {
-			?>
-            <tr>
+        <tr>
                 <th colspan="2">
-                    <div class="atkp-info">
-	                    <?php echo esc_html__( 'Please activate the "affiliate-toolkit – Amazon No API Mode" extension if you don’t have access to the Amazon API or receive the "TooManyRequests" error.', 'affiliate-toolkit-starter' ) ?>
-                    </div>
-
                     <style>
-                        .atkp-success {
-                            color: #4F8A10;
-                            background-color: #DFF2BF;
+                        .atkp-api-notice {
+                            background: #fff;
+                            border-left: 4px solid #54b9ca;
+                            padding: 20px;
+                            margin: 15px 0;
+                            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
                         }
 
-                        .atkp-info, .atkp-success, .atkp-warning, .atkp-error, .atkp-validation {
-                            border: 1px solid;
-                            margin: 0px 0px;
-                            width: 95%;
-                            padding: 15px 10px 15px 10px;
-                            background-repeat: no-repeat;
-                            background-position: 10px center;
+                        .atkp-api-notice h3 {
+                            margin-top: 0;
+                            color: #23282d;
+                            font-size: 16px;
+                            font-weight: 600;
+                        }
+
+                        .atkp-api-limits {
+                            background: #f0f8fa;
+                            border-radius: 4px;
+                            padding: 15px;
+                            margin: 15px 0;
+                            border-left: 3px solid #54b9ca;
+                        }
+
+                        .atkp-api-limits h4 {
+                            margin: 0 0 10px 0;
+                            color: #005162;
+                            font-size: 14px;
+                            font-weight: 600;
+                        }
+
+                        .atkp-api-limits ul {
+                            margin: 5px 0;
+                            padding-left: 20px;
+                        }
+
+                        .atkp-api-limits li {
+                            margin: 5px 0;
+                            line-height: 1.6;
+                        }
+
+                        .atkp-alert-danger {
+                            background: #fef5f5;
+                            border: 1px solid #dc3232;
+                            border-radius: 4px;
+                            padding: 12px 15px;
+                            margin: 15px 0;
+                            color: #dc3232;
+                            font-weight: 500;
+                        }
+
+                        .atkp-noapi-section {
+                            background: #f0f8fa;
+                            border: 2px solid #54b9ca;
+                            border-radius: 6px;
+                            padding: 20px;
+                            margin: 20px 0;
+                        }
+
+                        .atkp-noapi-section h3 {
+                            margin: 0 0 15px 0;
+                            color: #005162;
+                            font-size: 16px;
+                            font-weight: 600;
+                        }
+
+                        .atkp-packages {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                            gap: 15px;
+                            margin: 15px 0;
+                        }
+
+                        .atkp-package {
+                            background: #fff;
+                            border: 1px solid #ddd;
+                            border-radius: 4px;
+                            padding: 15px;
+                            text-align: center;
+                        }
+
+                        .atkp-package-name {
+                            font-weight: 600;
+                            font-size: 15px;
+                            color: #23282d;
+                            margin-bottom: 8px;
+                        }
+
+                        .atkp-package-limit {
+                            font-size: 24px;
+                            font-weight: bold;
+                            color: #005162;
+                            margin: 10px 0;
+                        }
+
+                        .atkp-package-period {
+                            font-size: 12px;
+                            color: #646970;
+                        }
+
+                        .atkp-package-disabled {
+                            background: #f6f7f7;
+                            border-color: #c3c4c7;
+                        }
+
+                        .atkp-package-disabled .atkp-package-limit {
+                            color: #999;
+                        }
+
+                        .atkp-cta-buttons {
+                            margin-top: 20px;
+                            display: flex;
+                            gap: 10px;
+                            flex-wrap: wrap;
+                        }
+
+                        .atkp-btn-primary {
+                            background: #005162;
+                            color: #fff;
+                            padding: 10px 20px;
+                            border-radius: 4px;
+                            text-decoration: none;
+                            font-weight: 500;
                             display: inline-block;
+                            transition: all 0.3s ease;
+                            border: none;
+                            box-shadow: 0 2px 4px rgba(0, 81, 98, 0.2);
+                        }
+
+                        .atkp-btn-primary:hover {
+                            background: #003a48;
+                            color: #fff;
+                            box-shadow: 0 4px 8px rgba(0, 81, 98, 0.3);
+                            transform: translateY(-1px);
+                        }
+
+                        .atkp-btn-secondary {
+                            background: #fff;
+                            color: #005162;
+                            padding: 10px 20px;
+                            border: 2px solid #54b9ca;
+                            border-radius: 4px;
+                            text-decoration: none;
+                            font-weight: 500;
+                            display: inline-block;
+                            transition: all 0.3s ease;
+                        }
+
+                        .atkp-btn-secondary:hover {
+                            background: #005162;
+                            color: #fff;
+                            border-color: #005162;
                         }
                     </style>
                 </th>
             </tr>
 
-			<?php
-		} else { ?>
-            <tr>
-                <th colspan="2">
-                    <div class="atkp-info">
-	                    <?php echo esc_html__( 'Please note: If you are using the official Amazon API everything is fine. If you have no access to the API (e.g. too many requests exception) you need to download our extension for this functionality.', 'affiliate-toolkit-starter' ) ?>
-                        <br/> <br/><a href="https://www.affiliate-toolkit.com/downloads/amazon-no-api-mode/"
-                                      target="_blank"
-                                      class="button atkp-button"><?php echo esc_html__( 'Download extension now', 'affiliate-toolkit-starter' ) ?></a>
-                    </div>
+		<!-- API Requirements Info - Only shown in API mode -->
+		<tr class="atkp-config-section atkp-info-section" id="atkp-info-api">
+			<th colspan="2">
+				<div class="atkp-api-notice">
+					<h3>📊 <?php echo esc_html__( 'Amazon Product Advertising API (PA-API 5.0) Requirements', 'affiliate-toolkit-starter' ) ?></h3>
 
-                    <style>
-                        .atkp-success {
-                            color: #4F8A10;
-                            background-color: #DFF2BF;
-                        }
+					<div class="atkp-api-limits">
+						<h4><?php echo esc_html__( '🚀 Initial Limits (First 30 days)', 'affiliate-toolkit-starter' ) ?></h4>
+						<ul>
+							<li><?php echo esc_html__( 'Up to 1 request per second (1 TPS)', 'affiliate-toolkit-starter' ) ?></li>
+							<li><?php echo esc_html__( 'Maximum of 8,640 requests per day (8,640 TPD)', 'affiliate-toolkit-starter' ) ?></li>
+						</ul>
+					</div>
 
-                        .atkp-info, .atkp-success, .atkp-warning, .atkp-error, .atkp-validation {
-                            border: 1px solid;
-                            margin: 0px 0px;
-                            width: 95%;
-                            padding: 15px 10px 15px 10px;
-                            background-repeat: no-repeat;
-                            background-position: 10px center;
-                            display: inline-block;
-                        }
-                    </style>
-                </th>
-            </tr>
+					<div class="atkp-api-limits">
+						<h4><?php echo esc_html__( '💰 Revenue-based Limits (After 30 days)', 'affiliate-toolkit-starter' ) ?></h4>
+						<ul>
+							<li><?php echo esc_html__( '1 TPD for every $0.05 of shipped item revenue', 'affiliate-toolkit-starter' ) ?></li>
+							<li><?php echo esc_html__( '1 TPS for every $4,320 of shipped item revenue (maximum 10 TPS)', 'affiliate-toolkit-starter' ) ?></li>
+						</ul>
+					</div>
 
-		<?php } ?>
+					<div class="atkp-alert-danger">
+						⚠️ <?php echo esc_html__( 'Your account will lose API access if it has not generated qualified referring sales for a consecutive 30-day period. Access will be restored within 2 days after referred sales are shipped.', 'affiliate-toolkit-starter' ) ?>
+					</div>
+				</div>
+			</th>
+		</tr>
+
 
         <tr>
             <th scope="row">
@@ -691,7 +1116,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
                 <input type="number" min="0" max="1000" placeholder="75" id="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_small_image_size') ?>"
                        name="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_small_image_size') ?>"
                        value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_amz_small_image_size' ) ); ?>"> <?php echo esc_html__( 'px', 'affiliate-toolkit-starter' ) ?>
-	            <?php ATKPTools::display_helptext(esc_html__('Amazon offers flexible image sizes. If you wan\'t to override the default size of 75px you can change it here. Changes for already imported products are visible after the cache update.', 'affiliate-toolkit-starter')) ?>
+	            <?php ATKPTools::display_helptext( esc_html__( 'Amazon offers flexible image sizes. If you wan\'t to override the default size of 75px you can change it here. Changes for already imported products are visible after the cache update.', 'affiliate-toolkit-starter' ) ) ?>
             </td>
         </tr>
 
@@ -705,7 +1130,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
                 <input type="number" min="0" max="1000" placeholder="160" id="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_medium_image_size') ?>"
                        name="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_medium_image_size') ?>"
                        value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_amz_medium_image_size' ) ); ?>"> <?php echo esc_html__( 'px', 'affiliate-toolkit-starter' ) ?>
-	            <?php ATKPTools::display_helptext(esc_html__('Amazon offers flexible image sizes. If you wan\'t to override the default size of 160px you can change it here. Changes for already imported products are visible after the cache update.', 'affiliate-toolkit-starter')) ?>
+	            <?php ATKPTools::display_helptext( esc_html__( 'Amazon offers flexible image sizes. If you wan\'t to override the default size of 160px you can change it here. Changes for already imported products are visible after the cache update.', 'affiliate-toolkit-starter' ) ) ?>
             </td>
         </tr>
 
@@ -736,7 +1161,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 					?>
 
                 </select>
-	            <?php ATKPTools::display_helptext(esc_html__('You can filter if you only wan\'t prices for special conditions of products. By default you receive all offers. If you only wan\'t to show "used" products on your website you can select a different option.', 'affiliate-toolkit-starter')) ?>
+	            <?php ATKPTools::display_helptext( esc_html__( 'You can filter if you only wan\'t prices for special conditions of products. By default you receive all offers. If you only wan\'t to show "used" products on your website you can select a different option.', 'affiliate-toolkit-starter' ) ) ?>
             </td>
         </tr>
 
@@ -750,7 +1175,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
                 <input type="number" min="0" max="20" id="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_seconds_wait') ?>" placeholder="1"
                        name="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_seconds_wait') ?>"
                        value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_seconds_wait' ) ); ?>"/> <?php echo esc_html__( 'seconds', 'affiliate-toolkit-starter' ) ?>
-	            <?php ATKPTools::display_helptext(esc_html__('In normal cases you don\'t need to change to a higher limit. By default the API is waiting one second..', 'affiliate-toolkit-starter')) ?>
+	            <?php ATKPTools::display_helptext( esc_html__( 'In normal cases you don\'t need to change to a higher limit. By default the API is waiting one second..', 'affiliate-toolkit-starter' ) ) ?>
             </td>
         </tr>
 
@@ -768,7 +1193,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
                 <label for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_load_variations') ?>">
 	                <?php echo esc_html__( 'Load variations for products', 'affiliate-toolkit-starter' ) ?>
                 </label>
-	            <?php ATKPTools::display_helptext(esc_html__('If you wan\'t to retrieve also other colors or variations for one product (e.g. Shirts) you can enable this option but this cost one extra request per product', 'affiliate-toolkit-starter')) ?>
+	            <?php ATKPTools::display_helptext( esc_html__( 'If you wan\'t to retrieve also other colors or variations for one product (e.g. Shirts) you can enable this option but this cost one extra request per product', 'affiliate-toolkit-starter' ) ) ?>
             </td>
         </tr>
 		<?php
@@ -834,10 +1259,10 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 		$this->country               = $access_website = ATKPTools::get_post_setting( $shop->id, ATKP_SHOP_POSTTYPE . '_access_website' );
 		$this->associateTag          = $access_tracking_id = ATKPTools::get_post_setting( $shop->id, ATKP_SHOP_POSTTYPE . '_access_tracking_id' );
 
-        $lang = ATKPTools::get_post_setting( $shop->id, ATKP_SHOP_POSTTYPE . '_languages_of_preference' );
-        $this->languages_of_preference = $lang != '' ? explode(',', $lang) : null;
+		$lang                          = ATKPTools::get_post_setting( $shop->id, ATKP_SHOP_POSTTYPE . '_languages_of_preference' );
+		$this->languages_of_preference = $lang != '' ? explode( ',', $lang ) : null;
 
-		$this->asindataapikey       = ATKPTools::get_post_setting( $shop->id, ATKP_SHOP_POSTTYPE . '_asindataapikey' );
+		$this->asindataapikey = ATKPTools::get_post_setting( $shop->id, ATKP_SHOP_POSTTYPE . '_asindataapikey' );
 
 		$this->load_variations       = ATKPTools::get_post_setting( $shop->id, ATKP_SHOP_POSTTYPE . '_load_variations' );
 		$this->enable_ssl            = true;
@@ -907,8 +1332,9 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 			$searchItemsRequest->setKeywords( $keyword );
 			$searchItemsRequest->setItemCount( 10 );
 			$searchItemsRequest->setPartnerTag( $this->associateTag );
-            if($this->languages_of_preference != null)
-                $searchItemsRequest->setLanguagesOfPreference($this->languages_of_preference);
+			if ( $this->languages_of_preference != null ) {
+				$searchItemsRequest->setLanguagesOfPreference( $this->languages_of_preference );
+			}
 			$searchItemsRequest->setPartnerType( Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\PartnerType::ASSOCIATES );
 			$searchItemsRequest->setResources(
 				\Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SearchItemsResource::getAllowableEnumValues()
@@ -1011,8 +1437,8 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 				$getItemsRequest->setItemIds( explode( ',', $keyword ) );
 				$getItemsRequest->setItemIdType( ( $searchType == 'ean' ? 'EAN' : 'ASIN' ) );
 				$getItemsRequest->setPartnerTag( $this->associateTag );
-				if($this->languages_of_preference != null)
-					$getItemsRequest->setLanguagesOfPreference($this->languages_of_preference);
+				if ( $this->languages_of_preference != null )
+					$getItemsRequest->setLanguagesOfPreference( $this->languages_of_preference);
 				$getItemsRequest->setPartnerType( \Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\PartnerType::ASSOCIATES );
 				$getItemsRequest->setResources(
 					\Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\GetItemsResource::getAllowableEnumValues()
@@ -1031,8 +1457,8 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 				$searchItemsRequest->setKeywords( $keyword );
 				$searchItemsRequest->setItemCount( $maxCount );
 				$searchItemsRequest->setPartnerTag( $this->associateTag );
-				if($this->languages_of_preference != null)
-					$searchItemsRequest->setLanguagesOfPreference($this->languages_of_preference);
+				if ( $this->languages_of_preference != null )
+					$searchItemsRequest->setLanguagesOfPreference( $this->languages_of_preference);
 				$searchItemsRequest->setPartnerType( Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\PartnerType::ASSOCIATES );
 				$searchItemsRequest->setResources(
 					\Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SearchItemsResource::getAllowableEnumValues()
@@ -1069,7 +1495,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 		}
 
 		if ( ! empty( $check ) ) {
-			throw new Exception( esc_html__($check, 'affiliate-toolkit-starter') );
+			throw new Exception( esc_html__( $check, 'affiliate-toolkit-starter' ) );
 		}
 
 
@@ -1102,26 +1528,68 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 				if ( $result->getItemInfo() != null && $result->getItemInfo()->getTitle() != null && $result->getItemInfo()->getTitle()->getDisplayValue() != null ) {
 					$product['title'] = htmlspecialchars( $result->getItemInfo()->getTitle()->getDisplayValue() );
 				}
-				if ( $result->getOffers() != null ) {
-					foreach ( $result->getOffers()->getListings() as $listing ) {
-						$product['availability'] = $listing->getAvailability();
-
-						if ( $listing->getPrice() != null ) {
-							$product['listprice'] = $listing->getPrice()->getSavings() == null ? '' : $listing->getPrice()->getSavings()->getDisplayAmount();
-							$product['saleprice'] = $listing->getPrice()->getDisplayAmount();
-							break;
-						}
+			if ( $result->getOffersV2() != null ) {
+				foreach ( $result->getOffersV2()->getListings() as $listing ) {
+					if ( $listing->getAvailability() != null && $listing->getAvailability()->getMessage() != null ) {
+						$product['availability'] = $listing->getAvailability()->getMessage();
 					}
 
+					if ( $listing->getPrice() != null ) {
+						// OffersV2 hat eine verschachtelte Money-Struktur
+						$price = $listing->getPrice();
 
-					if ( $result->getOffers()->getSummaries() != null && $product['saleprice'] == '' ) {
-						foreach ( $result->getOffers()->getSummaries() as $summary ) {
-							$product['saleprice'] = $summary->getLowestPrice() != null ? $summary->getLowestPrice()->getDisplayAmount() : '';
+						// SavingBasis für listprice
+						if ( $price->getSavingBasis() != null ) {
+							$savingBasis = $price->getSavingBasis();
+							// Prüfe ob SavingBasis das neue Money-Objekt hat
+							if ( $savingBasis->getMoney() != null ) {
+								$product['listprice'] = $savingBasis->getMoney()->getDisplayAmount();
+								$product['listpricefloat'] = $savingBasis->getMoney()->getAmount();
+							}
+						} else {
 							$product['listprice'] = '';
-							break;
+							$product['listpricefloat'] = 0;
 						}
+
+						// Preis aus dem Money-Objekt holen
+						if ( $price->getMoney() != null ) {
+							$product['saleprice'] = $price->getMoney()->getDisplayAmount();
+							$product['salepricefloat'] = $price->getMoney()->getAmount();
+						}
+
+						// PricePerUnit (baseprice) - nur OffersV2 Struktur
+						if ( $price->getPricePerUnit() != null ) {
+							$pricePerUnit = $price->getPricePerUnit();
+							if ( $pricePerUnit->getAmount() != null ) {
+								$product['basepricefloat'] = $pricePerUnit->getAmount();
+
+								// Extrahiere Preis und Einheit aus dem displayAmount
+								if ( $pricePerUnit->getDisplayAmount() != null ) {
+									$parts = explode(' / ', $pricePerUnit->getDisplayAmount());
+									$product['baseprice'] = trim($parts[0]);
+									if ( count($parts) > 1 ) {
+										$product['baseunit'] = trim($parts[1]);
+									}
+								}
+							}
+						}
+
+						// Savings
+						if ( $price->getSavings() != null ) {
+							$savings = $price->getSavings();
+							if ( $savings->getPercentage() != null ) {
+								$product['percentagesaved'] = $savings->getPercentage();
+							}
+							if ( $savings->getMoney() != null ) {
+								$product['amountsaved'] = $savings->getMoney()->getDisplayAmount();
+								$product['amountsavedfloat'] = $savings->getMoney()->getAmount();
+							}
+						}
+
+						break;
 					}
 				}
+			}
 
 
 				$description = '';
@@ -1422,8 +1890,8 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 
 			$url = 'https://api.affiliate-toolkit.com/amazon/noapi.php?keywords=' . urlencode( $keyword ) . '&tag=' . $this->associateTag . '&country=' . strtoupper( $this->country ) . '&key=' . $license . '&page_number=' . $pagination;
 
-            if($this->asindataapikey != '')
-                $url .= '&apikey='.$this->asindataapikey;
+			if ( $this->asindataapikey != '' )
+				$url .= '&apikey=' . $this->asindataapikey;
 
 
 			$page       = '';
@@ -1456,12 +1924,12 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 			if ( 200 == $statusCode ) {
 				$xx = json_decode( $page );
 
-                if($xx != null && isset($xx->data->errormessage) && $xx->data->errormessage != '') {
-	                $products          = new atkp_search_resp();
-	                $products->message = $xx->data->errormessage.' / '. esc_url( $url );
+				if ( $xx != null && isset( $xx->data->errormessage ) && $xx->data->errormessage != '' ) {
+					$products          = new atkp_search_resp();
+					$products->message = $xx->data->errormessage . ' / ' . esc_url( $url );
 
-	                return $products;
-                }
+					return $products;
+				}
 
 				if ( $xx != null && isset( $xx->products ) ) {
 					foreach ( $xx->products as $p ) {
@@ -1497,11 +1965,12 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 				}
 
 
-				$products          = new atkp_search_resp();
-                if($statusCode == 429)
-	                $products->message = __('The query limit has been reached.', 'affiliate-toolkit-starter');
-                else
-	    			$products->message =  'Invalid Status code: ' . $statusCode .' / '. esc_url( $url ) . ' / Please try again.';
+				$products = new atkp_search_resp();
+				if ( $statusCode == 429 ) {
+					$products->message = __( 'The query limit has been reached.', 'affiliate-toolkit-starter' );
+				} else {
+					$products->message = 'Invalid Status code: ' . $statusCode . ' / ' . esc_url( $url ) . ' / Please try again.';
+				}
 
 				return $products;
 			}
@@ -1535,8 +2004,8 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 
 			try {
 				$url = 'https://api.affiliate-toolkit.com/amazon/noapi.php?asin=' . $asin . '&tag=' . $this->associateTag . '&country=' . strtoupper( $this->country ) . '&key=' . $license;
-				if($this->asindataapikey != '')
-					$url .= '&apikey='.$this->asindataapikey;
+				if ( $this->asindataapikey != '' )
+					$url .= '&apikey=' . $this->asindataapikey;
 
                 $page = '';
 
@@ -1558,27 +2027,27 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 							$page = $response['body'];
 						}
 					}
-                    if($statusCode != 200) {
-	                    $product               = new atkp_response_item();
-	                    $product->uniqueid     = $asin;
-	                    $product->uniquetype   = 'ASIN';
+					if ( $statusCode != 200 ) {
+						$product             = new atkp_response_item();
+						$product->uniqueid   = $asin;
+						$product->uniquetype = 'ASIN';
 
-	                    array_push( $atkpresponse->responseitems, $product );
-	                    if ( $statusCode == 429 ) {
-		                    $product->errormessage = __( 'The query limit has been reached.', 'affiliate-toolkit-starter' );
-	                    } else {
-		                    $product->errormessage = 'Invalid Status code: ' . $statusCode . ' / ' . esc_url( $url ) . ' / Please try again.';
-	                    }
-	                    array_push( $atkpresponse->responseitems, $product );
-                    }
+						array_push( $atkpresponse->responseitems, $product );
+						if ( $statusCode == 429 ) {
+							$product->errormessage = __( 'The query limit has been reached.', 'affiliate-toolkit-starter' );
+						} else {
+							$product->errormessage = 'Invalid Status code: ' . $statusCode . ' / ' . esc_url( $url ) . ' / Please try again.';
+						}
+						array_push( $atkpresponse->responseitems, $product );
+					}
 				}
 
                 $xx = json_decode($page );
 
-				if($xx != null && isset($xx->data->errormessage) && $xx->data->errormessage != '') {
+				if ( $xx != null && isset( $xx->data->errormessage ) && $xx->data->errormessage != '' ) {
 
 					$product               = new atkp_response_item();
-					$product->errormessage = 'product error: ' . $xx->data->errormessage.' / '. esc_url( $url );
+					$product->errormessage = 'product error: ' . $xx->data->errormessage . ' / ' . esc_url( $url );
 					$product->uniqueid     = $asin;
 					$product->uniquetype   = 'ASIN';
 
@@ -1636,7 +2105,6 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 		if ( count( $asins ) == 0 ) {
 			return $atkpresponse;
 		}
-
 		switch ( strtoupper($id_type) ) {
 			case 'TITLE':
 			case "EAN":
@@ -1653,8 +2121,8 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 						$searchItemsRequest->setSearchIndex( 'All' );
 						$searchItemsRequest->setKeywords( $title );
 						$searchItemsRequest->setItemCount( 2 );
-						if($this->languages_of_preference != null)
-							$searchItemsRequest->setLanguagesOfPreference($this->languages_of_preference);
+						if ( $this->languages_of_preference != null )
+							$searchItemsRequest->setLanguagesOfPreference( $this->languages_of_preference);
 						$searchItemsRequest->setPartnerTag( $this->associateTag );
 						$searchItemsRequest->setPartnerType( Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\PartnerType::ASSOCIATES );
 						$searchItemsRequest->setResources(
@@ -1746,8 +2214,8 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 						$getItemsRequest = new Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\GetItemsRequest();
 						$getItemsRequest->setItemIds( array( $asin ) );
 						$getItemsRequest->setItemIdType( ( 'ASIN' ) );
-						if($this->languages_of_preference != null)
-							$getItemsRequest->setLanguagesOfPreference($this->languages_of_preference);
+						if ( $this->languages_of_preference != null )
+							$getItemsRequest->setLanguagesOfPreference( $this->languages_of_preference);
 						$getItemsRequest->setPartnerTag( $this->associateTag );
 						$getItemsRequest->setPartnerType( \Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\PartnerType::ASSOCIATES );
 						$getItemsRequest->setResources(
@@ -1761,7 +2229,8 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 							$items = $getItemsResponse->getItemsResult()->getItems();
 						}
 
-					} catch ( Amazon\ProductAdvertisingAPI\v1\ApiException $exception ) {
+
+                    } catch ( Amazon\ProductAdvertisingAPI\v1\ApiException $exception ) {
 						$check = "API-Error: " . $exception->getCode() . " " . $exception->getMessage();
 
 						if ( $exception->getResponseObject() instanceof Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ProductAdvertisingAPIClientException ) {
@@ -1855,8 +2324,8 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 				$getItemsRequest->setASIN( $result->getASIN() );
 				$getItemsRequest->setVariationCount( 10 );
 				$getItemsRequest->setPartnerTag( $this->associateTag );
-				if($this->languages_of_preference != null)
-					$getItemsRequest->setLanguagesOfPreference($this->languages_of_preference);
+				if ( $this->languages_of_preference != null )
+					$getItemsRequest->setLanguagesOfPreference( $this->languages_of_preference);
 				$getItemsRequest->setPartnerType( \Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\PartnerType::ASSOCIATES );
 
 				$getItemsRequest->setResources(
@@ -2056,10 +2525,22 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 
 		//preise laden
 
-		if ( $result->getOffers() != null ) {
+		// Prüfe zuerst OffersV2 (neue API), dann Offers (alte API) als Fallback
+		$offersObject = null;
+		$isOffersV2 = false;
+
+		if ( $result->getOffersV2() != null ) {
+			$offersObject = $result->getOffersV2();
+			$isOffersV2 = true;
+		} else if ( $result->getOffers() != null ) {
+			$offersObject = $result->getOffers();
+			$isOffersV2 = false;
+		}
+
+		if ( $offersObject != null ) {
 			$offerlisting = null;
-			if($result->getOffers()->getListings() != null) {
-				foreach ( $result->getOffers()->getListings() as $listing ) {
+			if($offersObject->getListings() != null) {
+				foreach ( $offersObject->getListings() as $listing ) {
 					if ( $listing->getIsBuyBoxWinner() &&
                          $this->allowedCondition( $listing->getCondition() == null ? null : $listing->getCondition()->getValue() ) ) {
 						$offerlisting = $listing;
@@ -2069,7 +2550,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 
 				if ( $offerlisting == null) {
 					$listings = array();
-					foreach ( $result->getOffers()->getListings() as $list ) {
+					foreach ( $offersObject->getListings() as $list ) {
 						if ( $this->allowedCondition( $list->getCondition() == null ? null : $list->getCondition()->getValue() ) ) {
 							$listings[] = $list;
 						}
@@ -2094,36 +2575,77 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
                     }
                 }
 
-                if($offerlisting->getPrice() != null && $offerlisting->getPrice()->getPricePerUnit() > 0) {
-                    $displayval = $offerlisting->getPrice()->getDisplayAmount();
-                    $raw = ATKPTools::get_string_between($displayval, '(', ')');
+				// Helper-Funktion für OffersV2 Money-Struktur
+				$getDisplayAmount = function($priceObject) use ($isOffersV2) {
+					if ($priceObject == null) return '';
+					if ($isOffersV2 && $priceObject->getMoney() != null) {
+						return $priceObject->getMoney()->getDisplayAmount();
+					}
+					return $priceObject->getDisplayAmount();
+				};
 
-	                $myproduct->baseprice      = $raw;
-	                $myproduct->basepricefloat = $offerlisting->getPrice() == null ? 0 : $offerlisting->getPrice()->getPricePerUnit();
+				$getAmount = function($priceObject) use ($isOffersV2) {
+					if ($priceObject == null) return 0;
+					if ($isOffersV2 && $priceObject->getMoney() != null) {
+						return $priceObject->getMoney()->getAmount();
+					}
+					return $priceObject->getAmount();
+				};
 
-                    $parts = explode(' / ', $raw);
+				// Baseprice und PricePerUnit für OffersV2
+				$pricePerUnit = 0;
+				$pricePerUnitDisplay = '';
+				if ($offerlisting->getPrice() != null && $offerlisting->getPrice()->getPricePerUnit() != null) {
+					$pricePerUnitObj = $offerlisting->getPrice()->getPricePerUnit();
+					if ($isOffersV2 && is_object($pricePerUnitObj) && method_exists($pricePerUnitObj, 'getAmount')) {
+						// OffersV2: PricePerUnit hat direkt amount und displayAmount
+						$pricePerUnit = $pricePerUnitObj->getAmount();
+						$pricePerUnitDisplay = $pricePerUnitObj->getDisplayAmount();
+					}
+				}
 
-                    if(count($parts) > 0) {
-	                    $myproduct->baseunit = $parts[1];
+                if($pricePerUnit > 0) {
+	                $myproduct->basepricefloat = $pricePerUnit;
+
+					// Extrahiere Preis (vor /) und Einheit (nach /) aus displayAmount
+                    $parts = explode(' / ', $pricePerUnitDisplay);
+					$myproduct->baseprice = trim($parts[0]);
+                    if(count($parts) > 1) {
+	                    $myproduct->baseunit = trim($parts[1]);
                     }
                 }
 
+				$myproduct->saleprice      = $getDisplayAmount($offerlisting->getPrice());
+				$myproduct->salepricefloat = $getAmount($offerlisting->getPrice());
+				$myproduct->unitpricefloat = $pricePerUnit;
 
+			if ( $offerlisting->getPrice() != null && $offerlisting->getPrice()->getSavings() != null ) {
+				$savings = $offerlisting->getPrice()->getSavings();
+				$myproduct->percentagesaved  = $savings->getPercentage();
 
-				$myproduct->saleprice      = $offerlisting->getPrice() == null ? '' : $offerlisting->getPrice()->getDisplayAmount();
-				$myproduct->salepricefloat = $offerlisting->getPrice() == null ? 0 : $offerlisting->getPrice()->getAmount();
-				$myproduct->unitpricefloat = $offerlisting->getPrice() == null || $offerlisting->getPrice()->getPricePerUnit() == null ? 0 : $offerlisting->getPrice()->getPricePerUnit();
-
-				if ( $offerlisting->getPrice() != null && $offerlisting->getPrice()->getSavings() != null ) {
-					$myproduct->percentagesaved  = $offerlisting->getPrice() == null ? '' : $offerlisting->getPrice()->getSavings()->getPercentage();
-					$myproduct->amountsaved      = $offerlisting->getPrice() == null ? '' : $offerlisting->getPrice()->getSavings()->getDisplayAmount();
-					$myproduct->amountsavedfloat = $offerlisting->getPrice() == null ? 0 : $offerlisting->getPrice()->getSavings()->getAmount();
+				// OffersV2 hat Money-Objekt in Savings
+				if ($isOffersV2 && $savings->getMoney() != null) {
+					$myproduct->amountsaved      = $savings->getMoney()->getDisplayAmount();
+					$myproduct->amountsavedfloat = $savings->getMoney()->getAmount();
+				} else {
+					$myproduct->amountsaved      = $savings->getDisplayAmount();
+					$myproduct->amountsavedfloat = $savings->getAmount();
 				}
+			}
 
-				if ( $offerlisting->getSavingBasis() != null ) {
-					$myproduct->listprice      = $offerlisting->getSavingBasis()->getDisplayAmount();
-					$myproduct->listpricefloat = $offerlisting->getSavingBasis()->getAmount();
+			if ( $offerlisting->getPrice() != null && $offerlisting->getPrice()->getSavingBasis() != null ) {
+				$savingBasis = $offerlisting->getPrice()->getSavingBasis();
+
+				// OffersV2 hat ein OffersV2SavingBasis-Objekt mit Money
+				if ($isOffersV2 && is_object($savingBasis) && method_exists($savingBasis, 'getMoney') && $savingBasis->getMoney() != null) {
+					$myproduct->listprice      = $savingBasis->getMoney()->getDisplayAmount();
+					$myproduct->listpricefloat = $savingBasis->getMoney()->getAmount();
+				} else if (is_object($savingBasis) && method_exists($savingBasis, 'getDisplayAmount')) {
+					// Alte Offers-Struktur (SavingBasis ist ein OfferPrice-Objekt)
+					$myproduct->listprice      = $savingBasis->getDisplayAmount();
+					$myproduct->listpricefloat = $savingBasis->getAmount();
 				}
+			}
 
 				if ( $offerlisting->getAvailability() != null ) {
                     /*
@@ -2321,6 +2843,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 //			}
 //		}
 
+
 		$this->validate_response_v5( $searchItemsResponse );
 
 		return $searchItemsResponse;
@@ -2396,8 +2919,8 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 
 				$searchItemsRequest->setBrowseNodeId( $search_request->category );
 				$searchItemsRequest->setKeywords( "*" );
-                if($this->languages_of_preference != null)
-                    $searchItemsRequest->setLanguagesOfPreference($this->languages_of_preference);
+			if ( $this->languages_of_preference != null )
+				$searchItemsRequest->setLanguagesOfPreference( $this->languages_of_preference);
 				$searchItemsRequest->setPartnerTag( $this->associateTag );
 				$searchItemsRequest->setPartnerType( Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\PartnerType::ASSOCIATES );
 				$searchItemsRequest->setResources(
@@ -2565,8 +3088,8 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 						$searchItemsRequest->setKeywords( $keyword );
 					}
 				}
-                if($this->languages_of_preference != null)
-                    $searchItemsRequest->setLanguagesOfPreference($this->languages_of_preference);
+			if ( $this->languages_of_preference != null )
+				$searchItemsRequest->setLanguagesOfPreference( $this->languages_of_preference);
 				$searchItemsRequest->setPartnerTag( $this->associateTag );
 				$searchItemsRequest->setPartnerType( Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\PartnerType::ASSOCIATES );
 				$searchItemsRequest->setResources(

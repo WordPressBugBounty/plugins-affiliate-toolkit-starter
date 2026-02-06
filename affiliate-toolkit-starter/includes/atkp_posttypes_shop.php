@@ -69,6 +69,17 @@ class atkp_posttypes_shop
 
         }, 3);
 
+ATKPTools::add_column(ATKP_SHOP_POSTTYPE, esc_html__('Imported Product count', 'affiliate-toolkit-starter'), function ($post_id) {
+    $atkp_producttable_helper = new atkp_producttable_helper();
+    $stats = $atkp_producttable_helper->count_products_by_shop_with_stats($post_id);
+
+    echo '<span style="font-weight:bold">' . esc_html__('Total', 'affiliate-toolkit-starter') . ':</span> ' . esc_html($stats['total']) . '<br />';
+    echo '<span style="color:green;font-weight:bold">' . esc_html__('Error-free', 'affiliate-toolkit-starter') . ':</span> ' . esc_html($stats['success']) . '<br />';
+    echo '<span style="color:red;font-weight:bold">' . esc_html__('Faulty', 'affiliate-toolkit-starter') . ':</span> ' . esc_html($stats['error']);
+}, 3);
+
+
+
         ATKPTools::add_column(ATKP_SHOP_POSTTYPE, esc_html__('Logo', 'affiliate-toolkit-starter'), function ($post_id) {
 
             $shps = atkp_shop::load($post_id);
@@ -517,6 +528,27 @@ class atkp_posttypes_shop
             </table>
 
             <?php
+
+            $s = atkp_shop::load($post->ID);
+
+            $plugin_name = ATKPTools::get_plugin_name_from_object($s->provider);
+
+// Prüfe Lizenz
+if (!ATKPTools::is_license_active_for_plugin($plugin_name)) {
+?>
+<div class="notice notice-warning inline" style="margin: 15px 0; padding: 10px 15px;">
+    <p style="margin: 0;">
+        <span class="dashicons dashicons-warning" style="color: #f0b849; vertical-align: middle; margin-right: 5px;"></span>
+        <strong><?php echo esc_html__('License Information', 'affiliate-toolkit-starter'); ?>:</strong>
+        <?php echo esc_html__('This shop requires an active license. You can configure the shop, but it won\'t be functional until you activate a valid license.', 'affiliate-toolkit-starter'); ?>
+        <a href="<?php echo esc_url(admin_url('admin.php?page=' . ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin&tab=license_configuration_page')); ?>" class="button button-small" style="margin-left: 10px; vertical-align: middle;">
+            <?php echo esc_html__('Manage Licenses', 'affiliate-toolkit-starter'); ?>
+        </a>
+    </p>
+</div>
+<?php
+
+}
             if ($selwebservice == ATKP_SUBSHOPTYPE) {
 
                 ?>
@@ -551,7 +583,6 @@ class atkp_posttypes_shop
 
 
                         <?php
-                        $s = atkp_shop::load($post->ID);
 
                         if ($s->type == atkp_shop_type::MULTI_SHOPS) {
                             ?>
@@ -590,6 +621,7 @@ class atkp_posttypes_shop
                                     $allselected = true;
                                     if (is_array($defaultshops)) {
                                         foreach ($defaultshops as $subshop) {
+
                                             $found = false;
                                             if (is_array($selectedshops)) {
                                                 foreach ($selectedshops as $selectedsubshop) {

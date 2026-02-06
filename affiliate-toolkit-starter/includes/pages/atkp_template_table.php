@@ -21,14 +21,14 @@ class atkp_template_table extends WP_List_Table {
 		$current = ( ! empty( $_REQUEST['view'] ) ? $_REQUEST['view'] : 'custom' );
 
 		//Foo link
-		$foo_url         = admin_url( 'admin.php?page=ATKP_viewtemplate' ); // add_query_arg( 'view', 'custom' );
+		$foo_url = admin_url( 'admin.php?page=ATKP_viewtemplate' ); // add_query_arg( 'view', 'custom' );
 
-		$bar_url         = $foo_url.'&view=custom';
+		$bar_url = $foo_url . '&view=custom';
 		$class           = ( $current == 'custom' ? ' class="current"' : '' );
 		$views['custom'] = "<a href='{$bar_url}' {$class}>" . __( 'Custom template', 'affiliate-toolkit-starter' ) . "</a>";
 
 		//Bar link
-		$bar_url         = $foo_url.'&view=system';
+		$bar_url = $foo_url . '&view=system';
 		$class           = ( $current == 'system' ? ' class="current"' : '' );
 		$views['system'] = "<a href='{$bar_url}' {$class}>" . __( 'System template', 'affiliate-toolkit-starter' ) . "</a>";
 

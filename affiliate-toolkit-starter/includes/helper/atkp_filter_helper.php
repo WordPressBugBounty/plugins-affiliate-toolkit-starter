@@ -429,16 +429,18 @@ class atkp_filter_helper {
 					} else {
 						$dropdown = isset( $filterparams[ $fieldname ] ) ? ( is_array( $filterparams[ $fieldname ] ) ? $filterparams[ $fieldname ] : explode( ',', $filterparams[ $fieldname ] ) ) : null;
 
-						$para = array(
-							'key'     => ATKP_PRODUCT_POSTTYPE . '_' . $fieldname,
-							'value'   => $dropdown,
-							'compare' => 'IN',
-							'type'    => 'CHAR'
-						);
+						if ( $dropdown != null && count( $dropdown ) > 0 ) {
+							$para = array(
+								'key'     => ATKP_PRODUCT_POSTTYPE . '_' . $fieldname,
+								'value'   => $dropdown,
+								'compare' => 'IN',
+								'type'    => 'CHAR'
+							);
 
-						$args['meta_query'][] = $para;
+							$args['meta_query'][] = $para;
 
-						$has_wp_filter_fields = true;
+							$has_wp_filter_fields = true;
+						}
 					}
 					break;
 			}

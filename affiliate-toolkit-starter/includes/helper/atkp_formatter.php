@@ -363,7 +363,7 @@ class atkp_formatter {
 			$target = '';
 		}
 
-		return 'href="' . $this->get_listurl() . '" rel="'.self::get_link_rel().'" ' . $target . ' title="' . __( 'Show me more products', 'affiliate-toolkit-starter' ) . '"';
+		return 'href="' . $this->get_listurl() . '" rel="' . self::get_link_rel() . '" ' . $target . ' title="' . __( 'Show me more products', 'affiliate-toolkit-starter' ) . '"';
 	}
 
 	public function get_link_mark() {
@@ -1227,14 +1227,14 @@ class atkp_formatter {
 				$comparegroup = new  atkp_template_comparegroup();
 				//$comparefield->id = $field->id;
 				$comparegroup->id          = -99;
-				$comparegroup->caption     = __('General', 'affiliate-toolkit-starter');
+				$comparegroup->caption = __( 'General', 'affiliate-toolkit-starter' );
 
 				$comparegroup->sortorder   = -1;
 				$comparegroup->isvisible   = $grouped && $comparegroup->caption != '';
 
 				$comparefield = new  atkp_template_comparevalue();
 				$comparefield->id          = 'manufacturer';
-				$comparefield->caption     = __('Manufacturer', 'affiliate-toolkit-starter');
+				$comparefield->caption = __( 'Manufacturer', 'affiliate-toolkit-starter' );
 				$comparefield->detail      = $product->manufacturer;
 				$comparefield->align       = 2;
 
@@ -2570,14 +2570,14 @@ class atkp_formatter {
 		$site_key = atkp_formatter::get_sitekey();
 
 		$name = base64_encode( $img_url ); //pathinfo($img_url, PATHINFO_FILENAME);; // to get file name
-		$checkkey = hash_hmac('sha256', $name, $site_key);
+		$checkkey = hash_hmac( 'sha256', $name, $site_key );
 		//$outfile = plugins_url( '/tools/atkp_imagereceiver.php', ATKP_PLUGIN_FILE );
 
 		//$site_key = self::get_sitekey();
 
 		//return $outfile . '?image=' . rawurlencode( base64_encode( $img_url ) ) . '&hash=' . ( ( md5( $img_url . $site_key ) ) );
 
-		return home_url() . '/?a_image=1&pid=' . rawurlencode( $productid ) . '&lid=' . rawurlencode( $listid ) . '&sid=' . rawurlencode( $shopid ) . '&name=' . rawurlencode( $name).'&key='.rawurlencode($checkkey);
+		return home_url() . '/?a_image=1&pid=' . rawurlencode( $productid ) . '&lid=' . rawurlencode( $listid ) . '&sid=' . rawurlencode( $shopid ) . '&name=' . rawurlencode( $name ) . '&key=' . rawurlencode( $checkkey );
 	}
 
 	public static function replace_image_url( $shopid, $url, $productid = null, $listid = null, $imagesize = null ) {
@@ -2705,7 +2705,7 @@ class atkp_formatter {
 				switch ( (int) $link_type ) {
 					default:
 					case atkp_link_type::Link:
-						$linktypetext = __( 'Link', 'affiliate-toolkit-starter' );
+					$linktypetext = __( 'Link', 'affiliate-toolkit-starter' );
 						break;
 					case atkp_link_type::Offer:
 						$linktypetext = __( 'Offer', 'affiliate-toolkit-starter' );

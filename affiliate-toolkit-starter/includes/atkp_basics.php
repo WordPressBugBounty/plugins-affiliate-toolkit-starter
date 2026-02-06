@@ -314,16 +314,20 @@ function my_atkp_out_redirect() {
 			$product_id = intval( $_GET['pid'] );
 			$list_id    = intval( $_GET['lid'] );
 			$shop_id    = intval( $_GET['sid'] );
-			$image_name = strval( base64_decode( $_GET['name'] ) );
 
-			if ( $image_name == '' ) {
-				wp_die( 'image missing' );
+			// Robustes Einlesen mit wp_unslash
+			$name_param_raw = isset( $_GET['name'] ) ? (string) wp_unslash( $_GET['name'] ) : '';
+			$image_name     = $name_param_raw !== '' ? base64_decode( $name_param_raw, true ) : '';
+			$hash           = isset( $_GET['key'] ) ? (string) wp_unslash( $_GET['key'] ) : '';
+
+			if ( $image_name === false || $image_name == '' ) {
+				wp_die( __( 'Image parameter missing or invalid', 'affiliate-toolkit-starter' ) );
 			}
-			//if($product_id < 0)
-			//	wp_die('pid missing');
+
 			if ( $shop_id < 0 && $list_id < 0 && $product_id < 0 ) {
-				wp_die( 'sid missing' );
+				wp_die( __( 'Shop ID missing', 'affiliate-toolkit-starter' ) );
 			}
+
 			$image_url = '';
 
 			if ( $product_id <= 0 && $list_id <= 0 ) {
@@ -342,16 +346,16 @@ function my_atkp_out_redirect() {
 					$image_url = 'https:' . $image_url;
 				}
 
-
 			} else if ( $product_id > 0 ) {
 				$prds    = atkp_product_collection::load( $product_id, $shop_id );
+				if ( $prds == null ) {
+					return '';
+				}
 				$prd_man = atkp_product::load( $product_id );
 
 				$shop_id = null;
 				foreach ( $prds->products as $p ) {
-
 					if ( $p->ismainshop ) {
-
 						$shop_id = $p->shopid;
 						break;
 					}
@@ -391,7 +395,6 @@ function my_atkp_out_redirect() {
 				$outputprds = $x->get_list_products( $list_id, 100, false, array(), false, 999, '', $max_num_pages, $found_posts );
 
 				foreach ( $outputprds as $prd ) {
-
 					if ( ATKPTools::str_contains( $prd->largeimageurl, $image_name ) ) {
 						$image_url = $prd->largeimageurl;
 					} else if ( ATKPTools::str_contains( $prd->mediumimageurl, $image_name ) ) {
@@ -410,38 +413,61 @@ function my_atkp_out_redirect() {
 						}
 					}
 				}
-
-
 			}
 
 			if ( $image_url == '' ) {
-				$hash     = ! isset( $_GET['key'] ) ? null : $_GET['key'];
-				$site_key = atkp_formatter::get_sitekey();
+				// HMAC-Prüfung mit Fallback für atkp_formatter
+				if ( ! class_exists( 'atkp_formatter' ) && defined( 'ATKP_PLUGIN_DIR' ) ) {
+					require_once ATKP_PLUGIN_DIR . '/includes/helper/atkp_formatter.php';
+				}
 
-				$checkkey = hash_hmac('sha256', $image_name, $site_key);
+				$site_key = method_exists( 'atkp_formatter', 'get_sitekey' ) ? atkp_formatter::get_sitekey() : '';
 
-				if($checkkey == $hash) {
-					header( 'Content-Type: image/jpeg' );
-					header( 'X-Robots-Tag: noindex' );
-					header( "HTTP/1.1 200 OK" );
+				// Tolerante HMAC-Prüfung: sowohl Base64-String als auch dekodierte URL
+				$checkkey_base64 = $site_key !== '' ? hash_hmac( 'sha256', $name_param_raw, $site_key ) : '';
+				$checkkey_decurl = $site_key !== '' ? hash_hmac( 'sha256', $image_name, $site_key ) : '';
 
-					readfile( $image_name );
-					exit;
-				} else
-					wp_die( esc_html__('image not found in our db: ' . $image_name, 'affiliate-toolkit-starter') );
+				$hmac_ok = ( $hash !== '' ) &&
+				           ( hash_equals( $checkkey_base64, $hash ) || hash_equals( $checkkey_decurl, $hash ) );
+
+				if ( $hmac_ok ) {
+					$image_url = $image_name;
+				} else {
+					wp_die( esc_html__( 'Image not found in database: ', 'affiliate-toolkit-starter' ) . esc_html( $image_name ) );
+				}
+			}
+
+			// Content-Type dynamisch anhand Dateiendung bestimmen
+			$path = parse_url( $image_url, PHP_URL_PATH );
+			$ext  = strtolower( pathinfo( $path ?? '', PATHINFO_EXTENSION ) );
+			$mime = 'image/jpeg';
+			if ( $ext === 'png' ) {
+				$mime = 'image/png';
+			} else if ( $ext === 'gif' ) {
+				$mime = 'image/gif';
+			} else if ( $ext === 'webp' ) {
+				$mime = 'image/webp';
+			} else if ( $ext === 'svg' ) {
+				$mime = 'image/svg+xml';
 			}
 
 			$uploads_dir = wp_upload_dir()['basedir'];
 
-			header( 'Content-Type: image/jpeg' );
+			header( 'Content-Type: ' . $mime );
 			header( 'X-Robots-Tag: noindex' );
-			header( "HTTP/1.1 200 OK" );
+			header( 'Cache-Control: public, max-age=86400' );
+			header( 'HTTP/1.1 200 OK' );
 
 			if ( file_exists( $uploads_dir ) ) {
 				$cache_dir = $uploads_dir . '/affiliate-toolkit-cache/';
 
+				// Verbessertes Verzeichnis-Erstellen mit wp_mkdir_p
 				if ( ! file_exists( $cache_dir ) ) {
-					mkdir( $cache_dir );
+					if ( ! wp_mkdir_p( $cache_dir ) ) {
+						// Fallback ohne Cache
+						readfile( $image_url );
+						exit;
+					}
 				}
 
 				$filename = md5( $image_url );
@@ -450,17 +476,39 @@ function my_atkp_out_redirect() {
 					readfile( $cache_dir . $filename );
 					exit;
 				} else {
-					file_put_contents( $cache_dir . $filename, file_get_contents( $image_url ) );
-					readfile( $cache_dir . $filename );
-					exit;
+					// Verbessertes Remote-Fetch mit wp_remote_get
+					$response = wp_remote_get( $image_url, array(
+						'timeout'   => 15,
+						'sslverify' => true
+					) );
+
+					if ( is_wp_error( $response ) ) {
+						// Fehler beim Abrufen - 404 zurückgeben
+						header( 'HTTP/1.1 404 Not Found' );
+						exit;
+					}
+
+					$status_code = wp_remote_retrieve_response_code( $response );
+					if ( $status_code !== 200 ) {
+						header( 'HTTP/1.1 ' . $status_code . ' Error' );
+						exit;
+					}
+
+					$image_data = wp_remote_retrieve_body( $response );
+
+					if ( $image_data !== '' ) {
+						file_put_contents( $cache_dir . $filename, $image_data );
+						readfile( $cache_dir . $filename );
+						exit;
+					}
 				}
 			}
 
 			readfile( $image_url );
 			exit;
 		}
-
 	}
+
 }
 
 

@@ -15,8 +15,8 @@ class atkp_product_image {
 
 	public static function load_images( $productid ) {
 
-		$thumbimagesold = ATKPTools::get_post_setting( $productid, ATKP_PRODUCT_POSTTYPE . '_thumbimagesurl', true );
-		$imagesold      = ATKPTools::get_post_setting( $productid, ATKP_PRODUCT_POSTTYPE . '_imagesurl', true );
+		$thumbimagesold = ATKPTools::get_post_setting( $productid, ATKP_PRODUCT_POSTTYPE . '_thumbimagesurl', '' );
+		$imagesold      = ATKPTools::get_post_setting( $productid, ATKP_PRODUCT_POSTTYPE . '_imagesurl', '' );
 
 		$newimages = ATKPTools::get_post_setting( $productid, ATKP_PRODUCT_POSTTYPE . '_images' );
 

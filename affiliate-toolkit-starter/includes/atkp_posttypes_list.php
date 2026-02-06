@@ -107,6 +107,9 @@ class atkp_posttypes_list {
 	}
 
 	function admin_posts_filter( $query ) {
+		if ( ! $query->is_main_query() ) {
+			return;
+		}
 		$filterfield = ATKPTools::get_get_parameter( ATKP_PLUGIN_PREFIX . '_filterfield', 'string' );
 		$posttype    = ATKPTools::get_get_parameter( 'post_type', 'string' );
 
@@ -115,9 +118,15 @@ class atkp_posttypes_list {
 			if ( is_admin() && $pagenow == 'edit.php' && isset( $filterfield ) && $filterfield != '' ) {
 
 				if ( $filterfield == 'filter_error' ) {
-					$query->query_vars['meta_key']     = ATKP_LIST_POSTTYPE . '_message';
-					$query->query_vars['meta_value']   = '';
-					$query->query_vars['meta_compare'] = 'EXISTS';
+					$meta_query = array(
+						array(
+							'key'     => 'atkp_list_message',
+							'value'   => '',
+							'compare' => '!=', // sorgt dafür, dass nur nicht-leere Werte gefunden werden
+						),
+					);
+
+					$query->set( 'meta_query', $meta_query );
 				} else {
 					$parts = explode( '_', $filterfield );
 
@@ -446,8 +455,8 @@ class atkp_posttypes_list {
 			<?php
 
 
-			$updatedon = ATKPTools::get_post_setting( $post->ID, ATKP_LIST_POSTTYPE . '_updatedon', true );
-			$message   = ATKPTools::get_post_setting( $post->ID, ATKP_LIST_POSTTYPE . '_message', true );
+			$updatedon = ATKPTools::get_post_setting( $post->ID, ATKP_LIST_POSTTYPE . '_updatedon' );
+			$message   = ATKPTools::get_post_setting( $post->ID, ATKP_LIST_POSTTYPE . '_message', '' );
 
 			?>
 
@@ -475,7 +484,8 @@ class atkp_posttypes_list {
         <div id="modal-browsenode-lookup" style="display:none;">
 
             <div class="atkp-lookupbox">
-                <p><label for=""><?php echo esc_html__( 'Keyword', 'affiliate-toolkit-starter' ) ?>:</label> <input type="text"
+                <p><label for=""><?php echo esc_html__( 'Keyword', 'affiliate-toolkit-starter' ) ?>:</label> <input
+                            type="text"
                                                                                               id="<?php echo esc_attr(ATKP_LIST_POSTTYPE . '_nodelookupsearch') ?>"
                                                                                               name="<?php echo esc_attr(ATKP_LIST_POSTTYPE . '_nodelookupsearch') ?>"
                                                                                               value=""> <input
@@ -688,8 +698,8 @@ class atkp_posttypes_list {
                         loadeddepartments = null;
                         loadedfilters = null;
 
-                        var searchdepbox = $j("#<?php echo esc_js(ATKP_LIST_POSTTYPE . '_search_department') ?>");
-                        var searchorderbox = $j("#<?php echo esc_js(ATKP_LIST_POSTTYPE . '_search_orderby') ?>");
+                        var searchdepbox = $j("#<?php echo esc_js( ATKP_LIST_POSTTYPE . '_search_department' ) ?>");
+                        var searchorderbox = $j("#<?php echo esc_js( ATKP_LIST_POSTTYPE . '_search_orderby' ) ?>");
 
 
                         var selectedvalue = searchdepbox.val();
@@ -765,7 +775,7 @@ class atkp_posttypes_list {
                                     var idx = 1;
                                     while (idx <= 10) {
 
-                                        var searchfilterfield = $j("#<?php echo esc_js(ATKP_LIST_POSTTYPE . '_filterfield') ?>" + idx);
+                                        var searchfilterfield = $j("#<?php echo esc_js( ATKP_LIST_POSTTYPE . '_filterfield' ) ?>" + idx);
                                         var selectedfiltervalue = searchfilterfield.attr('data-value');
 
                                         searchfilterfield.empty();
@@ -808,8 +818,8 @@ class atkp_posttypes_list {
                     if (loadeddepartments == null)
                         return;
 
-                    var searchdepbox = $j("#<?php echo esc_js(ATKP_LIST_POSTTYPE . '_search_department') ?>");
-                    var searchorderbox = $j("#<?php echo esc_js(ATKP_LIST_POSTTYPE . '_search_orderby') ?>");
+                    var searchdepbox = $j("#<?php echo esc_js( ATKP_LIST_POSTTYPE . '_search_department' ) ?>");
+                    var searchorderbox = $j("#<?php echo esc_js( ATKP_LIST_POSTTYPE . '_search_orderby' ) ?>");
 
                     var selectedvalue = searchorderbox.val();
 
@@ -908,9 +918,9 @@ class atkp_posttypes_list {
                 });
 
                 $j("#post").submit(function (event) {
-                    $j("#<?php echo (ATKP_LIST_POSTTYPE . '_products') ?> option:selected").removeAttr("selected");
+                    $j("#<?php echo( ATKP_LIST_POSTTYPE . '_products' ) ?> option:selected").removeAttr("selected");
 
-                    $j("#<?php echo (ATKP_LIST_POSTTYPE . '_products') ?> option").prop('selected', true);
+                    $j("#<?php echo( ATKP_LIST_POSTTYPE . '_products' ) ?> option").prop('selected', true);
 
                     return true;
                 });
@@ -987,7 +997,7 @@ class atkp_posttypes_list {
                                             <input type="number" id="<?php echo esc_attr(ATKP_LIST_POSTTYPE . '_node_id') ?>"
                                                    name="<?php echo esc_attr(ATKP_LIST_POSTTYPE . '_node_id') ?>"
                                                    value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_LIST_POSTTYPE . '_node_id', true ) ) ?>">
-                                            <label id="<?php echo esc_attr( ATKP_LIST_POSTTYPE . '_node_caption' ) ?>"><?php echo esc_html__( ATKPTools::get_post_setting( $post->ID, ATKP_LIST_POSTTYPE . '_node_caption', true ), 'affiliate-toolkit-starter' ); ?></label>
+                                            <label id="<?php echo esc_attr( ATKP_LIST_POSTTYPE . '_node_caption' ) ?>"><?php echo esc_html( ATKPTools::get_post_setting( $post->ID, ATKP_LIST_POSTTYPE . '_node_caption', '' ) ); ?></label>
                                             <br/>
                                             <input type="button" id="searchbrowsenode-button"
                                                    class="button browsenode-lookup thickbox"
@@ -1012,7 +1022,7 @@ class atkp_posttypes_list {
                                             <select style="width: 600px;"
                                                     id="<?php echo esc_attr(ATKP_LIST_POSTTYPE . '_search_department') ?>"
                                                     name="<?php echo esc_attr(ATKP_LIST_POSTTYPE . '_search_department') ?>"
-                                                    data-value="<?php echo esc_attr(ATKPTools::get_post_setting( $post->ID, ATKP_LIST_POSTTYPE . '_search_department', true )); ?>">
+                                                    data-value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_LIST_POSTTYPE . '_search_department' ) ); ?>">
                                             </select>
 	                                        <?php ATKPTools::display_helptext( 'You can only find the root categories of the shop. We are not loading the full category tree.' ) ?>
                                         </td>
@@ -1026,7 +1036,7 @@ class atkp_posttypes_list {
 
                                         <select id="<?php echo esc_attr(ATKP_LIST_POSTTYPE . '_search_orderby') ?>"
                                                 name="<?php echo esc_attr(ATKP_LIST_POSTTYPE . '_search_orderby') ?>"
-                                                data-value="<?php echo esc_attr(ATKPTools::get_post_setting( $post->ID, ATKP_LIST_POSTTYPE . '_search_orderby', true )); ?>">
+                                                data-value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_LIST_POSTTYPE . '_search_orderby' ) ); ?>">
                                         </select>
 
                                     </td>
@@ -1041,7 +1051,7 @@ class atkp_posttypes_list {
                             <td>
                                 <input type="text" id="<?php echo esc_attr(ATKP_LIST_POSTTYPE . '_search_keyword') ?>"
                                        name="<?php echo esc_attr(ATKP_LIST_POSTTYPE . '_search_keyword') ?>"
-                                       value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_LIST_POSTTYPE . '_search_keyword', true ) ); ?>">
+                                       value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_LIST_POSTTYPE . '_search_keyword' ) ); ?>">
 
                             </td>
                         </tr>
@@ -1055,7 +1065,7 @@ class atkp_posttypes_list {
                             <td>
 								<?php
 
-								$searchlimit = ATKPTools::get_post_setting( $post->ID, ATKP_LIST_POSTTYPE . '_search_limit', true );
+								$searchlimit = ATKPTools::get_post_setting( $post->ID, ATKP_LIST_POSTTYPE . '_search_limit', 10 );
 								if ( $searchlimit == null || $searchlimit == '' ) {
 									$searchlimit = 10;
 								}
@@ -1082,12 +1092,12 @@ class atkp_posttypes_list {
 								<?php for ( $i = 1; $i <= 10; $i ++ ) { ?>
                                     <select name="<?php echo esc_attr(ATKP_LIST_POSTTYPE . '_filterfield' . $i) ?>"
                                             id="<?php echo esc_attr(ATKP_LIST_POSTTYPE . '_filterfield' . $i) ?>"
-                                            data-value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_LIST_POSTTYPE . '_filterfield' . $i, true ) ); ?>">
+                                            data-value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_LIST_POSTTYPE . '_filterfield' . $i, '' ) ); ?>">
 
                                     </select>
                                     <input type="text" id="<?php echo esc_attr(ATKP_LIST_POSTTYPE . '_filtertext' . $i) ?>"
                                            name="<?php echo esc_attr(ATKP_LIST_POSTTYPE . '_filtertext' . $i) ?>"
-                                           value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_LIST_POSTTYPE . '_filtertext' . $i, true ) ); ?>">
+                                           value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_LIST_POSTTYPE . '_filtertext' . $i, '' ) ); ?>">
                                     <br/>
 								<?php } ?>
                             </td>
@@ -1101,7 +1111,7 @@ class atkp_posttypes_list {
                             </th>
                             <td>
 								<?php
-								$extsearchlimit = ATKPTools::get_post_setting( $post->ID, ATKP_LIST_POSTTYPE . '_extendedsearch_limit', true );
+								$extsearchlimit = ATKPTools::get_post_setting( $post->ID, ATKP_LIST_POSTTYPE . '_extendedsearch_limit', 10 );
 								if ( $extsearchlimit == null || $extsearchlimit == '' ) {
 									$extsearchlimit = 10;
 								}
@@ -1202,12 +1212,13 @@ class atkp_posttypes_list {
                 <td>
                     <label for="">
                         <strong>
-	                        <?php echo esc_html__( 'Title filter (one keyword per line)', 'affiliate-toolkit-starter' ) ?>:<br/>
+	                        <?php echo esc_html__( 'Title filter (one keyword per line)', 'affiliate-toolkit-starter' ) ?>
+                            :<br/>
                         </strong>
                     </label> <br/>
 					<?php
 
-					$searchtitelfilter = ATKPTools::get_post_setting( $post->ID, ATKP_LIST_POSTTYPE . '_search_titelfilter', true );
+					$searchtitelfilter = ATKPTools::get_post_setting( $post->ID, ATKP_LIST_POSTTYPE . '_search_titelfilter', '' );
 
 					?>
                     <textarea style="width:100%;height:100px"
@@ -1242,7 +1253,7 @@ class atkp_posttypes_list {
 	                        <?php ATKPTools::display_helptext( 'This list shows the first 25 products. Please use the search if you cannot find your product below.' ) ?>
                         </div>
 
-						<?php $products = ATKPTools::get_post_setting( $post->ID, ATKP_LIST_POSTTYPE . '_products', true ); ?>
+	                    <?php $products = ATKPTools::get_post_setting( $post->ID, ATKP_LIST_POSTTYPE . '_products' ); ?>
                         <select name="selectfrom" id="select-from" multiple size="18" style="width:100%">
 
 							<?php
@@ -1280,7 +1291,7 @@ class atkp_posttypes_list {
 							}
 
 							foreach ( $posts_selectable as $prd ) {
-								echo(  $prd );
+								echo( $prd );
 							}
 							?>
 
@@ -1306,7 +1317,7 @@ class atkp_posttypes_list {
 							foreach ( $posts_selected as $prd ) {
 								echo $prd;
 							}
-                            ?>
+							?>
                         </select>
                     </div>
                     <div id="updown" style="padding-top:10px">
@@ -1336,7 +1347,7 @@ class atkp_posttypes_list {
             <td>
                 <input type="url" style="width:100%" id="<?php echo esc_attr(ATKP_LIST_POSTTYPE . '_listurl') ?>"
                        name="<?php echo esc_attr(ATKP_LIST_POSTTYPE . '_listurl') ?>"
-                       value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_LIST_POSTTYPE . '_listurl', true ) ); ?>">
+                       value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_LIST_POSTTYPE . '_listurl', '' ) ); ?>">
 
             </td>
         </tr>
@@ -1359,14 +1370,14 @@ class atkp_posttypes_list {
 								$title = esc_html__( 'edit post', 'affiliate-toolkit-starter' );
 							}
 
-							echo sprintf( esc_html__( '<a href="%s" target="_blank">%s</a> ', 'affiliate-toolkit-starter' ), esc_url(get_edit_post_link( $p )), esc_html($title) );
+							echo sprintf( esc_html__( '<a href="%s" target="_blank">%s</a> ', 'affiliate-toolkit-starter' ), esc_url( get_edit_post_link( $p ) ), esc_html( $title ) );
 						}
 					} else {
 						$title = get_the_title( $postidx );
 						if ( ! isset( $title ) || $title == '' ) {
 							$title = esc_html__( 'edit post', 'affiliate-toolkit-starter' );
 						}
-						echo sprintf( esc_html__( '<a href="%s" target="_blank">%s</a>', 'affiliate-toolkit-starter' ), esc_url(get_edit_post_link( $postidx )), esc_html($title) );
+						echo sprintf( esc_html__( '<a href="%s" target="_blank">%s</a>', 'affiliate-toolkit-starter' ), esc_url( get_edit_post_link( $postidx ) ), esc_html( $title ) );
 					}
 				} else {
 					echo esc_html__( 'This List is not used as a main list in any contribution.', 'affiliate-toolkit-starter' );
@@ -1466,9 +1477,9 @@ class atkp_posttypes_list {
                         <td> <?php
 
 							if ( $value->producturl != '' ) {
-								echo sprintf( '%s <a href="%s" target="_blank">%s</a>',  esc_html($counter), esc_url( $value->producturl ), esc_html__( substr( $value->title, 0, 180 ), 'affiliate-toolkit-starter' ) );
+								echo sprintf( '%s <a href="%s" target="_blank">%s</a>', esc_html( $counter ), esc_url( $value->producturl ), esc_html__( substr( $value->title, 0, 180 ), 'affiliate-toolkit-starter' ) );
 							} else {
-                                echo sprintf( '%s %s', esc_html($counter), esc_html__( substr( $value->title, 0, 180 ), 'affiliate-toolkit-starter' ) );
+								echo sprintf( '%s %s', esc_html( $counter ), esc_html__( substr( $value->title, 0, 180 ), 'affiliate-toolkit-starter' ) );
 							}
 
 							echo sprintf( ' (Unique-ID: %s, Product-ID: %s)<br />', esc_html($value->asin), ( $value->productid > 0 ? '<a href="' . esc_url(get_edit_post_link( $value->productid )) . '" target="_blank">' . esc_html($value->productid) . '</a>' : esc_html($value->productid) ) );
@@ -1562,7 +1573,7 @@ class atkp_posttypes_list {
 
 		$productpara = isset( $_POST[ ATKP_LIST_POSTTYPE . '_products' ] ) ? $_POST[ ATKP_LIST_POSTTYPE . '_products' ] : null;
 
-		if ($productpara != null ) {
+		if ( $productpara != null ) {
 			foreach ( $productpara as $selectedproduct ) {
 				if ( $products == '' ) {
 					$products = $selectedproduct;

@@ -64,7 +64,36 @@ class atkp_settings {
 			$tab_name = $value[1];
 
 			if ( $mytab == $tab_name ) {
-				call_user_func( $value );
+
+				$plugin = ATKPTools::get_plugin_name_from_callable( $value );
+
+				if ( ! ATKPTools::is_license_active_for_plugin( $plugin ) ) {
+					?>
+                    <div style="max-width: 800px; margin: 40px auto; padding: 30px; background: #fff; border-left: 4px solid #dc3232; box-shadow: 0 1px 3px rgba(0,0,0,0.13);">
+                        <h2 style="margin-top: 0; color: #dc3232; font-size: 24px;">
+                            <span class="dashicons dashicons-lock"
+                                  style="font-size: 24px; vertical-align: middle; margin-right: 8px;"></span>
+							<?php echo esc_html__( 'License Required', 'affiliate-toolkit-starter' ); ?>
+                        </h2>
+                        <p style="font-size: 16px; line-height: 1.6; color: #444; margin: 20px 0;">
+							<?php echo esc_html__( 'No active license found for this extension. Please activate your license to access the settings.', 'affiliate-toolkit-starter' ); ?>
+                        </p>
+                        <p style="margin-top: 25px;">
+                            <a href="<?php echo esc_url( admin_url( 'admin.php?page=' . ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin&tab=license_configuration_page' ) ); ?>"
+                               class="button button-primary button-large"
+                               style="padding: 8px 24px; height: auto; font-size: 16px;">
+                                <span class="dashicons dashicons-admin-network"
+                                      style="vertical-align: middle; margin-right: 5px;"></span>
+								<?php echo esc_html__( 'Manage Licenses', 'affiliate-toolkit-starter' ); ?>
+                            </a>
+                        </p>
+                    </div>
+
+					<?php
+					return;
+				} else {
+					call_user_func( $value );
+				}
 				break;
 			}
 		}

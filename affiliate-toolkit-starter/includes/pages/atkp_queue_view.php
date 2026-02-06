@@ -62,7 +62,7 @@ class atkp_queue_view {
 
 		$option = 'per_page';
 		$args   = [
-			'label'   => __( 'Queues', 'affiliate-toolkit-starter' ),
+			'label' => __( 'Queues', 'affiliate-toolkit-starter' ),
 			'default' => 25,
 			'option'  => 'queues_per_page'
 		];

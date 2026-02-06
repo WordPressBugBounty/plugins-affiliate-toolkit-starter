@@ -318,6 +318,13 @@ class atkp_listservice {
 					$message = 'Shop Exception: ' . $e->getMessage();
 				}
 
+				/* Update für bestehende Listen erlauben
+				$plugin_name = ATKPTools::get_plugin_name_from_object($shop->provider);
+				$licensed    = ATKPTools::is_license_active_for_plugin( $plugin_name );
+				if ( ! $licensed ) {
+					$message = 'Shop plugin not licensed: ' . $plugin_name;
+				};
+				*/
 
 				$atresponse = null;
 
@@ -554,7 +561,7 @@ class atkp_listservice {
 						$productservice->update_product_price_saved( $product_id, $value );
 
 						$productservice->update_product_short_url( $product_id, $value, $shop->id );
-						$productservice->update_custom_fields( $product_id, $value);
+						$productservice->update_custom_fields( $product_id, $value );
 
 						$atkp_producttable_helper->save_products( $product_id, $shop->id, $queue_id, [ $value ] );
 
@@ -578,7 +585,7 @@ class atkp_listservice {
 					} else {
 						$product_id = $post_id;
 						//produkt existiert bereits
-						$productservice->update_custom_fields( $product_id, $value);
+						$productservice->update_custom_fields( $product_id, $value );
 
 
 					}

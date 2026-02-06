@@ -34,6 +34,75 @@ class atkp_producttable_helper {
 	}
 
 	/**
+	 * Count products by shop ID with error statistics
+	 *
+	 * @param int $shop_id
+	 *
+	 * @return array Array with 'total', 'error' and 'success' counts
+	 */
+	public function count_products_by_shop_with_stats( $shop_id ) {
+		global $wpdb;
+
+		$table_name = $this->get_producttable_tablename();
+
+		$query = $wpdb->prepare(
+			"SELECT 
+            COUNT(*) as total,
+            SUM(CASE WHEN haserror = 1 THEN 1 ELSE 0 END) as error,
+            SUM(CASE WHEN haserror = 0 OR haserror IS NULL THEN 1 ELSE 0 END) as success
+        FROM $table_name 
+        WHERE shop_id = %d",
+			$shop_id
+		);
+
+		$result = $wpdb->get_row( $query, ARRAY_A );
+
+		return array(
+			'total'   => (int) $result['total'],
+			'error'   => (int) $result['error'],
+			'success' => (int) $result['success']
+		);
+	}
+
+	public function get_product_ids_with_error() {
+		global $wpdb;
+
+		$table_name = $this->get_producttable_tablename();
+
+		// Alle distinct product_id holen, die haserror = 1 haben
+		$results = $wpdb->get_col( "SELECT DISTINCT product_id FROM $table_name WHERE haserror = 1" );
+
+		if ( empty( $results ) ) {
+			return array();
+		}
+
+		// In Integer casten und Duplikate entfernen (sicherheitshalber)
+		$ids = array_map( 'intval', $results );
+		$ids = array_values( array_unique( $ids ) );
+
+		return $ids;
+	}
+
+	public function get_product_ids_without_saleprice() {
+		global $wpdb;
+
+		$table_name = $this->get_producttable_tablename();
+
+		// Alle distinct product_id holen, die haserror = 1 haben
+		$results = $wpdb->get_col( "SELECT DISTINCT product_id FROM $table_name WHERE salepricefloat is null" );
+
+		if ( empty( $results ) ) {
+			return array();
+		}
+
+		// In Integer casten und Duplikate entfernen (sicherheitshalber)
+		$ids = array_map( 'intval', $results );
+		$ids = array_values( array_unique( $ids ) );
+
+		return $ids;
+	}
+
+	/**
 	 * Prüft ob die Tabelle atkp_offertable vorhanden ist, und legt diese ggf. an.
 	 */
 	public function check_table_structure( $override = false ) {

@@ -1,9 +1,10 @@
-﻿=== affiliate-toolkit – WP Affiliate Plugin with Amazon ===
+﻿=== affiliate-toolkit – Multi-Network Affiliate & Amazon Product Display ===
 Contributors: cservit 
 Tags: affiliate, amazon, ebay, awin, aawp, affiliatetheme, asa
 Requires at least: 5.6
-Tested up to: 6.7
-Stable tag: 3.7.2
+Tested up to: 6.8
+Stable tag: 3.8.4
+Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,45 +14,164 @@ Fast & Compatible with every WordPress Theme: With our plugin for WordPress, you
 
 [vimeo https://vimeo.com/761349407]
 
-affiliate-toolkit lets you easily integrate affiliate products into your WordPress posts. By using our templates, you can present the products in different boxes on your webpage.
-By using extensions you can connect your affiliate website to amazon, ebay, AWIN and many other affiliate platforms.
+**The most powerful affiliate plugin for WordPress** – Create professional affiliate websites with Amazon, eBay, AWIN, and 20+ other networks. Build comparison tables, import products automatically, and monetize your content with ease.
 
-For the latest information visit the plugin homepage:
-https://www.affiliate-toolkit.com/
+affiliate-toolkit is the perfect solution for bloggers, niche site owners, and affiliate marketers who want to create professional product presentations without coding. Use our modern templates, powerful import features, and extensive customization options to build your affiliate business.
 
-The Documentation can be found her:
-https://www.affiliate-toolkit.com/kb/
+**🚀 Key Highlights:**
+* **Multi-Network Support** – Connect to Amazon, eBay, AWIN, CSV feeds, and many more
+* **Flexible Templates** – 20+ ready-to-use templates for product boxes, comparison tables, lists
+* **Smart Import** – Bulk import products, bestseller lists, and search results
+* **100% Cache Compatible** – Works perfectly with WP Rocket, W3 Total Cache, and more
+* **Gutenberg & Classic Editor** – Full support for both editors
 
-Create a support ticket:
-https://www.affiliate-toolkit.com/create-support-ticket/
+**📚 Resources:**
+* [Plugin Homepage](https://www.affiliate-toolkit.com/)
+* [Documentation & Tutorials](https://www.affiliate-toolkit.com/kb/)
+* [Support Tickets](https://www.affiliate-toolkit.com/create-support-ticket/)
 
-Official facebook group:
-https://www.facebook.com/groups/1837786049839465/
+= Core Features (Free): =
 
-Forum:
-https://forum.affiliate-toolkit.com/
+**Product Management**
+*   Visual shortcode generator with live preview
+*   Import products individually or in bulk
+*   Search and filter products from backend
+*   Manual product creation with custom data
+*   Product categories and taxonomies
+*   Multiple product variations support
 
-= Features: =
-*   Amazon Product Advertising API to retrieve product data
-*   Replace Amazon Site Stripe (<a href="https://www.affiliate-toolkit.com/downloads/amazon-site-stripe-compatibility-mode/">download addon for free</a>)
-*   Amazon No Api Mode (<a href="https://www.affiliate-toolkit.com/de/downloads/amazon-kein-api-modus/">download addon here</a>)
-*   Shortcode generator
-*   Bestseller lists
-*   Search lists
-*   Import amazon products
-*   Search products from backend
-*   Supports HTTPS (ssl)
-*   Compatiblity mode für ASA1, ASA2 (<a href="https://www.affiliate-toolkit.com/de/downloads/asa-1-asa-2-kompatibilitaetsmodus/">download addon for free</a>)
-*   Compatiblity mode für AAWP (<a href="https://www.affiliate-toolkit.com/downloads/aawp-compatibility/">download addon for free</a>)
-*   Supports all Amazon stores activated for the API: Brazil, Canada, China, Germany, Spain, France, India, Italy, Japan, United Kingdom, USA
-*   Supports other networks: AWIN, billiger.de, eBay, CSV feeds, Geizhals, Yadore, Tradedoubler
-*   Connect with your tracking-id (100% your affiliate earnings)
-*   100% compatiblity to caching plugins
+**Display & Templates**
+*   50+ professional templates included
+*   Product boxes, comparison tables, and lists
+*   Fully responsive and mobile-optimized
+*   Custom template editor with Blade syntax
+*   Template import/export functionality
+*   Customizable colors, fonts, and styles
+
+**Amazon Integration**
+*   Amazon Product Advertising API 5.0 support
+*   Import via ASIN, keyword, or bestseller lists
+*   All 22 Amazon marketplaces supported
+*   Automatic price and availability updates
+*   Star ratings and customer reviews
+*   Amazon No-API mode available (addon)
+
+**Performance & Compatibility**
+*   100% compatible with all caching plugins
+*   Lazy loading and AJAX support
+*   Image proxy for faster loading
+*   Works with Gutenberg and Classic Editor
+*   Multisite support
+*   HTTPS/SSL ready
+
+= Premium Extensions: =
+
+**🤖 AI Assistant** [Coming Soon]
+*   AI-powered content generation (titles, descriptions, pros/cons)
+*   Automatic product scoring and quality analysis
+*   SEO-optimized alt text generation
+*   AI template generator with natural language
+*   Support for OpenAI GPT-4 and Anthropic Claude
+
+**📊 Price History** ([Learn more](https://www.affiliate-toolkit.com/downloads/price-history/))
+*   Track and display price changes over time
+*   Beautiful price history charts
+*   Price drop notifications
+*   Historical data analysis
+
+**🔍 Frontend Search and Filter** ([Learn more](https://www.affiliate-toolkit.com/downloads/frontend-search-filter/))
+*   Live product search for frontend
+*   AJAX-powered instant results
+*   Customizable search widgets
+*   Filter by category, price, rating
+
+**📋 Comparison Tables** ([Learn more](https://www.affiliate-toolkit.com/downloads/responsive-compare-table/))
+*   Create professional comparison tables
+*   Side-by-side product comparisons
+*   Custom fields and attributes
+*   Mobile-responsive tables
+
+**🛍️ WooCommerce Connector** ([Learn more](https://www.affiliate-toolkit.com/downloads/woocommerce-connector/))
+*   Sync affiliate products with WooCommerce
+*   Use WooCommerce checkout for external products
+*   Combine physical and affiliate products
+
+**🌍 Geolocation** ([Learn more](https://www.affiliate-toolkit.com/downloads/geo-targeting-for-affiliate-products/))
+*   Show products based on visitor's location
+*   Automatic currency conversion
+*   Country-specific affiliate links
+*   IP-based redirection
+
+**📱 Product Pages** ([Learn more](https://www.affiliate-toolkit.com/downloads/frontend-product-pages/))
+*   Create dedicated product landing pages
+*   Custom page templates
+*   SEO-optimized product pages
+*   Full design control
+
+**📋 Import Sets** ([Learn more](https://www.affiliate-toolkit.com/downloads/importsets-for-products/))
+*   Manage multiple import configurations
+*   Schedule different import tasks
+*   Organize imports by category or campaign
+*   Batch processing for large datasets
+
+**📤 Field Export** ([Learn more](https://www.affiliate-toolkit.com/downloads/product-field-export/))
+*   Export product data to CSV
+*   Custom field selection
+*   Bulk data management
+*   Integration with third-party tools
+
+**🎨 Template Packs** ([Learn more](https://www.affiliate-toolkit.com/downloads/template-pack/))
+*   Premium template collections
+*   Industry-specific designs
+*   Conversion-optimized layouts
+*   Regular new template releases
+
+**⚙️ Custom Fields** ([Learn more](https://www.affiliate-toolkit.com/downloads/custom-fields/))
+*   Add unlimited custom product fields
+*   Custom taxonomies and attributes
+*   Advanced filtering options
+*   Flexible data structure
+
+**📄 XML Import** [Coming Soon]
+*   Import from XML feeds
+*   Support for various XML formats
+*   Automatic field mapping
+*   Scheduled XML imports
+
+**🧱 Gutenberg Blocks**
+*   Native Gutenberg blocks for products and lists
+*   Drag-and-drop interface with live preview
+*   Inline product and list selection
+*   Direct product import from shops
+*   Block-based content editing
+*   Full German translation support
+
+**🔗 Network Connectors**
+*   eBay Product API ([Learn more](https://www.affiliate-toolkit.com/downloads/ebay-product-import/))
+*   AWIN Product Feed ([Learn more](https://www.affiliate-toolkit.com/downloads/awin-product-importer/))
+*   Geizhals.at ([Learn more](https://www.affiliate-toolkit.com/downloads/geizhals-wordpress-plugin/))
+*   Billiger.de ([Learn more](https://www.affiliate-toolkit.com/downloads/billiger-de-product-import/))
+*   TradeDoubler ([Learn more](https://www.affiliate-toolkit.com/downloads/tradedoubler-product-import/))
+*   Tracedelight
+*   Yadore ([Learn more](https://www.affiliate-toolkit.com/downloads/yadore-product-import/))
+*   Belboon, Commission Junction (CJ)  and other networks via CSV feed
+*   and more
+
+**🎨 Compatibility Modes**
+*   ASA 1 & ASA 2 compatibility ([free addon](https://www.affiliate-toolkit.com/downloads/asa-1-asa-2-compatiblity-mode/))
+*   AAWP compatibility ([free addon](https://www.affiliate-toolkit.com/downloads/aawp-compatibility/))
+*   Amazon Site Stripe replacement ([free addon](https://www.affiliate-toolkit.com/downloads/amazon-site-stripe-compatibility-mode/))
+
+= Supported Affiliate Networks: =
+Amazon (22 countries), eBay, AWIN, Commission Junction, Geizhals, Billiger.de, TradeDoubler, Tracedelight, Yadore, Belboon, Custom CSV Feeds
+
+= Supported Countries (Amazon): =
+🌍 Australia, Belgium, Brazil, Canada, China, Egypt, France, Germany, India, Italy, Japan, Mexico, Netherlands, Poland, Saudi Arabia, Singapore, Spain, Sweden, Turkey, United Arab Emirates, United Kingdom, USA
 
 = Supported languages: =
 *   German
 *   English
-*   Translateable with *.po files
+*   Translatable with *.po files
 
 = Need more features? =
 Search in our extensions and download the extensions you need. Upload the extension as plugin and activate it.
@@ -71,44 +191,162 @@ Get affiliate-toolkit now: <a href="https://www.affiliate-toolkit.com/pricing/">
 
 [vimeo https://vimeo.com/761349365]
 
-Mit dem Affiliate-Toolkit-Starter kannst du ganz einfach Amazon Produkte in deine Wordpress Beitr&auml;ge integrieren. Durch die Verwendung unserer Vorlagen, kannst du die Produkte in verschiedenen Boxen auf deiner Webseite präsentieren.
+**Das leistungsstärkste Affiliate-Plugin für WordPress** – Erstelle professionelle Affiliate-Websites mit Amazon, eBay, AWIN und über 20 weiteren Netzwerken. Erstelle Vergleichstabellen, importiere Produkte automatisch und monetarisiere deinen Content mit Leichtigkeit.
 
-Die neuesten Informationen dazu findest du auf der Plugin Homepage:
-https://www.affiliate-toolkit.com/de/
+affiliate-toolkit ist die perfekte Lösung für Blogger, Nischenwebsites und Affiliate-Marketer, die professionelle Produktpräsentationen ohne Programmierung erstellen möchten. Nutze unsere modernen Templates, leistungsstarke Import-Funktionen und umfangreiche Anpassungsoptionen für dein Affiliate-Business.
 
-Die Dokumentation kannst du dir hier ansehen:
-https://www.affiliate-toolkit.com/de/kb/
+**🚀 Highlights:**
+* **Multi-Netzwerk-Support** – Verbinde Amazon, eBay, AWIN, CSV-Feeds und viele mehr
+* **Flexible Templates** – 20+ einsatzbereite Templates für Produktboxen, Vergleichstabellen, Listen
+* **Smart Import** – Massenimport von Produkten, Bestseller-Listen und Suchergebnissen
+* **100% Cache-kompatibel** – Funktioniert perfekt mit WP Rocket, W3 Total Cache und mehr
+* **Gutenberg & Classic Editor** – Volle Unterstützung für beide Editoren
 
-Support Ticket erstellen:
-https://www.affiliate-toolkit.com/de/support-ticket-erstellen/
+**📚 Ressourcen:**
+* [Plugin Homepage](https://www.affiliate-toolkit.com/de/)
+* [Dokumentation & Tutorials](https://www.affiliate-toolkit.com/de/kb/)
+* [Support Tickets](https://www.affiliate-toolkit.com/de/support-ticket-erstellen/)
 
-Offizielle Facebook Gruppe:
-https://www.facebook.com/groups/1837786049839465/
+= Kernfunktionen (Kostenlos): =
 
-Forum:
-https://forum.affiliate-toolkit.com/
+**Produktverwaltung**
+* Visueller Shortcode-Generator mit intuitiver Oberfläche
+* Einzel- oder Massenimport von Produkten
+* Suchen und Filtern von Produkten im Backend
+* Manuelle Produkterstellung mit individuellen Daten
+* Produktkategorien und Taxonomien
+* Unterstützung für mehrere Produktvarianten
 
-= Funktionen: =
-* Verwendung der Amazon Product Advertising API
-* Ersetzen von Amazon Site Stripe (<a href="https://www.affiliate-toolkit.com/de/downloads/amazon-site-stripe-kompatibilitaetsmodus/">Addon kostenlos herunterladen</a>)
-* Amazon No Api Modus (<a href="https://www.affiliate-toolkit.com/de/downloads/amazon-kein-api-modus/">Addon hier herunterladen</a>)
-* Shortcode Generator
-* Bestseller-Listen
-* Suchlisten
-* Import von Amazon-Produkten
-* Suche nach Produkten aus dem Backend
-* Unterstützt HTTPS (ssl)
-* Kompatibilitätsmodus für ASA1, ASA2 (<a href="https://www.affiliate-toolkit.com/de/downloads/asa-1-asa-2-kompatibilitaetsmodus/">Addon kostenlos herunterladen</a>)
-* Kompatibilitätsmodus für AAWP (<a href="https://www.affiliate-toolkit.com/de/downloads/aawp-kompatibilitaetsmodus/">Addon kostenlos herunterladen</a>)
-* Unterstützt alle für die API aktiviert Amazon-Shops: Brasilien, Kanada, China, Deutschland, Spanien, Frankreich, Indien, Italien, Japan, Großbritannien, USA
-* Unterstützt andere Netzwerke: AWIN, billiger.de, eBay, CSV feeds, Geizhals, Yadore, Tradedoubler
-* Verwendung deiner Tracking-ID (100% deine Affiliate-Provision)
-* 100% Kompatiblität zu den Caching-Plugins
+**Darstellung & Templates**
+* Über 20 professionelle Templates inklusive
+* Produktboxen, Vergleichstabellen und Listen
+* Vollständig responsive und mobil-optimiert
+* Custom Template Editor mit Blade-Syntax
+* Template Import/Export Funktionalität
+* Anpassbare Farben, Schriften und Stile
+
+**Amazon-Integration**
+* Amazon Product Advertising API 5.0 Support
+* Import via ASIN, Keyword oder Bestseller-Listen
+* Alle 22 Amazon-Marktplätze unterstützt
+* Automatische Preis- und Verfügbarkeitsaktualisierungen
+* Sternebewertungen und Kundenbewertungen
+* Amazon No-API Modus verfügbar (Addon)
+
+**Performance & Kompatibilität**
+* 100% kompatibel mit allen Caching-Plugins
+* Lazy Loading und AJAX-Support
+* Bild-Proxy für schnelleres Laden
+* Funktioniert mit Gutenberg und Classic Editor
+* Multisite-Unterstützung
+* HTTPS/SSL ready
+
+= Premium-Erweiterungen: =
+
+**🤖 AI Assistant** [Bald verfügbar]
+* KI-gestützte Content-Generierung (Titel, Beschreibungen, Pro/Contra)
+* Automatische Produktbewertung und Qualitätsanalyse
+* SEO-optimierte Alt-Text-Generierung
+* KI Template Generator mit natürlicher Sprache
+* Unterstützung für OpenAI GPT-4 und Anthropic Claude
+
+**📊 Price History** ([Mehr erfahren](https://www.affiliate-toolkit.com/de/downloads/preisentwicklung/))
+* Verfolge und zeige Preisänderungen über die Zeit
+* Wunderschöne Preisverlaufs-Diagramme
+* Preissenkungsbenachrichtigungen
+* Historische Datenanalyse
+
+**🔍 Frontend Suche & Filter** ([Mehr erfahren](https://www.affiliate-toolkit.com/de/downloads/frontend-suche-filter/))
+* Live-Produktsuche für das Frontend
+* AJAX-gestützte Sofortergebnisse
+* Anpassbare Such-Widgets
+* Filter nach Kategorie, Preis, Bewertung
+
+**📋 Vergleichstabellen** ([Mehr erfahren](https://www.affiliate-toolkit.com/de/downloads/responsive-vergleichstabelle/))
+* Erstelle professionelle Vergleichstabellen
+* Produkte nebeneinander vergleichen
+* Individuelle Felder und Attribute
+* Mobile-responsive Tabellen
+
+**🛍️ WooCommerce Connector** ([Mehr erfahren](https://www.affiliate-toolkit.com/de/downloads/woocommerce-affiliate-plugin/))
+* Synchronisiere Affiliate-Produkte mit WooCommerce
+* Nutze WooCommerce-Checkout für externe Produkte
+* Kombiniere physische und Affiliate-Produkte
+
+**🌍 Geolocation** ([Mehr erfahren](https://www.affiliate-toolkit.com/de/downloads/geo-targeting-fuer-affiliate-produkte/))
+* Zeige Produkte basierend auf Besucherstandort
+* Automatische Währungsumrechnung
+* Länderspezifische Affiliate-Links
+* IP-basierte Weiterleitung
+
+**📱 Product Pages** ([Mehr erfahren](https://www.affiliate-toolkit.com/de/downloads/frontend-produktseiten/))
+* Erstelle dedizierte Produkt-Landing-Pages
+* Custom Page Templates
+* SEO-optimierte Produktseiten
+* Volle Design-Kontrolle
+
+**📋 Import Sets** ([Mehr erfahren](https://www.affiliate-toolkit.com/de/downloads/importsets-fuer-produkte/))
+* Verwalte mehrere Import-Konfigurationen
+* Plane unterschiedliche Import-Aufgaben
+* Organisiere Imports nach Kategorie oder Kampagne
+* Batch-Verarbeitung für große Datenmengen
+
+**📤 Field Export** ([Mehr erfahren](https://www.affiliate-toolkit.com/de/downloads/produktfeld-export/))
+* Exportiere Produktdaten nach CSV
+* Individuelle Feldauswahl
+* Massendatenverwaltung
+* Integration mit Tools von Drittanbietern
+
+**🎨 Template Packs** ([Mehr erfahren](https://www.affiliate-toolkit.com/de/downloads/template-pack/))
+* Premium Template-Sammlungen
+* Branchenspezifische Designs
+* Conversion-optimierte Layouts
+* Regelmäßig neue Template-Releases
+
+**⚙️ Custom Fields** ([Mehr erfahren](https://www.affiliate-toolkit.com/de/downloads/benutzerdefinierte-felder/))
+* Füge unbegrenzte individuelle Produktfelder hinzu
+* Custom Taxonomien und Attribute
+* Erweiterte Filteroptionen
+* Flexible Datenstruktur
+
+**📄 XML Import** [Bald verfügbar]
+* Import aus XML-Feeds
+* Unterstützung verschiedener XML-Formate
+* Automatisches Feld-Mapping
+* Geplante XML-Imports
+
+**🧱 Gutenberg Blocks**
+* Native Gutenberg-Blöcke für Produkte und Listen
+* Drag-and-Drop Interface
+* Live-Vorschau im Editor
+* Block-Templates und Patterns
+
+**🔗 Netzwerk-Konnektoren**
+* eBay Product API ([Mehr erfahren](https://www.affiliate-toolkit.com/de/downloads/ebay-affiliate-produkt-import/))
+* AWIN Product Feed ([Mehr erfahren](https://www.affiliate-toolkit.com/de/downloads/awin-affiliate-produkt-importer/))
+* Geizhals.at ([Mehr erfahren](https://www.affiliate-toolkit.com/de/downloads/geizhals-wordpress-plugin/))
+* Billiger.de ([Mehr erfahren](https://www.affiliate-toolkit.com/de/downloads/billiger-de-wordpress-plugin/))
+* TradeDoubler ([Mehr erfahren](https://www.affiliate-toolkit.com/de/downloads/tradedoubler-affiliate-wordpress-plugin/))
+* Tracedelight
+* Yadore ([Mehr erfahren](https://www.affiliate-toolkit.com/de/downloads/yadore-wordpress-plugin/))
+* Belboon, Commission Junction (CJ) und andere Netzwerke via CSV Feed
+* und mehr
+
+**🎨 Kompatibilitätsmodi**
+* ASA 1 & ASA 2 Kompatibilität ([kostenloses Addon](https://www.affiliate-toolkit.com/de/downloads/asa-1-asa-2-kompatibilitaetsmodus/))
+* AAWP Kompatibilität ([kostenloses Addon](https://www.affiliate-toolkit.com/de/downloads/aawp-kompatibilitaetsmodus/))
+* Amazon Site Stripe Ersatz ([kostenloses Addon](https://www.affiliate-toolkit.com/de/downloads/amazon-site-stripe-kompatibilitaetsmodus/s))
+
+= Unterstützte Affiliate-Netzwerke: =
+Amazon (22 Länder), eBay, AWIN, Commission Junction, Geizhals, Billiger.de, TradeDoubler, Tracedelight, Yadore, Belboon, Custom CSV Feeds
+
+= Unterstützte Länder (Amazon): =
+🌍 Australien, Belgien, Brasilien, China, Deutschland, Ägypten, Frankreich, Indien, Italien, Japan, Kanada, Mexiko, Niederlande, Polen, Saudi-Arabien, Schweden, Singapur, Spanien, Türkei, Vereinigte Arabische Emirate, Vereinigtes Königreich, USA
 
 = Unterstützte Sprachen: =
 * Deutsch
 * Englisch
-* Übersetzbar mit * .po-Dateien
+* Übersetzbar mit *.po-Dateien
 
 = Benötigst du weitere Funktionen? =
 Durchsuche unsere Erweiterungen und lade die gewünschten Erweiterungen herunter. Die Erweiterung kannst du einfach als Plugin hochladen und aktivieren.
@@ -116,7 +354,7 @@ Durchsuche unsere Erweiterungen und lade die gewünschten Erweiterungen herunter
 Unsere kostenlosen und Premium-Erweiterungen:
 https://www.affiliate-toolkit.com/de/erweiterungen/
 
-Hol dir das Affiliate-Toolkit jetzt: <a href="https://www.affiliate-toolkit.com/de/preise/"> https://www.affiliate-toolkit.com/ </a>
+Hol dir das Affiliate-Toolkit jetzt: <a href="https://www.affiliate-toolkit.com/de/preise/">https://www.affiliate-toolkit.com/de/preise/</a>
 
 == Installation ==
 
@@ -124,7 +362,7 @@ Extract the zip file and just drop the contents in the wp-content/plugins/ direc
 
 == Frequently Asked Questions ==
 
-**Is the plugin completly free?**  
+**Is the plugin completely free?**
 Yes, you can use it for free!
 
 **What if I need more features?**
@@ -137,6 +375,45 @@ You just need to install the extension from our website.
 
  
 == Changelog ==
+= 3.8.4 =
+*   FIX: Classic Editor shows the shortcode generator popup on page load
+*   FIX: Images not showing on local product search in shortcode generator tool
+
+= 3.8.3 =
+*   FIX: Shortcode Generator now accessible for Editor role (users with edit_posts capability)
+*   FIX: Shortcode Generator button with AT icon now opens in new tab
+*   FIX: Shortcode Generator button now also available in Gutenberg classic block
+*   FIX: Product images now displayed in Shortcode Generator search results (both imported and external products)
+*   FIX: Product images now displayed in Gutenberg blocks for imported products
+*   FIX: Clicking on product row (without import) in Shortcode Generator no longer auto-advances to prevent invalid shortcodes
+*   FIX: After successful product import, Shortcode Generator now auto-advances to next step
+*   IMPROVED: JavaScript cache-busting added to ensure latest versions are loaded
+*   IMPROVED: Consistent product image display across Shortcode Generator and Gutenberg (60x60px, Flexbox layout)
+
+= 3.8.2 =
+*   fix: debug infos written into log file
+
+= 3.8.1 =
+*   NEW: Amazon PA-API 5.0 OffersV2 implemented
+*   NEW: Modern shortcode generator with step-by-step wizard
+*   NEW: Native Gutenberg block support integrated into core plugin (atkp/product and atkp/list blocks)
+*   NEW: Create products and lists on-the-fly without leaving the editor
+*   IMPROVED: Redesigned UI with modern card-based interface
+
+= 3.8.0 =
+*   fix: add license validation for shops and products, enhance live search error handling
+
+= 3.7.9 =
+*   fix: correct option name extraction in get_setting method
+*   fix: issue with empty sub lists in shop
+
+= 3.7.8 =
+*   fix: correct option name extraction in get_setting method
+
+= 3.7.7 =
+*   fix: standardize spacing and formatting in various files
+    Performance optimizations and code cleanups
+
 = 3.7.6 =
 *   Bugfix: image not loaded, shop logo alt text added
 
