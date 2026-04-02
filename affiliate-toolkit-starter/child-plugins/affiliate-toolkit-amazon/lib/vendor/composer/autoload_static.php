@@ -28,6 +28,7 @@ class ComposerStaticInitf37858d7ac856ac2adad36774a7563d8
         'A' =>
         array (
             'Amazon\\ProductAdvertisingAPI\\v1\\' => 32,
+            'Amazon\\CreatorsAPI\\v1\\' => 22,
         ),
     );
 
@@ -55,6 +56,10 @@ class ComposerStaticInitf37858d7ac856ac2adad36774a7563d8
         'Amazon\\ProductAdvertisingAPI\\v1\\' =>
         array (
             0 => __DIR__ . '/../..' . '/paapi5-custom/src',
+        ),
+        'Amazon\\CreatorsAPI\\v1\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/nxtal/amazon-creatorsapi-php-sdk/src',
         ),
     );
 

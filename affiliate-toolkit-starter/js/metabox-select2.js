@@ -11,7 +11,6 @@ jQuery(document).ready(function($) {
 
         // Check if select2atkp is available
         if (typeof $select.select2atkp !== 'function') {
-            console.log('ATKP Metabox: select2atkp not available');
             return;
         }
 
@@ -20,7 +19,7 @@ jQuery(document).ready(function($) {
             try {
                 $select.select2atkp('destroy');
             } catch(e) {
-                console.log('ATKP Metabox: Error destroying select2', e);
+                // Ignore destroy errors
             }
         }
 
@@ -59,6 +58,5 @@ jQuery(document).ready(function($) {
             width: '100%'
         });
 
-        console.log('ATKP Metabox: Initialized select2 for', postType);
     });
 });

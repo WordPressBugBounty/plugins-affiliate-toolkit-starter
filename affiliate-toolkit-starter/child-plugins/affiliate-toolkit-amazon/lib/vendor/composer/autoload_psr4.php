@@ -12,4 +12,5 @@ return array(
     'GuzzleHttp\\Promise\\' => array($vendorDir . '/guzzlehttp/promises/src'),
     'GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),
     'Amazon\\ProductAdvertisingAPI\\v1\\' => array($baseDir . '/paapi5-custom/src'),
+    'Amazon\\CreatorsAPI\\v1\\' => array($vendorDir . '/nxtal/amazon-creatorsapi-php-sdk/src'),
 );

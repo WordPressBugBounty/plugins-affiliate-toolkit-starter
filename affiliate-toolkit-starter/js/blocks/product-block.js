@@ -232,8 +232,6 @@
 
 				setIsSearching(true);
 
-				console.log('ATKP: Searching products with keyword:', searchTerm);
-
 				jQuery.ajax({
 					url: atkpBlocks.ajaxurl,
 					type: 'POST',
@@ -246,19 +244,14 @@
 						nonce: atkpBlocks.nonce
 					},
 					success: function(response) {
-						console.log('ATKP: Search response:', response);
 						if (response.success && response.data && Array.isArray(response.data)) {
-							console.log('ATKP: Found products:', response.data.length);
 							setSearchResults(response.data);
 						} else {
-							console.log('ATKP: No products found or invalid response');
 							setSearchResults([]);
 						}
 						setIsSearching(false);
 					},
 					error: function(xhr, status, error) {
-						console.error('ATKP: Search error:', error);
-						console.error('ATKP: XHR:', xhr);
 						setIsSearching(false);
 						setSearchResults([]);
 					}
@@ -305,7 +298,6 @@
 						page: 1
 					},
 					success: function(response) {
-						console.log('Search response:', response);
 						if (response.success && response.data && response.data.products) {
 							setExternalResults(response.data.products);
 							// Removed alert for empty results - message is shown below results
@@ -318,10 +310,6 @@
 						setIsSearching(false);
 					},
 					error: function(xhr, status, error) {
-						console.error('External search error:', error);
-						console.error('XHR:', xhr);
-						console.error('Response text:', xhr.responseText);
-						
 						let errorMessage = __('Search failed', 'affiliate-toolkit-starter');
 						if (xhr.responseJSON && xhr.responseJSON.data && xhr.responseJSON.data.message) {
 							errorMessage = xhr.responseJSON.data.message;
@@ -362,8 +350,6 @@
 						subshopid: ''
 					},
 					success: function(response) {
-						console.log('Import response:', response);
-
 						// atkp_import_product returns an array
 						if (response && Array.isArray(response) && response.length > 0) {
 							const result = response[0];

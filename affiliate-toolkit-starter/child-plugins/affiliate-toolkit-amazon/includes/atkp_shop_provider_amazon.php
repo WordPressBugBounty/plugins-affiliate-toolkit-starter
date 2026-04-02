@@ -341,6 +341,89 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 		}
 	}
 
+	private function check_configuration_creators( $post_id, $website, $trackingid ) {
+		$credentialId     = ATKPTools::get_post_setting( $post_id, ATKP_SHOP_POSTTYPE . '_creators_credential_id' );
+		$credentialSecret = ATKPTools::get_post_setting( $post_id, ATKP_SHOP_POSTTYPE . '_creators_credential_secret' );
+		$credentialVersion = ATKPTools::get_post_setting( $post_id, ATKP_SHOP_POSTTYPE . '_creators_credential_version' );
+
+		if ( $credentialId == '' || $credentialSecret == '' ) {
+			return 'Creators API Credentials are empty';
+		}
+
+		require_once ATKP_AMAZON_PLUGIN_DIR . '/lib/vendor/autoload.php';
+		require_once ATKP_AMAZON_PLUGIN_DIR . '/includes/atkp_marketplace_mapper.php';
+		$this->check_guzzle();
+
+		$marketplace = atkp_marketplace_mapper::get_marketplace( $website );
+		if ( $credentialVersion == '' ) {
+			$credentialVersion = atkp_marketplace_mapper::get_default_version( $website );
+		}
+
+		$config = new \Amazon\CreatorsAPI\v1\Configuration();
+		$config->setCredentialId( $credentialId );
+		$config->setCredentialSecret( $credentialSecret );
+		$config->setVersion( $credentialVersion );
+
+		$apiInstance = new \Amazon\CreatorsAPI\v1\com\amazon\creators\api\DefaultApi(
+			new \GuzzleHttp\Client(), $config
+		);
+
+		$searchRequest = new \Amazon\CreatorsAPI\v1\com\amazon\creators\model\SearchItemsRequestContent();
+		$searchRequest->setKeywords( 'Harry Potter' );
+		$searchRequest->setPartnerTag( $trackingid );
+		$searchRequest->setItemCount( 1 );
+		$searchRequest->setResources( array(
+			\Amazon\CreatorsAPI\v1\com\amazon\creators\model\SearchItemsResource::ITEM_INFO_TITLE,
+		) );
+
+		$test = '';
+
+		try {
+			$searchResponse = $apiInstance->searchItems( $marketplace, $searchRequest );
+
+			if ( $searchResponse->getErrors() != null ) {
+				$test = $searchResponse->getErrors()[0]->getCode() . ': ' . $searchResponse->getErrors()[0]->getMessage();
+			} else {
+				$itemcount = $searchResponse->getSearchResult()->getTotalResultCount();
+				if ( $itemcount == 0 ) {
+					$test = 'item count is null';
+				}
+			}
+
+		} catch ( \Amazon\CreatorsAPI\v1\ApiException $exception ) {
+			$test = "API-Error: " . $exception->getCode();
+			$responseBody = $exception->getResponseBody();
+			if ( $responseBody != null ) {
+				$decoded = json_decode( $responseBody, true );
+				if ( is_array( $decoded ) ) {
+					if ( ! empty( $decoded['message'] ) ) {
+						$test .= " Message: " . $decoded['message'];
+					}
+					if ( ! empty( $decoded['reason'] ) ) {
+						$test .= " Reason: " . $decoded['reason'];
+					}
+					if ( ! empty( $decoded['type'] ) ) {
+						$test .= " Type: " . $decoded['type'];
+					}
+				} else {
+					$test .= " " . $exception->getMessage();
+				}
+			} else {
+				$test .= " " . $exception->getMessage();
+			}
+		} catch ( Exception $exception ) {
+			$test = "Error Message: " . $exception->getMessage();
+		}
+
+		if ( $test == '' ) {
+			$this->set_default_shop( $post_id );
+		} else {
+			return $test;
+		}
+
+		return '';
+	}
+
 	public function check_configuration( $post_id ) {
 		try {
 			$apikey       = ATKPTools::get_post_setting( $post_id, ATKP_SHOP_POSTTYPE . '_access_key' );
@@ -358,6 +441,10 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 
 			if ( $sitestripe == 2 || $sitestripe == 3 ) {
 				return '';
+			}
+
+			if ( $sitestripe == 4 || $sitestripe == 5 ) {
+				return $this->check_configuration_creators( $post_id, $website, $trackingid );
 			}
 
 			$message = '';
@@ -409,6 +496,10 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 
 		ATKPTools::set_post_setting( $post_id, ATKP_SHOP_POSTTYPE . '_apiversion', ATKPTools::get_post_parameter( ATKP_SHOP_POSTTYPE . '_amz_apiversion', 'string' ) );
 
+		// Creators API fields
+		ATKPTools::set_post_setting( $post_id, ATKP_SHOP_POSTTYPE . '_creators_credential_id', ATKPTools::get_post_parameter( ATKP_SHOP_POSTTYPE . '_creators_credential_id', 'string' ) );
+		ATKPTools::set_post_setting( $post_id, ATKP_SHOP_POSTTYPE . '_creators_credential_secret', ATKPTools::get_post_parameter( ATKP_SHOP_POSTTYPE . '_creators_credential_secret', 'string' ) );
+		ATKPTools::set_post_setting( $post_id, ATKP_SHOP_POSTTYPE . '_creators_credential_version', ATKPTools::get_post_parameter( ATKP_SHOP_POSTTYPE . '_creators_credential_version', 'string' ) );
 
 	}
 
@@ -459,12 +550,13 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 		$noapi_available = defined( 'ATKP_AMAZNOAPI_ITEM_ID' ) && ATKP_LicenseController::get_module_license_status( 'amaznoapi' ) == 'valid';
 		$noapi_mode = ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_sitestripe' );
 
-		// Determine which mode to show (API or NoAPI)
+		// Determine which mode to show (API, NoAPI, or Creators)
 		$use_mode = 'api'; // default to API
-		if ($noapi_available && ($noapi_mode == 2 || $noapi_mode == 3)) {
+		if ($noapi_mode == 4 || $noapi_mode == 5) {
+			$use_mode = 'creators';
+		} else if ($noapi_available && ($noapi_mode == 2 || $noapi_mode == 3)) {
 			$use_mode = 'noapi';
 		} else if ($noapi_available && !$apikey) {
-			// If NoAPI is available but no API key is set, suggest NoAPI
 			$use_mode = 'noapi';
 		}
 		?>
@@ -486,7 +578,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 
 			.atkp-mode-options {
 				display: grid;
-				grid-template-columns: 1fr 1fr;
+				grid-template-columns: 1fr 1fr 1fr;
 				gap: 15px;
 				margin-bottom: 15px;
 			}
@@ -597,6 +689,23 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 								<?php echo esc_html__( 'Retrieve product data without API limits. Included in your affiliate-toolkit license.', 'affiliate-toolkit-starter' ) ?>
 							</p>
 						</label>
+
+						<label class="atkp-mode-option <?php echo $use_mode == 'creators' ? 'selected' : ''; ?>" for="atkp_use_creators">
+							<input type="radio"
+								   id="atkp_use_creators"
+								   name="atkp_mode_selection"
+								   value="creators"
+								   <?php echo $use_mode == 'creators' ? 'checked' : ''; ?>>
+							<div class="atkp-mode-option-title">
+								🚀 <?php echo esc_html__( 'Amazon Creators API', 'affiliate-toolkit-starter' ) ?>
+								<span style="background: #4caf50; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 10px;">
+									<?php echo esc_html__( 'NEW', 'affiliate-toolkit-starter' ) ?>
+								</span>
+							</div>
+							<p class="atkp-mode-option-desc">
+								<?php echo esc_html__( 'New Amazon API with OAuth 2.0 authentication. Replaces the Product Advertising API.', 'affiliate-toolkit-starter' ) ?>
+							</p>
+						</label>
 					</div>
 				</div>
 
@@ -625,13 +734,16 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 							if (selectedMode == 'noapi') {
 								// When NoAPI mode is selected, get value from dropdown or default to 2
 								var currentVal = visibleSitestripeField.length ? visibleSitestripeField.val() : hiddenSitestripeField.val();
-								if (!currentVal || currentVal == '1') {
+								if (!currentVal || currentVal == '1' || currentVal == '4' || currentVal == '5') {
 									currentVal = '2'; // Default to Always Active
 								}
 								hiddenSitestripeField.val(currentVal);
 								if (visibleSitestripeField.length) {
 									visibleSitestripeField.val(currentVal);
 								}
+							} else if (selectedMode == 'creators') {
+								// When Creators API mode is selected, set to 4
+								hiddenSitestripeField.val('4');
 							} else {
 								// When API mode is selected, set to Disabled (1)
 								hiddenSitestripeField.val('1');
@@ -706,81 +818,6 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
                        value="<?php echo esc_attr($apisecretkey); ?>">
             </td>
         </tr>
-        <tr>
-            <th scope="row">
-                <label for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_access_website') ?>">
-	                <?php echo esc_html__( 'Amazon Website', 'affiliate-toolkit-starter' ) ?> <span
-                            class="description"><?php echo esc_html__( '(required)', 'affiliate-toolkit-starter' ) ?></span>
-                </label>
-            </th>
-            <td>
-                <select name="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_access_website') ?>" >
-					<?php
-					//        public static $locations = array('de', 'com', 'co.uk', 'ca', 'fr', 'co.jp', 'it', 'cn', 'es', 'in', 'com.br');
-
-					$locations = array(
-						'de'    => esc_html__( 'Amazon Germany', 'affiliate-toolkit-starter' ),
-						'com'   => esc_html__( 'Amazon United States', 'affiliate-toolkit-starter' ),
-						'co.uk' => esc_html__( 'Amazon United Kingdom', 'affiliate-toolkit-starter' ),
-						'ca'    => esc_html__( 'Amazon Canada', 'affiliate-toolkit-starter' ),
-						'fr'    => esc_html__( 'Amazon France', 'affiliate-toolkit-starter' ),
-						'co.jp' => esc_html__( 'Amazon Japan', 'affiliate-toolkit-starter' ),
-						'it'    => esc_html__( 'Amazon Italy', 'affiliate-toolkit-starter' ),
-
-						'es'     => esc_html__( 'Amazon Spain', 'affiliate-toolkit-starter' ),
-						'in'     => esc_html__( 'Amazon India', 'affiliate-toolkit-starter' ),
-						'com.br' => esc_html__( 'Amazon Brazil', 'affiliate-toolkit-starter' ),
-						'au'     => esc_html__( 'Amazon Australia', 'affiliate-toolkit-starter' ),
-						'com.mx' => esc_html__( 'Amazon Mexico', 'affiliate-toolkit-starter' ),
-						'com.tr' => esc_html__( 'Amazon Turkey', 'affiliate-toolkit-starter' ),
-						'com.be' => esc_html__( 'Amazon Belgium', 'affiliate-toolkit-starter' ),
-						'ae'     => esc_html__( 'Amazon United Arab Emirates', 'affiliate-toolkit-starter' ),
-						'nl'     => esc_html__( 'Amazon Netherlands', 'affiliate-toolkit-starter' ),
-						'pl'     => esc_html__( 'Amazon Poland', 'affiliate-toolkit-starter' ),
-					);
-					//'cn'     => esc_html__( 'Amazon China', ATKP_PLUGIN_PREFIX ),
-
-					foreach ( $locations as $value => $name ) {
-						if ( $value == ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_access_website' ) ) {
-							$sel = ' selected';
-						} else {
-							$sel = '';
-						}
-
-
-						echo '<option value="' . esc_attr( $value ) . '"' . esc_attr( $sel ) . '>' . esc_html__( $name, 'affiliate-toolkit-starter' ) . '</option>';
-					} ?>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">
-                <label for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_access_tracking_id') ?>">
-	                <?php echo esc_html__( 'Amazon Tracking ID', 'affiliate-toolkit-starter' ) ?> <span
-                            class="description"><?php echo esc_html__( '(required)', 'affiliate-toolkit-starter' ) ?></span>
-                </label>
-            </th>
-            <td>
-                <input type="text" id="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_access_tracking_id') ?>"
-                       name="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_access_tracking_id') ?>"
-                       value="<?php echo esc_attr(ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_access_tracking_id' )); ?>">
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">
-                <label for="<?php echo esc_attr( ATKP_SHOP_POSTTYPE . '_languages_of_preference' ) ?>">
-					<?php echo esc_html__( 'Languages Of Preference', 'affiliate-toolkit-starter' ) ?>
-                </label>
-
-            </th>
-            <td>
-                <input type="text" id="<?php echo esc_attr( ATKP_SHOP_POSTTYPE . '_languages_of_preference' ) ?>"
-                       name="<?php echo esc_attr( ATKP_SHOP_POSTTYPE . '_languages_of_preference' ) ?>"
-                       value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_languages_of_preference' ) ); ?>">
-				<?php ATKPTools::display_helptext( 'You can set an list of languages you want to receive (comma separated). You can find the valid languages for each marketplace <a href="https://webservices.amazon.de/paapi5/documentation/locale-reference.html" target="_blank">here</a>.' ) ?>
-
-            </td>
-        </tr>
 					</table>
 				</div>
 			</td>
@@ -803,38 +840,6 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 						</div>
 
 						<table class="form-table">
-							<tr>
-								<th scope="row">
-									<label for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_sitestripe') ?>">
-										<?php echo esc_html__( 'Operating Mode', 'affiliate-toolkit-starter' ) ?>
-									</label>
-								</th>
-								<td>
-									<select id="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_sitestripe') ?>"
-											style="width: 100%; max-width: 500px;">
-										<?php
-										$noapi_selected = ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_sitestripe' );
-										if (empty($noapi_selected) || $noapi_selected == 1) $noapi_selected = 2; // Default to Always Active for NoAPI mode
-
-										echo '<option value="2" ' . ( $noapi_selected == 2 ? 'selected' : '' ) . '>' . esc_html__( 'Always Active - Use No-API for all requests', 'affiliate-toolkit-starter' ) . '</option>';
-										echo '<option value="3" ' . ( $noapi_selected == 3 ? 'selected' : '' ) . '>' . esc_html__( 'Smart Mode - No-API as fallback (API key required)', 'affiliate-toolkit-starter' ) . '</option>';
-										?>
-									</select>
-									<?php ATKPTools::display_helptext( esc_html__( 'Always Active: Uses only No-API. Smart Mode: Tries Amazon API first, uses No-API as fallback (requires API credentials).', 'affiliate-toolkit-starter' ) ) ?>
-								</td>
-							</tr>
-
-							<tr id="atkp-noapi-smart-mode-info" style="display: none;">
-								<td colspan="2">
-									<div style="background: #fff3e0; border-left: 3px solid #ff9800; padding: 15px; border-radius: 4px;">
-										<p style="margin: 0; font-size: 13px; color: #e65100;">
-											<strong>⚡ <?php echo esc_html__( 'Smart Mode requires Amazon API credentials', 'affiliate-toolkit-starter' ) ?></strong><br>
-											<?php echo esc_html__( 'Please switch to "Amazon Product Advertising API" mode above and enter your API credentials. Then you can use Smart Mode as fallback.', 'affiliate-toolkit-starter' ) ?>
-										</p>
-									</div>
-								</td>
-							</tr>
-
 							<tr>
 								<th scope="row">
 									<label for="<?php echo esc_attr( ATKP_SHOP_POSTTYPE . '_asindataapikey' ) ?>">
@@ -899,23 +904,144 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 			</td>
 		</tr>
 
-		<script>
-			jQuery(document).ready(function($) {
-				// Show/hide Smart Mode info
-				function toggleSmartModeInfo() {
-					var mode = $('#<?php echo esc_js(ATKP_SHOP_POSTTYPE . '_sitestripe'); ?>').val();
-					if (mode == '3') {
-						$('#atkp-noapi-smart-mode-info').show();
-					} else {
-						$('#atkp-noapi-smart-mode-info').hide();
-					}
-				}
+		<!-- Creators API Configuration Section -->
+		<tr class="atkp-config-section" id="atkp-config-creators">
+			<td colspan="2">
+				<div class="atkp-config-section">
+					<h4>🚀 <?php echo esc_html__( 'Amazon Creators API Configuration', 'affiliate-toolkit-starter' ) ?></h4>
 
-				$('#<?php echo esc_js(ATKP_SHOP_POSTTYPE . '_sitestripe'); ?>').on('change', toggleSmartModeInfo);
-				toggleSmartModeInfo();
-			});
-		</script>
+					<div style="background: #e8f5e9; border-left: 3px solid #4caf50; padding: 15px; border-radius: 4px; margin-bottom: 20px;">
+						<p style="margin: 0 0 10px 0; font-weight: 600; color: #2e7d32;">
+							<?php echo esc_html__( 'Amazon Creators API', 'affiliate-toolkit-starter' ) ?>
+						</p>
+						<p style="margin: 0; font-size: 13px; color: #666;">
+							<?php echo esc_html__( 'The Creators API uses OAuth 2.0 with Credential ID and Secret. This replaces the Product Advertising API.', 'affiliate-toolkit-starter' ) ?>
+							<a href="https://affiliate-program.amazon.com/help/node/topic/GZH32YN3MLE93DPJ" target="_blank"><?php echo esc_html__( 'Learn more', 'affiliate-toolkit-starter' ) ?></a>
+						</p>
+					</div>
 
+					<table class="form-table">
+						<tr>
+							<th scope="row">
+								<label for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_creators_credential_id') ?>">
+									<?php echo esc_html__( 'Credential ID', 'affiliate-toolkit-starter' ) ?> <span class="description"><?php echo esc_html__( '(required)', 'affiliate-toolkit-starter' ) ?></span>
+								</label>
+							</th>
+							<td>
+								<input style="width:40%" type="text"
+									   id="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_creators_credential_id') ?>"
+									   name="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_creators_credential_id') ?>"
+									   value="<?php echo esc_attr(ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_creators_credential_id' )); ?>">
+								<?php ATKPTools::display_helptext( esc_html__( 'Your Creators API Credential ID from the Amazon Associates dashboard.', 'affiliate-toolkit-starter' ) ) ?>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<label for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_creators_credential_secret') ?>">
+									<?php echo esc_html__( 'Credential Secret', 'affiliate-toolkit-starter' ) ?> <span class="description"><?php echo esc_html__( '(required)', 'affiliate-toolkit-starter' ) ?></span>
+								</label>
+							</th>
+							<td>
+								<input style="width:40%" type="password"
+									   id="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_creators_credential_secret') ?>"
+									   name="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_creators_credential_secret') ?>"
+									   value="<?php echo esc_attr(ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_creators_credential_secret' )); ?>">
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<label for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_creators_credential_version') ?>">
+									<?php echo esc_html__( 'Credential Version', 'affiliate-toolkit-starter' ) ?>
+								</label>
+							</th>
+							<td>
+								<select id="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_creators_credential_version') ?>"
+										name="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_creators_credential_version') ?>"
+										style="width: 100%; max-width: 300px;">
+									<?php
+									require_once ATKP_AMAZON_PLUGIN_DIR . '/includes/atkp_marketplace_mapper.php';
+									$current_version = ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_creators_credential_version' );
+									foreach ( atkp_marketplace_mapper::get_credential_versions() as $value => $label ) {
+										echo '<option value="' . esc_attr( $value ) . '"' . ( $current_version == $value ? ' selected' : '' ) . '>' . esc_html( $label ) . '</option>';
+									}
+									?>
+								</select>
+								<?php ATKPTools::display_helptext( esc_html__( 'Select your credential version. Auto-detect will determine it based on your selected Amazon website.', 'affiliate-toolkit-starter' ) ) ?>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</td>
+		</tr>
+
+		<!-- Common Amazon Settings (visible for all modes) -->
+		<tr>
+            <th scope="row">
+                <label for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_access_website') ?>">
+	                <?php echo esc_html__( 'Amazon Website', 'affiliate-toolkit-starter' ) ?> <span
+                            class="description"><?php echo esc_html__( '(required)', 'affiliate-toolkit-starter' ) ?></span>
+                </label>
+            </th>
+            <td>
+                <select name="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_access_website') ?>" >
+					<?php
+					$locations = array(
+						'de'    => esc_html__( 'Amazon Germany', 'affiliate-toolkit-starter' ),
+						'com'   => esc_html__( 'Amazon United States', 'affiliate-toolkit-starter' ),
+						'co.uk' => esc_html__( 'Amazon United Kingdom', 'affiliate-toolkit-starter' ),
+						'ca'    => esc_html__( 'Amazon Canada', 'affiliate-toolkit-starter' ),
+						'fr'    => esc_html__( 'Amazon France', 'affiliate-toolkit-starter' ),
+						'co.jp' => esc_html__( 'Amazon Japan', 'affiliate-toolkit-starter' ),
+						'it'    => esc_html__( 'Amazon Italy', 'affiliate-toolkit-starter' ),
+						'es'     => esc_html__( 'Amazon Spain', 'affiliate-toolkit-starter' ),
+						'in'     => esc_html__( 'Amazon India', 'affiliate-toolkit-starter' ),
+						'com.br' => esc_html__( 'Amazon Brazil', 'affiliate-toolkit-starter' ),
+						'au'     => esc_html__( 'Amazon Australia', 'affiliate-toolkit-starter' ),
+						'com.mx' => esc_html__( 'Amazon Mexico', 'affiliate-toolkit-starter' ),
+						'com.tr' => esc_html__( 'Amazon Turkey', 'affiliate-toolkit-starter' ),
+						'com.be' => esc_html__( 'Amazon Belgium', 'affiliate-toolkit-starter' ),
+						'ae'     => esc_html__( 'Amazon United Arab Emirates', 'affiliate-toolkit-starter' ),
+						'nl'     => esc_html__( 'Amazon Netherlands', 'affiliate-toolkit-starter' ),
+						'pl'     => esc_html__( 'Amazon Poland', 'affiliate-toolkit-starter' ),
+					);
+
+					foreach ( $locations as $value => $name ) {
+						if ( $value == ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_access_website' ) ) {
+							$sel = ' selected';
+						} else {
+							$sel = '';
+						}
+						echo '<option value="' . esc_attr( $value ) . '"' . esc_attr( $sel ) . '>' . esc_html__( $name, 'affiliate-toolkit-starter' ) . '</option>';
+					} ?>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                <label for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_access_tracking_id') ?>">
+	                <?php echo esc_html__( 'Amazon Tracking ID', 'affiliate-toolkit-starter' ) ?> <span
+                            class="description"><?php echo esc_html__( '(required)', 'affiliate-toolkit-starter' ) ?></span>
+                </label>
+            </th>
+            <td>
+                <input type="text" id="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_access_tracking_id') ?>"
+                       name="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_amz_access_tracking_id') ?>"
+                       value="<?php echo esc_attr(ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_access_tracking_id' )); ?>">
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                <label for="<?php echo esc_attr( ATKP_SHOP_POSTTYPE . '_languages_of_preference' ) ?>">
+					<?php echo esc_html__( 'Languages Of Preference', 'affiliate-toolkit-starter' ) ?>
+                </label>
+            </th>
+            <td>
+                <input type="text" id="<?php echo esc_attr( ATKP_SHOP_POSTTYPE . '_languages_of_preference' ) ?>"
+                       name="<?php echo esc_attr( ATKP_SHOP_POSTTYPE . '_languages_of_preference' ) ?>"
+                       value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_languages_of_preference' ) ); ?>">
+				<?php ATKPTools::display_helptext( 'You can set an list of languages you want to receive (comma separated). You can find the valid languages for each marketplace <a href="https://webservices.amazon.de/paapi5/documentation/locale-reference.html" target="_blank">here</a>.' ) ?>
+            </td>
+        </tr>
 
         <tr>
                 <th colspan="2">
@@ -1246,10 +1372,32 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 
 	private $asindataapikey = '';
 
+	/* @var \Amazon\CreatorsAPI\v1\com\amazon\creators\api\DefaultApi $creatorsHelper */
+	private $creatorsHelper = null;
+	private $apiMode = 'paapi'; // 'paapi' | 'creators' | 'noapi'
+	private $credentialId = '';
+	private $credentialSecret = '';
+	private $credentialVersion = '';
+	private $marketplace = '';
+
 
 	private function checklogon_v5( $access_website, $access_key, $access_secret_key, $access_tracking_id ) {
 
 		$this->helper = $this->get_api_instance( $access_key, $access_secret_key, $access_website );
+	}
+
+	private function checklogon_creators() {
+		require_once ATKP_AMAZON_PLUGIN_DIR . '/lib/vendor/autoload.php';
+		$this->check_guzzle();
+
+		$config = new \Amazon\CreatorsAPI\v1\Configuration();
+		$config->setCredentialId( $this->credentialId );
+		$config->setCredentialSecret( $this->credentialSecret );
+		$config->setVersion( $this->credentialVersion );
+
+		$this->creatorsHelper = new \Amazon\CreatorsAPI\v1\com\amazon\creators\api\DefaultApi(
+			new \GuzzleHttp\Client(), $config
+		);
 	}
 
 	public function checklogon( $shop ) {
@@ -1273,9 +1421,15 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 			$this->seconds_wait = 1;
 		}
 
-		if ( ATKP_LicenseController::get_module_license_status( 'amaznoapi' ) == 'valid' &&
+		$raw_sitestripe = ATKPTools::get_post_setting( $shop->id, ATKP_SHOP_POSTTYPE . '_sitestripe' );
+
+		// Creators API modes (4, 5) don't require NoAPI license
+		if ( $raw_sitestripe == 4 || $raw_sitestripe == 5 ) {
+			$this->sitetripemode         = $raw_sitestripe;
+			$this->load_customer_reviews = ATKPTools::get_post_setting( $shop->id, ATKP_SHOP_POSTTYPE . '_load_customer_reviews' );
+		} else if ( ATKP_LicenseController::get_module_license_status( 'amaznoapi' ) == 'valid' &&
 		     ATKP_LicenseController::get_module_license( 'amaznoapi' ) != '' ) {
-			$this->sitetripemode         = ATKPTools::get_post_setting( $shop->id, ATKP_SHOP_POSTTYPE . '_sitestripe' );
+			$this->sitetripemode         = $raw_sitestripe;
 			$this->load_customer_reviews = ATKPTools::get_post_setting( $shop->id, ATKP_SHOP_POSTTYPE . '_load_customer_reviews' );
 		}
 
@@ -1299,7 +1453,24 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 			$access_tracking_id = 'empty';
 		}
 
-		$this->checklogon_v5( $access_website, $access_key, $access_secret_key, $access_tracking_id );
+		if ( $this->sitetripemode == 4 || $this->sitetripemode == 5 ) {
+			$this->credentialId      = ATKPTools::get_post_setting( $shop->id, ATKP_SHOP_POSTTYPE . '_creators_credential_id' );
+			$this->credentialSecret  = ATKPTools::get_post_setting( $shop->id, ATKP_SHOP_POSTTYPE . '_creators_credential_secret' );
+			$this->credentialVersion = ATKPTools::get_post_setting( $shop->id, ATKP_SHOP_POSTTYPE . '_creators_credential_version' );
+
+			require_once ATKP_AMAZON_PLUGIN_DIR . '/includes/atkp_marketplace_mapper.php';
+			$this->marketplace = atkp_marketplace_mapper::get_marketplace( $access_website );
+
+			if ( $this->credentialVersion == '' ) {
+				$this->credentialVersion = atkp_marketplace_mapper::get_default_version( $access_website );
+			}
+
+			$this->checklogon_creators();
+			$this->apiMode = 'creators';
+		} else {
+			$this->checklogon_v5( $access_website, $access_key, $access_secret_key, $access_tracking_id );
+			$this->apiMode = 'paapi';
+		}
 
 	}
 
@@ -1375,11 +1546,15 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 
 
 	public function retrieve_browsenodes( $keyword ) {
-		if ( $this->helper == null ) {
+		if ( $this->helper == null && $this->creatorsHelper == null ) {
 			throw new Exception( 'checklogon required' );
 		}
 
+		if ( $this->apiMode == 'creators' ) {
+			$nodes = $this->retrieve_browsenodes_creators( $keyword );
+		} else {
 			$nodes = $this->retrieve_browsenodes_v5( $keyword );
+		}
 
 
 		$newNodes = array();
@@ -1511,7 +1686,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 				//var_dump($result->getExternalIds());exit;
 
 				$ean_full = '';
-				if ( $result->getItemInfo()->getExternalIds() != null && $result->getItemInfo()->getExternalIds()->getEANs() != null ) {
+				if ( $result->getItemInfo() != null && $result->getItemInfo()->getExternalIds() != null && $result->getItemInfo()->getExternalIds()->getEANs() != null ) {
 					foreach ( $result->getItemInfo()->getExternalIds()->getEANs()->getDisplayValues() as $ean ) {
 						if ( $ean_full != '' ) {
 							$ean_full .= ',';
@@ -1593,7 +1768,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 
 
 				$description = '';
-				if ( $result->getItemInfo()->getFeatures() != null && $result->getItemInfo()->getFeatures()->getDisplayValues() != null ) {
+				if ( $result->getItemInfo() != null && $result->getItemInfo()->getFeatures() != null && $result->getItemInfo()->getFeatures()->getDisplayValues() != null ) {
 					$description = implode( '<br />', $result->getItemInfo()->getFeatures()->getDisplayValues() );
 				}
 
@@ -1611,8 +1786,12 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 	}
 
 	public function quick_search( $keyword, $searchType, $pagination = 1 ) {
-		if ( $this->helper == null ) {
+		if ( $this->helper == null && $this->creatorsHelper == null ) {
 			throw new Exception( 'checklogon required' );
+		}
+
+		if ( $this->apiMode == 'creators' ) {
+			return $this->quick_search_creators( $keyword, $searchType, $pagination );
 		}
 
 //			try {
@@ -1812,7 +1991,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 	}
 
 	public function retrieve_departments() {
-		if ( $this->helper == null ) {
+		if ( $this->helper == null && $this->creatorsHelper == null ) {
 			throw new Exception( 'checklogon required' );
 		}
 
@@ -1864,6 +2043,9 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 	}
 
 	public function retrieve_products( $asins, $id_type = 'ASIN' ) {
+			if ( $this->apiMode == 'creators' ) {
+				return $this->retrieve_products_creators( $asins, $id_type );
+			}
 
 			//try {
 				return $this->retrieve_products_v5( $asins, $id_type );
@@ -2398,6 +2580,9 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 	 * @return $myproduct atkp_product
 	 */
 	private function fill_product_v5( $result, $parentResult = null ) {
+		if ( $result == null ) {
+			return null;
+		}
 
 		$myproduct            = new atkp_product();
 		$myproduct->updatedon = ATKPTools::get_currenttime();
@@ -2490,7 +2675,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 		$description = '';
 		$features = '';
 
-		if ( $result->getItemInfo()->getFeatures() != null && $result->getItemInfo()->getFeatures()->getDisplayValues() != null ) {
+		if ( $result->getItemInfo() != null && $result->getItemInfo()->getFeatures() != null && $result->getItemInfo()->getFeatures()->getDisplayValues() != null ) {
 			foreach ( $result->getItemInfo()->getFeatures()->getDisplayValues() as $feature ) {
 				$features .= '<li>' . $feature . '</li>';
 				$description .= $feature.' <br />';
@@ -2675,7 +2860,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 		}
 
 		$isbn_full = '';
-		if ( $result->getItemInfo()->getExternalIds() != null && $result->getItemInfo()->getExternalIds()->getISBNs() != null ) {
+		if ( $result->getItemInfo() != null && $result->getItemInfo()->getExternalIds() != null && $result->getItemInfo()->getExternalIds()->getISBNs() != null ) {
 			foreach ( $result->getItemInfo()->getExternalIds()->getISBNs()->getDisplayValues() as $ean ) {
 				if ( $isbn_full != '' ) {
 					$isbn_full .= ',';
@@ -2687,7 +2872,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 		$myproduct->isbn = $isbn_full;
 
 		$ean_full = '';
-		if ( $result->getItemInfo()->getExternalIds() != null && $result->getItemInfo()->getExternalIds()->getEANs() != null ) {
+		if ( $result->getItemInfo() != null && $result->getItemInfo()->getExternalIds() != null && $result->getItemInfo()->getExternalIds()->getEANs() != null ) {
 			foreach ( $result->getItemInfo()->getExternalIds()->getEANs()->getDisplayValues() as $ean ) {
 				if ( $ean_full != '' ) {
 					$ean_full .= ',';
@@ -2699,7 +2884,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 		$myproduct->ean = $ean_full;
 
 		$category = '';
-		if ( $result->getBrowseNodeInfo() != null ) {
+		if ( $result->getBrowseNodeInfo() != null && $result->getBrowseNodeInfo()->getBrowseNodes() != null ) {
 			foreach ( $result->getBrowseNodeInfo()->getBrowseNodes() as $bnw ) {
 				$category .= $this->getBrowseNodeTree( $bnw->getAncestor() );
 				break;
@@ -2708,10 +2893,10 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 
 		$myproduct->productgroup = $category;
 
-		if ( $result->getItemInfo()->getProductInfo() && $result->getItemInfo()->getProductInfo()->getReleaseDate() ) {
+		if ( $result->getItemInfo() != null && $result->getItemInfo()->getProductInfo() && $result->getItemInfo()->getProductInfo()->getReleaseDate() ) {
 			$myproduct->releasedate = substr( $result->getItemInfo()->getProductInfo()->getReleaseDate()->getDisplayValue(), 0, 10 );
 		}
-		if ( $result->getItemInfo()->getByLineInfo() != null && $result->getItemInfo()->getByLineInfo()->getContributors() != null ) {
+		if ( $result->getItemInfo() != null && $result->getItemInfo()->getByLineInfo() != null && $result->getItemInfo()->getByLineInfo()->getContributors() != null ) {
 			foreach ( $result->getItemInfo()->getByLineInfo()->getContributors() as $const ) {
 				if ( $const->getRole() == 'Autor' ) {
 					$myproduct->author = $const->getName();
@@ -2720,12 +2905,12 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 			}
 		}
 
-		if ( $result->getItemInfo()->getContentInfo() != null && $result->getItemInfo()->getContentInfo()->getPagesCount() != null ) {
+		if ( $result->getItemInfo() != null && $result->getItemInfo()->getContentInfo() != null && $result->getItemInfo()->getContentInfo()->getPagesCount() != null ) {
 			$myproduct->numberofpages = $result->getItemInfo()->getContentInfo()->getPagesCount()->getDisplayValue();
 		}
 
 		$myproduct->mpn = '';
-		if ( $result->getItemInfo()->getManufactureInfo() != null && $result->getItemInfo()->getManufactureInfo()->getItemPartNumber() != null ) {
+		if ( $result->getItemInfo() != null && $result->getItemInfo()->getManufactureInfo() != null && $result->getItemInfo()->getManufactureInfo()->getItemPartNumber() != null ) {
 			$myproduct->mpn = $result->getItemInfo()->getManufactureInfo()->getItemPartNumber()->getDisplayValue();
 		}
 
@@ -2900,8 +3085,12 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 	}
 
 	public function retrieve_product_list( $search_request ) {
-		if ( $this->helper == null ) {
+		if ( $this->helper == null && $this->creatorsHelper == null ) {
 			throw new Exception( 'checklogon required' );
+		}
+
+		if ( $this->apiMode == 'creators' ) {
+			return $this->retrieve_product_list_creators( $search_request );
 		}
 
 		$mylist            = new atkp_list_resp();
@@ -3170,6 +3359,1064 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 
 	public function get_supportedlistsources() {
 		return implode(',', array(atkp_list_source_type::BestSeller,atkp_list_source_type::NewReleases, atkp_list_source_type::Search, atkp_list_source_type::ExtendedSearch));
+	}
+
+
+	// ========================================================================
+	// Creators API Methods
+	// ========================================================================
+
+	private function setConditionCreators( $request ) {
+		switch ( $this->onlynew ) {
+			default:
+				break;
+			case 1:
+				$request->setCondition( \Amazon\CreatorsAPI\v1\com\amazon\creators\model\Condition::_NEW );
+				break;
+			// Creators API only supports Any and New
+		}
+		return $request;
+	}
+
+	private function sendSearchRequestCreators( $searchRequest ) {
+		$searchRequest = $this->setConditionCreators( $searchRequest );
+
+		if ( $this->seconds_wait > 0 ) {
+			sleep( $this->seconds_wait );
+		}
+
+		$response = $this->creatorsHelper->searchItems( $this->marketplace, $searchRequest );
+
+		if ( $response->getErrors() != null ) {
+			throw new Exception( $response->getErrors()[0]->getCode() . ': ' . $response->getErrors()[0]->getMessage() );
+		}
+
+		return $response;
+	}
+
+	private function sendGetItemsRequestCreators( $getItemsRequest ) {
+		$getItemsRequest = $this->setConditionCreators( $getItemsRequest );
+
+		if ( $this->seconds_wait > 0 ) {
+			sleep( $this->seconds_wait );
+		}
+
+		$response = $this->creatorsHelper->getItems( $this->marketplace, $getItemsRequest );
+
+		if ( $response->getErrors() != null ) {
+			throw new Exception( $response->getErrors()[0]->getCode() . ': ' . $response->getErrors()[0]->getMessage() );
+		}
+
+		return $response;
+	}
+
+	private function sendVariationRequestCreators( $variationRequest ) {
+		if ( $this->seconds_wait > 0 ) {
+			sleep( $this->seconds_wait );
+		}
+
+		$response = $this->creatorsHelper->getVariations( $this->marketplace, $variationRequest );
+
+		if ( $response->getErrors() != null ) {
+			throw new Exception( $response->getErrors()[0]->getCode() . ': ' . $response->getErrors()[0]->getMessage() );
+		}
+
+		return $response;
+	}
+
+	private function quick_search_creators( $keyword, $searchType, $pagination ) {
+		$products = new atkp_search_resp();
+		$maxCount = 10;
+
+		$items = array();
+		try {
+			if ( $searchType == 'asin' || $searchType == 'articlenumber' ) {
+				$getItemsRequest = new \Amazon\CreatorsAPI\v1\com\amazon\creators\model\GetItemsRequestContent();
+				$getItemsRequest->setItemIds( explode( ',', $keyword ) );
+				$getItemsRequest->setPartnerTag( $this->associateTag );
+				if ( $this->languages_of_preference != null )
+					$getItemsRequest->setLanguagesOfPreference( $this->languages_of_preference );
+				$getItemsRequest->setResources(
+					\Amazon\CreatorsAPI\v1\com\amazon\creators\model\GetItemsResource::getAllowableEnumValues()
+				);
+
+				$getItemsResponse = $this->sendGetItemsRequestCreators( $getItemsRequest );
+
+				if ( $getItemsResponse->getItemsResult() != null && $getItemsResponse->getItemsResult()->getItems() != null ) {
+					$items = $getItemsResponse->getItemsResult()->getItems();
+				}
+
+			} else {
+				$searchItemsRequest = new \Amazon\CreatorsAPI\v1\com\amazon\creators\model\SearchItemsRequestContent();
+				$searchItemsRequest->setSearchIndex( 'All' );
+				$searchItemsRequest->setKeywords( $keyword );
+				$searchItemsRequest->setItemCount( $maxCount );
+				$searchItemsRequest->setPartnerTag( $this->associateTag );
+				if ( $this->languages_of_preference != null )
+					$searchItemsRequest->setLanguagesOfPreference( $this->languages_of_preference );
+				$searchItemsRequest->setResources(
+					\Amazon\CreatorsAPI\v1\com\amazon\creators\model\SearchItemsResource::getAllowableEnumValues()
+				);
+				$searchItemsRequest->setItemPage( $pagination );
+
+				$searchItemsResponse = $this->sendSearchRequestCreators( $searchItemsRequest );
+
+				if ( $searchItemsResponse->getSearchResult() != null ) {
+					$products->pagecount = ceil( floatval( $searchItemsResponse->getSearchResult()->getTotalResultCount() ) / floatval( $maxCount ) );
+					$products->total     = intval( $searchItemsResponse->getSearchResult()->getTotalResultCount() );
+				}
+				$products->currentpage = intval( $pagination );
+
+				if ( $searchItemsResponse->getSearchResult() != null && $searchItemsResponse->getSearchResult()->getItems() != null ) {
+					$items = $searchItemsResponse->getSearchResult()->getItems();
+				}
+			}
+		} catch ( \Amazon\CreatorsAPI\v1\ApiException $exception ) {
+			$check = "API-Error: " . $exception->getCode();
+			$responseBody = $exception->getResponseBody();
+			if ( $responseBody != null ) {
+				$decoded = json_decode( $responseBody, true );
+				if ( is_array( $decoded ) ) {
+					if ( ! empty( $decoded['message'] ) ) {
+						$check .= " Message: " . $decoded['message'];
+					}
+					if ( ! empty( $decoded['reason'] ) ) {
+						$check .= " Reason: " . $decoded['reason'];
+					}
+					if ( ! empty( $decoded['type'] ) ) {
+						$check .= " Type: " . $decoded['type'];
+					}
+				} else {
+					$check .= " " . $exception->getMessage();
+				}
+			} else {
+				$check .= " " . $exception->getMessage();
+			}
+		} catch ( Exception $exception ) {
+			$check = "Error Message: " . $exception->getMessage();
+		}
+
+		if ( ! empty( $check ) ) {
+			throw new Exception( esc_html__( $check, 'affiliate-toolkit-starter' ) );
+		}
+
+		foreach ( $items as $result ) {
+			if ( $result->getAsin() != null ) {
+				$product = array();
+
+				if ( $result->getImages() != null && $result->getImages()->getPrimary() != null ) {
+					$product['imageurl'] = $this->checkimageurl( $result->getImages()->getPrimary()->getSmall()->getUrl(), 'small' );
+				}
+
+				$product['articlenumber'] = $product['asin'] = $result->getAsin();
+
+				$ean_full = '';
+				if ( $result->getItemInfo() != null && $result->getItemInfo()->getExternalIds() != null && $result->getItemInfo()->getExternalIds()->getEANs() != null ) {
+					foreach ( $result->getItemInfo()->getExternalIds()->getEANs()->getDisplayValues() as $ean ) {
+						if ( $ean_full != '' ) {
+							$ean_full .= ',';
+						}
+						$ean_full .= $ean;
+					}
+				}
+				$product['ean'] = $ean_full;
+
+				if ( $result->getDetailPageURL() != null ) {
+					$product['producturl'] = $result->getDetailPageURL();
+				}
+				if ( $result->getItemInfo() != null && $result->getItemInfo()->getTitle() != null && $result->getItemInfo()->getTitle()->getDisplayValue() != null ) {
+					$product['title'] = htmlspecialchars( $result->getItemInfo()->getTitle()->getDisplayValue() );
+				}
+
+				if ( $result->getOffersV2() != null ) {
+					foreach ( $result->getOffersV2()->getListings() as $listing ) {
+						if ( $listing->getAvailability() != null && $listing->getAvailability()->getMessage() != null ) {
+							$product['availability'] = $listing->getAvailability()->getMessage();
+						}
+
+						if ( $listing->getPrice() != null ) {
+							$price = $listing->getPrice();
+
+							if ( $price->getSavingBasis() != null ) {
+								$savingBasis = $price->getSavingBasis();
+								if ( $savingBasis->getMoney() != null ) {
+									$product['listprice']      = $savingBasis->getMoney()->getDisplayAmount();
+									$product['listpricefloat'] = $savingBasis->getMoney()->getAmount();
+								}
+							} else {
+								$product['listprice']      = '';
+								$product['listpricefloat'] = 0;
+							}
+
+							if ( $price->getMoney() != null ) {
+								$product['saleprice']      = $price->getMoney()->getDisplayAmount();
+								$product['salepricefloat'] = $price->getMoney()->getAmount();
+							}
+
+							if ( $price->getPricePerUnit() != null ) {
+								$pricePerUnit = $price->getPricePerUnit();
+								if ( $pricePerUnit->getAmount() != null ) {
+									$product['basepricefloat'] = $pricePerUnit->getAmount();
+									if ( $pricePerUnit->getDisplayAmount() != null ) {
+										$parts                 = explode( ' / ', $pricePerUnit->getDisplayAmount() );
+										$product['baseprice']  = trim( $parts[0] );
+										if ( count( $parts ) > 1 ) {
+											$product['baseunit'] = trim( $parts[1] );
+										}
+									}
+								}
+							}
+
+							if ( $price->getSavings() != null ) {
+								$savings = $price->getSavings();
+								if ( $savings->getPercentage() != null ) {
+									$product['percentagesaved'] = $savings->getPercentage();
+								}
+								if ( $savings->getMoney() != null ) {
+									$product['amountsaved']      = $savings->getMoney()->getDisplayAmount();
+									$product['amountsavedfloat'] = $savings->getMoney()->getAmount();
+								}
+							}
+						}
+
+						if ( $result->getItemInfo() != null && $result->getItemInfo()->getFeatures() != null && $result->getItemInfo()->getFeatures()->getDisplayValues() != null ) {
+							$features = '';
+							foreach ( $result->getItemInfo()->getFeatures()->getDisplayValues() as $feature ) {
+								$features .= $feature . ' ';
+							}
+							$product['features'] = mb_substr( $features, 0, 350 );
+						}
+
+						break;
+					}
+				}
+
+				$products->products[] = $product;
+			}
+		}
+
+		return $products;
+	}
+
+	public function retrieve_products_creators( $asins, $id_type ) {
+		$atkpresponse = new atkp_response();
+
+		if ( count( $asins ) == 0 ) {
+			return $atkpresponse;
+		}
+
+		switch ( strtoupper( $id_type ) ) {
+			case 'TITLE':
+			case 'EAN':
+				foreach ( $asins as $title ) {
+					$items      = null;
+					$titlecheck = '';
+					try {
+						$searchRequest = new \Amazon\CreatorsAPI\v1\com\amazon\creators\model\SearchItemsRequestContent();
+						$searchRequest->setSearchIndex( 'All' );
+						$searchRequest->setKeywords( $title );
+						$searchRequest->setItemCount( 2 );
+						$searchRequest->setPartnerTag( $this->associateTag );
+						if ( $this->languages_of_preference != null )
+							$searchRequest->setLanguagesOfPreference( $this->languages_of_preference );
+						$searchRequest->setResources(
+							\Amazon\CreatorsAPI\v1\com\amazon\creators\model\SearchItemsResource::getAllowableEnumValues()
+						);
+						$searchRequest->setItemPage( 1 );
+
+						$searchResponse = $this->sendSearchRequestCreators( $searchRequest );
+
+						if ( $searchResponse->getSearchResult() != null && $searchResponse->getSearchResult()->getItems() != null ) {
+							$items = $searchResponse->getSearchResult()->getItems();
+						}
+
+					} catch ( \Amazon\CreatorsAPI\v1\ApiException $exception ) {
+						$titlecheck = "API-Error: " . $exception->getCode();
+						$responseBody = $exception->getResponseBody();
+						if ( $responseBody != null ) {
+							$decoded = json_decode( $responseBody, true );
+							if ( is_array( $decoded ) ) {
+								if ( ! empty( $decoded['message'] ) ) {
+									$titlecheck .= " Message: " . $decoded['message'];
+								}
+								if ( ! empty( $decoded['reason'] ) ) {
+									$titlecheck .= " Reason: " . $decoded['reason'];
+								}
+								if ( ! empty( $decoded['type'] ) ) {
+									$titlecheck .= " Type: " . $decoded['type'];
+								}
+							} else {
+								$titlecheck .= " " . $exception->getMessage();
+							}
+						} else {
+							$titlecheck .= " " . $exception->getMessage();
+						}
+					} catch ( Exception $exception ) {
+						if ( ! ATKPTools::str_contains( $exception->getMessage(), 'NoResults', false ) ) {
+							$titlecheck = "Error Message: " . $exception->getMessage();
+						}
+					}
+
+					$added = false;
+
+					if ( $titlecheck != '' ) {
+						$responseitem               = new atkp_response_item();
+						$responseitem->errormessage = $titlecheck;
+						$responseitem->uniqueid     = $title;
+						$responseitem->uniquetype   = $id_type;
+						array_push( $atkpresponse->responseitems, $responseitem );
+						$added = true;
+					} else {
+						if ( $items != null ) {
+							$result = null;
+							foreach ( $items as $result2 ) {
+								if ( $result2->getAsin() == null || $added ) {
+									continue;
+								}
+								$result = $result2;
+								break;
+							}
+
+							if ( $result != null ) {
+								$responseitem              = new atkp_response_item();
+								$responseitem->productitem = $this->fill_product_creators( $result );
+								$responseitem->uniqueid    = $title;
+								$responseitem->uniquetype  = $id_type;
+								array_push( $atkpresponse->responseitems, $responseitem );
+								$added = true;
+							}
+						}
+					}
+				}
+				break;
+
+			case 'ARTICLENUMBER':
+			case 'ASIN':
+				foreach ( $asins as $asin ) {
+					$items = array();
+					$check = '';
+					try {
+						$getItemsRequest = new \Amazon\CreatorsAPI\v1\com\amazon\creators\model\GetItemsRequestContent();
+						$getItemsRequest->setItemIds( array( $asin ) );
+						$getItemsRequest->setPartnerTag( $this->associateTag );
+						if ( $this->languages_of_preference != null )
+							$getItemsRequest->setLanguagesOfPreference( $this->languages_of_preference );
+						$getItemsRequest->setResources(
+							\Amazon\CreatorsAPI\v1\com\amazon\creators\model\GetItemsResource::getAllowableEnumValues()
+						);
+
+						$getItemsResponse = $this->sendGetItemsRequestCreators( $getItemsRequest );
+
+						if ( $getItemsResponse->getItemsResult() != null && $getItemsResponse->getItemsResult()->getItems() != null ) {
+							$items = $getItemsResponse->getItemsResult()->getItems();
+						}
+
+					} catch ( \Amazon\CreatorsAPI\v1\ApiException $exception ) {
+						$check = "API-Error: " . $exception->getCode();
+						$responseBody = $exception->getResponseBody();
+						if ( $responseBody != null ) {
+							$decoded = json_decode( $responseBody, true );
+							if ( is_array( $decoded ) ) {
+								if ( ! empty( $decoded['message'] ) ) {
+									$check .= " Message: " . $decoded['message'];
+								}
+								if ( ! empty( $decoded['reason'] ) ) {
+									$check .= " Reason: " . $decoded['reason'];
+								}
+								if ( ! empty( $decoded['type'] ) ) {
+									$check .= " Type: " . $decoded['type'];
+								}
+							} else {
+								$check .= " " . $exception->getMessage();
+							}
+						} else {
+							$check .= " " . $exception->getMessage();
+						}
+					} catch ( Exception $exception ) {
+						$check = "Error Message: " . $exception->getMessage();
+					}
+
+					$added = false;
+
+					if ( ! empty( $check ) && $this->sitetripemode == 5 && strtoupper( $id_type ) == 'ASIN' ) {
+						$atkpresponse2 = $this->load_sitestripeproduct( array( $asin ) );
+						array_push( $atkpresponse->responseitems, $atkpresponse2->responseitems[0] );
+						$added = true;
+					} else if ( $check != '' || $items == null ) {
+						$responseitem               = new atkp_response_item();
+						$responseitem->errormessage = empty( $check ) ? 'product not found' : $check;
+						$responseitem->uniqueid     = $asin;
+						$responseitem->uniquetype   = $id_type;
+						array_push( $atkpresponse->responseitems, $responseitem );
+						$added = true;
+					} else {
+						if ( $items != null ) {
+							$result = null;
+							foreach ( $items as $result2 ) {
+								if ( $result2->getAsin() == null || $added ) {
+									continue;
+								}
+								$result = $result2;
+								break;
+							}
+							if ( $result != null ) {
+								$responseitem              = new atkp_response_item();
+								$responseitem->productitem = $this->fill_product_creators( $result );
+								$responseitem->uniqueid    = $asin;
+								$responseitem->uniquetype  = $id_type;
+								array_push( $atkpresponse->responseitems, $responseitem );
+								$added = true;
+							}
+						}
+					}
+				}
+				break;
+
+			default:
+				throw new Exception( esc_html__( 'unknown id_type: ' . $id_type, 'affiliate-toolkit-starter' ) );
+		}
+
+		return $atkpresponse;
+	}
+
+	private function retrieve_product_list_creators( $search_request ) {
+		$mylist            = new atkp_list_resp();
+		$mylist->updatedon = ATKPTools::get_currenttime();
+		$mylist->asins     = array();
+		$mylist->products  = null;
+
+		switch ( $search_request->request_type ) {
+			case atkp_list_request_type::TopSellers:
+			case atkp_list_request_type::NewReleases:
+				$searchRequest = new \Amazon\CreatorsAPI\v1\com\amazon\creators\model\SearchItemsRequestContent();
+				$searchRequest->setSortBy( $search_request->request_type == atkp_list_request_type::TopSellers ? 'Featured' : 'NewestArrivals' );
+				$searchRequest->setBrowseNodeId( $search_request->category );
+				$searchRequest->setKeywords( '*' );
+				if ( $this->languages_of_preference != null )
+					$searchRequest->setLanguagesOfPreference( $this->languages_of_preference );
+				$searchRequest->setPartnerTag( $this->associateTag );
+				$searchRequest->setResources(
+					\Amazon\CreatorsAPI\v1\com\amazon\creators\model\SearchItemsResource::getAllowableEnumValues()
+				);
+				$searchRequest->setItemCount( 10 );
+				$searchRequest->setItemPage( 1 );
+
+				$searchResponse = $this->sendSearchRequestCreators( $searchRequest );
+
+				$products = array();
+
+				if ( $searchResponse->getSearchResult() != null ) {
+					$mylist->total_items_count = $searchResponse->getSearchResult()->getTotalResultCount();
+					$mylist->total_pages       = ceil( $mylist->total_items_count / $this->get_maximum_items_per_page() );
+
+					if ( $searchResponse->getSearchResult()->getItems() != null ) {
+						foreach ( $searchResponse->getSearchResult()->getItems() as $item ) {
+							if ( $item->getAsin() != null ) {
+								$products[] = $this->fill_product_creators( $item );
+							}
+						}
+					}
+				}
+
+				$mylist->products = $products;
+				break;
+
+			case atkp_list_request_type::ExtendedSearch:
+			case atkp_list_request_type::Search:
+				$searchRequest = new \Amazon\CreatorsAPI\v1\com\amazon\creators\model\SearchItemsRequestContent();
+				if ( $search_request->category != '' && $search_request->category != 'All' ) {
+					$searchRequest->setSearchIndex( $search_request->category );
+
+					if ( $search_request->sort_order != '' ) {
+						switch ( $search_request->sort_order ) {
+							case '-pubdate':
+							case '-publication_date':
+							case 'date-desc-rank':
+							case 'launch_date':
+								$sortorder = 'NewestArrivals';
+								break;
+							case 'reviewrank':
+							case 'pmrank':
+							case 'reviewrank_authority':
+							case 'review-rank':
+								$sortorder = 'AvgCustomerReviews';
+								break;
+							case 'price':
+							case 'price-asc-rank':
+							case 'pricerank':
+								$sortorder = 'Price:LowToHigh';
+								break;
+							case '-price':
+							case 'price-desc-rank':
+							case 'inverse-pricerank':
+								$sortorder = 'Price:HighToLow';
+								break;
+							case 'featured':
+								$sortorder = 'Featured';
+								break;
+							case 'AvgCustomerReviews':
+							case 'Featured':
+							case 'NewestArrivals':
+							case 'Price:HighToLow':
+							case 'Price:LowToHigh':
+							case 'Relevance':
+								$sortorder = $search_request->sort_order;
+								break;
+							default:
+								$sortorder = 'Relevance';
+								break;
+						}
+						$searchRequest->setSortBy( $sortorder );
+					}
+				}
+
+				$keyword = $search_request->keyword;
+
+				if ( $search_request->filter != null ) {
+					foreach ( $search_request->filter as $field => $value ) {
+						switch ( $field ) {
+							case 'Keywords':
+								$keyword = $value;
+								break;
+							case 'SearchIndex':
+								$searchRequest->setSearchIndex( $value );
+								break;
+							case 'Sort':
+								$searchRequest->setSortBy( $value );
+								break;
+							case 'Actor':
+								$searchRequest->setActor( $value );
+								break;
+							case 'Artist':
+								$searchRequest->setArtist( $value );
+								break;
+							case 'Author':
+								$searchRequest->setAuthor( $value );
+								break;
+							case 'Availability':
+								$searchRequest->setAvailability( $value );
+								break;
+							case 'Brand':
+								$searchRequest->setBrand( $value );
+								break;
+							case 'Condition':
+								$searchRequest->setCondition( $value );
+								break;
+							case 'DeliveryFlags':
+								$searchRequest->setDeliveryFlags( explode( ',', $value ) );
+								break;
+							case 'CurrencyOfPreference':
+								$searchRequest->setCurrencyOfPreference( $value );
+								break;
+							case 'LanguagesOfPreference':
+								$searchRequest->setLanguagesOfPreference( $value );
+								break;
+							case 'MaximumPrice':
+								$searchRequest->setMaxPrice( floatval( $value ) );
+								break;
+							case 'MinimumPrice':
+								$searchRequest->setMinPrice( floatval( $value ) );
+								break;
+							case 'MinPercentageOff':
+								$searchRequest->setMinSavingPercent( intval( $value ) );
+								break;
+							case 'MinReviewsRating':
+								$searchRequest->setMinReviewsRating( intval( $value ) );
+								break;
+							case 'Title':
+								$searchRequest->setTitle( $value );
+								break;
+							case 'BrowseNode':
+								$searchRequest->setBrowseNodeId( $value );
+								break;
+						}
+					}
+				}
+
+				if ( $keyword != '' ) {
+					$keywords = explode( ',', $keyword );
+					if ( $keywords != null && count( $keywords ) > 1 ) {
+						$searchRequest->setKeywords( $keywords );
+					} else {
+						$searchRequest->setKeywords( $keyword );
+					}
+				}
+				if ( $this->languages_of_preference != null )
+					$searchRequest->setLanguagesOfPreference( $this->languages_of_preference );
+				$searchRequest->setPartnerTag( $this->associateTag );
+				$searchRequest->setResources(
+					\Amazon\CreatorsAPI\v1\com\amazon\creators\model\SearchItemsResource::getAllowableEnumValues()
+				);
+
+				$init_page = 1;
+				if ( $search_request->items_per_page > 0 ) {
+					$searchRequest->setItemCount( $search_request->items_per_page );
+					$init_page = $search_request->page;
+					$pages     = $search_request->page;
+				} else {
+					$itemsperpage = $this->get_maximum_items_per_page() > $search_request->max_count ? $search_request->max_count : $this->get_maximum_items_per_page();
+					$pages        = ceil( $search_request->max_count / $itemsperpage );
+					$searchRequest->setItemCount( intval( $itemsperpage ) );
+				}
+
+				$products = array();
+				for ( $x = $init_page; $x <= $pages; $x ++ ) {
+					$searchRequest->setItemPage( $x );
+
+					$searchResponse = $this->sendSearchRequestCreators( $searchRequest );
+
+					if ( $searchResponse->getSearchResult() != null ) {
+						$mylist->total_items_count = $searchResponse->getSearchResult()->getTotalResultCount();
+						$mylist->total_pages       = ceil( $mylist->total_items_count / $this->get_maximum_items_per_page() );
+
+						if ( $searchResponse->getSearchResult()->getItems() != null ) {
+							$items = $searchResponse->getSearchResult()->getItems();
+
+							foreach ( $items as $item ) {
+								if ( $item->getAsin() != null ) {
+									$products[] = $this->fill_product_creators( $item );
+
+									if ( $search_request->items_per_page == 0 && count( $products ) >= $search_request->max_count ) {
+										break;
+									}
+								}
+							}
+
+							if ( count( $items ) < $this->get_maximum_items_per_page() || ( $search_request->items_per_page == 0 && count( $products ) >= $search_request->max_count ) ) {
+								break;
+							}
+						}
+					}
+				}
+
+				$mylist->products = $products;
+				break;
+
+			default:
+				$mylist->message = 'unknown request_type: ' . $search_request->request_type;
+				break;
+		}
+
+		return $mylist;
+	}
+
+	private function retrieve_browsenodes_creators( $keyword ) {
+		$nodes = array();
+		$items = null;
+
+		try {
+			$searchRequest = new \Amazon\CreatorsAPI\v1\com\amazon\creators\model\SearchItemsRequestContent();
+			$searchRequest->setSearchIndex( 'All' );
+			$searchRequest->setKeywords( $keyword );
+			$searchRequest->setItemCount( 10 );
+			$searchRequest->setPartnerTag( $this->associateTag );
+			if ( $this->languages_of_preference != null )
+				$searchRequest->setLanguagesOfPreference( $this->languages_of_preference );
+			$searchRequest->setResources(
+				\Amazon\CreatorsAPI\v1\com\amazon\creators\model\SearchItemsResource::getAllowableEnumValues()
+			);
+			$searchRequest->setItemPage( 1 );
+
+			$searchResponse = $this->sendSearchRequestCreators( $searchRequest );
+
+			if ( $searchResponse->getSearchResult() != null && $searchResponse->getSearchResult()->getItems() != null ) {
+				$items = $searchResponse->getSearchResult()->getItems();
+			}
+
+		} catch ( Exception $exception ) {
+			// silently fail
+		}
+
+		if ( $items != null ) {
+			foreach ( $items as $item ) {
+				if ( $item->getBrowseNodeInfo() != null && $item->getBrowseNodeInfo()->getBrowseNodes() != null ) {
+					foreach ( $item->getBrowseNodeInfo()->getBrowseNodes() as $bnw ) {
+						$this->getBrowseNodeTreeRec( $bnw->getAncestor(), $nodes );
+					}
+				}
+			}
+		}
+
+		return $nodes;
+	}
+
+	public function load_variations_creators( $myproduct, $result ) {
+		$variations = array();
+		$dimmension = array();
+
+		$parentasin = $result->getParentASIN();
+		if ( $parentasin == '' ) {
+			try {
+				$getVariationsRequest = new \Amazon\CreatorsAPI\v1\com\amazon\creators\model\GetVariationsRequestContent();
+				$getVariationsRequest->setAsin( $result->getAsin() );
+				$getVariationsRequest->setVariationCount( 10 );
+				$getVariationsRequest->setPartnerTag( $this->associateTag );
+				if ( $this->languages_of_preference != null )
+					$getVariationsRequest->setLanguagesOfPreference( $this->languages_of_preference );
+				$getVariationsRequest->setResources(
+					\Amazon\CreatorsAPI\v1\com\amazon\creators\model\GetVariationsResource::getAllowableEnumValues()
+				);
+
+				$getVariationsResponse = $this->sendVariationRequestCreators( $getVariationsRequest );
+
+				if ( $getVariationsResponse->getVariationsResult() != null && $getVariationsResponse->getVariationsResult()->getItems() != null ) {
+					foreach ( $getVariationsResponse->getVariationsResult()->getItems() as $variationItem ) {
+						$att = $variationItem->getVariationAttributes();
+
+						if ( $att != null ) {
+							foreach ( $att as $tmp ) {
+								$dimmension[ $tmp['name'] ] = apply_filters( 'atkp_variation_name', $tmp['name'] );
+							}
+						}
+
+						$varpd = $this->fill_product_creators( $variationItem, $result );
+
+						$dimmfullname = array();
+						if ( $att != null ) {
+							foreach ( $att as $tmp ) {
+								$dimmfullname[ $tmp['name'] ] = $tmp['value'];
+							}
+						}
+
+						$varpd->variationname = $dimmfullname;
+						array_push( $variations, $varpd );
+					}
+				}
+			} catch ( Exception $x ) {
+				// silently fail
+			}
+		}
+
+		$myproduct->variationname = $dimmension;
+		$myproduct->variations    = $variations;
+
+		return $myproduct;
+	}
+
+	/**
+	 * Maps a Creators API Item object to an atkp_product.
+	 *
+	 * @param \Amazon\CreatorsAPI\v1\com\amazon\creators\model\Item $result
+	 * @param \Amazon\CreatorsAPI\v1\com\amazon\creators\model\Item|null $parentResult
+	 *
+	 * @return atkp_product
+	 */
+	private function fill_product_creators( $result, $parentResult = null ) {
+		if ( $result == null ) {
+			return null;
+		}
+
+		$myproduct            = new atkp_product();
+		$myproduct->updatedon = ATKPTools::get_currenttime();
+		$myproduct->shopid    = $this->shopid;
+
+		$myproduct->asin       = $result->getAsin();
+		$myproduct->parentasin = $result->getParentASIN();
+
+		if ( $parentResult == null && $this->load_variations ) {
+			$myproduct = $this->load_variations_creators( $myproduct, $result );
+		}
+
+		// Product URL
+		if ( $result->getDetailPageURL() != null ) {
+			$myproduct->producturl = urldecode( $result->getDetailPageURL() );
+			$myproduct->producturl = str_replace( '%', '%25', $myproduct->producturl );
+			$myproduct->addtocarturl = $this->checkurl( 'https://www.amazon.' . $this->country . '/gp/aws/cart/add.html?AssociateTag=' . $this->associateTag . '&ASIN.1=' . $myproduct->asin . '&Quantity.1=1' );
+		} else if ( $parentResult != null && $parentResult->getDetailPageURL() != null ) {
+			$myproduct->producturl = urldecode( $parentResult->getDetailPageURL() );
+			$myproduct->producturl = str_replace( '%', '%25', $myproduct->producturl );
+			$myproduct->producturl   = $this->checkurl( 'https://www.amazon.' . $this->country . '/dp/' . $myproduct->asin . '?tag=' . $this->associateTag );
+			$myproduct->addtocarturl = $this->checkurl( 'https://www.amazon.' . $this->country . '/gp/aws/cart/add.html?AssociateTag=' . $this->associateTag . '&ASIN.1=' . $myproduct->asin . '&Quantity.1=1' );
+		} else {
+			$myproduct->producturl   = '';
+			$myproduct->addtocarturl = '';
+		}
+
+		// Images
+		$images = array();
+		if ( $result->getImages() != null ) {
+			if ( $result->getImages()->getPrimary() != null ) {
+				if ( $result->getImages()->getPrimary()->getSmall() != null )
+					$myproduct->smallimageurl = $this->checkimageurl( $result->getImages()->getPrimary()->getSmall()->getUrl(), 'small' );
+				if ( $result->getImages()->getPrimary()->getMedium() != null )
+					$myproduct->mediumimageurl = $this->checkimageurl( $result->getImages()->getPrimary()->getMedium()->getUrl(), 'medium' );
+				if ( $result->getImages()->getPrimary()->getLarge() != null )
+					$myproduct->largeimageurl = $this->checkimageurl( $result->getImages()->getPrimary()->getLarge()->getUrl(), 'large' );
+			}
+
+			if ( $result->getImages()->getVariants() != null ) {
+				foreach ( $result->getImages()->getVariants() as $variant ) {
+					if ( $variant->getLarge() == null && $variant->getMedium() == null && $variant->getSmall() == null ) {
+						continue;
+					}
+
+					$udf     = new atkp_product_image();
+					$udf->id = uniqid();
+					if ( $variant->getSmall() != null ) {
+						$udf->smallimageurl = $this->checkimageurl( $variant->getSmall()->getUrl(), 'small' );
+					}
+					if ( $variant->getMedium() != null ) {
+						$udf->mediumimageurl = $this->checkimageurl( $variant->getMedium()->getUrl(), 'medium' );
+					}
+					if ( $variant->getLarge() != null ) {
+						$udf->largeimageurl = $this->checkimageurl( $variant->getLarge()->getUrl(), 'large' );
+					}
+
+					array_push( $images, $udf );
+				}
+			}
+		}
+		$myproduct->images = $images;
+
+		// Customer Reviews
+		if ( $result->getCustomerReviews() != null ) {
+			if ( $result->getCustomerReviews()->getStarRating() != null )
+				$myproduct->rating = $result->getCustomerReviews()->getStarRating()->getValue();
+			if ( $result->getCustomerReviews()->getCount() != null )
+				$myproduct->reviewcount = $result->getCustomerReviews()->getCount();
+		}
+
+		if ( $this->load_customer_reviews && $myproduct->reviewcount == 0 ) {
+			$averageRating = 0;
+			$totalReviews  = 0;
+			$this->get_customer_rating_api( $myproduct->asin, $averageRating, $totalReviews );
+			$myproduct->rating      = $averageRating;
+			$myproduct->reviewcount = $totalReviews;
+		}
+
+		$myproduct->customerreviewurl = $this->checkurl( 'https://www.amazon.' . $this->country . '/product-reviews/' . $myproduct->asin . '/?tag=' . $this->associateTag );
+
+		// Features and Description
+		$description = '';
+		$features    = '';
+
+		if ( $result->getItemInfo() != null && $result->getItemInfo()->getFeatures() != null && $result->getItemInfo()->getFeatures()->getDisplayValues() != null ) {
+			foreach ( $result->getItemInfo()->getFeatures()->getDisplayValues() as $feature ) {
+				$features    .= '<li>' . $feature . '</li>';
+				$description .= $feature . ' <br />';
+			}
+		}
+
+		$myproduct->features    = $features == '' ? '' : '<ul>' . $features . '</ul>';
+		$myproduct->description = $description;
+
+		// Title
+		if ( $result->getItemInfo() != null && $result->getItemInfo()->getTitle() != null && $result->getItemInfo()->getTitle()->getDisplayValue() != null ) {
+			$myproduct->title = htmlentities( $result->getItemInfo()->getTitle()->getDisplayValue() );
+		} else {
+			$myproduct->title = '';
+		}
+
+		// Product Info (dimensions, color)
+		if ( $result->getItemInfo() != null && $result->getItemInfo()->getProductInfo() != null ) {
+			$productInfo = $result->getItemInfo()->getProductInfo();
+
+			if ( $productInfo->getColor() != null )
+				$myproduct->customfields["a_color"] = $productInfo->getColor()->getDisplayValue();
+
+			if ( $productInfo->getItemDimensions() != null ) {
+				if ( $productInfo->getItemDimensions()->getHeight() != null )
+					$myproduct->customfields["a_height"] = round( $productInfo->getItemDimensions()->getHeight()->getDisplayValue(), 2 ) . ' ' . ( $productInfo->getItemDimensions()->getHeight()->getUnit() );
+				if ( $productInfo->getItemDimensions()->getLength() != null )
+					$myproduct->customfields["a_length"] = round( $productInfo->getItemDimensions()->getLength()->getDisplayValue(), 2 ) . ' ' . ( $productInfo->getItemDimensions()->getLength()->getUnit() );
+				if ( $productInfo->getItemDimensions()->getWidth() != null )
+					$myproduct->customfields["a_width"] = round( $productInfo->getItemDimensions()->getWidth()->getDisplayValue(), 2 ) . ' ' . ( $productInfo->getItemDimensions()->getWidth()->getUnit() );
+				if ( $productInfo->getItemDimensions()->getWeight() != null )
+					$myproduct->customfields["a_weight"] = round( $productInfo->getItemDimensions()->getWeight()->getDisplayValue(), 2 ) . ' ' . ( $productInfo->getItemDimensions()->getWeight()->getUnit() );
+			}
+		}
+
+		// OffersV2 pricing
+		if ( $result->getOffersV2() != null ) {
+			$offerlisting = null;
+			if ( $result->getOffersV2()->getListings() != null ) {
+				foreach ( $result->getOffersV2()->getListings() as $listing ) {
+					if ( $listing->getIsBuyBoxWinner() &&
+					     $this->allowedCondition( $listing->getCondition() == null ? null : $listing->getCondition()->getValue() ) ) {
+						$offerlisting = $listing;
+						break;
+					}
+				}
+
+				if ( $offerlisting == null ) {
+					$listings = array();
+					foreach ( $result->getOffersV2()->getListings() as $list ) {
+						if ( $this->allowedCondition( $list->getCondition() == null ? null : $list->getCondition()->getValue() ) ) {
+							$listings[] = $list;
+						}
+					}
+					$offerlisting = reset( $listings );
+				}
+			}
+
+			$myproduct->iswarehouse = false;
+			if ( $offerlisting && $offerlisting != null ) {
+
+				// Prime and Shipping - check via OfferType or MerchantInfo
+				if ( $offerlisting->getMerchantInfo() != null ) {
+					if ( $offerlisting->getMerchantInfo()->getName() == 'Amazon Warehouse' ) {
+						$myproduct->iswarehouse = true;
+					}
+				}
+
+				// Price
+				if ( $offerlisting->getPrice() != null ) {
+					$price = $offerlisting->getPrice();
+
+					if ( $price->getMoney() != null ) {
+						$myproduct->saleprice      = $price->getMoney()->getDisplayAmount();
+						$myproduct->salepricefloat = $price->getMoney()->getAmount();
+					}
+
+					// PricePerUnit (baseprice)
+					if ( $price->getPricePerUnit() != null ) {
+						$pricePerUnitObj = $price->getPricePerUnit();
+						if ( is_object( $pricePerUnitObj ) && method_exists( $pricePerUnitObj, 'getAmount' ) && $pricePerUnitObj->getAmount() != null ) {
+							$myproduct->basepricefloat = $pricePerUnitObj->getAmount();
+							$myproduct->unitpricefloat = $pricePerUnitObj->getAmount();
+
+							if ( $pricePerUnitObj->getDisplayAmount() != null ) {
+								$parts                = explode( ' / ', $pricePerUnitObj->getDisplayAmount() );
+								$myproduct->baseprice = trim( $parts[0] );
+								if ( count( $parts ) > 1 ) {
+									$myproduct->baseunit = trim( $parts[1] );
+								}
+							}
+						}
+					}
+
+					// Savings
+					if ( $price->getSavings() != null ) {
+						$savings                    = $price->getSavings();
+						$myproduct->percentagesaved = $savings->getPercentage();
+
+						if ( $savings->getMoney() != null ) {
+							$myproduct->amountsaved      = $savings->getMoney()->getDisplayAmount();
+							$myproduct->amountsavedfloat = $savings->getMoney()->getAmount();
+						}
+					}
+
+					// SavingBasis (list price)
+					if ( $price->getSavingBasis() != null ) {
+						$savingBasis = $price->getSavingBasis();
+						if ( $savingBasis->getMoney() != null ) {
+							$myproduct->listprice      = $savingBasis->getMoney()->getDisplayAmount();
+							$myproduct->listpricefloat = $savingBasis->getMoney()->getAmount();
+						}
+					}
+				}
+
+				// Availability
+				if ( $offerlisting->getAvailability() != null ) {
+					$myproduct->availability = $offerlisting->getAvailability()->getMessage();
+				}
+			}
+		}
+
+		$myproduct->shippingfloat = (float) 0;
+
+		// Manufacturer and Brand
+		if ( $result->getItemInfo() != null && $result->getItemInfo()->getByLineInfo() != null && $result->getItemInfo()->getByLineInfo()->getManufacturer() != null ) {
+			$myproduct->manufacturer = $result->getItemInfo()->getByLineInfo()->getManufacturer()->getDisplayValue();
+		}
+		if ( $result->getItemInfo() != null && $result->getItemInfo()->getByLineInfo() != null && $result->getItemInfo()->getByLineInfo()->getBrand() != null ) {
+			$myproduct->brand = $result->getItemInfo()->getByLineInfo()->getBrand()->getDisplayValue();
+		}
+
+		// ISBN
+		$isbn_full = '';
+		if ( $result->getItemInfo() != null && $result->getItemInfo()->getExternalIds() != null && $result->getItemInfo()->getExternalIds()->getISBNs() != null ) {
+			foreach ( $result->getItemInfo()->getExternalIds()->getISBNs()->getDisplayValues() as $ean ) {
+				if ( $isbn_full != '' ) {
+					$isbn_full .= ',';
+				}
+				$isbn_full .= $ean;
+			}
+		}
+		$myproduct->isbn = $isbn_full;
+
+		// EAN
+		$ean_full = '';
+		if ( $result->getItemInfo() != null && $result->getItemInfo()->getExternalIds() != null && $result->getItemInfo()->getExternalIds()->getEANs() != null ) {
+			foreach ( $result->getItemInfo()->getExternalIds()->getEANs()->getDisplayValues() as $ean ) {
+				if ( $ean_full != '' ) {
+					$ean_full .= ',';
+				}
+				$ean_full .= $ean;
+			}
+		}
+		$myproduct->ean = $ean_full;
+
+		// Browse Node / Product Group
+		$category = '';
+		if ( $result->getBrowseNodeInfo() != null && $result->getBrowseNodeInfo()->getBrowseNodes() != null ) {
+			foreach ( $result->getBrowseNodeInfo()->getBrowseNodes() as $bnw ) {
+				$category .= $this->getBrowseNodeTree( $bnw->getAncestor() );
+				break;
+			}
+		}
+		$myproduct->productgroup = $category;
+
+		// Release Date
+		if ( $result->getItemInfo() != null && $result->getItemInfo()->getProductInfo() && $result->getItemInfo()->getProductInfo()->getReleaseDate() ) {
+			$myproduct->releasedate = substr( $result->getItemInfo()->getProductInfo()->getReleaseDate()->getDisplayValue(), 0, 10 );
+		}
+
+		// Author
+		if ( $result->getItemInfo() != null && $result->getItemInfo()->getByLineInfo() != null && $result->getItemInfo()->getByLineInfo()->getContributors() != null ) {
+			foreach ( $result->getItemInfo()->getByLineInfo()->getContributors() as $const ) {
+				if ( $const->getRole() == 'Autor' ) {
+					$myproduct->author = $const->getName();
+					break;
+				}
+			}
+		}
+
+		// Number of Pages
+		if ( $result->getItemInfo() != null && $result->getItemInfo()->getContentInfo() != null && $result->getItemInfo()->getContentInfo()->getPagesCount() != null ) {
+			$myproduct->numberofpages = $result->getItemInfo()->getContentInfo()->getPagesCount()->getDisplayValue();
+		}
+
+		// MPN
+		$myproduct->mpn = '';
+		if ( $result->getItemInfo() != null && $result->getItemInfo()->getManufactureInfo() != null && $result->getItemInfo()->getManufactureInfo()->getItemPartNumber() != null ) {
+			$myproduct->mpn = $result->getItemInfo()->getManufactureInfo()->getItemPartNumber()->getDisplayValue();
+		}
+
+		// If no price found and has variations, try to get price from first variation
+		if ( count( $myproduct->variations ) > 0 && $myproduct->salepricefloat == 0 ) {
+			foreach ( $myproduct->variations as $variation ) {
+				if ( $variation->salepricefloat > 0 ) {
+					$myproduct->listprice        = $variation->listprice;
+					$myproduct->amountsaved      = $variation->amountsaved;
+					$myproduct->saleprice        = $variation->saleprice;
+					$myproduct->listpricefloat   = $variation->listpricefloat;
+					$myproduct->amountsavedfloat = $variation->amountsavedfloat;
+					$myproduct->percentagesaved  = $variation->percentagesaved;
+					$myproduct->salepricefloat   = $variation->salepricefloat;
+					$myproduct->shippingfloat    = $variation->shippingfloat;
+					$myproduct->availability     = $variation->availability;
+					$myproduct->shipping         = $variation->shipping;
+					$myproduct->isprime          = $variation->isprime;
+					$myproduct->iswarehouse      = $variation->iswarehouse;
+					$myproduct->smallimageurl    = $variation->smallimageurl;
+					$myproduct->mediumimageurl   = $variation->mediumimageurl;
+					$myproduct->largeimageurl    = $variation->largeimageurl;
+					break;
+				}
+			}
+		}
+
+		// NoAPI fallback for mode 5
+		if ( $myproduct->salepricefloat == 0 && $this->sitetripemode == 5 && $myproduct->asin != '' ) {
+			$atkpresponse = $this->load_sitestripeproduct( array( $myproduct->asin ) );
+			if ( count( $atkpresponse->responseitems ) > 0 && $atkpresponse->responseitems[0]->productitem != null ) {
+				$myproduct->saleprice      = $atkpresponse->responseitems[0]->productitem->saleprice;
+				$myproduct->salepricefloat = $atkpresponse->responseitems[0]->productitem->salepricefloat;
+			}
+		}
+
+		return $myproduct;
 	}
 
 }

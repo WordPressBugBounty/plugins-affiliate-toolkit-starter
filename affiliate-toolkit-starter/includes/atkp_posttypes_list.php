@@ -483,26 +483,54 @@ class atkp_posttypes_list {
 
         <div id="modal-browsenode-lookup" style="display:none;">
 
-            <div class="atkp-lookupbox">
-                <p><label for=""><?php echo esc_html__( 'Keyword', 'affiliate-toolkit-starter' ) ?>:</label> <input
-                            type="text"
-                                                                                              id="<?php echo esc_attr(ATKP_LIST_POSTTYPE . '_nodelookupsearch') ?>"
-                                                                                              name="<?php echo esc_attr(ATKP_LIST_POSTTYPE . '_nodelookupsearch') ?>"
-                                                                                              value=""> <input
-                            type="submit" class="button" id="<?php echo esc_attr(ATKP_LIST_POSTTYPE . '_nodelookupbtnsearch') ?>"
-                            value="<?php echo esc_html__( 'Search', 'affiliate-toolkit-starter' ) ?>">
-                <div id="LoadingImageLookup" style="display: none;text-align:center"><img
-                            src="<?php echo esc_url(plugin_dir_url( ATKP_PLUGIN_FILE )) ?>/images/spin.gif" style="width:32px"
-                            alt="loading"/></div>
-                </p>
-
-                <div id="<?php echo esc_attr(ATKP_LIST_POSTTYPE . '_nodelookupresult') ?>">
-
+            <div class="atkp-lookupbox" style="padding: 12px;">
+                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 12px;">
+                    <label for="<?php echo esc_attr(ATKP_LIST_POSTTYPE . '_nodelookupsearch') ?>"><?php echo esc_html__( 'Keyword', 'affiliate-toolkit-starter' ) ?>:</label>
+                    <input type="text"
+                           id="<?php echo esc_attr(ATKP_LIST_POSTTYPE . '_nodelookupsearch') ?>"
+                           name="<?php echo esc_attr(ATKP_LIST_POSTTYPE . '_nodelookupsearch') ?>"
+                           value=""
+                           style="flex: 1;">
+                    <input type="submit" class="button button-primary" id="<?php echo esc_attr(ATKP_LIST_POSTTYPE . '_nodelookupbtnsearch') ?>"
+                           value="<?php echo esc_html__( 'Search', 'affiliate-toolkit-starter' ) ?>">
+                </div>
+                <div id="LoadingImageLookup" style="display: none; text-align: center; padding: 20px;">
+                    <img src="<?php echo esc_url(plugin_dir_url( ATKP_PLUGIN_FILE )) ?>/images/spin.gif" style="width:32px" alt="loading"/>
                 </div>
 
-
+                <div id="<?php echo esc_attr(ATKP_LIST_POSTTYPE . '_nodelookupresult') ?>"></div>
             </div>
         </div>
+
+        <style>
+            .atkp-browsenode-list {
+                margin: 0;
+                padding: 0;
+                list-style: none;
+            }
+            .atkp-browsenode-list li {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 8px 12px;
+                border-bottom: 1px solid #e0e0e0;
+                cursor: pointer;
+                transition: background-color 0.15s;
+            }
+            .atkp-browsenode-list li:hover {
+                background-color: #f0f6fc;
+            }
+            .atkp-browsenode-list li .atkp-bn-name {
+                font-weight: 500;
+                flex: 1;
+            }
+            .atkp-browsenode-list li .atkp-bn-id {
+                color: #888;
+                font-size: 12px;
+                margin-left: 12px;
+                white-space: nowrap;
+            }
+        </style>
 
         <style>
             .atkp-button-icon {
@@ -590,7 +618,7 @@ class atkp_posttypes_list {
 
                 $j(<?php echo esc_js(ATKP_LIST_POSTTYPE . '_nodelookupbtnsearch') ?>).click(function (e) {
 
-                    $j("#<?php echo esc_js(ATKP_PRODUCT_POSTTYPE. '_nodelookupresult') ?>").html('');
+                    $j("#<?php echo esc_js(ATKP_LIST_POSTTYPE. '_nodelookupresult') ?>").html('');
                     $j("#LoadingImageLookup").show();
 
                     $j.ajax({
@@ -606,36 +634,41 @@ class atkp_posttypes_list {
                         dataType: "json",
                         success: function (data) {
 
-                            if (data.length > 0) {
-                                if (typeof data[0].error != 'undefined') {
-                                    $j("#<?php echo esc_js(ATKP_PRODUCT_POSTTYPE . '_nodelookupresult') ?>").html('<span style="color:red">' + data[0].error + '<br /> ' + data[0].message + '</span>');
-
-                                }
+                            if (Array.isArray(data) && data.length > 0 && typeof data[0].error !== 'undefined') {
+                                $j("#<?php echo esc_js(ATKP_LIST_POSTTYPE . '_nodelookupresult') ?>").html('<span style="color:red">' + data[0].error + '<br /> ' + data[0].message + '</span>');
                             } else {
-                                var outputresult = '<ul class="node-link">';
+                                var outputresult = '<ul class="atkp-browsenode-list">';
+                                var count = 0;
 
                                 $j.each(data, function (key, value) {
-                                    outputresult += '<li>';
-                                    outputresult += '<h3 data-id=' + key + '>' + value + '</h3>';
-                                    outputresult += '<p>BrowseNode: ' + key + ' </p>';
+                                    if (/^[0-9a-f]{8}-[0-9a-f]{4}-/.test(value) || /^[0-9a-f]{8}-[0-9a-f]{4}-/.test(key)) {
+                                        return true;
+                                    }
+                                    count++;
+                                    outputresult += '<li data-id="' + key + '">';
+                                    outputresult += '<span class="atkp-bn-name">' + value + '</span>';
+                                    outputresult += '<span class="atkp-bn-id">' + key + '</span>';
                                     outputresult += '</li>';
                                 });
                                 outputresult += '</ul>';
 
-                                $j("#<?php echo esc_js(ATKP_PRODUCT_POSTTYPE . '_nodelookupresult') ?>").html(outputresult);
+                                if (count === 0) {
+                                    $j("#<?php echo esc_js(ATKP_LIST_POSTTYPE . '_nodelookupresult') ?>").html('<p><?php echo esc_js(__( 'No results', 'affiliate-toolkit-starter' )) ?></p>');
+                                } else {
+                                    $j("#<?php echo esc_js(ATKP_LIST_POSTTYPE . '_nodelookupresult') ?>").html(outputresult);
 
-
-                                $j('ul.node-link li h3').click(function (e) {
-                                    var id = $j(this).attr("data-id");
-                                    $j("#<?php echo esc_js(ATKP_PRODUCT_POSTTYPE . '_node_id') ?>").val(id);
-                                    $j("#<?php echo esc_js(ATKP_PRODUCT_POSTTYPE . '_node_id') ?>").trigger('change');
-                                    tb_remove();
-                                });
+                                    $j('.atkp-browsenode-list li').click(function () {
+                                        var id = $j(this).attr("data-id");
+                                        $j("#<?php echo esc_js(ATKP_LIST_POSTTYPE . '_node_id') ?>").val(id);
+                                        $j("#<?php echo esc_js(ATKP_LIST_POSTTYPE . '_node_id') ?>").trigger('change');
+                                        tb_remove();
+                                    });
+                                }
                             }
                             $j("#LoadingImageLookup").hide();
                         },
                         error: function (xhr, status) {
-                            $j("#<?php echo esc_js(ATKP_PRODUCT_POSTTYPE . '_nodelookupresult') ?>").html('<span style="color:red">' + xhr.responseText + '</span>');
+                            $j("#<?php echo esc_js(ATKP_LIST_POSTTYPE . '_nodelookupresult') ?>").html('<span style="color:red">' + xhr.responseText + '</span>');
                             $j("#LoadingImageLookup").hide();
                         }
                     });

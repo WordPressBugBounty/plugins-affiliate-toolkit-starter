@@ -1,6 +1,6 @@
 /**
  * TinyMCE Button for affiliate-toolkit Shortcode Generator
- * Opens the shortcode generator in a new tab
+ * Opens the shortcode generator in a Thickbox modal
  */
 (function() {
 	tinymce.PluginManager.add('atkp_button', function(editor, url) {
@@ -13,11 +13,12 @@
 			title: 'affiliate-toolkit Shortcode Generator',
 			image: iconUrl,
 			onclick: function() {
-				// Get the URL to the shortcode generator page
-				var generatorUrl = ajaxurl.replace('/admin-ajax.php', '/admin.php?page=ATKP_affiliate_toolkit-shortcodegenerator');
+				// Build URL with TB_iframe parameter properly
+				var baseUrl = ajaxurl.replace('/admin-ajax.php', '/admin.php');
+				var generatorUrl = baseUrl + '?page=ATKP_affiliate_toolkit-shortcodegenerator&atkp_iframe=1&width=1400&height=700&TB_iframe=true';
 
-				// Open in new tab
-				window.open(generatorUrl, '_blank');
+				// Open in Thickbox modal
+				tb_show('affiliate-toolkit Shortcode Generator', generatorUrl);
 			}
 		});
 
@@ -27,8 +28,9 @@
 			image: iconUrl,
 			context: 'insert',
 			onclick: function() {
-				var generatorUrl = ajaxurl.replace('/admin-ajax.php', '/admin.php?page=ATKP_affiliate_toolkit-shortcodegenerator');
-				window.open(generatorUrl, '_blank');
+				var baseUrl = ajaxurl.replace('/admin-ajax.php', '/admin.php');
+				var generatorUrl = baseUrl + '?page=ATKP_affiliate_toolkit-shortcodegenerator&atkp_iframe=1&width=1400&height=700&TB_iframe=true';
+				tb_show('affiliate-toolkit Shortcode Generator', generatorUrl);
 			}
 		});
 	});

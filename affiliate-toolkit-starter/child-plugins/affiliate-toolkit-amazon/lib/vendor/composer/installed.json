@@ -324,6 +324,63 @@
             "install-path": "../guzzlehttp/psr7"
         },
         {
+            "name": "nxtal/amazon-creatorsapi-php-sdk",
+            "version": "1.2.0",
+            "version_normalized": "1.2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nxtal/amazon-creatorsapi-php-sdk.git",
+                "reference": "b88dd2b1c4391be67a6f4f4eca810d7f53f50cc9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nxtal/amazon-creatorsapi-php-sdk/zipball/b88dd2b1c4391be67a6f4f4eca810d7f53f50cc9",
+                "reference": "b88dd2b1c4391be67a6f4f4eca810d7f53f50cc9",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "guzzlehttp/guzzle": "^7.3",
+                "guzzlehttp/psr7": "^1.7 || ^2.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.5",
+                "phpunit/phpunit": "^8.0 || ^9.0"
+            },
+            "time": "2026-02-27T13:50:08+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Amazon\\CreatorsAPI\\v1\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Amazon Creators",
+                    "homepage": "https://affiliate-program.amazon.com/creatorsapi"
+                }
+            ],
+            "description": "CreatorsAPI 1.2.0 PHP SDK",
+            "homepage": "https://affiliate-program.amazon.com/creatorsapi",
+            "keywords": [
+                "creatorsapi",
+                "creatorsapi-php-sdk"
+            ],
+            "support": {
+                "issues": "https://github.com/nxtal/amazon-creatorsapi-php-sdk/issues",
+                "source": "https://github.com/nxtal/amazon-creatorsapi-php-sdk/tree/v1.2.0"
+            },
+            "install-path": "../nxtal/amazon-creatorsapi-php-sdk"
+        },
+        {
             "name": "psr/http-client",
             "version": "1.0.3",
             "version_normalized": "1.0.3.0",

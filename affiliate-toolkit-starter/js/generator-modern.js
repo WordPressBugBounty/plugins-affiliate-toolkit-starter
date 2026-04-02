@@ -141,35 +141,29 @@
 			// Config tabs
 			$(document).on('click', '.atkp-tab-btn', function() {
 				const tab = $(this).data('tab');
-				console.log('Tab clicked:', tab);
 				$('.atkp-tab-btn').removeClass('active');
 				$(this).addClass('active');
 				$('.atkp-tab-content').removeClass('active');
 				$('.atkp-tab-content[data-tab="' + tab + '"]').addClass('active');
-				console.log('Tab content active:', $('.atkp-tab-content[data-tab="' + tab + '"]').length);
 			});
 
 			// Update shortcode on config change
 			$(document).on('change', '[id^="atkp-config-"], [id^="atkp_"]', function() {
-				console.log('Config changed:', $(this).attr('id'), '=', $(this).val());
 				self.updateShortcode();
 			});
 
 			// Additional listeners for Select2 fields
 			$(document).on('select2:select select2:unselect', '[id^="atkp-config-"], [id^="atkp_"]', function() {
-				console.log('Select2 changed:', $(this).attr('id'), '=', $(this).val());
 				self.updateShortcode();
 			});
 
 			// Listen to all input changes in the configuration area (text, number, checkbox)
 			$(document).on('input change keyup', '.atkp-tab-content input[type="text"], .atkp-tab-content input[type="number"], .atkp-tab-content input[type="checkbox"], .atkp-tab-content select:not([class*="select2"])', function() {
-				console.log('Input changed:', $(this).attr('id'), '=', $(this).val());
 				self.updateShortcode();
 			});
 
 			// Debug: Log template dropdown when it's interacted with
 			$(document).on('focus', '#atkp-config-template', function() {
-				console.log('Template dropdown focused, options:', $(this).find('option').length);
 			});
 
 			// Copy shortcode
@@ -257,7 +251,7 @@
 				$('.atkp-step-content[data-step="' + this.currentStep + '"]').show();
 
 				if (this.currentStep === 2) {
-					// Reset and hide all forms when entering step 2
+					// Hide all forms and clear results when entering step 2 via "Next"
 					$('.atkp-search-form, .atkp-create-form').hide();
 					$('#atkp-search-product-results, #atkp-search-list-results, #atkp-create-product-results').empty();
 					this.showDataSourceOptions();
@@ -313,13 +307,22 @@
 				}
 
 				if (this.currentStep === 2) {
-					// Reset source selection when going back to step 2
-					this.sourceType = '';
+					// When going back to step 2 from step 3, keep everything visible
+					// Keep sourceType, forms, and search results intact
+					// User can see their previous search and selection
+
+					// Show appropriate data source options first
+					this.showDataSourceOptions();
+
+					// Re-show the selected source card and form
+					if (this.sourceType) {
+						$('.atkp-option-card[data-source="' + this.sourceType + '"]').addClass('selected');
+						this.showSourceForm();
+					}
+
+					// Only clear the selectedId to allow re-selection
 					this.selectedId = '';
 					this.selectedTitle = '';
-					$('.atkp-option-card[data-source]').removeClass('selected');
-					$('.atkp-search-form, .atkp-create-form').hide();
-					$('#atkp-search-product-results, #atkp-search-list-results, #atkp-create-product-results').empty();
 				}
 
 				$('#atkp-btn-next').show();
@@ -344,16 +347,44 @@
 			// Show the appropriate form based on source type
 			if (this.sourceType === 'search-product') {
 				$('.atkp-search-form[data-search-type="product"]').show();
-				$('#atkp-search-product-input').focus();
+
+				// Check if results exist
+				const hasResults = $('#atkp-search-product-results').children().length > 0;
+
+				if (!hasResults) {
+					// No results, focus input
+					$('#atkp-search-product-input').focus();
+				} else {
+					// Has results, select all text in input for easy overwrite
+					setTimeout(function() {
+						$('#atkp-search-product-input').select();
+					}, 100);
+				}
 			} else if (this.sourceType === 'search-list') {
 				$('.atkp-search-form[data-search-type="list"]').show();
-				$('#atkp-search-list-input').focus();
+
+				const hasResults = $('#atkp-search-list-results').children().length > 0;
+				if (!hasResults) {
+					$('#atkp-search-list-input').focus();
+				} else {
+					setTimeout(function() {
+						$('#atkp-search-list-input').select();
+					}, 100);
+				}
 			} else if (this.sourceType === 'create-product') {
 				$('.atkp-create-form[data-create-type="product"]').show();
-				$('#atkp-create-product-keyword').focus();
+
+				const hasResults = $('#atkp-create-product-results').children().length > 0;
+				if (!hasResults) {
+					$('#atkp-create-product-keyword').focus();
+				} else {
+					setTimeout(function() {
+						$('#atkp-create-product-keyword').select();
+					}, 100);
+				}
 			} else if (this.sourceType === 'create-list') {
 				$('.atkp-create-form[data-create-type="list"]').show();
-				$('#atkp-create-list-name').focus();
+				$('#atkp-create-list-name').focus().select();
 			}
 		},
 
@@ -374,7 +405,6 @@
 					nonce: atkpGenerator.nonce
 				},
 				success: function(response) {
-					console.log('Search response:', response);
 					if (response.success && response.data && response.data.length > 0) {
 						let html = '';
 						response.data.forEach(function(item) {
@@ -408,7 +438,6 @@
 					}
 				},
 				error: function(xhr, status, error) {
-					console.error('Search error:', xhr, status, error);
 					$('#atkp-search-product-results').html('<p style="padding:15px;text-align:center;color:#d63638;">Fehler bei der Suche: ' + error + '</p>');
 				}
 			});
@@ -431,7 +460,6 @@
 					nonce: atkpGenerator.nonce
 				},
 				success: function(response) {
-					console.log('Search response:', response);
 					if (response.success && response.data && response.data.length > 0) {
 						let html = '';
 						response.data.forEach(function(item) {
@@ -458,7 +486,6 @@
 					}
 				},
 				error: function(xhr, status, error) {
-					console.error('Search error:', xhr, status, error);
 					$('#atkp-search-list-results').html('<p style="padding:15px;text-align:center;color:#d63638;">Fehler bei der Suche: ' + error + '</p>');
 				}
 			});
@@ -487,7 +514,6 @@
 					nonce: atkpGenerator.nonce
 				},
 				success: function(response) {
-					console.log('External search response:', response);
 					if (response.success && response.data && response.data.products && response.data.products.length > 0) {
 						let html = '';
 						response.data.products.forEach(function(item) {
@@ -517,7 +543,6 @@
 					}
 				},
 				error: function(xhr, status, error) {
-					console.error('External search error:', xhr, status, error);
 					$('#atkp-create-product-results').html('<p style="padding:15px;text-align:center;color:#d63638;">Fehler bei der Suche: ' + error + '</p>');
 				}
 			});
@@ -527,23 +552,6 @@
 			const self = this;
 			const originalText = $button.text();
 
-			// Debug: Log all available objects and nonces
-			console.log('=== IMPORT PRODUCT DEBUG ===');
-			console.log('atkpGenerator:', typeof atkpGenerator !== 'undefined' ? atkpGenerator : 'UNDEFINED');
-			console.log('atkpBlocks:', typeof atkpBlocks !== 'undefined' ? atkpBlocks : 'UNDEFINED');
-
-			// Check for importNonce in atkpGenerator
-			if (typeof atkpGenerator !== 'undefined') {
-				console.log('atkpGenerator.nonce:', atkpGenerator.nonce);
-				console.log('atkpGenerator.importNonce:', atkpGenerator.importNonce);
-				console.log('atkpGenerator.restNonce:', atkpGenerator.restNonce);
-			}
-
-			// Check for nonce in atkpBlocks
-			if (typeof atkpBlocks !== 'undefined') {
-				console.log('atkpBlocks.nonce:', atkpBlocks.nonce);
-				console.log('atkpBlocks.restNonce:', atkpBlocks.restNonce);
-			}
 
 			// Priority order: Try multiple nonce sources
 			let importNonce = null;
@@ -575,10 +583,6 @@
 				nonceSource = 'atkpGenerator.nonce (GENERAL FALLBACK)';
 			}
 
-			console.log('Selected nonce source:', nonceSource);
-			console.log('Selected nonce value:', importNonce);
-			console.log('=== END DEBUG ===');
-
 			if (!importNonce) {
 				alert('Fehler: Keine Nonce gefunden. Bitte laden Sie die Seite neu (Strg+Shift+R).\n\nWenn das Problem weiterhin besteht, leeren Sie bitte den Browser-Cache.');
 				console.error('CRITICAL: No nonce available!');
@@ -598,22 +602,16 @@
 				request_nonce: importNonce
 			};
 
-			console.log('Import request data:', requestData);
 
 			$.ajax({
 				url: atkpGenerator.ajaxurl,
 				type: 'POST',
 				data: requestData,
 				success: function(response) {
-					console.log('Import response:', response);
-					console.log('Response type:', typeof response);
-					console.log('Is array:', Array.isArray(response));
 
 					// Check if response is an array and has data
 					if (Array.isArray(response) && response.length > 0) {
 						const data = response[0];
-						console.log('Response data:', data);
-
 						// Check for error
 						if (data.error) {
 							alert('Fehler beim Import: ' + (data.message || data.error));
@@ -643,9 +641,6 @@
 					}
 				},
 				error: function(xhr, status, error) {
-					console.error('Import error - Status:', status);
-					console.error('Import error - Error:', error);
-					console.error('Import error - Response:', xhr.responseText);
 					alert('Fehler beim Import: ' + error + '\nDetails in der Browser-Konsole.');
 					$button.prop('disabled', false).text(originalText);
 				}
@@ -698,14 +693,10 @@
 					request_nonce: createNonce
 				},
 				success: function(response) {
-					console.log('Create list response:', response);
-					console.log('Response type:', typeof response);
-					console.log('Is array:', Array.isArray(response));
 
 					// Check if response is an array and has data
 					if (Array.isArray(response) && response.length > 0) {
 						const data = response[0];
-						console.log('Response data:', data);
 
 						// Check for error
 						if (data.error) {
@@ -736,9 +727,6 @@
 					}
 				},
 				error: function(xhr, status, error) {
-					console.error('Create list error - Status:', status);
-					console.error('Create list error - Error:', error);
-					console.error('Create list error - Response:', xhr.responseText);
 					alert('Fehler beim Erstellen der Liste: ' + error + '\nDetails in der Browser-Konsole.');
 					$button.prop('disabled', false).text(originalText);
 				}
@@ -746,7 +734,6 @@
 		},
 
 		showConfiguration: function() {
-			console.log('showConfiguration - outputType:', this.outputType);
 
 			// Show or hide the selected item display
 			if (this.selectedTitle) {
@@ -782,11 +769,9 @@
 				$('.atkp-tab-btn[data-tab="template"], .atkp-tab-btn[data-tab="advanced"]').show();
 			}
 
-			console.log('Visible tabs:', $('.atkp-tab-btn:visible').length);
 
 			// Set default tab (first visible) - this will show the content
 			const $firstTab = $('.atkp-tab-btn:visible:first');
-			console.log('First visible tab:', $firstTab.data('tab'));
 			$firstTab.trigger('click');
 
 			this.updateShortcode();

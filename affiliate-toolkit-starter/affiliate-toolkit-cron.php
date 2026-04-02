@@ -38,14 +38,100 @@ if ( defined( 'WP_LOAD_PATH' ) ) {
 }
 
 if ( ! file_exists( $default_wp_path ) ) {
-	echo 'wp-load.php not found';
-	exit;
+	atkp_cron_error_page( 'wp-load.php not found', 'WordPress could not be loaded. The file was expected at: ' . htmlspecialchars( $default_wp_path ) );
 }
 
-require( $default_wp_path );
+try {
+	require( $default_wp_path );
 
-$cron = new atkp_external_cron();
-$cron->execute();
+	if ( ! class_exists( 'atkp_options' ) || ! class_exists( 'ATKPTools' ) ) {
+		atkp_cron_error_page( 'Plugin not loaded', 'affiliate-toolkit is not active or was not loaded correctly. Please make sure the plugin is activated in WordPress.' );
+	}
+
+	$cron = new atkp_external_cron();
+	$cron->execute();
+} catch ( \Throwable $e ) {
+	atkp_cron_error_page( get_class( $e ) . ': ' . $e->getMessage(), null, $e );
+}
+
+function atkp_cron_error_page( string $title, ?string $detail = null, ?\Throwable $exception = null ) {
+	if ( ! headers_sent() ) {
+		header( 'Content-Type: text/html; charset=UTF-8', true, 500 );
+	}
+	?>
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>affiliate-toolkit Cron Error</title>
+		<style>
+			* { margin: 0; padding: 0; box-sizing: border-box; }
+			body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f0f2f5; color: #1e1e1e; padding: 40px 20px; }
+			.atkp-error-wrap { max-width: 720px; margin: 0 auto; }
+			.atkp-error-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+			.atkp-error-header svg { flex-shrink: 0; }
+			.atkp-error-header h1 { font-size: 20px; font-weight: 600; color: #1e1e1e; }
+			.atkp-error-card { background: #fff; border-radius: 8px; border: 1px solid #e0e0e0; overflow: hidden; }
+			.atkp-error-card-header { background: #dc3232; color: #fff; padding: 16px 20px; font-size: 15px; font-weight: 600; }
+			.atkp-error-card-body { padding: 20px; }
+			.atkp-error-card-body p { font-size: 14px; line-height: 1.6; color: #50575e; margin-bottom: 16px; }
+			.atkp-error-card-body p:last-child { margin-bottom: 0; }
+			.atkp-stacktrace { background: #1e1e1e; color: #e0e0e0; border-radius: 6px; padding: 16px; font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 12px; line-height: 1.7; overflow-x: auto; white-space: pre-wrap; word-break: break-all; margin-top: 16px; }
+			.atkp-stacktrace .atkp-st-label { color: #8c8c8c; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 8px; }
+			.atkp-stacktrace .atkp-st-file { color: #7cacf8; }
+			.atkp-stacktrace .atkp-st-line { color: #f5a623; }
+			.atkp-stacktrace .atkp-st-num { color: #8c8c8c; user-select: none; }
+			.atkp-error-footer { margin-top: 20px; font-size: 12px; color: #8c8c8c; text-align: center; }
+			.atkp-error-info { background: #f6f7f7; border: 1px solid #e0e0e0; border-radius: 6px; padding: 12px 16px; margin-top: 16px; font-size: 13px; color: #50575e; }
+			.atkp-error-info dt { font-weight: 600; display: inline; }
+			.atkp-error-info dt::after { content: ": "; }
+			.atkp-error-info dd { display: inline; margin: 0; }
+			.atkp-error-info dd::after { content: ""; display: block; margin-bottom: 4px; }
+			.atkp-error-info dd:last-child::after { margin-bottom: 0; }
+		</style>
+	</head>
+	<body>
+		<div class="atkp-error-wrap">
+			<div class="atkp-error-header">
+				<svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#dc3232"/><path d="M16 9v8" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><circle cx="16" cy="22" r="1.5" fill="#fff"/></svg>
+				<h1>affiliate-toolkit &mdash; Cron Error</h1>
+			</div>
+			<div class="atkp-error-card">
+				<div class="atkp-error-card-header"><?php echo htmlspecialchars( $title ); ?></div>
+				<div class="atkp-error-card-body">
+					<?php if ( $detail ) : ?>
+						<p><?php echo $detail; ?></p>
+					<?php endif; ?>
+
+					<?php if ( $exception ) : ?>
+						<dl class="atkp-error-info">
+							<dt>File</dt><dd><?php echo htmlspecialchars( $exception->getFile() ); ?></dd>
+							<dt>Line</dt><dd><?php echo $exception->getLine(); ?></dd>
+							<dt>Code</dt><dd><?php echo $exception->getCode(); ?></dd>
+						</dl>
+
+						<div class="atkp-stacktrace"><span class="atkp-st-label">Stack Trace</span><?php
+							$frames = explode( "\n", $exception->getTraceAsString() );
+							foreach ( $frames as $frame ) {
+								$frame = htmlspecialchars( $frame );
+								// highlight file paths and line numbers
+								$frame = preg_replace( '/(#\d+)/', '<span class="atkp-st-num">$1</span>', $frame );
+								$frame = preg_replace( '/([^\s(]+\.php)/', '<span class="atkp-st-file">$1</span>', $frame );
+								$frame = preg_replace( '/\((\d+)\)/', '(<span class="atkp-st-line">$1</span>)', $frame );
+								echo $frame . "\n";
+							}
+						?></div>
+					<?php endif; ?>
+				</div>
+			</div>
+			<div class="atkp-error-footer">affiliate-toolkit v<?php echo defined( 'ATKP_VERSION' ) ? ATKP_VERSION : '?'; ?> &middot; PHP <?php echo PHP_VERSION; ?> &middot; <?php echo date( 'Y-m-d H:i:s T' ); ?></div>
+		</div>
+	</body>
+	</html>
+	<?php
+	exit;
+}
 
 class atkp_external_cron {
 

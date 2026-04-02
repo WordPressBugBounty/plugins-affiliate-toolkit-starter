@@ -129,7 +129,7 @@ add_action('atkp_initialize_extensions', function() {
 				if ( $x->sitetripemode == 2 ) {
 					return false;
 				} else {
-					return true;
+					return true; // PAAPI (1), Smart (3), Creators (4), Creators+NoAPI (5)
 				}
 			}
 

@@ -69,15 +69,28 @@ class atkp_producttable_helper {
 
 		$table_name = $this->get_producttable_tablename();
 
-		// Alle distinct product_id holen, die haserror = 1 haben
+		// Produkte mit haserror = 1 in der Produkttabelle
 		$results = $wpdb->get_col( "SELECT DISTINCT product_id FROM $table_name WHERE haserror = 1" );
 
-		if ( empty( $results ) ) {
-			return array();
+		$ids = ! empty( $results ) ? array_map( 'intval', $results ) : array();
+
+		// Produkte mit Fehlermeldung in Post-Meta (z.B. wenn keine Sub-Produkte gefunden wurden)
+		$meta_key    = ATKP_PRODUCT_POSTTYPE . '_message';
+		$meta_results = $wpdb->get_col( $wpdb->prepare(
+			"SELECT DISTINCT p.ID FROM {$wpdb->posts} p
+			INNER JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id
+			WHERE p.post_type = %s
+			AND pm.meta_key = %s
+			AND pm.meta_value IS NOT NULL
+			AND pm.meta_value != ''",
+			ATKP_PRODUCT_POSTTYPE,
+			$meta_key
+		) );
+
+		if ( ! empty( $meta_results ) ) {
+			$ids = array_merge( $ids, array_map( 'intval', $meta_results ) );
 		}
 
-		// In Integer casten und Duplikate entfernen (sicherheitshalber)
-		$ids = array_map( 'intval', $results );
 		$ids = array_values( array_unique( $ids ) );
 
 		return $ids;

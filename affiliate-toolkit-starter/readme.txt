@@ -3,7 +3,7 @@ Contributors: cservit
 Tags: affiliate, amazon, ebay, awin, aawp, affiliatetheme, asa
 Requires at least: 5.6
 Tested up to: 6.8
-Stable tag: 3.8.4
+Stable tag: 3.8.5
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -375,6 +375,13 @@ You just need to install the extension from our website.
 
  
 == Changelog ==
+= 3.8.5 =
+*   NEW: Amazon Creators API support
+*   IMPROVED: Gutenberg editor button now opens shortcode generator on modal
+*   IMPROVED: Iframe mode for shortcode generator (distraction-free interface)
+*   IMPROVED: German translations updated
+*   FIX: Improved null handling in product loading
+
 = 3.8.4 =
 *   FIX: Classic Editor shows the shortcode generator popup on page load
 *   FIX: Images not showing on local product search in shortcode generator tool

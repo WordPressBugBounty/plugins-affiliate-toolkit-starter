@@ -5,7 +5,8 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "guzzlehttp/guzzle": "^6.2 || ^7.0",
-        "guzzlehttp/psr7": "^1.8.2"
+        "guzzlehttp/psr7": "^1.8.2",
+        "nxtal/amazon-creatorsapi-php-sdk": "^1.2"
     },
     "autoload": {
         "psr-4": {

@@ -415,7 +415,7 @@ class atkp_shortcode_generator_modern {
 
 	/**
 	 * Add media button to post editor
-	 * Button opens the dedicated shortcode generator page in a new tab
+	 * Button opens the dedicated shortcode generator page in a Thickbox modal
 	 */
 	public function add_media_button( $args = array() ) {
 		global $typenow;
@@ -438,12 +438,16 @@ class atkp_shortcode_generator_modern {
 			return;
 		}
 
-		// Add the button that links to the dedicated generator page
-		$generator_url = admin_url( 'admin.php?page=ATKP_affiliate_toolkit-shortcodegenerator' );
+		// Enqueue Thickbox
+		add_thickbox();
+
+		// Add the button that opens in Thickbox modal
+		// Note: atkp_iframe parameter BEFORE TB_iframe (Thickbox cuts off params after TB_iframe)
+		$generator_url = admin_url( 'admin.php?page=ATKP_affiliate_toolkit-shortcodegenerator&atkp_iframe=1&width=1400&height=700&TB_iframe=true' );
 		$icon_url = plugins_url( '/images/affiliate_toolkit_menu.png', ATKP_PLUGIN_FILE );
 		$button_text = __( 'AT Shortcode', 'affiliate-toolkit-starter' );
 
-		echo '<a href="' . esc_url( $generator_url ) . '" target="_blank" class="button atkp-generator-link" title="' . esc_attr( $button_text ) . '" style="padding-left: .4em;">';
+		echo '<a href="' . esc_url( $generator_url ) . '" class="button atkp-generator-link thickbox" title="' . esc_attr( $button_text ) . '" style="padding-left: .4em;">';
 		echo '<span class="wp-media-buttons-icon" style="background: url(' . esc_url( $icon_url ) . '); background-repeat: no-repeat; background-position: left center; background-size: 18px 18px; margin-right: .2em;"></span>';
 		echo esc_html( $button_text );
 		echo '</a>';
@@ -917,8 +921,8 @@ class atkp_shortcode_generator_modern {
 	 * WordPress calls this static method, which then calls the instance method
 	 */
 	public static function static_render_product_block( $attributes, $content = '', $block = null ) {
-		error_log( '========== STATIC WRAPPER CALLED ==========' );
-		error_log( 'Attributes received: ' . print_r( $attributes, true ) );
+		// error_log( '========== STATIC WRAPPER CALLED ==========' );
+		// error_log( 'Attributes received: ' . print_r( $attributes, true ) );
 
 		// Ensure attributes is always an array
 		if ( ! is_array( $attributes ) ) {
@@ -927,18 +931,18 @@ class atkp_shortcode_generator_modern {
 
 		$instance = self::get_instance();
 		if ( ! $instance ) {
-			error_log( 'ERROR: No instance found, creating new instance' );
+			// error_log( 'ERROR: No instance found, creating new instance' );
 			// Try to get pluginbase from global
 			global $atkp_plugin;
 			if ( isset( $atkp_plugin ) ) {
 				$instance = new self( $atkp_plugin );
 			} else {
-				error_log( 'ERROR: Cannot create instance, $atkp_plugin not available' );
+				// error_log( 'ERROR: Cannot create instance, $atkp_plugin not available' );
 				return '<div style="padding:20px;background:#ffebee;border:2px solid #f44336;border-radius:4px;">Error: Generator instance not found. Plugin may not be fully initialized.</div>';
 			}
 		}
 
-		error_log( 'Instance found, calling render_product_block' );
+		// error_log( 'Instance found, calling render_product_block' );
 		return $instance->render_product_block( $attributes );
 	}
 
@@ -947,8 +951,8 @@ class atkp_shortcode_generator_modern {
 	 * WordPress calls this static method, which then calls the instance method
 	 */
 	public static function static_render_list_block( $attributes, $content = '', $block = null ) {
-		error_log( '========== STATIC LIST WRAPPER CALLED ==========' );
-		error_log( 'List Attributes received: ' . print_r( $attributes, true ) );
+		// error_log( '========== STATIC LIST WRAPPER CALLED ==========' );
+		// error_log( 'List Attributes received: ' . print_r( $attributes, true ) );
 
 		// Ensure attributes is always an array
 		if ( ! is_array( $attributes ) ) {
@@ -957,18 +961,18 @@ class atkp_shortcode_generator_modern {
 
 		$instance = self::get_instance();
 		if ( ! $instance ) {
-			error_log( 'ERROR: No list instance found, creating new instance' );
+			// error_log( 'ERROR: No list instance found, creating new instance' );
 			// Try to get pluginbase from global
 			global $atkp_plugin;
 			if ( isset( $atkp_plugin ) ) {
 				$instance = new self( $atkp_plugin );
 			} else {
-				error_log( 'ERROR: Cannot create instance, $atkp_plugin not available' );
+				// error_log( 'ERROR: Cannot create instance, $atkp_plugin not available' );
 				return '<div style="padding:20px;background:#ffebee;border:2px solid #f44336;border-radius:4px;">Error: Generator instance not found. Plugin may not be fully initialized.</div>';
 			}
 		}
 
-		error_log( 'Instance found, calling render_list_block' );
+		// error_log( 'Instance found, calling render_list_block' );
 		return $instance->render_list_block( $attributes );
 	}
 
@@ -976,17 +980,17 @@ class atkp_shortcode_generator_modern {
 	 * AJAX: Search products
 	 */
 	public function ajax_search_products() {
-		error_log( 'ATKP: ajax_search_products called' );
+		// error_log( 'ATKP: ajax_search_products called' );
 
 		// Check if user is logged in and has permissions
 		if ( ! is_user_logged_in() ) {
-			error_log( 'ATKP: User not logged in' );
+			// error_log( 'ATKP: User not logged in' );
 			wp_send_json_error( array( 'message' => 'Not logged in' ) );
 			return;
 		}
 
 		if ( ! current_user_can( 'edit_posts' ) ) {
-			error_log( 'ATKP: User cannot edit posts' );
+			// error_log( 'ATKP: User cannot edit posts' );
 			wp_send_json_error( array( 'message' => 'Permission denied' ) );
 			return;
 		}
@@ -1006,7 +1010,7 @@ class atkp_shortcode_generator_modern {
 
 			if ( ! $nonce_valid ) {
 				// If nonce is provided but invalid, reject
-				error_log( 'ATKP: Invalid nonce - tried all types' );
+				// error_log( 'ATKP: Invalid nonce - tried all types' );
 				wp_send_json_error( array( 'message' => 'Invalid nonce' ) );
 				return;
 			}
@@ -1016,7 +1020,7 @@ class atkp_shortcode_generator_modern {
 		$type = sanitize_text_field( $_POST['type'] ?? ATKP_PRODUCT_POSTTYPE );
 		$limit = intval( $_POST['limit'] ?? 20 );
 
-		error_log( 'ATKP: Searching - keyword: ' . $keyword . ', type: ' . $type . ', limit: ' . $limit );
+		// error_log( 'ATKP: Searching - keyword: ' . $keyword . ', type: ' . $type . ', limit: ' . $limit );
 
 		$results = array();
 
@@ -1040,7 +1044,7 @@ class atkp_shortcode_generator_modern {
 			}
 		}
 
-		error_log( 'ATKP: Query args: ' . print_r( $args, true ) );
+		// error_log( 'ATKP: Query args: ' . print_r( $args, true ) );
 
 		$query = new WP_Query( $args );
 
@@ -1050,7 +1054,7 @@ class atkp_shortcode_generator_modern {
 			remove_filter( 'posts_where', array( $this, 'extend_product_search_where' ) );
 		}
 
-		error_log( 'ATKP: Found posts: ' . $query->found_posts );
+		// error_log( 'ATKP: Found posts: ' . $query->found_posts );
 
 		if ( $query->have_posts() ) {
 			while ( $query->have_posts() ) {
@@ -1095,7 +1099,7 @@ class atkp_shortcode_generator_modern {
 			wp_reset_postdata();
 		}
 
-		error_log( 'ATKP: Returning ' . count( $results ) . ' results' );
+		// error_log( 'ATKP: Returning ' . count( $results ) . ' results' );
 
 		wp_send_json_success( $results );
 	}

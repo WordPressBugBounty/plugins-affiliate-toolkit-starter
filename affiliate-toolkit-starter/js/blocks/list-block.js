@@ -231,8 +231,6 @@
 
 				setIsSearching(true);
 
-				console.log('ATKP: Searching lists with keyword:', searchTerm);
-
 				jQuery.ajax({
 					url: atkpBlocks.ajaxurl,
 					type: 'POST',
@@ -245,19 +243,14 @@
 						nonce: atkpBlocks.nonce
 					},
 					success: function(response) {
-						console.log('ATKP: List search response:', response);
 						if (response.success && response.data && Array.isArray(response.data)) {
-							console.log('ATKP: Found lists:', response.data.length);
 							setSearchResults(response.data);
 						} else {
-							console.log('ATKP: No lists found or invalid response');
 							setSearchResults([]);
 						}
 						setIsSearching(false);
 					},
 					error: function(xhr, status, error) {
-						console.error('ATKP: List search error:', error);
-						console.error('ATKP: XHR:', xhr);
 						setIsSearching(false);
 						setSearchResults([]);
 					}
@@ -365,8 +358,6 @@
 						loadmoreoffers: false
 					},
 					success: function(response) {
-						console.log('Create list response:', response);
-
 						// atkp_create_list returns an array
 						if (response && Array.isArray(response) && response.length > 0) {
 							const result = response[0];
