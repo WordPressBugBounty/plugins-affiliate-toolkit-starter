@@ -192,21 +192,23 @@ class atkp_shortcode_generator {
 			'loading' => esc_html__( 'Loading...', 'affiliate-toolkit-starter' ),
 			'prev'    => esc_html__( 'Previous (Left arrow key)', 'affiliate-toolkit-starter' ),
 			'next'    => esc_html__( 'Next (Right arrow key)', 'affiliate-toolkit-starter' ),
-			'counter' => sprintf( esc_html__( '%s of %s', 'affiliate-toolkit-starter' ), '%curr%', '%total%' ),
-			'error'   => sprintf( esc_html__( 'Failed to load this link. %sOpen link%s.', 'affiliate-toolkit-starter' ), '<a href="%url%" target="_blank"><u>', '</u></a>' )
+			/* translators: 1: current item number, 2: total items */
+			'counter' => sprintf( esc_html__( '%1$s of %2$s', 'affiliate-toolkit-starter' ), '%curr%', '%total%' ),
+			/* translators: 1: opening link tag, 2: closing link tag */
+			'error'   => sprintf( esc_html__( 'Failed to load this link. %1$sOpen link%2$s.', 'affiliate-toolkit-starter' ), '<a href="%url%" target="_blank"><u>', '</u></a>' )
 		) );
 
 		wp_enqueue_style( 'magnific-popup' );
 		wp_enqueue_script( 'magnific-popup' );
         
         // Print button
-        $button = '<a href="javascript:void(0);" class="atkp-generator-button ' . $args['class'] . '" title="' . $args['text'] . '" data-target="' . $args['target'] . '" data-mfp-src="#atkp-generator" data-shortcode="' . (string) $args['shortcode'] . '">' . $args['icon'] . $args['text'] . '</a>';
+        $button = '<a href="javascript:void(0);" class="atkp-generator-button ' . esc_attr( $args['class'] ) . '" title="' . esc_attr( $args['text'] ) . '" data-target="' . esc_attr( $args['target'] ) . '" data-mfp-src="#atkp-generator" data-shortcode="' . esc_attr( (string) $args['shortcode'] ) . '">' . wp_kses( $args['icon'], array( 'img' => array( 'src' => array() ) ) ) . esc_html( $args['text'] ) . '</a>';
 
 		if ( $args['echo'] ) {
 			echo '<a href="javascript:void(0);" class="atkp-generator-button ' . esc_attr( $args['class'] ) .
-			     '" title="' . esc_html__( $args['text'], 'affiliate-toolkit-starter' ) . '" data-target="' . esc_attr( $args['target'] ) .
-			     '" data-mfp-src="#atkp-generator" data-shortcode="' . esc_html__( (string) $args['shortcode'], 'affiliate-toolkit-starter' ) . '">' .
-			     wp_kses( $args['icon'], array( 'img' => array( 'src' => array() ) ) ) . esc_html__( $args['text'], 'affiliate-toolkit-starter' ) . '</a>';
+			     '" title="' . esc_attr( $args['text'] ) . '" data-target="' . esc_attr( $args['target'] ) .
+			     '" data-mfp-src="#atkp-generator" data-shortcode="' . esc_attr( (string) $args['shortcode'] ) . '">' .
+			     wp_kses( $args['icon'], array( 'img' => array( 'src' => array() ) ) ) . esc_html( $args['text'] ) . '</a>';
 		} else {
 			return $button;
 		}
@@ -220,7 +222,7 @@ class atkp_shortcode_generator {
 
 			//add_meta_box(
 			//    ATKP_SHORTCODE.'_detail_box',
-			//    esc_html__( 'Affiliate Toolkit Shortcodes', ATKP_PLUGIN_PREFIX),
+			//    esc_html__( 'Affiliate Toolkit Shortcodes', 'affiliate-toolkit-starter'),
 			//    array(&$this, 'template_detail_box_content'),
 			//   $type,
 			//    'side',
@@ -266,7 +268,7 @@ class atkp_shortcode_generator {
 						);
 						$posts_array = get_posts( $args );
 						foreach ( $posts_array as $prd ) {
-							echo '<option value="' . esc_attr( $prd->ID ) . '"' . ( $val == $prd->ID ? 'selected' : '' ) . '>' . esc_html__( $prd->post_title, 'affiliate-toolkit-starter' ) . ' (' . esc_html( $prd->ID ) . ')' . '</option>';
+							echo '<option value="' . esc_attr( $prd->ID ) . '"' . ( $val == $prd->ID ? 'selected' : '' ) . '>' . esc_html( $prd->post_title ) . ' (' . esc_html( $prd->ID ) . ')' . '</option>';
 						};
 						?>
                     </select>
@@ -308,6 +310,7 @@ class atkp_shortcode_generator {
 			$args = array(
 				'post_type'   => array( 'post', 'page' ),  // YOUR POST TYPE
 				'post_status' => array( 'publish', 'draft' ),
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				'meta_query'  => array(
 					array(
 						'key'     => ATKP_PLUGIN_PREFIX . '_product',
@@ -372,7 +375,7 @@ class atkp_shortcode_generator {
 					$posts_array = get_posts( $args );
 					foreach ( $posts_array as $prd ) {
 
-						echo '<option value="' . esc_attr( $prd->ID ) . '"' . esc_attr( $sel ) . '>' . esc_html__( $prd->post_title, 'affiliate-toolkit-starter' ) . ' (' . esc_html( $prd->ID ) . ')' . '</option>';
+						echo '<option value="' . esc_attr( $prd->ID ) . '"' . esc_attr( $sel ) . '>' . esc_html( $prd->post_title ) . ' (' . esc_html( $prd->ID ) . ')' . '</option>';
 					};
 					?>
                 </select>
@@ -396,7 +399,7 @@ class atkp_shortcode_generator {
 					$posts_array = get_posts( $args );
 					foreach ( $posts_array as $prd ) {
 
-						echo '<option value="' . esc_attr( $prd->ID ) . '"' . esc_attr( $sel ) . '>' . esc_html__( $prd->post_title, 'affiliate-toolkit-starter' ) . ' (' . esc_html( $prd->ID ) . ')' . '</option>';
+						echo '<option value="' . esc_attr( $prd->ID ) . '"' . esc_attr( $sel ) . '>' . esc_html( $prd->post_title ) . ' (' . esc_html( $prd->ID ) . ')' . '</option>';
 					};
 					?>
                 </select></p>
@@ -444,7 +447,7 @@ class atkp_shortcode_generator {
 						$posts_array = get_posts( $args );
 						foreach ( $posts_array as $prd ) {
 
-							echo '<option value="' . esc_attr( $prd->ID ) . '"' . esc_attr( $sel ) . '>' . esc_html__( $prd->post_title, 'affiliate-toolkit-starter' ) . ' (' . esc_html( $prd->ID ) . ')' . '</option>';
+							echo '<option value="' . esc_attr( $prd->ID ) . '"' . esc_attr( $sel ) . '>' . esc_html( $prd->post_title ) . ' (' . esc_html( $prd->ID ) . ')' . '</option>';
 						};
 					?>
                 </select>
@@ -501,7 +504,7 @@ class atkp_shortcode_generator {
 					$placeholders   = $templatehelper->getPlaceholders();
 
 					foreach ( $placeholders as $placeholder => $caption ) {
-						echo '<option value="' . esc_attr( $placeholder ) . '">' . esc_html__( $caption, 'affiliate-toolkit-starter' ) . '</option>';
+						echo '<option value="' . esc_attr( $placeholder ) . '">' . esc_html( $caption ) . '</option>';
 
 					};
 					?>

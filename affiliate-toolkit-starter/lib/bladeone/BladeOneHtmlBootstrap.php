@@ -1,6 +1,9 @@
-<?php
+<?php // phpcs:disable WordPress.WP.I18n, WordPress.NamingConventions.PrefixAllGlobals -- Third-party library.
 
 namespace eftec\bladeone;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * trait BladeOneHtmlBootstrap

@@ -98,7 +98,7 @@ class atkp_settings_advanced {
                     <table class="form-table" style="width:100%">
                         <tr>
                             <th scope="row" style="background-color:#bde4ea; padding:7px" colspan="2">
-	                            <?php echo esc_html__( 'Links & Offers', ATKP_PLUGIN_PREFIX ) ?>
+	                            <?php echo esc_html__( 'Links & Offers', 'affiliate-toolkit-starter' ) ?>
                             </th>
                         </tr>
 
@@ -247,7 +247,7 @@ class atkp_settings_advanced {
 									?>
                                 </select>
 
-								<?php ATKPTools::display_helptext( 'By default the plugin does not import affiliate images. If you dont want to import the image but display it you need to use the FIFU plugin.', 'https://de.wordpress.org/plugins/featured-image-from-url/', esc_html__( 'More about Featured Image from URL (FIFU)' ) ); ?>
+								<?php ATKPTools::display_helptext( 'By default the plugin does not import affiliate images. If you dont want to import the image but display it you need to use the FIFU plugin.', 'https://de.wordpress.org/plugins/featured-image-from-url/', esc_html__( 'More about Featured Image from URL (FIFU)', 'affiliate-toolkit-starter' ) ); ?>
 
                             </td>
                         </tr>
@@ -523,7 +523,7 @@ class atkp_settings_advanced {
                                                name="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_posttype_' . $post_type) ?>"
                                                value="1" <?php echo checked( 1, $found, true ); ?>>
                                         <label for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_posttype_' . $post_type) ?>">
-	                                        <?php echo esc_html__( $post_type, 'affiliate-toolkit-starter' ); ?>
+	                                        <?php echo esc_html( $post_type ); ?>
                                         </label><br/>
 
 										<?php

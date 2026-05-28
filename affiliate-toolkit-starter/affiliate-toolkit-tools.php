@@ -53,7 +53,7 @@ class atkp_tools {
 
 
 				?> <a class="<?php echo esc_attr('nav-tab' . $class) ?>"
-                      href="<?php echo esc_url( admin_url() . 'admin.php?page=' . ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-tools' . '&tab=' . $tab_name ) ?>"><?php echo esc_html__( $key, 'affiliate-toolkit-starter' ) ?></a><?php
+                      href="<?php echo esc_url( admin_url() . 'admin.php?page=' . ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-tools' . '&tab=' . $tab_name ) ?>"><?php echo esc_html( $key ) ?></a><?php
 			}
 
 

@@ -1,4 +1,7 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals
+defined('ABSPATH') || exit;
+
 /*
         ---------- RollingCurlX 3.0.2 -----------
         an easy to use curl_multi wrapper for php
@@ -8,6 +11,8 @@
         https://github.com/marcushat/RollingCurlX
 */
 
+// phpcs:disable WordPress.WP.AlternativeFunctions -- third-party RollingCurlX library uses cURL directly
+// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 Class RollingCurlX {
 	private $_curl_version;
 
@@ -337,5 +342,6 @@ Class RollingCurlX {
 		CURLE_SSH                         => 'SSH'
 	];
 }
+// phpcs:enable
 
 ?>

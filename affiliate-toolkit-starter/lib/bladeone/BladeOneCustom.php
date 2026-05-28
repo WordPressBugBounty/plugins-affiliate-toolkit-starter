@@ -1,7 +1,7 @@
 <?php
-
-
 namespace eftec\bladeone;
+
+defined('ABSPATH') || exit;
 
 /*
  * Its an example of a custom set of functions for bladeone.

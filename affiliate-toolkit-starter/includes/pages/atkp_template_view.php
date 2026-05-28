@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || exit;
 
 
 class atkp_template_view {
@@ -107,6 +108,9 @@ class atkp_template_view {
 				// Insert the post into the database
 				$post_id = wp_insert_post( $my_post );
 
+				// Fields that contain template content and must be sanitized
+				$content_fields = array( '_body', '_header', '_body_header', '_body_footer', '_detail_header', '_detail_footer', '_footer' );
+
 				foreach ( $fields as $field ) {
 
 					$unval = is_array( $mytemplate->fields->$field ) ? ( count( $mytemplate->fields->$field ) > 0 ? $mytemplate->fields->$field[0] : null ) : $mytemplate->fields->$field;
@@ -118,6 +122,17 @@ class atkp_template_view {
 							$unval = $data;
 						}
 					}
+
+					// Sanitize template content fields to prevent code injection
+					if ( is_string( $unval ) ) {
+						foreach ( $content_fields as $cf ) {
+							if ( substr( $field, -strlen( $cf ) ) === $cf ) {
+								$unval = atkp_template_helper::sanitize_template_content( $unval );
+								break;
+							}
+						}
+					}
+
 					update_post_meta( $post_id, $field, $unval );
 				}
 
@@ -141,13 +156,13 @@ class atkp_template_view {
 
 				ATKPTools::set_post_setting( $post_id, ATKP_TEMPLATE_POSTTYPE . '_template_type', $mytemplate['template_type'] );
 
-				ATKPTools::set_post_setting( $post_id, ATKP_TEMPLATE_POSTTYPE . '_header', $mytemplate['header'] );
-				ATKPTools::set_post_setting( $post_id, ATKP_TEMPLATE_POSTTYPE . '_body_header', $mytemplate['bodyheader'] );
-				ATKPTools::set_post_setting( $post_id, ATKP_TEMPLATE_POSTTYPE . '_detail_header', $mytemplate['detailheader'] );
-				ATKPTools::set_post_setting( $post_id, ATKP_TEMPLATE_POSTTYPE . '_detail_footer', $mytemplate['detailfooter'] );
-				ATKPTools::set_post_setting( $post_id, ATKP_TEMPLATE_POSTTYPE . '_body', $mytemplate['body'] );
-				ATKPTools::set_post_setting( $post_id, ATKP_TEMPLATE_POSTTYPE . '_body_footer', $mytemplate['bodyfooter'] );
-				ATKPTools::set_post_setting( $post_id, ATKP_TEMPLATE_POSTTYPE . '_footer', $mytemplate['footer'] );
+				// Sanitize: strip raw PHP tags from all template content fields to prevent code injection
+				$template_content_fields = array( 'header', 'bodyheader', 'detailheader', 'detailfooter', 'body', 'bodyfooter', 'footer' );
+				$template_meta_keys = array( '_header', '_body_header', '_detail_header', '_detail_footer', '_body', '_body_footer', '_footer' );
+				foreach ( $template_content_fields as $idx => $field ) {
+					$value = isset( $mytemplate[ $field ] ) ? atkp_template_helper::sanitize_template_content( $mytemplate[ $field ] ) : '';
+					ATKPTools::set_post_setting( $post_id, ATKP_TEMPLATE_POSTTYPE . $template_meta_keys[ $idx ], $value );
+				}
 
 				ATKPTools::set_post_setting( $post_id, ATKP_TEMPLATE_POSTTYPE . '_css', $mytemplate['css'] );
 
@@ -181,6 +196,11 @@ class atkp_template_view {
 	}
 
 	public function show_page() {
+		// Restrict template management to administrators only
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'affiliate-toolkit-starter' ) );
+		}
+
 		$importmessage = '';
 
 		if ( $this->action == '' || $this->action == 'import' ) {
@@ -190,12 +210,12 @@ class atkp_template_view {
 			if ( ATKPTools::exists_post_parameter( 'saveimporttemplate' ) && check_admin_referer( 'save', 'save' ) ) {
 
 				//reads the name of the file the user submitted for uploading
-				$templatefile = $_FILES[ ATKP_PLUGIN_PREFIX . '_filetemplate' ]['name'];
+				$templatefile = isset( $_FILES[ ATKP_PLUGIN_PREFIX . '_filetemplate' ]['name'] ) ? sanitize_file_name( wp_unslash( $_FILES[ ATKP_PLUGIN_PREFIX . '_filetemplate' ]['name'] ) ) : '';
 				//if it is not empty
 				if ( $templatefile ) {
 
 					//get the original name of the file from the clients machine
-					$filename = stripslashes( $_FILES[ ATKP_PLUGIN_PREFIX . '_filetemplate' ]['name'] );
+					$filename = stripslashes( isset( $_FILES[ ATKP_PLUGIN_PREFIX . '_filetemplate' ]['name'] ) ? sanitize_file_name( wp_unslash( $_FILES[ ATKP_PLUGIN_PREFIX . '_filetemplate' ]['name'] ) ) : '' );
 					//get the extension of the file in a lower case format
 					$extension = pathinfo( $filename, PATHINFO_EXTENSION );
 					$extension = strtolower( $extension );
@@ -208,12 +228,13 @@ class atkp_template_view {
 						$errors        = 1;
 					} else {
 
-						$contents = file_get_contents( $_FILES[ ATKP_PLUGIN_PREFIX . '_filetemplate' ]['tmp_name'] );
+						$tmp_name = isset( $_FILES[ ATKP_PLUGIN_PREFIX . '_filetemplate' ]['tmp_name'] ) ? sanitize_text_field( wp_unslash( $_FILES[ ATKP_PLUGIN_PREFIX . '_filetemplate' ]['tmp_name'] ) ) : '';
+						$contents = file_get_contents( $tmp_name ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 
 						$importmessage = $this->import_template( $contents );
 
 						if ( is_numeric( $importmessage ) ) {
-							echo '<script>window.location.replace("' . ( admin_url( 'post.php?action=edit&post=' . intval( $importmessage ) ) ) . '");</script>';
+							echo '<script>window.location.replace("' . esc_url( admin_url( 'post.php?action=edit&post=' . intval( $importmessage ) ) ) . '");</script>';
 						}
 					}
 
@@ -240,6 +261,11 @@ class atkp_template_view {
                           enctype="multipart/form-data">
 						<?php wp_nonce_field( "save", "save" ); ?>
 
+
+                        <div style="padding:10px 14px;background:#fff8e1;border-left:4px solid #ffb300;margin:10px 0;font-size:13px;line-height:1.5;">
+                            <strong><?php echo esc_html__( 'Security notice', 'affiliate-toolkit-starter' ); ?>:</strong>
+                            <?php echo esc_html__( 'Starting with version 3.8.6, raw PHP code (e.g. <?php ?> tags) is automatically filtered from imported templates and will not be executed.', 'affiliate-toolkit-starter' ); ?>
+                        </div>
 
                         <div class="atkp-content wrap" style="margin-bottom:30px;float:none !important">
 
@@ -270,7 +296,7 @@ class atkp_template_view {
 
                                                     <tr>
                                                         <td colspan="2"><span
-                                                                    style="font-weight:bold;color:red"><?php echo esc_html__( $importmessage, 'affiliate-toolkit-starter' ); ?></span>
+                                                                    style="font-weight:bold;color:red"><?php echo esc_html( $importmessage ); ?></span>
                                                         </td>
                                                     </tr>
 
@@ -364,9 +390,9 @@ class atkp_template_view {
 				$new_post_id = $this->import_template( $contents, $this->templatename . ' (2)', false );
 
 				if ( is_numeric( $new_post_id ) ) {
-					echo '<script>window.location.replace("' . ( admin_url( 'post.php?action=edit&post=' . $new_post_id ) ) . '");</script>';
+					echo '<script>window.location.replace("' . esc_url( admin_url( 'post.php?action=edit&post=' . intval( $new_post_id ) ) ) . '");</script>';
 				} else {
-					echo '<p>' . esc_html__( $new_post_id, 'affiliate-toolkit-starter' ) . '</p>';
+					echo '<p>' . esc_html( $new_post_id ) . '</p>';
 				}
 			} else {
 				$args = array(
@@ -382,7 +408,8 @@ class atkp_template_view {
 				if ( is_numeric( $this->templateid ) ) {
 					global $wpdb;
 					//custom template
-					$post_meta_infos = $wpdb->get_results( "SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=$this->templateid" );
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
+					$post_meta_infos = $wpdb->get_results( $wpdb->prepare( "SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=%d", absint( $this->templateid ) ) );
 					if ( count( $post_meta_infos ) != 0 ) {
 						$sql_query     = "INSERT INTO $wpdb->postmeta (post_id, meta_key, meta_value) ";
 						$sql_query_sel = array();
@@ -395,6 +422,7 @@ class atkp_template_view {
 							$sql_query_sel[] = "SELECT $new_post_id, '$meta_key', '$meta_value'";
 						}
 						$sql_query .= implode( " UNION ALL ", $sql_query_sel );
+						// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
 						$wpdb->query( $sql_query );
 					}
 
@@ -410,7 +438,7 @@ class atkp_template_view {
 					ATKPTools::set_post_setting( $new_post_id, 'atkp_template_body', $mytemplate );
 				}
 
-				echo '<script>window.location.replace("' . ( admin_url( 'post.php?action=edit&post=' . $new_post_id ) ) . '");</script>';
+				echo '<script>window.location.replace("' . esc_url( admin_url( 'post.php?action=edit&post=' . intval( $new_post_id ) ) ) . '");</script>';
 				//wp_redirect( admin_url( 'post.php?action=edit&post=' . $new_post_id ) );
 			}
 
@@ -431,7 +459,9 @@ class atkp_template_view {
 
 
 				wp_delete_post( $this->templateid );
-				echo '<script>window.location.replace("' . sprintf( '?page=%s', esc_attr( $_REQUEST['page'] ) ) . '");</script>';
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce already verified above.
+				$page = isset( $_REQUEST['page'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) : '';
+				echo '<script>window.location.replace("' . esc_url( sprintf( '?page=%s', esc_attr( $page ) ) ) . '");</script>';
 				exit;
 			} else {
 				echo 'not allowed';

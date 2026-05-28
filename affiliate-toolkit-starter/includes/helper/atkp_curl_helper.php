@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 class atkp_curl_helper {
-	private $ch;
+	private $cookies = array();
 	private $cookie_path;
 	private $agent;
 
@@ -13,73 +13,113 @@ class atkp_curl_helper {
 	public function __construct( $userId = 'default' ) {
 		$this->cookie_path = wp_upload_dir()['basedir'] . '/atkp-cookies/' . $userId . '.txt';
 
-		if ( ! file_exists( $this->cookie_path ) ) {
-			mkdir( $this->cookie_path, 0777, true );
+		if ( ! file_exists( dirname( $this->cookie_path ) ) ) {
+			wp_mkdir_p( dirname( $this->cookie_path ) );
 		}
 
 		$this->agent = "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)";
+
+		// Load cookies from file if they exist
+		if ( file_exists( $this->cookie_path ) ) {
+			$cookie_data = file_get_contents( $this->cookie_path );
+			if ( ! empty( $cookie_data ) ) {
+				$this->cookies = maybe_unserialize( $cookie_data );
+				if ( ! is_array( $this->cookies ) ) {
+					$this->cookies = array();
+				}
+			}
+		}
 	}
 
-	private function init() {
-		$this->ch = curl_init();
+	// Build default request arguments
+	private function getDefaultArgs() {
+		return array(
+			'user-agent'  => $this->agent,
+			'redirection' => 5,
+			'sslverify'   => false,
+			'headers'     => array(
+				'Accept'     => '*/*',
+				'Connection' => 'Keep-Alive',
+			),
+			'cookies'     => $this->cookies,
+		);
 	}
 
-	private function close() {
-		curl_close( $this->ch );
-	}
-
-	// Set cURL options
-	private function setOptions( $submit_url ) {
-		$headers[] = "Accept: */*";
-		$headers[] = "Connection: Keep-Alive";
-		curl_setopt( $this->ch, CURLOPT_URL, $submit_url );
-		curl_setopt( $this->ch, CURLOPT_USERAGENT, $this->agent );
-		curl_setopt( $this->ch, CURLOPT_RETURNTRANSFER, 1 );
-		curl_setopt( $this->ch, CURLOPT_FOLLOWLOCATION, 1 );
-		curl_setopt( $this->ch, CURLOPT_SSL_VERIFYPEER, false );
-		curl_setopt( $this->ch, CURLOPT_HTTPHEADER, $headers );
-		curl_setopt( $this->ch, CURLOPT_COOKIEFILE, $this->cookie_path );
-		curl_setopt( $this->ch, CURLOPT_COOKIEJAR, $this->cookie_path );
+	// Save cookies from response
+	private function saveCookies( $response ) {
+		if ( ! is_wp_error( $response ) ) {
+			$response_cookies = wp_remote_retrieve_cookies( $response );
+			if ( ! empty( $response_cookies ) ) {
+				foreach ( $response_cookies as $cookie ) {
+					$this->cookies[ $cookie->name ] = $cookie->value;
+				}
+				file_put_contents( $this->cookie_path, maybe_serialize( $this->cookies ) );
+			}
+		}
 	}
 
 	// Grab initial cookie data
 	public function curl_cookie_set( $submit_url ) {
-		$this->init();
-		$this->setOptions( $submit_url );
-		curl_exec( $this->ch );
-		echo esc_html__( curl_error( $this->ch ), 'affiliate-toolkit-starter' );
+		$args     = $this->getDefaultArgs();
+		$response = wp_remote_get( $submit_url, $args );
+
+		if ( is_wp_error( $response ) ) {
+			echo esc_html( $response->get_error_message() );
+		}
+
+		$this->saveCookies( $response );
 	}
 
 	// Grab hidden fields
 	public function get_form_fields( $submit_url ) {
-		curl_setopt( $this->ch, CURLOPT_URL, $submit_url );
-		$result = curl_exec( $this->ch );
-		echo esc_html__( curl_error( $this->ch ), 'affiliate-toolkit-starter' );
+		$args     = $this->getDefaultArgs();
+		$response = wp_remote_get( $submit_url, $args );
+
+		if ( is_wp_error( $response ) ) {
+			echo esc_html( $response->get_error_message() );
+
+			return array();
+		}
+
+		$this->saveCookies( $response );
+		$result = wp_remote_retrieve_body( $response );
 
 		return $this->getFormFields( $result );
 	}
 
 	// Send login data
 	public function curl_post_request( $referer, $submit_url, $data ) {
-		$post = http_build_query( $data );
-		curl_setopt( $this->ch, CURLOPT_URL, $submit_url );
-		curl_setopt( $this->ch, CURLOPT_POST, 1 );
-		curl_setopt( $this->ch, CURLOPT_POSTFIELDS, $post );
-		curl_setopt( $this->ch, CURLOPT_REFERER, $referer );
-		$result = curl_exec( $this->ch );
-		echo esc_html__( curl_error( $this->ch ), 'affiliate-toolkit-starter' );
-		$this->close();
+		$args            = $this->getDefaultArgs();
+		$args['body']    = $data;
+		$args['headers']['Referer'] = $referer;
 
-		return $result;
+		$response = wp_remote_post( $submit_url, $args );
+
+		if ( is_wp_error( $response ) ) {
+			echo esc_html( $response->get_error_message() );
+
+			return '';
+		}
+
+		$this->saveCookies( $response );
+
+		return wp_remote_retrieve_body( $response );
 	}
 
 	// Show the logged in "My eBay" or any other page
 	public function show_page( $submit_url ) {
-		curl_setopt( $this->ch, CURLOPT_URL, $submit_url );
-		$result = curl_exec( $this->ch );
-		echo esc_html__( curl_error( $this->ch ), 'affiliate-toolkit-starter' );
+		$args     = $this->getDefaultArgs();
+		$response = wp_remote_get( $submit_url, $args );
 
-		return $result;
+		if ( is_wp_error( $response ) ) {
+			echo esc_html( $response->get_error_message() );
+
+			return '';
+		}
+
+		$this->saveCookies( $response );
+
+		return wp_remote_retrieve_body( $response );
 	}
 
 	// Used to parse out form
@@ -118,15 +158,13 @@ class atkp_curl_helper {
 		return $inputs;
 	}
 
-	// Destroy cookie and close curl.
+	// Destroy cookie and clean up.
 	public function curl_clean() {
-		// cleans and closes the curl connection
+		// cleans cookie data
 		if ( file_exists( $this->cookie_path ) ) {
-			unlink( $this->cookie_path );
+			wp_delete_file( $this->cookie_path );
 		}
-		if ( $this->ch != '' ) {
-			curl_close( $this->ch );
-		}
+		$this->cookies = array();
 	}
 }
 

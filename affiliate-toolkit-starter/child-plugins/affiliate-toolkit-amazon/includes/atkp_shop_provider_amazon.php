@@ -854,7 +854,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 										   value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_asindataapikey' ) ); ?>"
 										   placeholder="<?php echo esc_attr__( 'Enter your ASIN Data API key...', 'affiliate-toolkit-starter' ) ?>"
 										   style="width: 100%; max-width: 500px;">
-									<?php ATKPTools::display_helptext( esc_html__( 'No-API requests are included in your affiliate-toolkit license. For unlimited requests, you can purchase an external ASIN Data API key.', 'affiliate-toolkit-starter' ) . ' <a href="https://trajectdata.com/ecommerce/asin-data-api/pricing/" target="_blank">' . esc_html__( 'Get API Key', 'affiliate-toolkit-starter' ) . '</a>' ) ?>
+									<?php ATKPTools::display_helptext( sprintf( esc_html__( 'No-API requests are included in your affiliate-toolkit license. For unlimited requests, you can purchase an external ASIN Data API key. %1$sGet API Key%2$s', 'affiliate-toolkit-starter' ), '<a href="https://trajectdata.com/ecommerce/asin-data-api/pricing/" target="_blank">', '</a>' ) ) ?>
 								</td>
 							</tr>
 
@@ -966,7 +966,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 									}
 									?>
 								</select>
-								<?php ATKPTools::display_helptext( esc_html__( 'Select your credential version. Auto-detect will determine it based on your selected Amazon website.', 'affiliate-toolkit-starter' ) ) ?>
+								<?php ATKPTools::display_helptext( esc_html__( 'Select your credential version.', 'affiliate-toolkit-starter' ) ) ?>
 							</td>
 						</tr>
 					</table>
@@ -1039,7 +1039,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
                 <input type="text" id="<?php echo esc_attr( ATKP_SHOP_POSTTYPE . '_languages_of_preference' ) ?>"
                        name="<?php echo esc_attr( ATKP_SHOP_POSTTYPE . '_languages_of_preference' ) ?>"
                        value="<?php echo esc_attr( ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_languages_of_preference' ) ); ?>">
-				<?php ATKPTools::display_helptext( 'You can set an list of languages you want to receive (comma separated). You can find the valid languages for each marketplace <a href="https://webservices.amazon.de/paapi5/documentation/locale-reference.html" target="_blank">here</a>.' ) ?>
+				<?php ATKPTools::display_helptext( sprintf( esc_html__( 'You can set a list of languages you want to receive (comma separated). You can find the valid languages for each marketplace %1$shere%2$s.', 'affiliate-toolkit-starter' ), '<a href="https://webservices.amazon.de/paapi5/documentation/locale-reference.html" target="_blank">', '</a>' ) ) ?>
             </td>
         </tr>
 

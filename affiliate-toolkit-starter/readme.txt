@@ -1,9 +1,9 @@
 ﻿=== affiliate-toolkit – Multi-Network Affiliate & Amazon Product Display ===
 Contributors: cservit 
-Tags: affiliate, amazon, ebay, awin, aawp, affiliatetheme, asa
+Tags: affiliate, amazon, ebay, awin, product display
 Requires at least: 5.6
-Tested up to: 6.8
-Stable tag: 3.8.5
+Tested up to: 7.0
+Stable tag: 3.8.6
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -375,6 +375,19 @@ You just need to install the extension from our website.
 
  
 == Changelog ==
+= 3.8.6 =
+*   FIX: Double-slash in API URLs to affiliate-toolkit.com
+*   FIX: HTTP timeouts increased from 15s to 30s for license checks and store API calls
+*   FIX: Sub-module plugins no longer trigger unnecessary WordPress.org update checks (Update URI header added)
+*   FIX: Translation loading moved to init hook to prevent "too early" notices on WordPress 6.7+
+*   FIX: JavaScript syntax error on bulk import page caused by wp_set_script_translations without JSON translation files
+*   FIX: Incorrect escaping in inline JavaScript (esc_url/esc_html replaced with esc_js/esc_url_raw)
+*   FIX: Embedded URLs in translatable strings now use sprintf placeholders for proper i18n
+*   FIX: Undefined constant ATKP_PLUGIN_VERSION replaced with ATKP_UPDATE_VERSION
+*   FIX: Dashicon vertical alignment in admin buttons
+*   FIX: Auto-detect option removed from Amazon Creators credential version selector
+*   FIX: Broken jQuery selector for search option radio buttons in bulk import
+
 = 3.8.5 =
 *   NEW: Amazon Creators API support
 *   IMPROVED: Gutenberg editor button now opens shortcode generator on modal

@@ -31,19 +31,17 @@ class atkp_gutenberg_editor {
 			)
 		);
 
-		wp_register_script( 'shortcodes-atkp-block-editor', plugins_url( 'js/block-editor.js', ATKP_PLUGIN_FILE ), array(
+		wp_enqueue_script( 'shortcodes-atkp-block-editor', plugins_url( 'js/block-editor.js', ATKP_PLUGIN_FILE ), array(
 			'wp-element',
 			'wp-editor',
 			'wp-components'
-		), '1.0', true );
-
-		wp_enqueue_script( 'shortcodes-atkp-block-editor' );
+		), ATKP_UPDATE_VERSION, true );
 
 		wp_localize_script( 'shortcodes-atkp-block-editor', 'ATKPSETT', array(
-			'iconurl' => plugins_url( '/images/affiliate_toolkit_menu.png', ATKP_PLUGIN_FILE ),
-			'insertShortcode' => __( 'AT shortcode', 'affiliate-toolkit-starter' ),
+			'iconurl'         => esc_url( plugins_url( '/images/affiliate_toolkit_menu.png', ATKP_PLUGIN_FILE ) ),
+			'insertShortcode' => esc_html__( 'AT shortcode', 'affiliate-toolkit-starter' ),
 			'supportedBlocks' => $supportedblocks,
-			'generatorUrl' => admin_url( 'admin.php?page=' . ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-shortcodegenerator' )
+			'generatorUrl'    => esc_url( admin_url( 'admin.php?page=' . ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-shortcodegenerator' ) ),
 		) );
 
 		wp_localize_script(

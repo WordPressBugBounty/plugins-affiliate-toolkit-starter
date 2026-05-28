@@ -42,6 +42,7 @@ class atkp_generator {
 
 		?>
 
+        <?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet ?>
         <link rel="stylesheet" href="<?php echo esc_url(plugins_url( 'dist/accordion.css', ATKP_PLUGIN_FILE )) ?>"/>
 
         <ul id="my-accordion" class="my-accordion accordionjs">
@@ -109,15 +110,15 @@ class atkp_generator {
 						$prds[ esc_html__( 'Dynamic Product Filter', 'affiliate-toolkit-starter' ) ] = [ 'productfilter' => esc_html__( 'Dynamic Product Filter', 'affiliate-toolkit-starter' ) ];
 
 						/*
-						$prds['product_search'] = __('Search Single Product', ATKP_PLUGIN_PREFIX),
-						$prds['product_create'] = __('Create Single Product', ATKP_PLUGIN_PREFIX)];
-						$prds['bestseller_search'] = __('Search Bestseller List', ATKP_PLUGIN_PREFIX);
-						$prds['bestseller_create'] = __('Create Bestseller List', ATKP_PLUGIN_PREFIX);
-						$prds['new_search'] = __('Search New Releases List', ATKP_PLUGIN_PREFIX);
-						$prds['new_create'] = __('Create New Releases List', ATKP_PLUGIN_PREFIX);
-						$prds['keyword_search'] = __('Search Keyword List', ATKP_PLUGIN_PREFIX);
-						$prds['keyword_create'] = __('Create Keyword List', ATKP_PLUGIN_PREFIX);
-						$prds['productfilter'] = __('Dynamic Product Filter', ATKP_PLUGIN_PREFIX);*/
+						$prds['product_search'] = __('Search Single Product', 'affiliate-toolkit-starter'),
+						$prds['product_create'] = __('Create Single Product', 'affiliate-toolkit-starter')];
+						$prds['bestseller_search'] = __('Search Bestseller List', 'affiliate-toolkit-starter');
+						$prds['bestseller_create'] = __('Create Bestseller List', 'affiliate-toolkit-starter');
+						$prds['new_search'] = __('Search New Releases List', 'affiliate-toolkit-starter');
+						$prds['new_create'] = __('Create New Releases List', 'affiliate-toolkit-starter');
+						$prds['keyword_search'] = __('Search Keyword List', 'affiliate-toolkit-starter');
+						$prds['keyword_create'] = __('Create Keyword List', 'affiliate-toolkit-starter');
+						$prds['productfilter'] = __('Dynamic Product Filter', 'affiliate-toolkit-starter');*/
 						//TODO: Dynamic filter
 
 						$prds = apply_filters( 'atkp_modify_source_types', $prds );
@@ -159,7 +160,8 @@ class atkp_generator {
         </ul>
 
 
-        <script src="<?php echo esc_js( esc_url( plugins_url( 'dist/accordion.js', 'affiliate-toolkit-starter' ) ) ) ?>"></script>
+        <?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript ?>
+        <script src="<?php echo esc_url( plugins_url( 'dist/accordion.js', ATKP_PLUGIN_FILE ) ); ?>"></script>
 
         <script>
             jQuery(document).ready(function ($) {
@@ -296,7 +298,7 @@ public function generate_modal_header( $id ) {
     <div id="<?php echo esc_attr('atkp-modal-' . $id) ?>" class="atkp-modal lity-hide">
 
         <div class="atkp-modal__header">
-            <div class="atkp-modal__title"><?php echo esc_html__( 'Setup your product box', esc_html( 'affiliate-toolkit-starter' ) ); ?></div>
+            <div class="atkp-modal__title"><?php echo esc_html__( 'Setup your product box', 'affiliate-toolkit-starter' ); ?></div>
             <span class="atkp-modal__close" data-atkp-close-modal="true"><span
                         class="dashicons dashicons-no"></span></span>
         </div>
@@ -310,7 +312,7 @@ public function generate_modal_header( $id ) {
         </div><!-- .atkp-modal__content -->
         <div class="atkp-modal__footer">
             <span class="atkp-brand-icon"><img style="max-height:30px"
-                                               src="<?php echo esc_url(plugins_url( '/img/affiliate-toolkit-web.png', esc_html(ATKP_GUTENBERG_PLUGIN_FILE)) ) ?>"/></span>
+                                               src="<?php echo esc_url( plugins_url( '/img/affiliate-toolkit-web.png', ATKP_GUTENBERG_PLUGIN_FILE ) ); ?>"/></span>
             <!--<span class="button atkp-modal__button" data-atkp-close-modal="true"><?php echo esc_html__( 'Close', 'affiliate-toolkit-starter' ); ?></span>-->
         </div>
     </div><!-- .atkp-modal -->

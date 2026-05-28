@@ -5,6 +5,7 @@
  * Date: 01.04.2018
  * Time: 09:22
  */
+defined('ABSPATH') || exit;
 
 
 /**
@@ -135,18 +136,23 @@ class atkp_productservice {
 					$notfound = false;
 
 					if ( $message != '' ) {
+						/* translators: %s: error message from shop */
 						$errormessage = sprintf( __( 'Shop error: %s', 'affiliate-toolkit-starter' ), $message );
 					} else if ( $atresponse->errormessage != '' ) {
+						/* translators: %s: error message from request */
 						$errormessage = sprintf( __( 'Request error: %s', 'affiliate-toolkit-starter' ), $atresponse->errormessage );
 					} else if ( $responseitem == null || count( $responseitem ) == 0 ) {
-						$errormessage = sprintf( __( 'Product not returned: %s', 'affiliate-toolkit-starter' ), $asin );;
+						/* translators: %s: product ASIN/ID */
+						$errormessage = sprintf( __( 'Product not returned: %s', 'affiliate-toolkit-starter' ), $asin );
 						$notfound = true;
 						if ( $asintypex != $asintype ) {
 							continue;
 						}
 					} else if ( $responseitem[0]->errormessage != '' ) {
+						/* translators: %s: error message from item */
 						$errormessage = sprintf( __( 'Item error: %s', 'affiliate-toolkit-starter' ), $responseitem[0]->errormessage );
 					} else if ( $responseitem[0]->productitem == null ) {
+						/* translators: %s: product ASIN/ID */
 						$errormessage = sprintf( __( 'Product not returned: %s', 'affiliate-toolkit-starter' ), $asin );
 						$notfound     = true;
 					} /* else if( $responseitem[0]->productitem->salepricefloat <= 0)  {
@@ -236,6 +242,7 @@ class atkp_productservice {
 					}
 
 					if ( $errormessage == '' && $responseitem[0]->productitem->salepricefloat <= 0 ) {
+						/* translators: %s: product ASIN/ID */
 						$errormessage = sprintf( __( 'Sale price is equal 0: %s', 'affiliate-toolkit-starter' ), $asin );
 						$notfound     = true;
 					}
@@ -403,8 +410,9 @@ class atkp_productservice {
 					);
 					$data = wp_unslash( $data );
 
-					do_action( 'pre_post_update', $post_id, $data );
+					do_action( 'pre_post_update', $post_id, $data ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Calling WordPress core hook for compatibility.
 
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Updating post title directly for performance.
 					$wpdb->update( $wpdb->posts, $data, array( 'ID' => $post_id ) );
 				}
 

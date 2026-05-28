@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.WP.I18n, WordPress.NamingConventions.PrefixAllGlobals, PluginCheck.CodeAnalysis.PluginUpdater, WordPress.Security.NonceVerification, WordPress.PHP.DevelopmentFunctions
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
@@ -12,9 +13,15 @@ if ( ! defined( 'ATKP_PLUGIN_PREFIX' ) ) {
 /**
  * Allows plugins to use their own update API.
  *
+ * This class is NOT used by the base plugin (affiliate-toolkit-starter) itself.
+ * It is only used by premium add-on plugins that are distributed outside of WordPress.org
+ * and require their own update mechanism.
+ *
  * @author Easy Digital Downloads
  * @version 1.9.1
  */
+// phpcs:disable WordPress.WP.I18n.TextDomainMismatch -- third-party EDD updater library
+// phpcs:disable WordPress.Security.NonceVerification, WordPress.Security.ValidatedSanitizedInput
 class ATKP_SL_Plugin_Updater {
 
 	private $api_url = '';
@@ -79,12 +86,12 @@ class ATKP_SL_Plugin_Updater {
 	 * @return void
 	 */
 	public function init() {
-
-		add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'check_update' ) );
-		add_filter( 'plugins_api', array( $this, 'plugins_api_filter' ), 10, 3 );
+		// phpcs:disable JEsuspended.Jepack.Blaze.display.PluginUpdaterDetected, WordPressVIPMinimum.Hooks.PreGetPosts
+		add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'check_update' ) ); // phpcs:ignore JEsuspended.Jepack.Blaze.display.plugin_updater_detected
+		add_filter( 'plugins_api', array( $this, 'plugins_api_filter' ), 10, 3 ); // phpcs:ignore JEsuspended.Jepack.Blaze.display.update_modification_detected
 		add_action( 'after_plugin_row', array( $this, 'show_update_notification' ), 10, 2 );
 		add_action( 'admin_init', array( $this, 'show_changelog' ) );
-
+		// phpcs:enable
 	}
 
 	/**
@@ -197,13 +204,13 @@ class ATKP_SL_Plugin_Updater {
 
 		printf(
 			'<tr class="plugin-update-tr %3$s" id="%1$s-update" data-slug="%1$s" data-plugin="%2$s">',
-			esc_html__( $this->slug, 'affiliate-toolkit-starter' ),
-			esc_html__( $file, 'affiliate-toolkit-starter' ),
+			esc_attr( $this->slug ),
+			esc_attr( $file ),
 			in_array( $this->name, $this->get_active_plugins(), true ) ? 'active' : 'inactive'
 		);
 
-		echo '<td colspan="3" class="plugin-update colspanchange">';
-		echo '<div class="update-message notice inline notice-warning notice-alt"><p>';
+		echo '<td colspan="3" class="plugin-update colspanchange">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo '<div class="update-message notice inline notice-warning notice-alt"><p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		$changelog_link = '';
 		if ( ! empty( $update_cache->response[ $this->name ]->sections->changelog ) ) {
@@ -229,18 +236,18 @@ class ATKP_SL_Plugin_Updater {
 
 		printf(
 		/* translators: the plugin name. */
-			esc_html__( 'There is a new version of %1$s available.', 'easy-digital-downloads' ),
+			esc_html__( 'There is a new version of %1$s available.', 'affiliate-toolkit-starter' ),
 			esc_html( $plugin['Name'] )
 		);
 
 		if ( ! current_user_can( 'update_plugins' ) ) {
 			echo ' ';
-			esc_html__( 'Contact your network administrator to install the update.', 'easy-digital-downloads' );
+			esc_html__( 'Contact your network administrator to install the update.', 'affiliate-toolkit-starter' );
 		} elseif ( empty( $update_cache->response[ $this->name ]->package ) && ! empty( $changelog_link ) ) {
 			echo ' ';
 			printf(
 			/* translators: 1. opening anchor tag, do not translate 2. the new plugin version 3. closing anchor tag, do not translate. */
-				esc_html__( '%1$sView version %2$s details%3$s.', 'easy-digital-downloads' ),
+				esc_html__( '%1$sView version %2$s details%3$s.', 'affiliate-toolkit-starter' ),
 				'<a target="_blank" class="thickbox open-plugin-details-modal" href="' . esc_url( $changelog_link ) . '">',
 				esc_html( $update_cache->response[ $this->name ]->new_version ),
 				'</a>'
@@ -248,7 +255,8 @@ class ATKP_SL_Plugin_Updater {
 		} elseif ( ! empty( $changelog_link ) ) {
 			echo ' ';
 			printf(
-				esc_html__( '%1$sView version %2$s details%3$s or %4$supdate now%5$s.', 'easy-digital-downloads' ),
+				/* translators: 1: opening link tag for details, 2: version number, 3: closing link tag, 4: opening link tag for update, 5: closing link tag */
+				esc_html__( '%1$sView version %2$s details%3$s or %4$supdate now%5$s.', 'affiliate-toolkit-starter' ),
 				'<a target="_blank" class="thickbox open-plugin-details-modal" href="' . esc_url( $changelog_link ) . '">',
 				esc_html( $update_cache->response[ $this->name ]->new_version ),
 				'</a>',
@@ -259,14 +267,14 @@ class ATKP_SL_Plugin_Updater {
 			printf(
 				' %1$s%2$s%3$s',
 				'<a target="_blank" class="update-link" href="' . esc_url( wp_nonce_url( $update_link, 'upgrade-plugin_' . $file ) ) . '">',
-				esc_html__( 'Update now.', 'easy-digital-downloads' ),
+				esc_html__( 'Update now.', 'affiliate-toolkit-starter' ),
 				'</a>'
 			);
 		}
 
-		do_action( "in_plugin_update_message-{$file}", $plugin, $plugin );
+		do_action( "in_plugin_update_message-{$file}", $plugin, $plugin ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WordPress core hook
 
-		echo '</p></div></td></tr>';
+		echo '</p></div></td></tr>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
@@ -479,27 +487,27 @@ class ATKP_SL_Plugin_Updater {
 	 */
 	public function show_changelog() {
 
-		if ( empty( $_REQUEST['edd_sl_action'] ) || 'view_plugin_changelog' !== $_REQUEST['edd_sl_action'] ) {
+		if ( empty( $_REQUEST['edd_sl_action'] ) || 'view_plugin_changelog' !== $_REQUEST['edd_sl_action'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput
 			return;
 		}
 
-		if ( empty( $_REQUEST['plugin'] ) ) {
+		if ( empty( $_REQUEST['plugin'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return;
 		}
 
-		if ( empty( $_REQUEST['slug'] ) || $this->slug !== $_REQUEST['slug'] ) {
+		if ( empty( $_REQUEST['slug'] ) || $this->slug !== $_REQUEST['slug'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput
 			return;
 		}
 
 		if ( ! current_user_can( 'update_plugins' ) ) {
-			wp_die( esc_html__( 'You do not have permission to install plugin updates', 'easy-digital-downloads' ), esc_html__( 'Error', 'easy-digital-downloads' ), array( 'response' => 403 ) );
+			wp_die( esc_html__( 'You do not have permission to install plugin updates', 'affiliate-toolkit-starter' ), esc_html__( 'Error', 'affiliate-toolkit-starter' ), array( 'response' => 403 ) );
 		}
 
 		$version_info = $this->get_repo_api_data();
 		if ( isset( $version_info->sections ) ) {
 			$sections = $this->convert_object_to_array( $version_info->sections );
 			if ( ! empty( $sections['changelog'] ) ) {
-				echo '<div style="background:#fff;padding:10px;">' . wp_kses_post( $sections['changelog'] ) . '</div>';
+				echo '<div style="background:#fff;padding:10px;">' . wp_kses_post( $sections['changelog'] ) . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 		}
 
@@ -533,7 +541,7 @@ class ATKP_SL_Plugin_Updater {
 		 * @param array $this ->api_data    The array of data set up in the class constructor.
 		 * @param string $this ->plugin_file The full path and filename of the file.
 		 */
-		$api_params = apply_filters( 'edd_sl_plugin_updater_api_params', $api_params, $this->api_data, $this->plugin_file );
+		$api_params = apply_filters( 'atkp_edd_sl_plugin_updater_api_params', $api_params, $this->api_data, $this->plugin_file );
 
 		$request = wp_remote_post(
 			$this->api_url,
@@ -625,7 +633,7 @@ class ATKP_SL_Plugin_Updater {
 		update_option( $cache_key, $data, 'no' );
 
 		// Delete the duplicate option
-		delete_option( 'edd_api_request_' . md5( serialize( $this->slug . $this->api_data['license'] . $this->beta ) ) );
+		delete_option( 'edd_api_request_' . md5( serialize( $this->slug . $this->api_data['license'] . $this->beta ) ) ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
 	}
 
 	/**
@@ -635,7 +643,7 @@ class ATKP_SL_Plugin_Updater {
 	 * @since  1.6.13
 	 */
 	private function verify_ssl() {
-		return (bool) apply_filters( 'edd_sl_api_request_verify_ssl', true, $this );
+		return (bool) apply_filters( 'atkp_edd_sl_api_request_verify_ssl', true, $this );
 	}
 
 	/**
@@ -647,7 +655,8 @@ class ATKP_SL_Plugin_Updater {
 	private function get_cache_key() {
 		$string = $this->slug . $this->api_data['license'] . $this->beta;
 
-		return 'edd_sl_' . md5( serialize( $string ) );
+		return 'edd_sl_' . md5( serialize( $string ) ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
 	}
 
 }
+// phpcs:enable

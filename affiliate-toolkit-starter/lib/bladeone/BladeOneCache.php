@@ -1,5 +1,5 @@
 <?php
-
+// phpcs:disable WordPress.WP.I18n, WordPress.NamingConventions.PrefixAllGlobals
 
 namespace eftec\bladeone;
 

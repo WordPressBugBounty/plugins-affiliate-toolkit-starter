@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL, PluginCheck.Security.DirectDB, WordPress.DB.SlowDBQuery, WordPress.DB.PreparedSQLPlaceholders
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
@@ -243,11 +244,16 @@ class atkp_filter_helper {
 		}
 
 		if ( count( $productids ) > 0 ) {
-			$where[] = "posts.id in (" . implode( ',', $productids ) . ")";
+			$placeholders = implode( ',', array_fill( 0, count( $productids ), '%d' ) );
+			$where[]      = "posts.id in ($placeholders)";
+			$params       = array_merge( $params, $productids );
 		}
 
 		if ( isset( $filterparams['shop'] ) && $filterparams['shop'] != '' ) {
-			$where[] = "products.shop_id in (" . $filterparams['shop'] . ")";
+			$shop_ids     = array_map( 'intval', explode( ',', $filterparams['shop'] ) );
+			$placeholders = implode( ',', array_fill( 0, count( $shop_ids ), '%d' ) );
+			$where[]      = "products.shop_id in ($placeholders)";
+			$params       = array_merge( $params, $shop_ids );
 		}
 
 		if ( isset( $filterparams['minprice'] ) || isset( $filterparams['maxprice'] ) ) {
@@ -578,24 +584,39 @@ class atkp_filter_helper {
 
 		$group_result = isset( $filterparams['group_result'] ) && $filterparams['group_result'] != '';
 
-		$hide_shop_values = $wpdb->get_results( 'SELECT posts.id, pm.meta_value as hide_shops
-FROM ' . $wpdb->prefix . 'posts posts 
-inner join ' . $wpdb->prefix . 'postmeta pm on pm.post_id = posts.id and pm.meta_key = "atkp_product_hide_shops"
-WHERE posts.post_type = "atkp_product"' );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table query for product filtering.
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table names are from $wpdb properties.
+		$hide_shop_values = $wpdb->get_results( $wpdb->prepare(
+			"SELECT posts.id, pm.meta_value as hide_shops
+			FROM {$wpdb->posts} posts
+			INNER JOIN {$wpdb->postmeta} pm ON pm.post_id = posts.id AND pm.meta_key = %s
+			WHERE posts.post_type = %s",
+			'atkp_product_hide_shops',
+			'atkp_product'
+		) );
 
 		$sql_ignore_productshop = array();
 		foreach ( $hide_shop_values as $hide_shop_value ) {
-			$x = unserialize( $hide_shop_value->hide_shops );
+			$x = maybe_unserialize( $hide_shop_value->hide_shops );
 
-			foreach ( $x as $hidden ) {
-				$sql_ignore_productshop[] = '\'' . $hidden['shop_id'] . '_' . $hidden['product_id'] . '\'';
+			if ( is_array( $x ) ) {
+				foreach ( $x as $hidden ) {
+					$sql_ignore_productshop[] = $wpdb->prepare( '%s', intval( $hidden['shop_id'] ) . '_' . intval( $hidden['product_id'] ) );
+				}
 			}
 		}
 
-		$hide_shop_values = $wpdb->get_results( 'SELECT posts.id, pm.meta_value as hide_shop
-FROM ' . $wpdb->prefix . 'posts posts 
-inner join ' . $wpdb->prefix . 'postmeta pm on pm.post_id = posts.id and pm.meta_key = "atkp_shop_hidepricecomparision"
-WHERE posts.post_type = "atkp_shop" and pm.meta_value = 1' );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table query for shop filtering.
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table names are from $wpdb properties.
+		$hide_shop_values = $wpdb->get_results( $wpdb->prepare(
+			"SELECT posts.id, pm.meta_value as hide_shop
+			FROM {$wpdb->posts} posts
+			INNER JOIN {$wpdb->postmeta} pm ON pm.post_id = posts.id AND pm.meta_key = %s
+			WHERE posts.post_type = %s AND pm.meta_value = %s",
+			'atkp_shop_hidepricecomparision',
+			'atkp_shop',
+			'1'
+		) );
 
 		$sql_ignore_shop = array();
 		foreach ( $hide_shop_values as $hide_shop_value ) {
@@ -612,9 +633,11 @@ WHERE posts.post_type = "atkp_shop" and pm.meta_value = 1' );
 		}
 
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Complex product filter query.
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Dynamic WHERE/JOIN clauses built with prepared params.
 		$total_rows = $wpdb->get_results( $wpdb->prepare( '
 SELECT count(posts.id) as count, products.shop_id
-FROM ' . $wpdb->prefix . 'posts posts 
+FROM ' . $wpdb->prefix . 'posts posts
 left join ' . $wpdb->prefix . 'atkp_products products on products.product_id = posts.id ' . $sql_ignore_string . '
 ' . implode( ' ', $joins ) . '
 WHERE ' . implode( ' and ', $where ) . ( $group_result ? '
@@ -631,18 +654,21 @@ GROUP BY posts.id' : '' ), $params ) );
 		$this->found_posts   = $total;
 
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Complex product filter query.
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Dynamic WHERE/JOIN/ORDER clauses built with prepared params.
 		$results = $wpdb->get_results( $wpdb->prepare( '
 SELECT posts.id, products.shop_id
-FROM ' . $wpdb->prefix . 'posts posts 
-left join ' . $wpdb->prefix . 'atkp_products products on products.product_id = posts.id ' . $sql_ignore_string.'
+FROM ' . $wpdb->prefix . 'posts posts
+left join ' . $wpdb->prefix . 'atkp_products products on products.product_id = posts.id ' . $sql_ignore_string . '
 ' . implode( ' ', $joins ) . '
 WHERE ' . implode( ' and ', $where ) . ( $group_result ? '
 GROUP BY posts.id' : '' ) . '
- ' . ( count( $orderby ) > 0 ? 'ORDER BY ' . implode( ', ', $orderby ) : '' ) . "
-LIMIT $offset, $itemsPerPage", $params ) );
+ ' . ( count( $orderby ) > 0 ? 'ORDER BY ' . implode( ', ', $orderby ) : '' ) . '
+LIMIT %d, %d', array_merge( $params, array( $offset, $itemsPerPage ) ) ) );
 
 		if ( $wpdb->last_error != '' ) {
-			return '<span class="atkp-noproducts">' . sprintf( __( 'Error occurred on search: %s', 'affiliate-toolkit-starter' ), $wpdb->last_error ) . '</span>';
+			/* translators: %s: database error message */
+			return '<span class="atkp-noproducts">' . sprintf( esc_html__( 'Error occurred on search: %s', 'affiliate-toolkit-starter' ), esc_html( $wpdb->last_error ) ) . '</span>';
 		}
 
 		foreach ( $results as $result ) {

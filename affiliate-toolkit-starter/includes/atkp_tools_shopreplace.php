@@ -26,22 +26,22 @@ class atkp_tools_shopreplace {
 			$atkp_old_shop_id = ATKPTools::get_post_parameter( 'atkp_old_shop_id', 'int' );
 			$atkp_new_shop_id = ATKPTools::get_post_parameter( 'atkp_new_shop_id', 'int' );
 
-			$wpdb->query( $wpdb->prepare( "update {$wpdb->postmeta} set meta_value = %d where meta_key =%s and meta_value = %d", $atkp_new_shop_id, 'atkp_product_shopid', $atkp_old_shop_id ) );
+			$wpdb->query( $wpdb->prepare( "update {$wpdb->postmeta} set meta_value = %d where meta_key =%s and meta_value = %d", $atkp_new_shop_id, 'atkp_product_shopid', $atkp_old_shop_id ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			for ( $x = 2; $x < ( ATKP_FILTER_COUNT + 2 ); $x ++ ) {
-				$wpdb->query( $wpdb->prepare( "update {$wpdb->postmeta} set meta_value = %d where meta_key =%s and meta_value = %d", $atkp_new_shop_id, 'atkp_product_shopid_' . $x, $atkp_old_shop_id ) );
+				$wpdb->query( $wpdb->prepare( "update {$wpdb->postmeta} set meta_value = %d where meta_key =%s and meta_value = %d", $atkp_new_shop_id, 'atkp_product_shopid_' . $x, $atkp_old_shop_id ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			}
 
 			//replace shopid in atkp_list
 
-			$wpdb->query( $wpdb->prepare( "update {$wpdb->postmeta} set meta_value = %d where meta_key =%s and meta_value = %d", $atkp_new_shop_id, 'atkp_list_shopid', $atkp_old_shop_id ) );
+			$wpdb->query( $wpdb->prepare( "update {$wpdb->postmeta} set meta_value = %d where meta_key =%s and meta_value = %d", $atkp_new_shop_id, 'atkp_list_shopid', $atkp_old_shop_id ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 			//replace shopid in products table
 
-			$wpdb->query( $wpdb->prepare( "update {$wpdb->prefix}atkp_products set shop_id = %d where shop_id = %d", $atkp_new_shop_id, $atkp_old_shop_id ) );
+			$wpdb->query( $wpdb->prepare( "update {$wpdb->prefix}atkp_products set shop_id = %d where shop_id = %d", $atkp_new_shop_id, $atkp_old_shop_id ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 			//replace shopid in lists table
 
-			$wpdb->query( $wpdb->prepare( "update {$wpdb->prefix}atkp_lists set shop_id = %d where shop_id = %d", $atkp_new_shop_id, $atkp_old_shop_id ) );
+			$wpdb->query( $wpdb->prepare( "update {$wpdb->prefix}atkp_lists set shop_id = %d where shop_id = %d", $atkp_new_shop_id, $atkp_old_shop_id ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 			echo esc_html__( 'Shops are replaced.', 'affiliate-toolkit-starter' );
 
@@ -99,7 +99,7 @@ class atkp_tools_shopreplace {
 												$sel = '';
 											}
 
-											echo '<option ' . ( $shp->type == atkp_shop_type::SUB_SHOPS ? 'disabled' : '' ) . ' value="' . esc_attr($shp->id) . '"' . esc_attr($sel) . ' > ' . esc_attr( $shp->title . ' (' . $shp->id . ')' ) . '</option>';
+											echo '<option ' . ( $shp->type == atkp_shop_type::SUB_SHOPS ? 'disabled' : '' ) . ' value="' . esc_attr($shp->id) . '"' . esc_attr($sel) . ' > ' . esc_attr( $shp->title . ' (' . $shp->id . ')' ) . '</option>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 
 											foreach ( $shp->children as $child ) {
@@ -109,7 +109,7 @@ class atkp_tools_shopreplace {
 													$sel = '';
 												}
 
-												echo '<option value="' . esc_attr($child->id) . '"' . esc_attr($sel) . ' >- ' . esc_attr( $child->title . ' (' . $child->id . ')' ) . '</option>';
+												echo '<option value="' . esc_attr($child->id) . '"' . esc_attr($sel) . ' >- ' . esc_attr( $child->title . ' (' . $child->id . ')' ) . '</option>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 											}
 

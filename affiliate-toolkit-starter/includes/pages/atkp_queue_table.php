@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || exit;
 
 if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
@@ -68,15 +69,18 @@ class atkp_queue_table extends WP_List_Table {
 				$seconds   = abs( strtotime( $updatedon ) - strtotime( $createdon ) );
 
 				if ( $seconds > 60 ) {
-					return sprintf( __( '%s Minutes', 'affiliate-toolkit-starter' ), round( $seconds / 60, 0 ) );
+					/* translators: %s: number of minutes */
+					return sprintf( esc_html__( '%s Minutes', 'affiliate-toolkit-starter' ), round( $seconds / 60, 0 ) );
 				} else {
-					return sprintf( __( '%s Seconds', 'affiliate-toolkit-starter' ), round( $seconds, 0 ) );
+					/* translators: %s: number of seconds */
+					return sprintf( esc_html__( '%s Seconds', 'affiliate-toolkit-starter' ), round( $seconds, 0 ) );
 				}
 
 				break;
 
 			case 'retries':
-				return sprintf( __( '%s Retries', 'affiliate-toolkit-starter' ), $item[ $column_name ] == null || $item[ $column_name ] <= 1 ? 0 : ( $item[ $column_name ] - 1 ) );
+				/* translators: %s: number of retries */
+				return sprintf( esc_html__( '%s Retries', 'affiliate-toolkit-starter' ), $item[ $column_name ] == null || $item[ $column_name ] <= 1 ? 0 : ( $item[ $column_name ] - 1 ) );
 			case 'entries':
 				$atkp_queuetable_helper = new atkp_queuetable_helper();
 
@@ -89,7 +93,8 @@ class atkp_queue_table extends WP_List_Table {
 
 				$itemspersecond = $finished > 0 ? ( $seconds / $finished ) : 0;
 
-				return '<span style="">' . sprintf( __( '%s Entries', 'affiliate-toolkit-starter' ), $cnt ) . '</span>' . ( $finished != $cnt ? '<br /><span style="">' . sprintf( __( '%s Finished', ATKP_PLUGIN_PREFIX ), $finished ) . '</span>' : '' ) . ( $itemspersecond > 0 ? '<br /><span style="">' . sprintf( __( '%s Entries/Minute', ATKP_PLUGIN_PREFIX ), round( $itemspersecond * 60, 2 ) ) . '</span>' : '' );
+				/* translators: %s: number of entries */
+				return '<span style="">' . sprintf( esc_html__( '%s Entries', 'affiliate-toolkit-starter' ), $cnt ) . '</span>' . ( $finished != $cnt ? '<br /><span style="">' . sprintf( esc_html__( '%s Finished', 'affiliate-toolkit-starter' ), $finished ) . '</span>' : '' ) . ( $itemspersecond > 0 ? '<br /><span style="">' . sprintf( esc_html__( '%s Entries/Minute', 'affiliate-toolkit-starter' ), round( $itemspersecond * 60, 2 ) ) . '</span>' : '' );
 
 
 				break;
@@ -123,28 +128,32 @@ class atkp_queue_table extends WP_List_Table {
 
 				switch ( $item[ $column_name ] ) {
 					case atkp_queue_status::SUCCESSFULLY:
-						return '<span style="color:green;font-weight:bold;">' . __( 'Successfully', 'affiliate-toolkit-starter' ) . '</span>' . '<br /> ';
+						return '<span style="color:green;font-weight:bold;">' . esc_html__( 'Successfully', 'affiliate-toolkit-starter' ) . '</span>' . '<br /> ';
 
 					case atkp_queue_status::ERROR:
 						$cnt = $atkp_queuetable_helper->get_queue_errors( $item['id'] );
 
 						if ( $cnt > 0 ) {
-							return sprintf( '<a href="?page=%s&action=%s&queueid=%s&filter=error"><span style="color:red;font-weight:bold;text-decoration:underline">' . __( '%s Errors', 'affiliate-toolkit-starter' ) . '</span></a>', esc_attr( $_REQUEST['page'] ), 'detail', absint( $item['id'] ), $cnt );
+							// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- WP_List_Table display, nonce not applicable.
+							$page = isset( $_REQUEST['page'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) : '';
+							/* translators: %s: number of errors */
+							return sprintf( '<a href="?page=%1$s&action=%2$s&queueid=%3$s&filter=error"><span style="color:red;font-weight:bold;text-decoration:underline">' . esc_html__( '%4$s Errors', 'affiliate-toolkit-starter' ) . '</span></a>', esc_attr( $page ), 'detail', absint( $item['id'] ), $cnt );
 						} else {
-							return '<span style="color:red;font-weight:bold;">' . sprintf( __( '%s Errors', 'affiliate-toolkit-starter' ), $cnt ) . '</span>';
+							/* translators: %s: number of errors */
+							return '<span style="color:red;font-weight:bold;">' . sprintf( esc_html__( '%s Errors', 'affiliate-toolkit-starter' ), $cnt ) . '</span>';
 						}
 
 					case atkp_queue_status::ABORT:
-						return '<span style="color:orange;font-weight:bold;">' . __( 'Abort', 'affiliate-toolkit-starter' ) . '</span>' . ' (' . $percent . ')';
+						return '<span style="color:orange;font-weight:bold;">' . esc_html__( 'Abort', 'affiliate-toolkit-starter' ) . '</span>' . ' (' . esc_html( $percent ) . ')';
 
 					case atkp_queue_status::ACTIVE:
-						return '<span style="color:green;font-weight:bold;">' . __( 'Running', 'affiliate-toolkit-starter' ) . '</span>' . ' (' . $percent . ')';
+						return '<span style="color:green;font-weight:bold;">' . esc_html__( 'Running', 'affiliate-toolkit-starter' ) . '</span>' . ' (' . esc_html( $percent ) . ')';
 				}
 				break;
 			case 'updatedon':
 			case 'createdon':
 
-			return ATKPTools::get_formatted_date( strtotime( $item[ $column_name ] ) ) . __( ' at ', 'affiliate-toolkit-starter' ) . ATKPTools::get_formatted_time( strtotime( $item[ $column_name ] ) );
+			return esc_html( ATKPTools::get_formatted_date( strtotime( $item[ $column_name ] ) ) ) . esc_html__( ' at ', 'affiliate-toolkit-starter' ) . esc_html( ATKPTools::get_formatted_time( strtotime( $item[ $column_name ] ) ) );
 				break;
 
 
@@ -177,11 +186,13 @@ class atkp_queue_table extends WP_List_Table {
 
 		$delete_nonce = wp_create_nonce( 'atkp_edit_queue' );
 
-		$title = sprintf( '<a href="?page=%s&action=%s&queueid=%s&_wpnonce=%s"><strong>%s</strong></a>', esc_attr( $_REQUEST['page'] ), 'detail', absint( $item['id'] ), $delete_nonce, $item['title'] );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- WP_List_Table display, nonce not applicable.
+		$page = isset( $_REQUEST['page'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) : '';
+		$title = sprintf( '<a href="?page=%s&action=%s&queueid=%s&_wpnonce=%s"><strong>%s</strong></a>', esc_attr( $page ), 'detail', absint( $item['id'] ), $delete_nonce, esc_html( $item['title'] ) );
 
 		$actions = [
-			//'edit' => sprintf( '<a href="?page=%s&action=%s&queueid=%s&_wpnonce=%s">Edit</a>', esc_attr( $_REQUEST['page'] ), 'edit', absint( $item['id'] ), $delete_nonce ),
-			'delete' => sprintf( '<a href="?page=%s&action=%s&queueid=%s&_wpnonce=%s">Delete</a>', esc_attr( $_REQUEST['page'] ), 'delete', absint( $item['id'] ), $delete_nonce ),
+			//'edit' => sprintf( '<a href="?page=%s&action=%s&queueid=%s&_wpnonce=%s">Edit</a>', esc_attr( $page ), 'edit', absint( $item['id'] ), $delete_nonce ),
+			'delete' => sprintf( '<a href="?page=%s&action=%s&queueid=%s&_wpnonce=%s">Delete</a>', esc_attr( $page ), 'delete', absint( $item['id'] ), $delete_nonce ),
 
 		];
 
@@ -258,7 +269,11 @@ class atkp_queue_table extends WP_List_Table {
 			'per_page'    => $per_page //WE have to determine how many items to show on a page
 		] );
 
-		$this->items = atkp_queue::get_list( $per_page, $current_page, ( isset( $_REQUEST['orderby'] ) ? $_REQUEST['orderby'] : 'id' ), ( isset( $_REQUEST['order'] ) ? $_REQUEST['order'] : 'desc' ) );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- WP_List_Table sorting parameters.
+		$orderby = isset( $_REQUEST['orderby'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['orderby'] ) ) : 'id';
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$order = isset( $_REQUEST['order'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['order'] ) ) : 'desc';
+		$this->items = atkp_queue::get_list( $per_page, $current_page, $orderby, $order );
 	}
 
 	public function process_bulk_action() {
@@ -267,31 +282,33 @@ class atkp_queue_table extends WP_List_Table {
 		if ( 'delete' === $this->current_action() ) {
 
 			// In our file that handles the request, verify the nonce.
-			$nonce = esc_attr( $_REQUEST['_wpnonce'] );
+			$nonce = isset( $_REQUEST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ) : '';
 
 			if ( ! wp_verify_nonce( $nonce, 'atkp_delete_link' ) ) {
 				die( 'Go get a life script kiddies' );
 			} else {
 
-				$obj = atkp_queue::load( absint( $_GET['queueid'] ) );
+				$obj = atkp_queue::load( isset( $_GET['queueid'] ) ? absint( $_GET['queueid'] ) : 0 );
 
 				$obj->delete();
 
 				// esc_url_raw() is used to prevent converting ampersand in url to "#038;"
 				// add_query_arg() return the current url
-				wp_redirect( sprintf( '?page=%s', esc_attr( $_REQUEST['page'] ) ) );
+				$page = isset( $_REQUEST['page'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) : '';
+				wp_safe_redirect( sprintf( '?page=%s', esc_attr( $page ) ) );
 				exit;
 			}
 
 		}
 
 		// If the delete bulk action is triggered
-		if ( ( isset( $_POST['action'] ) && $_POST['action'] == 'bulk-delete' )
-		     || ( isset( $_POST['action2'] ) && $_POST['action2'] == 'bulk-delete' )
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Bulk action nonce verified by WP_List_Table internally.
+		if ( ( isset( $_POST['action'] ) && sanitize_text_field( wp_unslash( $_POST['action'] ) ) == 'bulk-delete' )
+		     || ( isset( $_POST['action2'] ) && sanitize_text_field( wp_unslash( $_POST['action2'] ) ) == 'bulk-delete' )
 		) {
 
-
-			$delete_ids = esc_sql( $_POST['bulk-delete'] );
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified by WP_List_Table.
+			$delete_ids = isset( $_POST['bulk-delete'] ) ? array_map( 'absint', (array) $_POST['bulk-delete'] ) : array();
 
 			// loop over the array of record IDs and delete them
 			foreach ( $delete_ids as $id ) {
@@ -302,7 +319,9 @@ class atkp_queue_table extends WP_List_Table {
 
 			// esc_url_raw() is used to prevent converting ampersand in url to "#038;"
 			// add_query_arg() return the current url
-			wp_redirect( sprintf( '?page=%s', esc_attr( $_REQUEST['page'] ) ) );
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$page = isset( $_REQUEST['page'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) : '';
+			wp_safe_redirect( sprintf( '?page=%s', esc_attr( $page ) ) );
 			exit;
 		}
 	}

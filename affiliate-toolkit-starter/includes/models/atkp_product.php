@@ -358,8 +358,8 @@ class atkp_product {
 			$args = array(
 				'post_type'    => array( 'product' ),
 				'post_status'  => array( 'draft', 'publish' ),
-				'meta_key'     => ATKP_PLUGIN_PREFIX . '_sourceproductid',
-				'meta_value'   => $productid,
+				'meta_key'     => ATKP_PLUGIN_PREFIX . '_sourceproductid', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+				'meta_value'   => $productid, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 				'meta_compare' => '=',
 			);
 
@@ -413,8 +413,8 @@ class atkp_product {
 				$args = array(
 					'post_type'    => array( 'product' ),
 					'post_status'  => array( 'draft', 'publish' ),
-					'meta_key'     => $meta_key,
-					'meta_value'   => $ean,
+					'meta_key'     => $meta_key, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+					'meta_value'   => $ean, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 					'meta_compare' => '=',
 				);
 
@@ -423,7 +423,7 @@ class atkp_product {
 				if ( count( $posts ) > 0 ) {
 					$woo_product = $posts[0];
 				}
-				wp_reset_query();
+				wp_reset_postdata();
 
 			};
 		}
@@ -461,8 +461,8 @@ class atkp_product {
 			$post_ids = get_posts( array(
 				'numberposts'    => - 1,
 				'post_type'      => ATKP_PRODUCT_POSTTYPE,
-				'meta_key'       => ATKP_PRODUCT_POSTTYPE . '_asin',
-				'meta_value'     => $asin,
+				'meta_key'       => ATKP_PRODUCT_POSTTYPE . '_asin', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+				'meta_value'     => $asin, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 				'fields'         => 'ids',
 				'post_status'    => array( 'publish', 'draft' ),
 				'posts_per_page' => - 1
@@ -487,8 +487,8 @@ class atkp_product {
 			$post_ids = get_posts( array(
 				'numberposts'    => - 1,
 				'post_type'      => ATKP_PRODUCT_POSTTYPE,
-				'meta_key'       => ATKP_PRODUCT_POSTTYPE . '_ean',
-				'meta_value'     => $ean,
+				'meta_key'       => ATKP_PRODUCT_POSTTYPE . '_ean', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+				'meta_value'     => $ean, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 				'fields'         => 'ids',
 				'post_status'    => array( 'publish', 'draft' ),
 				'posts_per_page' => - 1

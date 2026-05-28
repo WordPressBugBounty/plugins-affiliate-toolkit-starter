@@ -18,11 +18,14 @@ class atkp_tools_shortcodegenerator {
 	 */
 	public function maybe_render_iframe() {
 		// Check if this is the shortcode generator page
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Admin page detection, nonce verified by WordPress admin loader.
 		if ( isset( $_GET['page'] ) &&
-		     $_GET['page'] === ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-shortcodegenerator' ) {
+		     sanitize_text_field( wp_unslash( $_GET['page'] ) ) === ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-shortcodegenerator' ) {
+			// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 			// Check for our custom iframe parameter
-			$is_iframe = isset( $_GET['atkp_iframe'] ) && $_GET['atkp_iframe'] == '1';
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$is_iframe = isset( $_GET['atkp_iframe'] ) && sanitize_text_field( wp_unslash( $_GET['atkp_iframe'] ) ) == '1';
 
 			if ( ! $is_iframe ) {
 				return;
@@ -74,10 +77,12 @@ class atkp_tools_shortcodegenerator {
 			<meta name="viewport" content="width=device-width, initial-scale=1">
 			<?php
 			// Print WordPress admin styles and scripts
+			// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Calling WordPress core hooks
 			do_action( 'admin_enqueue_scripts' );
 			do_action( 'admin_print_styles' );
 			do_action( 'admin_print_scripts' );
 			do_action( 'admin_head' );
+			// phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 			?>
 			<style>
 				body {
@@ -134,7 +139,7 @@ class atkp_tools_shortcodegenerator {
 			});
 			</script>
 			<?php
-			do_action( 'admin_print_footer_scripts' );
+			do_action( 'admin_print_footer_scripts' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Calling WordPress core hook
 			?>
 		</body>
 		</html>

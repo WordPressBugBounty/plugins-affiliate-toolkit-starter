@@ -26,9 +26,9 @@ class atkp_posttypes_shop
 
             $shop_provider = atkp_shop_provider_base::retrieve_provider($selwebservice);
             if ($shop_provider != null) {
-                echo '<span style="font-weight:bold">' . esc_html__('Type', 'affiliate-toolkit-starter') . ':</span> <span >' . esc_html__($shop_provider->get_caption(), 'affiliate-toolkit-starter') . '</span><br />';
+                echo '<span style="font-weight:bold">' . esc_html__('Type', 'affiliate-toolkit-starter') . ':</span> <span >' . esc_html($shop_provider->get_caption()) . '</span><br />';
             }
-            echo '<span style="font-weight:bold">' . esc_html__('ID', 'affiliate-toolkit-starter') . ':</span> <span >' . esc_html__($post_id, 'affiliate-toolkit-starter') . '</span>';
+            echo '<span style="font-weight:bold">' . esc_html__('ID', 'affiliate-toolkit-starter') . ':</span> <span >' . esc_html($post_id) . '</span>';
 
 
             if ($selwebservice != ATKP_SUBSHOPTYPE) {
@@ -37,7 +37,7 @@ class atkp_posttypes_shop
                 if ($error == null || empty($error)) {
                     echo '<span style="color:green">' . esc_html__('Connected', 'affiliate-toolkit-starter') . '</span>';
                 } else {
-                    echo '<span style="color:red">' . esc_html__('Not connected', 'affiliate-toolkit-starter') . ' (' . esc_html__($error . 'affiliate-toolkit-starter') . ')</span>';
+                    echo '<span style="color:red">' . esc_html__('Not connected', 'affiliate-toolkit-starter') . ' (' . esc_html($error) . ')</span>';
                 }
             } else {
                 $parent_id = wp_get_post_parent_id($post_id);
@@ -46,7 +46,7 @@ class atkp_posttypes_shop
                 if ($parent_id && $parent_id != 0) {
                     $pp_url = add_query_arg(array('post_type' => 'atkp_shop', 'post_parent' => $parent_id), 'edit.php');
 
-                    echo '<br /><span style="font-weight:bold">' . esc_html__('Parent shop', 'affiliate-toolkit-starter') . ':</span> <span><a href="' . esc_url(get_edit_post_link($parent_id)) . '">' . esc_html__($parent_name, 'affiliate-toolkit-starter') . '</a><a href="' . esc_url($pp_url) . '"><span class="dashicons dashicons-filter"></span></a></span>';
+                    echo '<br /><span style="font-weight:bold">' . esc_html__('Parent shop', 'affiliate-toolkit-starter') . ':</span> <span><a href="' . esc_url(get_edit_post_link($parent_id)) . '">' . esc_html($parent_name) . '</a><a href="' . esc_url($pp_url) . '"><span class="dashicons dashicons-filter"></span></a></span>';
 
                 }
             }
@@ -64,6 +64,7 @@ class atkp_posttypes_shop
             }
             $holdontop = intval($holdontop);
 
+            /* translators: %s: sort order number */
             echo '<br />' . sprintf(esc_html__('Sort order: %s', 'affiliate-toolkit-starter'), esc_html($holdontop));
 
 
@@ -94,10 +95,10 @@ ATKPTools::add_column(ATKP_SHOP_POSTTYPE, esc_html__('Imported Product count', '
                 }
 
                 if ($imageurl != '') {
-                    echo '<img src="' . esc_url($imageurl) . '" alt="' . esc_attr($shps->get_title()) . '"  title="' . esc_html__($shps->get_title(), 'affiliate-toolkit-starter') . '"style="max-width:60px" />';
+                    echo '<img src="' . esc_url($imageurl) . '" alt="' . esc_attr($shps->get_title()) . '"  title="' . esc_attr($shps->get_title()) . '" style="max-width:60px" />';
                 }
             } catch (Exception $e) {
-                echo esc_html__($e->getMessage(), 'affiliate-toolkit-starter');
+                echo esc_html($e->getMessage());
             }
 
         }, 1);
@@ -140,7 +141,7 @@ ATKPTools::add_column(ATKP_SHOP_POSTTYPE, esc_html__('Imported Product count', '
             wp_enqueue_media();
 
             // Registers and enqueues the required javascript.
-            wp_register_script('meta-box-image', plugin_dir_url(ATKP_PLUGIN_FILE) . 'js/meta-box-image.js', array('jquery'));
+            wp_register_script('meta-box-image', plugin_dir_url(ATKP_PLUGIN_FILE) . 'js/meta-box-image.js', array('jquery'), ATKPSettings::plugin_get_version(), true);
             wp_localize_script(
                 'meta-box-image',
                 'meta_image',
@@ -264,7 +265,7 @@ ATKPTools::add_column(ATKP_SHOP_POSTTYPE, esc_html__('Imported Product count', '
 
         ?>
         <strong><?php echo esc_html__('Copy settings:', 'affiliate-toolkit-starter') ?></strong>
-        <textarea readonly="readonly" rows="10" style="width: 100%"><?php echo (json_encode($array_fields)) ?></textarea>
+        <textarea readonly="readonly" rows="10" style="width: 100%"><?php echo esc_textarea(wp_json_encode($array_fields)) ?></textarea>
         <strong><?php echo esc_html__('Paste settings:', 'affiliate-toolkit-starter') ?></strong>
         <textarea name="atkp_paste_settings" rows="10" style="width: 100%"></textarea>
 
@@ -275,7 +276,8 @@ ATKPTools::add_column(ATKP_SHOP_POSTTYPE, esc_html__('Imported Product count', '
     {
         $atkp_queuetable_helper = new atkp_queuetable_helper();
         if (!$atkp_queuetable_helper->exists_table()[0]) {
-            echo esc_html__('database table does not exists: ' . $atkp_queuetable_helper->get_queuetable_tablename(), 'affiliate-toolkit-starter');
+            /* translators: %s: database table name */
+            echo esc_html(sprintf(__('database table does not exists: %s', 'affiliate-toolkit-starter'), $atkp_queuetable_helper->get_queuetable_tablename()));
             return;
         }
 
@@ -304,7 +306,7 @@ ATKPTools::add_column(ATKP_SHOP_POSTTYPE, esc_html__('Imported Product count', '
 
                     <tr>
                         <td class="id column-id has-row-actions column-primary" data-colname="ID">
-                            <?php echo esc_html__($entry['id'], 'affiliate-toolkit-starter'); ?>
+                            <?php echo esc_html($entry['id']); ?>
                         </td>
                         <td class="queue_id column-id has-row-actions column-primary" data-colname="ID">
                             <?php
@@ -312,11 +314,11 @@ ATKPTools::add_column(ATKP_SHOP_POSTTYPE, esc_html__('Imported Product count', '
                             if ($queueid > 0) {
                                 $link = admin_url('admin.php?page=ATKP_viewqueue&action=detail&queueid=' . $queueid);
                                 if ($link == null) {
-                                    echo esc_html__($queueid, 'affiliate-toolkit-starter');
+                                    echo esc_html($queueid);
                                 } else {
                                     $title = esc_html__('Queue', 'affiliate-toolkit-starter');
 
-                                    echo '<a href="' . esc_url($link) . '" target="_blank">' . esc_html__($title, 'affiliate-toolkit-starter') . ' (' . esc_html__($queueid, 'affiliate-toolkit-starter') . ')</a>';
+                                    echo '<a href="' . esc_url($link) . '" target="_blank">' . esc_html($title) . ' (' . esc_html($queueid) . ')</a>';
                                 }
                             }
 
@@ -330,11 +332,11 @@ ATKPTools::add_column(ATKP_SHOP_POSTTYPE, esc_html__('Imported Product count', '
                             if ($shopid > 0) {
                                 $link = get_edit_post_link($shopid);
                                 if ($link == null) {
-                                    echo esc_html__($shopid, 'affiliate-toolkit-starter');
+                                    echo esc_html($shopid);
                                 } else {
                                     $title = get_the_title($shopid);
 
-                                    echo '<a href="' . esc_url($link) . '" target="_blank">' . esc_html__($title, 'affiliate-toolkit-starter') . ' (' . esc_html__($shopid, 'affiliate-toolkit-starter') . ')</a>';
+                                    echo '<a href="' . esc_url($link) . '" target="_blank">' . esc_html($title) . ' (' . esc_html($shopid) . ')</a>';
                                 }
                             }
 
@@ -368,16 +370,16 @@ ATKPTools::add_column(ATKP_SHOP_POSTTYPE, esc_html__('Imported Product count', '
                             ?>
                         </td>
                         <td class="functionname column-functionname" data-colname="Function">
-                            <?php echo esc_html__($entry['functionname'], 'affiliate-toolkit-starter') ?>
+                            <?php echo esc_html($entry['functionname']) ?>
                         </td>
                         <td class="functionparameter column-functionparameter" data-colname="Parameter">
-                            <?php echo esc_html__($entry['functionparameter'], 'affiliate-toolkit-starter') ?>
+                            <?php echo esc_html($entry['functionparameter']) ?>
                         </td>
                         <td class="updatedon column-updatedon" data-colname="Last update">
-                            <?php echo esc_html__(ATKPTools::get_formatted_date(strtotime($entry['updatedon'])), 'affiliate-toolkit-starter') . esc_html__(' at ', 'affiliate-toolkit-starter') . esc_html__(ATKPTools::get_formatted_time(strtotime($entry['updatedon'])), 'affiliate-toolkit-starter'); ?>
+                            <?php echo esc_html(ATKPTools::get_formatted_date(strtotime($entry['updatedon']))) . esc_html__(' at ', 'affiliate-toolkit-starter') . esc_html(ATKPTools::get_formatted_time(strtotime($entry['updatedon']))); ?>
                         </td>
                         <td class="updatedmessage column-updatedmessage" data-colname="Message">
-                            <?php echo esc_html__($entry['updatedmessage'], 'affiliate-toolkit-starter') ?>
+                            <?php echo esc_html($entry['updatedmessage']) ?>
                         </td>
                     </tr>
 
@@ -409,7 +411,7 @@ ATKPTools::add_column(ATKP_SHOP_POSTTYPE, esc_html__('Imported Product count', '
             $parentid = wp_get_post_parent_id($post->ID);
 
             if ($parentid == 0) {
-                $access_test = '<span style="color:red">parent shop not found: ' . $post->ID . '</span>';
+                $access_test = '<span style="color:red">' . esc_html__('parent shop not found:', 'affiliate-toolkit-starter') . ' ' . esc_html($post->ID) . '</span>';
             } else {
 
                 $title = get_the_title($parentid);
@@ -418,14 +420,14 @@ ATKPTools::add_column(ATKP_SHOP_POSTTYPE, esc_html__('Imported Product count', '
                     $title = esc_html__('open shop', 'affiliate-toolkit-starter');
                 }
 
-                $access_test = '<a href="' . esc_url(admin_url('/post.php?post=' . $parentid . '&action=edit')) . '" target="_blank">' . esc_html__($title, 'affiliate-toolkit-starter') . '</a>';
+                $access_test = '<a href="' . esc_url(admin_url('/post.php?post=' . $parentid . '&action=edit')) . '" target="_blank">' . esc_html($title) . '</a>';
 
                 $shopid = ATKPTools::get_post_setting($post->ID, ATKP_SHOP_POSTTYPE . '_shopid');
                 $programid = ATKPTools::get_post_setting($post->ID, ATKP_SHOP_POSTTYPE . '_programid');
 
                 $access_test .= '<pre>';
-                $access_test .= '<br />' . esc_html__('Shopid: ', 'affiliate-toolkit-starter') . $shopid;
-                $access_test .= '<br />' . esc_html__('Programid: ', 'affiliate-toolkit-starter') . $programid;
+                $access_test .= '<br />' . esc_html__('Shopid: ', 'affiliate-toolkit-starter') . esc_html($shopid);
+                $access_test .= '<br />' . esc_html__('Programid: ', 'affiliate-toolkit-starter') . esc_html($programid);
                 $access_test .= '</pre>';
             }
         } else {
@@ -572,7 +574,8 @@ if (!ATKPTools::is_license_active_for_plugin($plugin_name)) {
 
                     echo '<div id="api-' . esc_attr($value) . '">';
                     echo '<table class="form-table">';
-                    echo esc_html__($provider->get_configuration($post));
+                    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Provider generates its own escaped HTML form fields.
+                    echo $provider->get_configuration($post);
                     echo '</table>';
                     echo '</div>';
                 }
@@ -650,7 +653,7 @@ if (!ATKPTools::is_license_active_for_plugin($plugin_name)) {
                                                     value="1" <?php echo checked(1, $found, true); ?> />
                                                 <label
                                                     for="<?php echo esc_attr(ATKP_SHOP_POSTTYPE . '_subshop-' . $subshop->shopid . '-' . $subshop->programid) ?>">
-                                                    <?php echo esc_html__($subshop->title, 'affiliate-toolkit-starter') . ($subshop->title2 != '' ? ' (' . esc_html__($subshop->title2, 'affiliate-toolkit-starter') . ')' : '') ?>
+                                                    <?php echo esc_html($subshop->title) . ($subshop->title2 != '' ? ' (' . esc_html($subshop->title2) . ')' : '') ?>
                                                 </label><br />
 
                                                 <?php
@@ -723,7 +726,7 @@ if (!ATKPTools::is_license_active_for_plugin($plugin_name)) {
                             <tr>
                                 <th scope="row">
                                     <label for="">
-                                        <?php echo esc_html__('"Buy at" button', 'affiliate-toolkit-starter') . ' (html)' ?>
+                                        <?php echo esc_html__('"Buy at" button (html)', 'affiliate-toolkit-starter') ?>
                                     </label>
                                 </th>
                                 <td>
@@ -736,7 +739,7 @@ if (!ATKPTools::is_license_active_for_plugin($plugin_name)) {
                             <tr>
                                 <th scope="row">
                                     <label for="">
-                                        <?php echo esc_html__('"Add to Cart" button', 'affiliate-toolkit-starter') . ' (html)' ?>
+                                        <?php echo esc_html__('"Add to Cart" button (html)', 'affiliate-toolkit-starter') ?>
                                     </label>
                                 </th>
                                 <td>
@@ -1218,9 +1221,10 @@ if (!ATKPTools::is_license_active_for_plugin($plugin_name)) {
         }
 
         if (isset($_POST['atkp_paste_settings']) && $_POST['atkp_paste_settings'] != '') {
-            $import_settings = $_POST['atkp_paste_settings'];
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- JSON data, decoded and processed below.
+            $import_settings = wp_unslash($_POST['atkp_paste_settings']);
 
-            $x = json_decode(stripslashes($import_settings));
+            $x = json_decode($import_settings);
 
             if ($x) {
                 $fields = array_keys(get_object_vars($x));
@@ -1272,7 +1276,8 @@ if (!ATKPTools::is_license_active_for_plugin($plugin_name)) {
             $myprovider = atkp_shop_provider_base::retrieve_provider($webservice);
 
             if ($myprovider == null) {
-                throw new Exception(esc_html__('provider not found: ' . $webservice, 'affiliate-toolkit-starter'));
+                /* translators: %s: webservice provider identifier */
+                throw new Exception(esc_html(sprintf(__('provider not found: %s', 'affiliate-toolkit-starter'), $webservice)));
             }
 
             $myprovider->set_configuration($post_id);
@@ -1343,6 +1348,7 @@ if (!ATKPTools::is_license_active_for_plugin($plugin_name)) {
             }
 
             if ($tooltip == null || $tooltip == '') {
+                /* translators: %s: shop name */
                 $tooltip = esc_html__('Buy now at %s', 'affiliate-toolkit-starter');
             }
 
@@ -1406,13 +1412,13 @@ if (!ATKPTools::is_license_active_for_plugin($plugin_name)) {
 
             wp_suspend_cache_addition(false);
 
-            $subshops_old = get_posts(array(
+            $subshops_old = get_posts(array( // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude -- Required to find shops not in saved list.
                 'fields' => 'ids',
                 'post_parent' => $post_id,
                 'post_type' => ATKP_SHOP_POSTTYPE,
                 'numberposts' => -1,
                 'post_status' => array('draft', 'publish'),
-                'exclude' => $subshops_saved
+                'exclude' => $subshops_saved // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
             ));
 
             foreach ($subshops_old as $subshop_id) {

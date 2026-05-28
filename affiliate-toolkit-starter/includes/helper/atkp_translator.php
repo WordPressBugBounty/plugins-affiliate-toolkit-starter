@@ -73,18 +73,22 @@ class atkp_translator {
 	}
 
 	public function get_searchresultsat( $name ) {
+		/* translators: %s: shop/service name */
 		return sprintf( __( 'Search results at %s', 'affiliate-toolkit-starter' ), $name );
 	}
 
 	public function get_listprice() {
+		/* translators: %s: formatted list price */
 		return __( 'List Price: %s', 'affiliate-toolkit-starter' );
 	}
 
 	public function get_yousave() {
+		/* translators: %s: formatted savings amount */
 		return __( 'You Save: %s', 'affiliate-toolkit-starter' );
 	}
 
 	public function get_price() {
+		/* translators: %s: formatted price */
 		return __( 'Price: %s', 'affiliate-toolkit-starter' );
 	}
 
@@ -97,7 +101,7 @@ class atkp_translator {
 	}
 
 	public function get_val() {
-		return __( '%s', 'affiliate-toolkit-starter' );
+		return '%s';
 	}
 
 	public function get_insteadof() {
@@ -105,6 +109,7 @@ class atkp_translator {
 	}
 
 	public function get_shipping() {
+		/* translators: %s: formatted shipping cost */
 		return __( 'Shipping: %s', 'affiliate-toolkit-starter' );
 	}
 
@@ -125,6 +130,7 @@ class atkp_translator {
 	}
 
 	public function get_lastxdayspricehistorytitle( $days ) {
+		/* translators: %s: number of days */
 		return sprintf( __( 'Last %s days price history', 'affiliate-toolkit-starter' ), $days );
 	}
 

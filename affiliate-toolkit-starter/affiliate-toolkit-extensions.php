@@ -66,15 +66,25 @@ class atkp_extensions {
                                     href="<?php echo esc_url($product->info->link) ?>"
                                     title="<?php echo esc_attr( $product->info->title ) ?>"><?php if ( $product->info->thumbnail != '' )  { ?>
                                 <img width="540" height="270"
-                                     src="<?php echo esc_attr($product->info->thumbnail) ?>"
+                                     src="<?php echo esc_url($product->info->thumbnail) ?>"
                                      class="attachment-download-grid-thumb size-download-grid-thumb wp-post-image"
                                      alt="<?php echo esc_attr( $product->info->title ) ?> logo"
                                      title="<?php echo esc_attr( $product->info->title ) ?>"></a><?php } ?>
                             <p></p>
-                            <p><?php echo esc_html__( $product->info->excerpt, 'affiliate-toolkit-starter' ) ?><?php ?></p>
+                            <p><?php echo esc_html( $product->info->excerpt ) ?><?php ?></p>
                             <div>
                                 <div>
-	                                <?php echo sprintf( esc_html__( 'Version: %s - %s', 'affiliate-toolkit-starter' ), esc_html( $product->licensing->version ), ( isset( $product->pricing->amount ) && $product->pricing->amount == '0.00' ? 'Free' : ( sprintf( esc_html__( 'Price starts at: %s€', 'affiliate-toolkit-starter' ), esc_html( str_replace( '.', ',', ( ( ! isset( $product->pricing->amount ) ) ? esc_html( $product->pricing->singlesite ) : esc_html( $product->pricing->amount ) ) ) ) ) ) ) ) ?>
+	                                <?php
+								$price_display = isset( $product->pricing->amount ) && $product->pricing->amount == '0.00'
+									? esc_html__( 'Free', 'affiliate-toolkit-starter' )
+									: sprintf(
+										/* translators: %s: price amount */
+										esc_html__( 'Price starts at: %s', 'affiliate-toolkit-starter' ),
+										esc_html( str_replace( '.', ',', ( ! isset( $product->pricing->amount ) ? $product->pricing->singlesite : $product->pricing->amount ) ) ) . '€'
+									);
+								/* translators: %1$s: version number, %2$s: price information */
+								echo sprintf( esc_html__( 'Version: %1$s - %2$s', 'affiliate-toolkit-starter' ), esc_html( $product->licensing->version ), esc_html( $price_display ) );
+							?>
                                 </div>
 
                                 <div>

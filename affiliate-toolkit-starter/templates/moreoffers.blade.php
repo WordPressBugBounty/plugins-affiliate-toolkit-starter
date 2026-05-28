@@ -1,5 +1,6 @@
+<?php defined('ABSPATH') || exit; ?>
 <?php
-
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template variables set by BladeOne engine
 /** @var $formatter atkp_formatter */
 /** @var $parameters atkp_template_parameters */
 /** @var $products atkp_product[]|null */

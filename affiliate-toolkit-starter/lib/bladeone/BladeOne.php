@@ -1,5 +1,7 @@
 <?php
-
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class BladeOne
@@ -8,6 +10,7 @@
  * @version 3.18 2018-12-16
  * @link https://github.com/EFTEC/BladeOne
  */
+// phpcs:disable WordPress.WP.AlternativeFunctions, WordPress.Security, WordPress.PHP.DiscouragedPHPFunctions, Squiz.PHP.Eval.Discouraged, WordPress.NamingConventions.ValidVariableName, WordPress.Security.EscapeOutput.OutputNotEscaped, WordPress.PHP.DevelopmentFunctions, Generic.PHP.ForbiddenFunctions, WordPress.NamingConventions.PrefixAllGlobals, WordPress.WP.I18n, PluginCheck.CodeAnalysis.DirectFileAccess
 class BladeOne {    //<editor-fold desc="fields">
 
 	/** @var array All of the registered extensions. */
@@ -317,7 +320,7 @@ class BladeOne {    //<editor-fold desc="fields">
 		$previousError = error_get_last();
 
 		try {
-			@eval( '?' . '>' . $php );
+			@eval( '?' . '>' . $php ); // phpcs:ignore Squiz.PHP.Eval.Discouraged -- BladeOne template engine requires eval
 		} catch ( Exception $e ) {
 			while ( ob_get_level() > $obLevel ) {
 				ob_end_clean();
@@ -2710,6 +2713,7 @@ class BladeOne {    //<editor-fold desc="fields">
 
 
 }
+// phpcs:enable
 /**
  * BladeOne - A Blade Template implementation in a single file
  * Copyright (c) 2016-2018 Jorge Patricio Castro Castillo MIT License. Don't delete this comment, its part of the license.

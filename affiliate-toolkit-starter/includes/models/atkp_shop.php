@@ -59,14 +59,17 @@ class atkp_shop {
 	public $children;
 
 	public function get_addtocart() {
+		/* translators: %s: shop name */
 		return sprintf( $this->addtocart == '' ? __( 'Buy now at %s', 'affiliate-toolkit-starter' ) : $this->addtocart, $this->get_title() );
 	}
 
 	public function get_buyat() {
+		/* translators: %s: shop name */
 		return sprintf( $this->buyat == '' ? __( 'Buy now at %s', 'affiliate-toolkit-starter' ) : $this->buyat, $this->get_title() );
 	}
 
 	public function get_tooltip() {
+		/* translators: %s: shop name */
 		return sprintf( $this->tooltip == '' ? __( 'Buy now at %s', 'affiliate-toolkit-starter' ) : $this->tooltip, $this->get_title() );
 	}
 
@@ -129,7 +132,7 @@ class atkp_shop {
 			'posts_per_page' => - 1,
 			'post_status'    => array( 'publish', 'draft' ),
 			'post_parent'      => 0,
-			'suppress_filters' => true
+			'suppress_filters' => false // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.SuppressFilters_suppress_filters
 		) );
 
 		foreach ( $posts_array as $post_id ) {
@@ -191,10 +194,12 @@ class atkp_shop {
 		$shop = get_post( $child_id );
 
 		if ( ! isset( $shop ) || $shop == null ) {
-			throw new Exception( esc_html__( 'subshop not found: ' . $child_id, 'affiliate-toolkit-starter' ) );
+			/* translators: %s: child shop ID */
+			throw new Exception( sprintf( esc_html__( 'subshop not found: %s', 'affiliate-toolkit-starter' ), esc_html( $child_id ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 		}
 		if ( $shop->post_type != ATKP_SHOP_POSTTYPE ) {
-			throw new Exception( esc_html__( 'invalid shop post_type: ' . $shop->post_type . ', $child_id: ' . $child_id, 'affiliate-toolkit-starter' ) );
+			/* translators: 1: post type, 2: child shop ID */
+			throw new Exception( sprintf( esc_html__( 'invalid shop post_type: %1$s, $child_id: %2$s', 'affiliate-toolkit-starter' ), esc_html( $shop->post_type ), esc_html( $child_id ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 		}
 
 		$webservice = ATKPTools::get_post_setting( $parent_id, ATKP_SHOP_POSTTYPE . '_access_webservice' );

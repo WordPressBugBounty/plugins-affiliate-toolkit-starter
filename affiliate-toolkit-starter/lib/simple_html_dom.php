@@ -1,4 +1,8 @@
 <?php
+// phpcs:disable WordPress.WP.I18n -- Third-party library, not translatable.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 /**
  * Website: http://sourceforge.net/projects/simplehtmldom/
  * Additional projects: http://sourceforge.net/projects/debugobject/
@@ -21,6 +25,10 @@
  * Version Rev. 1.9 (290)
  */
 
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals -- third-party Simple HTML DOM library
+// phpcs:disable WordPress.WP.AlternativeFunctions, WordPress.Security.EscapeOutput.OutputNotEscaped
+// phpcs:disable WordPress.NamingConventions.ValidVariableName, WordPress.PHP.DiscouragedPHPFunctions
+// phpcs:disable Generic.Files.LineLength
 define( 'HDOM_TYPE_ELEMENT', 1 );
 define( 'HDOM_TYPE_COMMENT', 2 );
 define( 'HDOM_TYPE_TEXT', 3 );
@@ -2396,3 +2404,4 @@ class simple_html_dom {
 		$this->load_file( $args );
 	}
 }
+// phpcs:enable

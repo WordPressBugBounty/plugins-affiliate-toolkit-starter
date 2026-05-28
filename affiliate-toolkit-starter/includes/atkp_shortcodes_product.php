@@ -230,13 +230,13 @@ class atkp_shortcodes_product {
 			if ( ATKPSettings::$hideerrormessages ) {
 				return '';
 			} else {
-				return 'TypeError: ' . $e->getMessage();
+				return 'TypeError: ' . esc_html( $e->getMessage() );
 			}
 		} catch ( Exception $e ) {
 			if ( ATKPSettings::$hideerrormessages ) {
 				return '';
 			} else {
-				return 'Exception: ' . $e->getMessage();
+				return 'Exception: ' . esc_html( $e->getMessage() );
 			}
 		}
 	}

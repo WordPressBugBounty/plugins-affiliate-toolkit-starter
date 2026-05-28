@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || exit;
 
 
 class ATKP_LicenseController {
@@ -50,6 +51,7 @@ class ATKP_LicenseController {
 		foreach ( $modules as $moduleid => $modulename ) {
 			$license = ATKP_LicenseController::get_module_license( $modulename );
 			if ( $license == '' ) {
+				/* translators: %s: URL to license page */
 				return sprintf( __( 'There is an extension without a license key. Please go to the <a href="%s">license page</a>.', 'affiliate-toolkit-starter' ), admin_url() . '?page=' . ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin&tab=license_configuration_page' );
 			}
 
@@ -61,9 +63,11 @@ class ATKP_LicenseController {
 					$license_message = __( 'There is an extension with an expired license key', 'affiliate-toolkit-starter' );
 				}
 
-				return sprintf( __( '%s. Please go to the <a href="%s">license page</a>.', 'affiliate-toolkit-starter' ), $license_message, admin_url() . '?page=' . ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin&tab=license_configuration_page' );
+				/* translators: %1$s: license message, %2$s: URL to license page */
+				return sprintf( __( '%1$s. Please go to the <a href="%2$s">license page</a>.', 'affiliate-toolkit-starter' ), $license_message, admin_url() . '?page=' . ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin&tab=license_configuration_page' );
 			} else if ( $license_status != 'valid' ) {
 
+				/* translators: %s: URL to license page */
 				return sprintf( __( 'There is an extension without a valid license key. Please go to the <a href="%s">license page</a>.', 'affiliate-toolkit-starter' ), admin_url() . '?page=' . ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin&tab=license_configuration_page' );
 			}
 		}
@@ -96,7 +100,7 @@ class ATKP_LicenseController {
 				);
 				// Call the custom API.
 				$response = wp_remote_post( ATKP_STORE_URL, array(
-					'timeout'   => 15,
+					'timeout'   => 30,
 					'sslverify' => false,
 					'body'      => $api_params
 				) );
@@ -107,7 +111,7 @@ class ATKP_LicenseController {
 
 				// make sure the response came back okay
 				if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
-					$result['message'] = ( is_wp_error( $response ) && ! empty( $response->get_error_message() ) ) ? $response->get_error_message() : __( 'An error occurred, please try again.' );
+					$result['message'] = ( is_wp_error( $response ) && ! empty( $response->get_error_message() ) ) ? $response->get_error_message() : __( 'An error occurred, please try again.', 'affiliate-toolkit-starter' );
 				} else {
 
 					$license_data = json_decode( wp_remote_retrieve_body( $response ) );
@@ -147,7 +151,7 @@ class ATKP_LicenseController {
 		);
 		// Call the custom API.
 		$response = wp_remote_post( ATKP_STORE_URL, array(
-			'timeout'   => 15,
+			'timeout'   => 30,
 			'sslverify' => false,
 			'body'      => $api_params
 		) );
@@ -156,7 +160,7 @@ class ATKP_LicenseController {
 
 		// make sure the response came back okay
 		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
-			$result['message'] = ( is_wp_error( $response ) && ! empty( $response->get_error_message() ) ) ? $response->get_error_message() : __( 'An error occurred, please try again.' );
+			$result['message'] = ( is_wp_error( $response ) && ! empty( $response->get_error_message() ) ) ? $response->get_error_message() : __( 'An error occurred, please try again.', 'affiliate-toolkit-starter' );
 		} else {
 
 			$license_data = json_decode( wp_remote_retrieve_body( $response ) );
@@ -177,7 +181,7 @@ class ATKP_LicenseController {
 		);
 		// Call the custom API.
 		$response = wp_remote_post( ATKP_STORE_URL, array(
-			'timeout'   => 15,
+			'timeout'   => 30,
 			'sslverify' => false,
 			'body'      => $api_params
 		) );
@@ -187,7 +191,7 @@ class ATKP_LicenseController {
 
 		// make sure the response came back okay
 		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
-			$result['message'] = ( is_wp_error( $response ) && ! empty( $response->get_error_message() ) ) ? $response->get_error_message() : __( 'An error occurred, please try again.' );
+			$result['message'] = ( is_wp_error( $response ) && ! empty( $response->get_error_message() ) ) ? $response->get_error_message() : __( 'An error occurred, please try again.', 'affiliate-toolkit-starter' );
 		} else {
 
 			$license_data = json_decode( wp_remote_retrieve_body( $response ) );
@@ -220,8 +224,9 @@ class ATKP_LicenseController {
 		switch ( $license_status ) {
 			case 'expired' :
 				$message = sprintf(
+					/* translators: %s: expiration date */
 					__( 'Your license key expired on %s.', 'affiliate-toolkit-starter' ),
-					date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, current_time( 'timestamp' ) ) )
+					date_i18n( get_option( 'date_format' ), current_time( 'timestamp' ) )
 				);
 				break;
 			case 'revoked' :
@@ -234,6 +239,7 @@ class ATKP_LicenseController {
 				$message = __( 'Your license is not active for this URL.', 'affiliate-toolkit-starter' );
 				break;
 			case 'item_name_mismatch' :
+				/* translators: %s: product name */
 				$message = sprintf( __( 'This appears to be an invalid license key for %s.', 'affiliate-toolkit-starter' ), $productname );
 				break;
 			case 'no_activations_left':

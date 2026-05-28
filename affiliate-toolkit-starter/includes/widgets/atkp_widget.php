@@ -94,8 +94,8 @@ class atkp_widget extends WP_Widget {
                             data: function (params) {
                                 return {
                                     action: "atkp_search_local_products",
-                                    type: "<?php echo esc_html__( ATKP_PRODUCT_POSTTYPE, 'affiliate-toolkit-starter' ); ?>",
-                                    request_nonce: "<?php echo esc_html__( $searchnounce, 'affiliate-toolkit-starter' ); ?>",
+                                    type: "<?php echo esc_html( ATKP_PRODUCT_POSTTYPE ); ?>",
+                                    request_nonce: "<?php echo esc_html( $searchnounce ); ?>",
                                     keyword: params.term
                                 };
                             },
@@ -160,8 +160,8 @@ class atkp_widget extends WP_Widget {
                             data: function (params) {
                                 return {
                                     action: "atkp_search_local_products",
-                                    type: "<?php echo esc_html__( ATKP_LIST_POSTTYPE, 'affiliate-toolkit-starter' ); ?>",
-                                    request_nonce: "<?php echo esc_html__( $searchnounce, 'affiliate-toolkit-starter' ); ?>",
+                                    type: "<?php echo esc_html( ATKP_LIST_POSTTYPE ); ?>",
+                                    request_nonce: "<?php echo esc_html( $searchnounce ); ?>",
                                     keyword: params.term
                                 };
                             },
@@ -319,31 +319,33 @@ class atkp_widget extends WP_Widget {
 		}
 
 		if ( $product != '' && $product != 0 ) {
-			echo( $args['before_widget'] );
+			echo wp_kses_post( $args['before_widget'] );
 			if ( ! empty( $title ) ) {
-				echo( $args['before_title'] . $title . $args['after_title'] );
+				echo wp_kses_post( $args['before_title'] . esc_html( $title ) . $args['after_title'] );
 			}
 
 			try {
-				echo( $output->get_product_output( $product, $template, $content, 'notset', '', false, $elementcssclass, $containercssclass, false ) );
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output is escaped in get_product_output
+				echo $output->get_product_output( $product, $template, $content, 'notset', '', false, $elementcssclass, $containercssclass, false );
 			} catch ( Exception $e ) {
-				echo( 'Exception: ' . $e->getMessage() );
+				echo 'Exception: ' . esc_html( $e->getMessage() );
 			}
 
-			echo( $args['after_widget'] );
+			echo wp_kses_post( $args['after_widget'] );
 		} else if ( $list != '' && $list != 0 ) {
-			echo( $args['before_widget'] );
+			echo wp_kses_post( $args['before_widget'] );
 			if ( ! empty( $title ) ) {
-				echo( $args['before_title'] . $title . $args['after_title'] );
+				echo wp_kses_post( $args['before_title'] . esc_html( $title ) . $args['after_title'] );
 			}
 
 			//create list and output
 			try {
-				echo( $output->get_list_output( $list, $template, $content, 'notset', $elementcssclass, $containercssclass, $limit, $randomsort, false ) );
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output is escaped in get_list_output
+				echo $output->get_list_output( $list, $template, $content, 'notset', $elementcssclass, $containercssclass, $limit, $randomsort, false );
 			} catch ( Exception $e ) {
-				echo( 'Exception: ' . $e->getMessage() );
+				echo 'Exception: ' . esc_html( $e->getMessage() );
 			}
-			echo( $args['after_widget'] );
+			echo wp_kses_post( $args['after_widget'] );
 		}
 
 
@@ -399,14 +401,14 @@ class atkp_widget extends WP_Widget {
 							$sel = '';
 						}
 
-						echo '<option value="' . esc_attr( $prd->ID ) . '"' . esc_attr( $sel ) . '>' . esc_html__( $prd->post_title ) . ' (' . esc_html__( $prd->ID, 'affiliate-toolkit-starter' ) . ')' . '</option>';
+						echo '<option value="' . esc_attr( $prd->ID ) . '"' . esc_attr( $sel ) . '>' . esc_html( $prd->post_title ) . ' (' . esc_html( $prd->ID ) . ')' . '</option>';
 					};
 
 				} else {
 					if ( isset( $instance[ ATKP_WIDGET . '_product' ] ) && $instance[ ATKP_WIDGET . '_product' ] != '' ) {
 						$prd = get_post( $instance[ ATKP_WIDGET . '_product' ] );
 						if ( $prd != null ) {
-							echo '<option value="' . esc_attr( $prd->ID ) . '">' . esc_html__( $prd->post_title, 'affiliate-toolkit-starter' ) . ' (' . esc_html__( $prd->ID, 'affiliate-toolkit-starter' ) . ')' . '</option>';
+							echo '<option value="' . esc_attr( $prd->ID ) . '">' . esc_html( $prd->post_title ) . ' (' . esc_html( $prd->ID ) . ')' . '</option>';
 						}
 
 					} else {
@@ -443,7 +445,7 @@ class atkp_widget extends WP_Widget {
 							$sel = '';
 						}
 
-						echo '<option value="' . esc_attr( $prd->ID ) . '"' . esc_attr( $sel ) . '>' . esc_html__( $prd->post_title, 'affiliate-toolkit-starter' ) . ' (' . esc_html__( $prd->ID, 'affiliate-toolkit-starter' ) . ')' . '</option>';
+						echo '<option value="' . esc_attr( $prd->ID ) . '"' . esc_attr( $sel ) . '>' . esc_html( $prd->post_title ) . ' (' . esc_html( $prd->ID ) . ')' . '</option>';
 					};
 
 				} else {
@@ -451,7 +453,7 @@ class atkp_widget extends WP_Widget {
 					if ( isset( $instance[ ATKP_WIDGET . '_list' ] ) && $instance[ ATKP_WIDGET . '_list' ] != '' ) {
 						$prd = get_post( $instance[ ATKP_WIDGET . '_list' ] );
 						if ( $prd != null ) {
-							echo '<option value="' . esc_attr( $prd->ID ) . '">' . esc_html__( $prd->post_title, 'affiliate-toolkit-starter' ) . ' (' . esc_html__( $prd->ID, 'affiliate-toolkit-starter' ) . ')' . '</option>';
+							echo '<option value="' . esc_attr( $prd->ID ) . '">' . esc_html( $prd->post_title ) . ' (' . esc_html( $prd->ID ) . ')' . '</option>';
 						}
 
 					} else {
@@ -480,7 +482,7 @@ class atkp_widget extends WP_Widget {
 						$sel = '';
 					}
 
-					echo '<option value="' . esc_attr( $template ) . '" ' . esc_attr( $sel ) . '>' . esc_html__( htmlentities( $caption ), 'affiliate-toolkit-starter' ) . '</option>';
+					echo '<option value="' . esc_attr( $template ) . '" ' . esc_attr( $sel ) . '>' . esc_html( $caption ) . '</option>';
 				}
 
 				?>
@@ -537,7 +539,7 @@ class atkp_widget extends WP_Widget {
 	public function update( $new_instance, $old_instance ) {
 		$instance = array();
 
-		$instance[ ATKP_WIDGET . '_title' ]             = ( ! empty( $new_instance[ ATKP_WIDGET . '_title' ] ) ) ? strip_tags( $new_instance[ ATKP_WIDGET . '_title' ] ) : '';
+		$instance[ ATKP_WIDGET . '_title' ]             = ( ! empty( $new_instance[ ATKP_WIDGET . '_title' ] ) ) ? wp_strip_all_tags( $new_instance[ ATKP_WIDGET . '_title' ] ) : '';
 		$instance[ ATKP_WIDGET . '_product' ]           = ( ! empty( $new_instance[ ATKP_WIDGET . '_product' ] ) ) ? $new_instance[ ATKP_WIDGET . '_product' ] : '';
 		$instance[ ATKP_WIDGET . '_list' ]              = ( ! empty( $new_instance[ ATKP_WIDGET . '_list' ] ) ) ? $new_instance[ ATKP_WIDGET . '_list' ] : '';
 		$instance[ ATKP_WIDGET . '_template' ]          = ( ! empty( $new_instance[ ATKP_WIDGET . '_template' ] ) ) ? $new_instance[ ATKP_WIDGET . '_template' ] : '';

@@ -1,3 +1,4 @@
+<?php defined('ABSPATH') || exit; ?>
 <div class="atkp-variation-container atkp-variationboxes-box {{$parameters->cssContainerClass}}">
     @foreach ($formatter->get_randomarray($formatter->minifyvariations($product->variations, 'Size'), 4) as $variation )
         <a {!! $formatter->get_productlink($variation)!!} title="{{ $formatter->get_variationname($variation) }}">

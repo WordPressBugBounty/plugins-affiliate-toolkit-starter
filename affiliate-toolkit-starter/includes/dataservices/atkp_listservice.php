@@ -5,6 +5,7 @@
  * Date: 01.04.2018
  * Time: 10:18
  */
+defined('ABSPATH') || exit;
 
 /**
  * Diese Klasse aktualisiert die Listen aus den Providern

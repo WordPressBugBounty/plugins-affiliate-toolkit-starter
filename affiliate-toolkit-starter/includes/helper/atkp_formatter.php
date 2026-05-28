@@ -92,7 +92,7 @@ class atkp_formatter {
 					$title = __( 'Post', 'affiliate-toolkit-starter' );
 				}
 
-				$post_list .= sprintf( __( '<li><a href="%s">%s</a></li>', 'affiliate-toolkit-starter' ), get_permalink( $p ), $title );
+				$post_list .= '<li><a href="' . esc_url( get_permalink( $p ) ) . '">' . esc_html( $title ) . '</a></li>';
 			}
 		} else {
 			$title = get_the_title( $myproduct->postids );
@@ -100,7 +100,7 @@ class atkp_formatter {
 				$title = __( 'Post', 'affiliate-toolkit-starter' );
 			}
 
-			$post_list .= sprintf( __( '<li><a href="%s">%s</a></li>', 'affiliate-toolkit-starter' ), get_permalink( $myproduct->postids ), $title );
+			$post_list .= '<li><a href="' . esc_url( get_permalink( $myproduct->postids ) ) . '">' . esc_html( $title ) . '</a></li>';
 		}
 		$post_list .= '</ul>';
 
@@ -218,7 +218,7 @@ class atkp_formatter {
 		$testcolor   = get_option( ATKP_PLUGIN_PREFIX . '_review_color', '#9f9f9f' );
 		$testcaption = esc_attr( get_option( ATKP_PLUGIN_PREFIX . '_review_text', __( 'Review', 'affiliate-toolkit-starter' ) ) );
 
-		return '<div class="atkp-testbadge" style="border-color:' . $testcolor . '"><span class="atkp-testtitle" style="background-color:' . $testcolor . '">' . $testcaption . '</span><span class="atkp-testnote" style="color:' . $testcolor . '">' . $testrating . '</span><span class="atkp-testtext">' . $testresult . '</span><span class="atkp-testdate">' . $testdate . '</span></div>';
+		return '<div class="atkp-testbadge" style="border-color:' . esc_attr( $testcolor ) . '"><span class="atkp-testtitle" style="background-color:' . esc_attr( $testcolor ) . '">' . esc_html( $testcaption ) . '</span><span class="atkp-testnote" style="color:' . esc_attr( $testcolor ) . '">' . esc_html( $testrating ) . '</span><span class="atkp-testtext">' . esc_html( $testresult ) . '</span><span class="atkp-testdate">' . esc_html( $testdate ) . '</span></div>';
 
 	}
 
@@ -275,7 +275,7 @@ class atkp_formatter {
 			}
 
 			if ( count( $featureRows ) <= 1 ) {
-				$featureclean = strip_tags( $myproduct->features );
+				$featureclean = wp_strip_all_tags( $myproduct->features );
 			}
 
 			if ( $featureclean != '' ) {
@@ -296,7 +296,7 @@ class atkp_formatter {
 			return wpautop( $myproduct->description );
 		} else {
 
-			$descclean = strip_tags( $myproduct->description );
+			$descclean = wp_strip_all_tags( $myproduct->description );
 
 			if ( $this->parameters != null && $this->parameters->get_description_length() > 0 ) {
 				$descclean = ( strlen( $descclean ) > $this->parameters->get_description_length() ) ? substr( $descclean, 0, $this->parameters->get_description_length() ) . '...' : $descclean;
@@ -363,7 +363,7 @@ class atkp_formatter {
 			$target = '';
 		}
 
-		return 'href="' . $this->get_listurl() . '" rel="' . self::get_link_rel() . '" ' . $target . ' title="' . __( 'Show me more products', 'affiliate-toolkit-starter' ) . '"';
+		return 'href="' . esc_url( $this->get_listurl() ) . '" rel="' . esc_attr( self::get_link_rel() ) . '" ' . $target . ' title="' . esc_attr__( 'Show me more products', 'affiliate-toolkit-starter' ) . '"';
 	}
 
 	public function get_link_mark() {
@@ -670,7 +670,7 @@ class atkp_formatter {
 		$warehouselogo = '';
 
 		if ( $myproduct->iswarehouse ) {
-			$warehouselogo .= '<div class="atkp-warehouse">Warehouse</div>'; //'<img src="' . plugins_url( 'images/amazon-warehouse.gif', ATKP_PLUGIN_FILE ) . '" alt="' . __( 'Warehouse', ATKP_PLUGIN_PREFIX ) . '"/>';
+			$warehouselogo .= '<div class="atkp-warehouse">' . esc_html__( 'Warehouse', 'affiliate-toolkit-starter' ) . '</div>';
 		}
 
 		return $warehouselogo;
@@ -696,7 +696,7 @@ class atkp_formatter {
 
 				$primelink = self::redirect_external_url( $this->get_shopid_value( $myproduct ), 'https://www.amazon.' . $amzCountry . '/gp/prime/?primeCampaignId=prime_assoc_ft&tag=' . $amzTag . '&camp=4510&creative=670002&linkCode=ur1&adid=07VBBZ76N7ZKENHMQCDR' );
 
-				$primelogo = '<a href="' . $primelink . '" rel="' . self::get_link_rel() . '" target="_blank" title="' . __( 'More about prime', 'affiliate-toolkit-starter' ) . '">' . $primelogo . '</a>';
+				$primelogo = '<a href="' . esc_url( $primelink ) . '" rel="' . esc_attr( self::get_link_rel() ) . '" target="_blank" title="' . esc_attr__( 'More about prime', 'affiliate-toolkit-starter' ) . '">' . $primelogo . '</a>';
 			}
 		}
 
@@ -1422,9 +1422,10 @@ class atkp_formatter {
 					$val = $result == '' || $result == 0 ? floatval( $newfield->values ) : floatval( $result );
 
 					$class = 'atkp-star-' . number_format( $this->roundRate( $val ), 1, ' atkp-star-0', '' );
+					/* translators: %s: star rating value */
 					$title = sprintf( __( '%s of 5 stars', 'affiliate-toolkit-starter' ), $val );
 
-					$tempstr = '<span class="atkp-star-compare atkp-star ' . $class . '" title="' . $title . '"></span>';
+					$tempstr = '<span class="atkp-star-compare atkp-star ' . esc_attr( $class ) . '" title="' . esc_attr( $title ) . '"></span>';
 
 					$tempstr = apply_filters( 'atkp_stars_formatvalue', $tempstr, $val, $class, $title );
 
@@ -1546,7 +1547,7 @@ class atkp_formatter {
 		if ( $myshop->get_logourl() == '' ) {
 			return $myshop->get_title();
 		} else {
-			return '<img src="' . self::replace_image_url( $myshop->id, $myshop->get_logourl() ) . '" alt="' . $myshop->get_title() . '" style="max-height:50px;max-width:140px" />';
+			return '<img src="' . esc_url( self::replace_image_url( $myshop->id, $myshop->get_logourl() ) ) . '" alt="' . esc_attr( $myshop->get_title() ) . '" style="max-height:50px;max-width:140px" />';
 		}
 	}
 
@@ -1568,7 +1569,7 @@ class atkp_formatter {
 		if ( $myshop->get_smalllogourl() == '' ) {
 			return $myshop->get_title();
 		} else {
-			return '<img src="' . self::replace_image_url( $myshop->id, $myshop->get_smalllogourl() ) . '" alt="' . $myshop->get_title() . '" />';
+			return '<img src="' . esc_url( self::replace_image_url( $myshop->id, $myshop->get_smalllogourl() ) ) . '" alt="' . esc_attr( $myshop->get_title() ) . '" />';
 		}
 	}
 
@@ -1736,6 +1737,7 @@ class atkp_formatter {
 	 */
 	public function get_offer_availability( $myoffer, $format = 'Availability: %s' ) {
 		if ( $format == 'Availability: %s' ) {
+			/* translators: %s: availability status text */
 			$formattxt = __( 'Availability: %s', 'affiliate-toolkit-starter' );
 		} else {
 			$formattxt = $format;
@@ -1790,7 +1792,7 @@ class atkp_formatter {
 	public function get_image_smallimageurl( $myproduct, $myimage ) {
 
 		if ( $myimage->smallimageurl == '' ) {
-			return plugins_url( __( '../../images/image-not-found.jpg', 'affiliate-toolkit-starter' ), __FILE__ );
+			return plugins_url( '../../images/image-not-found.jpg', __FILE__ );
 		}
 
 		return self::replace_image_url( $this->get_shopid_value( $myproduct ), $myimage->smallimageurl, $myproduct->productid, $myproduct->listid );
@@ -1805,7 +1807,7 @@ class atkp_formatter {
 	public function get_image_mediumimageurl( $myproduct, atkp_product_image $myimage ) {
 
 		if ( $myimage->mediumimageurl == '' ) {
-			return plugins_url( __( '../../images/image-not-found.jpg', 'affiliate-toolkit-starter' ), __FILE__ );
+			return plugins_url( '../../images/image-not-found.jpg', __FILE__ );
 		}
 
 		return self::replace_image_url( $this->get_shopid_value( $myproduct ), $myimage->mediumimageurl, $myproduct->productid, $myproduct->listid);
@@ -1820,7 +1822,7 @@ class atkp_formatter {
 	public function get_image_largeimageurl( $myproduct, $myimage ) {
 
 		if ( $myimage->largeimageurl == '' ) {
-			return plugins_url( __( '../../images/image-not-found.jpg', 'affiliate-toolkit-starter' ), __FILE__ );
+			return plugins_url( '../../images/image-not-found.jpg', __FILE__ );
 		}
 
 		return self::replace_image_url( $this->get_shopid_value( $myproduct ), $myimage->largeimageurl, $myproduct->productid, $myproduct->listid);
@@ -1867,7 +1869,7 @@ class atkp_formatter {
 		$smallimageurl = atkp_product::get_mainimage( $myproduct, 'smalltolarge' );
 
 		if ( $smallimageurl == '' ) {
-			return plugins_url( __( '../../images/image-not-found.jpg', 'affiliate-toolkit-starter' ), __FILE__ );
+			return plugins_url( '../../images/image-not-found.jpg', __FILE__ );
 		}
 
 		return self::replace_image_url( $this->get_shopid_value( $myproduct ), $smallimageurl, $myproduct->productid, $myproduct->listid, 'small' );
@@ -1884,7 +1886,7 @@ class atkp_formatter {
 		$smallimageurl = atkp_product::get_mainimage( $myproduct, 'mediumtolarge' );
 
 		if ( $smallimageurl == '' ) {
-			return plugins_url( __( '../../images/image-not-found.jpg', 'affiliate-toolkit-starter' ), __FILE__ );
+			return plugins_url( '../../images/image-not-found.jpg', __FILE__ );
 		}
 
 		return self::replace_image_url( $this->get_shopid_value( $myproduct ), $smallimageurl, $myproduct->productid, $myproduct->listid, 'medium' );
@@ -1902,7 +1904,7 @@ class atkp_formatter {
 
 		if ( $smallimageurl == '' ) {
 			if ( $default_value == '' ) {
-				return plugins_url( __( '../../images/image-not-found.jpg', 'affiliate-toolkit-starter' ), __FILE__ );
+				return plugins_url( '../../images/image-not-found.jpg', __FILE__ );
 			}
 
 			return $default_value;
@@ -1957,6 +1959,7 @@ class atkp_formatter {
 		if ( ! $ignoreSettings && ( ( $itemIdx > 3 && ATKPSettings::$bestsellerribbon == 1 ) || $itemIdx <= 0 ) ) {
 			return '';
 		} else {
+			/* translators: %s: bestseller rank number */
 			return sprintf( __( '#%s Best Seller', 'affiliate-toolkit-starter' ), $itemIdx );
 		}
 	}
@@ -1965,6 +1968,7 @@ class atkp_formatter {
 		if ( ! $ignoreSettings && ( ( $itemIdx > 3 && ATKPSettings::$bestsellerribbon == 1 ) || $itemIdx <= 0 ) ) {
 			return '';
 		} else {
+			/* translators: %s: bestseller rank number */
 			return sprintf( __( '#%s', 'affiliate-toolkit-starter' ), $itemIdx );
 		}
 	}
@@ -1975,6 +1979,7 @@ class atkp_formatter {
 	 * @return string
 	 */
 	public function get_rating_text( $myproduct ) {
+		/* translators: %s: rating value */
 		return sprintf( __( '%s of 5 stars', 'affiliate-toolkit-starter' ), $myproduct->rating );
 	}
 
@@ -1987,7 +1992,7 @@ class atkp_formatter {
 
 		$class = 'atkp-star-' . number_format( $this->roundRate( floatval( $myproduct->rating ) ), 1, ' atkp-star-0', '' );
 
-		return '<span class="atkp-star ' . $class . '" title="' . $this->get_rating_text( $myproduct ) . '"></span>';
+		return '<span class="atkp-star ' . esc_attr( $class ) . '" title="' . esc_attr( $this->get_rating_text( $myproduct ) ) . '"></span>';
 	}
 
 	/**
@@ -1997,20 +2002,17 @@ class atkp_formatter {
 	 */
 	public function get_reviewstext( $myproduct ) {
 
-		$reviewstextNull = __( 'Show customer reviews', 'affiliate-toolkit-starter' );
-		$reviewstext     = __( '%s customer reviews', 'affiliate-toolkit-starter' );
-		$reviewstext2    = __( '1 customer review', 'affiliate-toolkit-starter' );
-
 		if ( $myproduct->reviewcount == '' || $myproduct->reviewcount == 0 ) {
 
 			if ( $this->parameters->get_hideemptyrating() ) {
 				return '';
 			} else {
-				return $reviewstextNull;
+				return __( 'Show customer reviews', 'affiliate-toolkit-starter' );
 			}
 
 		} else {
-			return sprintf( _n( $reviewstext2, $reviewstext, $myproduct->reviewcount, 'affiliate-toolkit-starter' ), $myproduct->reviewcount );
+			/* translators: %s: number of customer reviews */
+			return sprintf( _n( '%s customer review', '%s customer reviews', $myproduct->reviewcount, 'affiliate-toolkit-starter' ), $myproduct->reviewcount );
 
 		}
 
@@ -2197,6 +2199,7 @@ class atkp_formatter {
 	}
 
 	public function get_offercount( array $offers ) {
+		/* translators: %s: number of offers */
 		return count( $offers ) == 1 ? sprintf( __( '%s offer', 'affiliate-toolkit-starter' ), count( $offers ) ) : sprintf( __( '%s offers', 'affiliate-toolkit-starter' ), count( $offers ) );
 
 	}
@@ -2378,8 +2381,10 @@ class atkp_formatter {
 	 */
 	public function get_bytext( $myproduct ) {
 		if ( $myproduct->author != '' ) {
+			/* translators: %s: author name */
 			return sprintf( __( 'by %s', 'affiliate-toolkit-starter' ), $myproduct->author );
 		} else if ( $myproduct->manufacturer != '' ) {
+			/* translators: %s: manufacturer name */
 			return sprintf( __( 'by %s', 'affiliate-toolkit-starter' ), $myproduct->manufacturer );
 		} else {
 			return '';
@@ -2549,13 +2554,13 @@ class atkp_formatter {
 		$key_path = WP_CONTENT_DIR . '/uploads/atkp-imagereceiver-key.php';
 
 		if ( ! file_exists( $key_path ) ) {
-			$pw = chr( mt_rand( 97, 122 ) ) . mt_rand( 0, 9 ) . chr( mt_rand( 97, 122 ) ) . mt_rand( 10, 99 ) . chr( mt_rand( 97, 122 ) ) . mt_rand( 100, 999 ) . chr( mt_rand( 97, 122 ) ) . mt_rand( 10, 99 ) . chr( mt_rand( 97, 122 ) ) . mt_rand( 100, 999 );
+			$pw = chr( wp_rand( 97, 122 ) ) . wp_rand( 0, 9 ) . chr( wp_rand( 97, 122 ) ) . wp_rand( 10, 99 ) . chr( wp_rand( 97, 122 ) ) . wp_rand( 100, 999 ) . chr( wp_rand( 97, 122 ) ) . wp_rand( 10, 99 ) . chr( wp_rand( 97, 122 ) ) . wp_rand( 100, 999 );
 
-			file_put_contents( $key_path, '<?php $x = "' . $pw . '";' );
+			file_put_contents( $key_path, '<?php $x = "' . $pw . '";' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- Writing site key file.
 		}
 
 		if ( file_exists( $key_path ) ) {
-			$site_key = file_get_contents( $key_path );
+			$site_key = file_get_contents( $key_path ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Reading local key file.
 		} else {
 			$site_key = md5( ATKP_PLUGIN_DIR . '/tools/atkp_imagereceiver.php' );
 		}
@@ -2923,7 +2928,7 @@ class atkp_formatter {
 			$tm        = 86400 * $i; // 60 * 60 * 24 = 86400 = 1 day in seconds
 			$tm        = $timestamp - $tm;
 
-			$months[] = date( "d.m.", $tm );
+			$months[] = gmdate( "d.m.", $tm );
 		}
 		$months = array_reverse( $months );
 
@@ -3040,7 +3045,7 @@ class atkp_formatter {
 
 		for ( $i = 0; $i < 6; $i ++ ) {
 
-			$monthtemp = date( "Y-m", strtotime( date( 'Y-m-01' ) . " -$i months" ) );
+			$monthtemp = gmdate( "Y-m", strtotime( gmdate( 'Y-m-01' ) . " -$i months" ) );
 
 			$parts        = explode( '-', $monthtemp );
 			$month_number = intval( $parts[1] );
@@ -3139,7 +3144,7 @@ class atkp_formatter {
 	}
 
 	private function random_color_part() {
-		return str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT );
+		return str_pad( dechex( wp_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT );
 	}
 
 	public function get_random_color() {

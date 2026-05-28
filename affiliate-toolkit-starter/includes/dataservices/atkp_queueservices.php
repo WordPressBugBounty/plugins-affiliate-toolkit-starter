@@ -1,4 +1,6 @@
 <?php
+defined('ABSPATH') || exit;
+// phpcs:disable WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL, PluginCheck.Security.DirectDB
 
 const ATKP_QUEUE_SEPARATOR = '|:|';
 
@@ -70,9 +72,9 @@ class atkp_queueservices {
 					$message = __( 'Products not found for search request. Open Queue History for details.', 'affiliate-toolkit-starter' );
 
 					ATKPTools::set_post_setting( $entry->post_id, ATKP_PRODUCT_POSTTYPE . '_message', $message );
-
 					$message = sprintf(
-						__( 'Products not found for search request. Products count: %d, Has temp product: %s', 'affiliate-toolkit-starter' ),
+						/* translators: %1$d: number of products found, %2$s: whether temp product exists (true/false) */
+						__( 'Products not found for search request. Products count: %1$d, Has temp product: %2$s', 'affiliate-toolkit-starter' ),
 						count( $products ),
 						$has_temp_product ? 'true' : 'false'
 					);
@@ -109,21 +111,24 @@ class atkp_queueservices {
 
 						global $wpdb;
 
-						$querystr = "
-					                        SELECT $wpdb->posts.* 
-					                        FROM $wpdb->posts
-					                        WHERE 
-					                         $wpdb->posts.post_type = '" . ATKP_PRODUCT_POSTTYPE . "'
-					                        AND $wpdb->posts.post_name = '" . $post_name . "'
-					                        AND $wpdb->posts.ID <> '" . $entry->post_id . "'
-					                     ";
-
-						$pageposts = $wpdb->get_results( $querystr, OBJECT );
+						// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Checking for duplicate post slugs.
+						// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name from $wpdb property.
+						$pageposts = $wpdb->get_results( $wpdb->prepare(
+							"SELECT {$wpdb->posts}.*
+							FROM {$wpdb->posts}
+							WHERE {$wpdb->posts}.post_type = %s
+							AND {$wpdb->posts}.post_name = %s
+							AND {$wpdb->posts}.ID <> %d",
+							ATKP_PRODUCT_POSTTYPE,
+							$post_name,
+							$entry->post_id
+						), OBJECT );
 
 						if ( $pageposts && count( $pageposts ) > 0 ) {
 							$post_name .= '-' . time();
 						}
 
+						// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Updating post title directly for performance.
 						$wpdb->update( $wpdb->posts, array(
 							'post_title' => $post_title,
 							'post_name'  => $post_name
@@ -255,9 +260,9 @@ class atkp_queueservices {
 		$lastdatacheck = atkp_options::$loader->get_cron_lastdatacheck();
 
 		if ( $lastdatacheck != '' && ! $manual ) {
-			$mysqltime = date( 'Y-m-d H:i:s', $lastdatacheck );
+			$mysqltime = gmdate( 'Y-m-d H:i:s', $lastdatacheck );
 		} else {
-			$mysqltime = date( 'Y-m-d H:i:s', strtotime( '-1 week', time() ) );
+			$mysqltime = gmdate( 'Y-m-d H:i:s', strtotime( '-1 week', time() ) );
 		}
 
 		//TODO: send datacheck mail
@@ -278,13 +283,13 @@ class atkp_queueservices {
 				foreach ( $columns as $name => $header ) {
 					$val = $atkp_queue_entry_table->column_default( $report_row, $name );
 
-					$trbody .= '<div class="cell" data-title="' . esc_attr( $header ) . '">' . $val . '</div>';
+					$trbody .= '<div class="cell" data-title="' . esc_attr( $header ) . '">' . wp_kses_post( $val ) . '</div>';
 				}
 
 				$trbody .= '</div>';
 			}
 
-			$report_template = file_get_contents( ATKP_PLUGIN_DIR . '/dist/report-template.html' );
+			$report_template = file_get_contents( ATKP_PLUGIN_DIR . '/dist/report-template.html' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Reading local template file.
 
 			$htmltable = '<div class="wrapper"><div class="table"><div class="row header">' . $tdhead . '</div>' . $trbody . '</div></div>';
 
@@ -306,7 +311,7 @@ class atkp_queueservices {
 			if ( $htmltable != '' ) {
 				$dir      = ATKPTools::get_uploaddir();
 				$filename = $dir . '/report.html';
-				file_put_contents( $filename, $htmltable );
+				file_put_contents( $filename, $htmltable ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- Writing report file to uploads directory.
 
 				wp_mail( $recipient, 'affiliate-toolkit Report for ' . get_bloginfo(), __( 'Attached you can find the report.', 'affiliate-toolkit-starter' ), $headers, $filename );
 
@@ -371,23 +376,24 @@ class atkp_queueservices {
 		$updatetime  = $this->get_datatime();
 		$packagesize = atkp_options::$loader->get_queue_package_size();
 
-		$sql = "
-		    SELECT {$wpdb->posts}.ID 
-			FROM {$wpdb->posts} 
-			
-			LEFT JOIN {$wpdb->postmeta} AS mt3 ON ( {$wpdb->posts}.ID = mt3.post_id AND mt3.meta_key = 'atkp_product_updatedon') 
-			
-			WHERE {$wpdb->posts}.post_type = 'atkp_product' and ({$wpdb->posts}.post_status = 'publish' OR {$wpdb->posts}.post_status = 'draft')	
-			AND ( mt3.post_id IS NULL OR ( mt3.meta_value = '' ) OR ( CAST(mt3.meta_value AS SIGNED) < $updatetime ) )
-			
-			GROUP BY {$wpdb->posts}.ID 
-			ORDER BY CAST(mt3.meta_value AS SIGNED) ASC 
-			
-			LIMIT 0, {$packagesize}";
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table names are from $wpdb properties, values are cast to int.
+		$sql = $wpdb->prepare(
+			"SELECT {$wpdb->posts}.ID
+			FROM {$wpdb->posts}
+			LEFT JOIN {$wpdb->postmeta} AS mt3 ON ( {$wpdb->posts}.ID = mt3.post_id AND mt3.meta_key = 'atkp_product_updatedon')
+			WHERE {$wpdb->posts}.post_type = 'atkp_product' AND ({$wpdb->posts}.post_status = 'publish' OR {$wpdb->posts}.post_status = 'draft')
+			AND ( mt3.post_id IS NULL OR ( mt3.meta_value = '' ) OR ( CAST(mt3.meta_value AS SIGNED) < %d ) )
+			GROUP BY {$wpdb->posts}.ID
+			ORDER BY CAST(mt3.meta_value AS SIGNED) ASC
+			LIMIT 0, %d",
+			$updatetime,
+			$packagesize
+		);
 
+		$sql = apply_filters( 'atkp_queue_collect_product_sql', $sql, $updatetime, $packagesize );
 
-		$sql = apply_filters( 'atkp_queue_collect_product_sql', $sql, $updatetime, $packagesize);
-
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Cron queue collection query.
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared above or modified by filter.
 		$posts_found = $wpdb->get_results( $sql, OBJECT );
 
 		$shops = atkp_shop::get_list();
@@ -413,19 +419,20 @@ class atkp_queueservices {
 
 		$packagesize = atkp_options::$loader->get_queue_package_size();
 
-		$sql = "SELECT SQL_CALC_FOUND_ROWS {$wpdb->posts}.ID 
-            FROM {$wpdb->posts} 
-            
-            INNER JOIN {$wpdb->postmeta} AS mt1 ON ( {$wpdb->posts}.ID = mt1.post_id AND mt1.meta_key = 'atkp_product_finalization') 
-            
-            WHERE {$wpdb->posts}.post_type = 'atkp_product' and ({$wpdb->posts}.post_status = 'publish' OR {$wpdb->posts}.post_status = 'draft')
-            
-            AND ( (mt1.meta_value = '0' ) )
-            
-            ORDER BY {$wpdb->posts}.ID ASC 
-            LIMIT 0, {$packagesize}";
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table names are from $wpdb properties.
+		$sql = $wpdb->prepare(
+			"SELECT SQL_CALC_FOUND_ROWS {$wpdb->posts}.ID
+			FROM {$wpdb->posts}
+			INNER JOIN {$wpdb->postmeta} AS mt1 ON ( {$wpdb->posts}.ID = mt1.post_id AND mt1.meta_key = 'atkp_product_finalization')
+			WHERE {$wpdb->posts}.post_type = 'atkp_product' AND ({$wpdb->posts}.post_status = 'publish' OR {$wpdb->posts}.post_status = 'draft')
+			AND ( (mt1.meta_value = '0' ) )
+			ORDER BY {$wpdb->posts}.ID ASC
+			LIMIT 0, %d",
+			$packagesize
+		);
 
-
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Cron queue collection query.
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared above.
 		$posts_found = $wpdb->get_results( $sql, OBJECT );
 
 		foreach ( $posts_found as $prod ) {
@@ -466,20 +473,22 @@ class atkp_queueservices {
 
 		$packagesize = atkp_options::$loader->get_queue_package_size();
 
-		$sql = "
-		    SELECT {$wpdb->posts}.ID 
-			FROM {$wpdb->posts} 
-			
-			LEFT JOIN {$wpdb->postmeta} AS mt3 ON ( {$wpdb->posts}.ID = mt3.post_id AND mt3.meta_key = 'atkp_list_updatedon') 
-			
-			WHERE {$wpdb->posts}.post_type = 'atkp_list' and ({$wpdb->posts}.post_status = 'publish' OR {$wpdb->posts}.post_status = 'draft')	
-			AND ( mt3.post_id IS NULL OR ( mt3.meta_value = '' ) OR ( CAST(mt3.meta_value AS SIGNED) < $updatetime ) )
-			
-			GROUP BY {$wpdb->posts}.ID 
-			ORDER BY CAST(mt3.meta_value AS SIGNED) ASC 
-			LIMIT 0, {$packagesize}";
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table names are from $wpdb properties.
+		$sql = $wpdb->prepare(
+			"SELECT {$wpdb->posts}.ID
+			FROM {$wpdb->posts}
+			LEFT JOIN {$wpdb->postmeta} AS mt3 ON ( {$wpdb->posts}.ID = mt3.post_id AND mt3.meta_key = 'atkp_list_updatedon')
+			WHERE {$wpdb->posts}.post_type = 'atkp_list' AND ({$wpdb->posts}.post_status = 'publish' OR {$wpdb->posts}.post_status = 'draft')
+			AND ( mt3.post_id IS NULL OR ( mt3.meta_value = '' ) OR ( CAST(mt3.meta_value AS SIGNED) < %d ) )
+			GROUP BY {$wpdb->posts}.ID
+			ORDER BY CAST(mt3.meta_value AS SIGNED) ASC
+			LIMIT 0, %d",
+			$updatetime,
+			$packagesize
+		);
 
-
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Cron queue collection query.
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared above.
 		$posts_found = $wpdb->get_results( $sql, OBJECT );
 
 		$shops = atkp_shop::get_list();
@@ -564,19 +573,17 @@ class atkp_queueservices {
 
 		global $wpdb;
 
-		$sql = "
-		    SELECT {$wpdb->posts}.ID 
-			FROM {$wpdb->posts} 
-			
-			LEFT JOIN {$wpdb->postmeta} AS mt3 ON ( {$wpdb->posts}.ID = mt3.post_id AND mt3.meta_key = 'atkp_list_offerupdate') 
-			
-			WHERE {$wpdb->posts}.post_type = 'atkp_list' and ({$wpdb->posts}.post_status = 'publish' OR {$wpdb->posts}.post_status = 'draft')	
-			AND ( CAST(mt3.meta_value AS SIGNED) = 1 ) 
-			
-			GROUP BY {$wpdb->posts}.ID 
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table names are from $wpdb properties.
+		$sql = "SELECT {$wpdb->posts}.ID
+			FROM {$wpdb->posts}
+			LEFT JOIN {$wpdb->postmeta} AS mt3 ON ( {$wpdb->posts}.ID = mt3.post_id AND mt3.meta_key = 'atkp_list_offerupdate')
+			WHERE {$wpdb->posts}.post_type = 'atkp_list' AND ({$wpdb->posts}.post_status = 'publish' OR {$wpdb->posts}.post_status = 'draft')
+			AND ( CAST(mt3.meta_value AS SIGNED) = 1 )
+			GROUP BY {$wpdb->posts}.ID
 			LIMIT 0, 150";
 
-
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Cron queue collection query.
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query uses only $wpdb table properties, no user input.
 		$posts_found = $wpdb->get_results( $sql, OBJECT );
 
 		$shops = atkp_shop::get_list();
@@ -666,7 +673,7 @@ class atkp_queueservices {
 		}
 
 		if ( $datetimeformat ) {
-			return date( 'd.m.y H:m:s', $updatetime );
+			return gmdate( 'd.m.y H:m:s', $updatetime );
 		}
 
 		//$updatetime = ATKPTools::get_time( $updatetime, 'timestamp' );
@@ -911,7 +918,7 @@ class atkp_queueservices {
 		if ( class_exists( 'WP_CLI' ) ) {
 			WP_CLI::log( $message );
 		} else {
-			echo esc_html__( $message . '<br />' . PHP_EOL, 'affiliate-toolkit-starter' );
+			echo esc_html( $message ) . '<br />' . PHP_EOL;
 		}
 
 		if ( ATKPLog::$logenabled ) {

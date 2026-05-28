@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || exit;
 
 if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
@@ -18,19 +19,20 @@ class atkp_template_table extends WP_List_Table {
 
 	protected function get_views() {
 		$views   = array();
-		$current = ( ! empty( $_REQUEST['view'] ) ? $_REQUEST['view'] : 'custom' );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- WP_List_Table view filter, nonce not applicable.
+		$current = ( ! empty( $_REQUEST['view'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['view'] ) ) : 'custom' );
 
 		//Foo link
 		$foo_url = admin_url( 'admin.php?page=ATKP_viewtemplate' ); // add_query_arg( 'view', 'custom' );
 
 		$bar_url = $foo_url . '&view=custom';
 		$class           = ( $current == 'custom' ? ' class="current"' : '' );
-		$views['custom'] = "<a href='{$bar_url}' {$class}>" . __( 'Custom template', 'affiliate-toolkit-starter' ) . "</a>";
+		$views['custom'] = "<a href='" . esc_url( $bar_url ) . "' {$class}>" . esc_html__( 'Custom template', 'affiliate-toolkit-starter' ) . "</a>";
 
 		//Bar link
 		$bar_url = $foo_url . '&view=system';
 		$class           = ( $current == 'system' ? ' class="current"' : '' );
-		$views['system'] = "<a href='{$bar_url}' {$class}>" . __( 'System template', 'affiliate-toolkit-starter' ) . "</a>";
+		$views['system'] = "<a href='" . esc_url( $bar_url ) . "' {$class}>" . esc_html__( 'System template', 'affiliate-toolkit-starter' ) . "</a>";
 
 		return $views;
 	}
@@ -54,7 +56,8 @@ class atkp_template_table extends WP_List_Table {
 	 * @return null|string
 	 */
 	public static function record_count() {
-		$view = ( isset( $_REQUEST['view'] ) ? $_REQUEST['view'] : 'custom' );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- WP_List_Table view filter, nonce not applicable.
+		$view = ( isset( $_REQUEST['view'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['view'] ) ) : 'custom' );
 
 		if ( $view == 'system' ) {
 			return count( atkp_template::get_system_list( null, null ) );
@@ -107,7 +110,7 @@ class atkp_template_table extends WP_List_Table {
 					return '<div class="atkp-template-dropdown"><img alt="' . esc_attr( $item['post_title'] ) . '" src="' . esc_attr( $template_preview_image ) . '" style="max-height:120px; max-width: 180px;" />
 					<div class="atkp-template-dropdown-content">
   <img src="' . esc_attr( $template_preview_image ) . '" alt="' . esc_attr( $item['post_title'] ) . '" style="max-width:600px">
-  <div class="atkp-template-desc">' . ( $item['post_title'] ) . '</div>
+  <div class="atkp-template-desc">' . esc_html( $item['post_title'] ) . '</div>
   </div></div>';
 				} else {
 					return '';
@@ -174,19 +177,22 @@ class atkp_template_table extends WP_List_Table {
 		if ( is_numeric( $item['ID'] ) ) {
 			$title = sprintf( '<a href="post.php?post=%s&action=edit"><strong>%s</strong></a>', absint( $item['ID'] ), $item['post_title'] );
 
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- WP_List_Table display, nonce not applicable.
+			$page = isset( $_REQUEST['page'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) : '';
 			$actions = [
-				'edit'   => sprintf( __( '<a href="post.php?post=%s&action=edit">Edit</a>', 'affiliate-toolkit-starter' ), absint( $item['ID'] ) ),
-				'delete' => sprintf( __( '<a href="?page=%s&action=%s&templateid=%s&_wpnonce=%s">Delete</a>', 'affiliate-toolkit-starter' ), esc_attr( $_REQUEST['page'] ), 'delete', absint( $item['ID'] ), $delete_nonce ),
-				'clone'  => sprintf( __( '<a href="?page=%s&action=%s&templateid=%s&templatename=%s&_wpnonce=%s">Duplicate</a>', 'affiliate-toolkit-starter' ), esc_attr( $_REQUEST['page'] ), 'clone', absint( $item['ID'] ), urlencode( $item['post_title'] ), $delete_nonce ),
-				'export' => sprintf( __( '<a href="%s?action=atkp_export_template&templateid=%s&request_nonce=%s">Export</a>', 'affiliate-toolkit-starter' ), ATKPTools::get_endpointurl(), absint( $item['ID'] ), $naunce ),
+				'edit'   => sprintf( '<a href="post.php?post=%s&action=edit">%s</a>', absint( $item['ID'] ), esc_html__( 'Edit', 'affiliate-toolkit-starter' ) ),
+				'delete' => sprintf( '<a href="?page=%1$s&action=%2$s&templateid=%3$s&_wpnonce=%4$s">%5$s</a>', esc_attr( $page ), 'delete', absint( $item['ID'] ), $delete_nonce, esc_html__( 'Delete', 'affiliate-toolkit-starter' ) ),
+				'clone'  => sprintf( '<a href="?page=%1$s&action=%2$s&templateid=%3$s&templatename=%4$s&_wpnonce=%5$s">%6$s</a>', esc_attr( $page ), 'clone', absint( $item['ID'] ), urlencode( $item['post_title'] ), $delete_nonce, esc_html__( 'Duplicate', 'affiliate-toolkit-starter' ) ),
+				'export' => sprintf( '<a href="%1$s?action=atkp_export_template&templateid=%2$s&request_nonce=%3$s">%4$s</a>', esc_url( ATKPTools::get_endpointurl() ), absint( $item['ID'] ), $naunce, esc_html__( 'Export', 'affiliate-toolkit-starter' ) ),
 			];
 
 		} else {
 			$title = $item['post_title'];
 
-
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- WP_List_Table display, nonce not applicable.
+			$page = isset( $_REQUEST['page'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) : '';
 			$actions = [
-				'clone' => sprintf( __( '<a href="?page=%s&action=%s&templateid=%s&templatename=%s&_wpnonce=%s">Duplicate</a>', 'affiliate-toolkit-starter' ), esc_attr( $_REQUEST['page'] ), 'clone', ( $item['ID'] ), urlencode( $item['post_title'] ), $delete_nonce ),
+				'clone' => sprintf( '<a href="?page=%1$s&action=%2$s&templateid=%3$s&templatename=%4$s&_wpnonce=%5$s">%6$s</a>', esc_attr( $page ), 'clone', esc_attr( $item['ID'] ), urlencode( $item['post_title'] ), $delete_nonce, esc_html__( 'Duplicate', 'affiliate-toolkit-starter' ) ),
 			];
 
 		}
@@ -209,7 +215,8 @@ class atkp_template_table extends WP_List_Table {
 			'post_date'     => __( 'Last modified', 'affiliate-toolkit-starter' ),
 		];//'cb'      => '<input type="checkbox" />',
 
-		$view = ( isset( $_REQUEST['view'] ) ? $_REQUEST['view'] : 'custom' );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- WP_List_Table view filter, nonce not applicable.
+		$view = ( isset( $_REQUEST['view'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['view'] ) ) : 'custom' );
 
 		if ( $view == 'system' ) {
 			$columns['template_preview'] = __( 'Preview', 'affiliate-toolkit-starter' );
@@ -251,7 +258,8 @@ class atkp_template_table extends WP_List_Table {
 	 * Handles data query and filter, sorting, and pagination.
 	 */
 	public function prepare_items() {
-		$view = ( isset( $_REQUEST['view'] ) ? $_REQUEST['view'] : 'custom' );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- WP_List_Table pagination/sorting, nonce not applicable.
+		$view = ( isset( $_REQUEST['view'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['view'] ) ) : 'custom' );
 
 		$this->_column_headers = $this->get_column_info();
 
@@ -267,10 +275,15 @@ class atkp_template_table extends WP_List_Table {
 			'per_page'    => $per_page, //WE have to determine how many items to show on a page
 		] );
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- WP_List_Table sorting parameters.
+		$orderby = isset( $_REQUEST['orderby'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['orderby'] ) ) : 'id';
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$order = isset( $_REQUEST['order'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['order'] ) ) : 'desc';
+
 		if ( $view == 'system' ) {
-			$this->items = atkp_template::get_system_list( $per_page, $current_page, ( isset( $_REQUEST['orderby'] ) ? $_REQUEST['orderby'] : 'id' ), ( isset( $_REQUEST['order'] ) ? $_REQUEST['order'] : 'desc' ) );
+			$this->items = atkp_template::get_system_list( $per_page, $current_page, $orderby, $order );
 		} else {
-			$this->items = atkp_template::get_page_list( $per_page, $current_page, ( isset( $_REQUEST['orderby'] ) ? $_REQUEST['orderby'] : 'id' ), ( isset( $_REQUEST['order'] ) ? $_REQUEST['order'] : 'desc' ) );
+			$this->items = atkp_template::get_page_list( $per_page, $current_page, $orderby, $order );
 		}
 
 
@@ -282,29 +295,32 @@ class atkp_template_table extends WP_List_Table {
 		if ( 'delete' === $this->current_action() ) {
 
 			// In our file that handles the request, verify the nonce.
-			$nonce = esc_attr( $_REQUEST['_wpnonce'] );
+			$nonce = isset( $_REQUEST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ) : '';
 
 			if ( ! wp_verify_nonce( $nonce, 'atkp_delete_link' ) ) {
 				die( 'Go get a life script kiddies' );
 			} else {
-				$obj = atkp_template::load( absint( $_GET['templateid'] ) );
+				$obj = atkp_template::load( isset( $_GET['templateid'] ) ? absint( $_GET['templateid'] ) : 0 );
 
 				$obj->delete();
 
 				// esc_url_raw() is used to prevent converting ampersand in url to "#038;"
 				// add_query_arg() return the current url
-				wp_redirect( sprintf( '?page=%s', esc_attr( $_REQUEST['page'] ) ) );
+				$page = isset( $_REQUEST['page'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) : '';
+				wp_safe_redirect( sprintf( '?page=%s', esc_attr( $page ) ) );
 				exit;
 			}
 
 		}
 
 		// If the delete bulk action is triggered
-		if ( ( isset( $_POST['action'] ) && $_POST['action'] == 'bulk-delete' )
-		     || ( isset( $_POST['action2'] ) && $_POST['action2'] == 'bulk-delete' )
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Bulk action nonce verified by WP_List_Table internally.
+		if ( ( isset( $_POST['action'] ) && sanitize_text_field( wp_unslash( $_POST['action'] ) ) == 'bulk-delete' )
+		     || ( isset( $_POST['action2'] ) && sanitize_text_field( wp_unslash( $_POST['action2'] ) ) == 'bulk-delete' )
 		) {
 
-			$delete_ids = esc_sql( $_POST['bulk-delete'] );
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified by WP_List_Table.
+			$delete_ids = isset( $_POST['bulk-delete'] ) ? array_map( 'absint', (array) $_POST['bulk-delete'] ) : array();
 
 			// loop over the array of record IDs and delete them
 			foreach ( $delete_ids as $id ) {
@@ -315,7 +331,9 @@ class atkp_template_table extends WP_List_Table {
 
 			// esc_url_raw() is used to prevent converting ampersand in url to "#038;"
 			// add_query_arg() return the current url
-			wp_redirect( sprintf( '?page=%s', esc_attr( $_REQUEST['page'] ) ) );
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$page = isset( $_REQUEST['page'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) : '';
+			wp_safe_redirect( sprintf( '?page=%s', esc_attr( $page ) ) );
 			exit;
 		}
 	}

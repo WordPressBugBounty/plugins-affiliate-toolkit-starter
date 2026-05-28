@@ -10,6 +10,31 @@ class atkp_template_helper {
 	public $disable_custom_styles = false;
 	public $preview_generation = false;
 
+	/**
+	 * Strip raw PHP tags from template content to prevent code injection via BladeOne eval().
+	 *
+	 * @param string $content Template content to sanitize.
+	 * @return string Sanitized content without PHP tags.
+	 */
+	public static function sanitize_template_content( $content ) {
+		if ( empty( $content ) || ! is_string( $content ) ) {
+			return $content;
+		}
+
+		// Strip PHP open/close tags (multiline, case-insensitive)
+		$content = preg_replace( '/<[?]php\b.*?[?]>/si', '', $content );
+		// Strip short echo tags
+		$content = preg_replace( '/<[?]=.*?[?]>/si', '', $content );
+		// Strip short open tags (but not xml declarations)
+		$content = preg_replace( '/<[?](?!xml\b).*?[?]>/si', '', $content );
+		// Strip unclosed PHP tags at end of content
+		$content = preg_replace( '/<[?]php\b.*$/si', '', $content );
+		$content = preg_replace( '/<[?]=.*$/si', '', $content );
+		$content = preg_replace( '/<[?](?!xml\b).*$/si', '', $content );
+
+		return $content;
+	}
+
 	public function add_shop_info( atkp_formatter $formatter, atkp_shop $myshop, &$placeholders ) {
 
 		$placeholders['shoplogo']         = $formatter->get_shop_logo( $myshop );
@@ -240,6 +265,7 @@ class atkp_template_helper {
 			}
 		} else {
 			$reviewstextNull = __( 'Show customer reviews', 'affiliate-toolkit-starter' );
+			/* translators: %s: number of customer reviews */
 			$reviewstext     = __( '%s customer reviews', 'affiliate-toolkit-starter' );
 			$reviewstext2    = __( '1 customer review', 'affiliate-toolkit-starter' );
 
@@ -255,7 +281,7 @@ class atkp_template_helper {
 					}
 
 				} else {
-					$placeholders['reviewcount'] = sprintf( _n( $reviewstext2, $reviewstext, $myproduct->reviewcount, ATKP_PLUGIN_PREFIX ), $myproduct->reviewcount );
+					$placeholders['reviewcount'] = sprintf( _n( $reviewstext2, $reviewstext, $myproduct->reviewcount, 'affiliate-toolkit-starter' ), $myproduct->reviewcount ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralSingle, WordPress.WP.I18n.NonSingularStringLiteralPlural -- Dynamic strings from user settings.
 
 				}
 			}
@@ -298,29 +324,32 @@ class atkp_template_helper {
 				$perc = '';
 			}
 
+			/* translators: %s: saved amount */
 			$placeholders['save_text'] = $formatter->get_savetext( $myproduct, __( 'You Save: %s', 'affiliate-toolkit-starter' ) ) . $formatter->get_percentagesaved( $myproduct, $perc );
 		}
 		if ( ! ATKPSettings::$showprice || ! ATKPSettings::$showpricediscount ) {
 			$placeholders['listprice_text'] = '';
 		} else {
+			/* translators: %s: list price */
 			$placeholders['listprice_text'] = $formatter->get_listpricetext( $myproduct, __( 'List Price: %s', 'affiliate-toolkit-starter' ) );
 		}
 
 		if ( ! ATKPSettings::$showprice ) {
 			$placeholders['listprice'] = '';
 		} else {
-			$placeholders['listprice'] = $formatter->get_listpricetext( $myproduct, __( '%s', 'affiliate-toolkit-starter' ) );
+			$placeholders['listprice'] = $formatter->get_listpricetext( $myproduct, '%s' );
 		}
 
 		if ( ! ATKPSettings::$showprice ) {
 			$placeholders['price'] = '';
 		} else {
-			$placeholders['price'] = $formatter->get_pricetext( $myproduct, __( '%s', 'affiliate-toolkit-starter' ), __( 'Price not available', 'affiliate-toolkit-starter' ) );
+			$placeholders['price'] = $formatter->get_pricetext( $myproduct, '%s', __( 'Price not available', 'affiliate-toolkit-starter' ) );
 		}
 
 		if ( ! ATKPSettings::$showprice ) {
 			$placeholders['price_text'] = '';
 		} else {
+			/* translators: %s: price value */
 			$placeholders['price_text'] = $formatter->get_pricetext( $myproduct, __( 'Price: %s', 'affiliate-toolkit-starter' ), __( 'Price not available', 'affiliate-toolkit-starter' ) );
 		}
 
@@ -509,6 +538,7 @@ class atkp_template_helper {
 				case 'thumbimages_5':
 				case 'thumbimages_6':
 					$splitted                       = explode( '_', $placeholder );
+				/* translators: %s: image number */
 				$myplaceholders[ $placeholder ] = sprintf( __( 'Image small %s', 'affiliate-toolkit-starter' ), $splitted[1] );
 					break;
 				case 'mediumimages_1':
@@ -518,6 +548,7 @@ class atkp_template_helper {
 				case 'mediumimages_5':
 				case 'mediumimages_6':
 					$splitted                       = explode( '_', $placeholder );
+				/* translators: %s: image number */
 				$myplaceholders[ $placeholder ] = sprintf( __( 'Image medium %s', 'affiliate-toolkit-starter' ), $splitted[1] );
 					break;
 				case 'images_1':
@@ -527,6 +558,7 @@ class atkp_template_helper {
 				case 'images_5':
 				case 'images_6':
 					$splitted                       = explode( '_', $placeholder );
+				/* translators: %s: image number */
 				$myplaceholders[ $placeholder ] = sprintf( __( 'Image large %s', 'affiliate-toolkit-starter' ), $splitted[1] );
 					break;
 				case 'by_text':
@@ -675,7 +707,7 @@ class atkp_template_helper {
 					if ( isset( $templatefound ) && $templatefound != null && ( $templatefound->post_status == 'publish' || $templatefound->post_status == 'draft' ) ) {
 						$mytemplate = html_entity_decode( ATKPTools::get_post_setting( $templatefound->ID, ATKP_TEMPLATE_POSTTYPE . '_body' ) );
 					} else {
-						return ATKPSettings::$hideerrormessages ? '' : ( 'template not found: ' . $template );
+						return ATKPSettings::$hideerrormessages ? '' : ( 'template not found: ' . esc_html( $template ) );
 					}
 
 				} else {
@@ -688,7 +720,7 @@ class atkp_template_helper {
 					if ( file_exists( $templatepath ) ) {
 						$mytemplate = file_get_contents( $templatepath );
 					} else {
-						return ATKPSettings::$hideerrormessages ? '' : ( 'livetemplate not found: ' . $template );
+						return ATKPSettings::$hideerrormessages ? '' : ( 'livetemplate not found: ' . esc_html( $template ) );
 					}
 				}
 			}
@@ -839,7 +871,8 @@ class atkp_template_helper {
 							$short_title = substr( $short_title, 0, 25 );
 						}
 
-						$adminlinks[] = '<a class="' . esc_attr( 'atkp-admin-button' ) . '" href="' . esc_url( $url ) . '">' . sprintf( __( '(edit %s)', 'affiliate-toolkit-starter' ), $short_title ) . '</a>';
+						/* translators: %s: short product title */
+						$adminlinks[] = '<a class="' . esc_attr( 'atkp-admin-button' ) . '" href="' . esc_url( $url ) . '">' . sprintf( esc_html__( '(edit %s)', 'affiliate-toolkit-starter' ), esc_html( $short_title ) ) . '</a>';
 					}
 
 					$added[ $product->listid ] = $product->listid;
@@ -872,7 +905,7 @@ class atkp_template_helper {
 						$mytemplate .= '<style>' . $css . '</style>';
 					}
 				} else {
-					return ATKPSettings::$hideerrormessages ? '' : ( 'template not found: ' . $template );
+					return ATKPSettings::$hideerrormessages ? '' : ( 'template not found: ' . esc_html( $template ) );
 				}
 
 			} else {
@@ -887,7 +920,7 @@ class atkp_template_helper {
 				if ( file_exists( $templatepath ) ) {
 					$mytemplate = file_get_contents( $templatepath );
 				} else {
-					return ATKPSettings::$hideerrormessages ? '' : ( 'template not found: ' . $template );
+					return ATKPSettings::$hideerrormessages ? '' : ( 'template not found: ' . esc_html( $template ) );
 				}
 			}
 		}
@@ -954,13 +987,13 @@ class atkp_template_helper {
 				$paging .= '<div class="atkp-navigation">';
 			}
 
-			$nextpagelink = get_home_url() . remove_query_arg( 'tpage', $_SERVER['REQUEST_URI'] );
+			$nextpagelink = get_home_url() . remove_query_arg( 'tpage', isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '' );
 
 			$addpaging = false;
 
 
 			if ( $page > 1 ) {
-				$paging .= '<a class="atkp-prevpage-btn atkp-infobutton" href="' . $nextpagelink . ( strpos( $nextpagelink, '?' ) > - 1 ? '&' : '?' ) . 'tpage=' . ( $page - 1 ) . '">' . __( 'Previous page', 'affiliate-toolkit-starter' ) . '</a>';
+				$paging .= '<a class="atkp-prevpage-btn atkp-infobutton" href="' . esc_url( $nextpagelink . ( strpos( $nextpagelink, '?' ) > - 1 ? '&' : '?' ) . 'tpage=' . ( $page - 1 ) ) . '">' . esc_html__( 'Previous page', 'affiliate-toolkit-starter' ) . '</a>';
 				$addpaging = true;
 			}
 
@@ -971,7 +1004,7 @@ class atkp_template_helper {
 				if ( $addpaging ) {
 					$paging .= '&nbsp;';
 				}
-				$paging .= '<a class="atkp-nextpage-btn atkp-infobutton" href="' . $nextpagelink . ( strpos( $nextpagelink, '?' ) > - 1 ? '&' : '?' ) . 'tpage=' . ( $page + 1 ) . '">' . __( 'Next page', 'affiliate-toolkit-starter' ) . '</a>';
+				$paging .= '<a class="atkp-nextpage-btn atkp-infobutton" href="' . esc_url( $nextpagelink . ( strpos( $nextpagelink, '?' ) > - 1 ? '&' : '?' ) . 'tpage=' . ( $page + 1 ) ) . '">' . esc_html__( 'Next page', 'affiliate-toolkit-starter' ) . '</a>';
 				$addpaging = true;
 			}
 
@@ -1068,6 +1101,9 @@ class atkp_template_helper {
 				if($script != '')
 					do_action('atkp_add_inline_script', $script, $parameters->templateid);
 		*/
+
+		// Sanitize: strip raw PHP tags to prevent code injection
+		$bladecontent = self::sanitize_template_content( $bladecontent );
 
 		// Add error handling to prevent fatal errors
 		try {

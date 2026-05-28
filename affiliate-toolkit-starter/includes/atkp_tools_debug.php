@@ -22,20 +22,22 @@ class atkp_tools_debug {
 	function migrate_products_plus() {
 		global $wpdb;
 
-		if ( isset( $_GET['atkp_action'] ) && $_GET['atkp_action'] == 'migrate_products_plus' ) {
-			echo 'migrating products plus... ' . '<br />';
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Admin debug/migration page, access controlled by capability check.
+		if ( isset( $_GET['atkp_action'] ) && sanitize_text_field( wp_unslash( $_GET['atkp_action'] ) ) == 'migrate_products_plus' ) {
+			echo esc_html( 'migrating products plus... ' ) . '<br />';
 
 			//TODO: Migration
 
 			$table_name = $wpdb->prefix . 'posts';
 
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Migration tool, table name from $wpdb->prefix.
 			$products = $wpdb->get_results( "SELECT ID FROM $table_name  WHERE (post_type='atkp_product') ", OBJECT );
 
-			echo 'products: ' . count( $products ) . '<br />';
+			echo 'products: ' . esc_html( count( $products ) ) . '<br />';
 
 			foreach ( $products as $row ) {
 				$post_id = $row->ID;
-				echo 'updating ' . esc_html__( $post_id, 'affiliate-toolkit-starter' ) . '<br />';
+				echo 'updating ' . esc_html( $post_id ) . '<br />';
 
 				$isv3 = ATKPTools::get_post_setting( $post_id, ATKP_PRODUCT_POSTTYPE . '_v3_plus' );
 				if ( $isv3 ) {
@@ -58,16 +60,17 @@ class atkp_tools_debug {
 				ATKPTools::set_post_setting( $post_id, ATKP_PRODUCT_POSTTYPE . '_v3_plus', true );
 			}
 			ATKPTools::set_setting( 'atkp_migration_done', 1 );
-			echo 'migration plus finished ';
+			echo esc_html( 'migration plus finished ' );
 
 			//header( 'Location: ' . $_SERVER['HTTP_REFERER'] );
 			exit;
 
 		} else {
 
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Static HTML with escaped dynamic values.
 			echo '<span>' . esc_html__( 'If you didnt modified product data (title, brand, manufacturer, make, description, features,..) you should use this upgrade function:', 'affiliate-toolkit-starter' ) . '</span><br /><br />';
 
-			echo '<a class="button" onclick="return confirm(\'' . esc_html__( 'I made a backup before I migrate my products - Migrate now!', 'affiliate-toolkit-starter' ) . '\')" href="?page=ATKP_affiliate_toolkit-tools&tab=debug_configuration_page&atkp_action=migrate_products_plus">' . esc_html__( 'Migrate my products (including productdata) to V3', ATKP_PLUGIN_PREFIX ) . '</a>'; ?>
+			echo '<a class="button" onclick="return confirm(\'' . esc_html__( 'I made a backup before I migrate my products - Migrate now!', 'affiliate-toolkit-starter' ) . '\')" href="?page=ATKP_affiliate_toolkit-tools&tab=debug_configuration_page&atkp_action=migrate_products_plus">' . esc_html__( 'Migrate my products (including productdata) to V3', 'affiliate-toolkit-starter' ) . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 
             <br/>
             <br/>
@@ -78,20 +81,22 @@ class atkp_tools_debug {
 	function migrate_products() {
 		global $wpdb;
 
-		if ( isset( $_GET['atkp_action'] ) && $_GET['atkp_action'] == 'migrate_products' ) {
-			echo 'migrating products... ' . '<br />';
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Admin debug/migration page, access controlled by capability check.
+		if ( isset( $_GET['atkp_action'] ) && sanitize_text_field( wp_unslash( $_GET['atkp_action'] ) ) == 'migrate_products' ) {
+			echo esc_html( 'migrating products... ' ) . '<br />';
 
 			//TODO: Migration
 
 			$table_name = $wpdb->prefix . 'posts';
 
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Migration tool, table name from $wpdb->prefix.
 			$products = $wpdb->get_results( "SELECT ID FROM $table_name  WHERE (post_type='atkp_product') ", OBJECT );
 
-			echo 'products: ' . count( $products ) . '<br />';
+			echo 'products: ' . esc_html( count( $products ) ) . '<br />';
 
 			foreach ( $products as $row ) {
 				$post_id = $row->ID;
-				echo 'updating ' . esc_html__($post_id) . '<br />';
+				echo 'updating ' . esc_html( $post_id ) . '<br />';
 
 				$isv3 = ATKPTools::get_post_setting( $post_id, ATKP_PRODUCT_POSTTYPE . '_v3' );
 				if ( $isv3 ) {
@@ -149,16 +154,17 @@ class atkp_tools_debug {
 				ATKPTools::set_post_setting( $post_id, ATKP_PRODUCT_POSTTYPE . '_v3', true );
 			}
 			ATKPTools::set_setting( 'atkp_migration_done', 1 );
-			echo 'migration finished ';
+			echo esc_html( 'migration finished ' );
 
 			//header( 'Location: ' . $_SERVER['HTTP_REFERER'] );
 			exit;
 
 		} else {
 
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Static HTML with escaped dynamic values.
 			echo '<span>' . esc_html__( 'If you modified product data (title, brand, manufacturer, make, description, features,..) you should use this upgrade function:', 'affiliate-toolkit-starter' ) . '</span><br /><br />';
 
-			echo '<a class="button" onclick="return confirm(\'' . esc_html__( 'I made a backup before I migrate my products - Migrate now!', 'affiliate-toolkit-starter' ) . '\')" href="?page=ATKP_affiliate_toolkit-tools&tab=debug_configuration_page&atkp_action=migrate_products">' . esc_html__( 'Migrate my products to V3', ATKP_PLUGIN_PREFIX ) . '</a>'; ?>
+			echo '<a class="button" onclick="return confirm(\'' . esc_html__( 'I made a backup before I migrate my products - Migrate now!', 'affiliate-toolkit-starter' ) . '\')" href="?page=ATKP_affiliate_toolkit-tools&tab=debug_configuration_page&atkp_action=migrate_products">' . esc_html__( 'Migrate my products to V3', 'affiliate-toolkit-starter' ) . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 
             <br/>
             <br/>
@@ -173,35 +179,41 @@ class atkp_tools_debug {
 		$tablename  = $tbl->exists_table();
 		$tablename2 = $tbl->exists_detailtable();
 
-		if ( isset( $_GET['atkp_action'] ) && $_GET['atkp_action'] == 'recreate_queuetable' ) {
-			echo esc_html__( 'generating table structure for ' . $tablename[1], 'affiliate-toolkit-starter' );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Admin debug page, access controlled by capability check.
+		if ( isset( $_GET['atkp_action'] ) && sanitize_text_field( wp_unslash( $_GET['atkp_action'] ) ) == 'recreate_queuetable' ) {
+			/* translators: %s: table name */
+			echo esc_html( sprintf( __( 'generating table structure for %s', 'affiliate-toolkit-starter' ), $tablename[1] ) );
 
 			//drop table
 			if ( $tablename[0] ) {
-				$wpdb->query( 'DROP TABLE ' . $tablename[1] );
+				$wpdb->query( 'DROP TABLE ' . $tablename[1] ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
 			}
 
 			if ( $tablename2[0] ) {
-				$wpdb->query( 'DROP TABLE ' . $tablename2[1] );
+				$wpdb->query( 'DROP TABLE ' . $tablename2[1] ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
 			}
 
 			//create table
 			$tbl->check_table_structure( true );
 
-			header( 'Location: ' . $_SERVER['HTTP_REFERER'] );
+			header( 'Location: ' . ( isset( $_SERVER['HTTP_REFERER'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : '' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			exit;
 
 		} else {
 
 
+			/* translators: %s: SQL table name */
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped, WordPress.WP.I18n.MissingTranslatorsComment -- HTML tags are static, dynamic values are escaped with esc_html__() and esc_html().
 			echo( $tablename[0] ? '<span style="">' . sprintf( esc_html__( 'SQL table "%s" exists', 'affiliate-toolkit-starter' ), esc_html( $tablename[1] ) ) . '</span>' : '<span style="">' . sprintf( esc_html__( 'SQL table "%s" does not exist', 'affiliate-toolkit-starter' ), esc_html( $tablename[1] ) ) . '</span>' ) ?>
             <br/>
 			<?php
+			/* translators: %s: SQL table name */
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped, WordPress.WP.I18n.MissingTranslatorsComment -- HTML tags are static, dynamic values are escaped.
 			echo( $tablename2[0] ? '<span style="">' . sprintf( esc_html__( 'SQL table "%s" exists', 'affiliate-toolkit-starter' ), esc_html( $tablename2[1] ) ) . '</span>' : '<span style="">' . sprintf( esc_html__( 'SQL table "%s" does not exist', 'affiliate-toolkit-starter' ), esc_html( $tablename2[1] ) ) . '</span>' ) ?>
             <br/>
 
 
-			<?php echo '<a class="button" onclick="return confirm(\'' . esc_html__( 'Are you sure (all queue table entries will be deleted)?', 'affiliate-toolkit-starter' ) . '\')" href="?page=ATKP_affiliate_toolkit-tools&tab=debug_configuration_page&atkp_action=recreate_queuetable">' . esc_html__( 'Drop & create queue table (data will be deleted)', ATKP_PLUGIN_PREFIX ) . '</a>'; ?>
+			<?php echo '<a class="button" onclick="return confirm(\'' . esc_html__( 'Are you sure (all queue table entries will be deleted)?', 'affiliate-toolkit-starter' ) . '\')" href="?page=ATKP_affiliate_toolkit-tools&tab=debug_configuration_page&atkp_action=recreate_queuetable">' . esc_html__( 'Drop & create queue table (data will be deleted)', 'affiliate-toolkit-starter' ) . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 
             <br/>
             <br/>
@@ -216,27 +228,30 @@ class atkp_tools_debug {
 		$tbl       = new atkp_producttable_helper();
 		$tablename = $tbl->exists_table();
 
-		if ( isset( $_GET['atkp_action'] ) && $_GET['atkp_action'] == 'recreate_producttable' ) {
-			echo esc_html__( 'generating table structure for ' . $tablename[1], 'affiliate-toolkit-starter' );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Admin debug page, access controlled by capability check.
+		if ( isset( $_GET['atkp_action'] ) && sanitize_text_field( wp_unslash( $_GET['atkp_action'] ) ) == 'recreate_producttable' ) {
+			/* translators: %s: table name */
+			echo esc_html( sprintf( __( 'generating table structure for %s', 'affiliate-toolkit-starter' ), $tablename[1] ) );
 
 			//drop table
 			if ( $tablename[0] ) {
-				$wpdb->query( 'DROP TABLE ' . $tablename[1] );
+				$wpdb->query( 'DROP TABLE ' . $tablename[1] ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
 			}
 
 			//create table
 			$tbl->check_table_structure( true );
 
-			header( 'Location: ' . $_SERVER['HTTP_REFERER'] );
+			header( 'Location: ' . ( isset( $_SERVER['HTTP_REFERER'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : '' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			exit;
 
 		} else {
 
-
-			echo( $tablename[0] ? '<span style="">' . sprintf( esc_html__( 'SQL table "%s" exists', 'affiliate-toolkit-starter' ), esc_html( $tablename[1] ) ) . '</span>' : '<span style="">' . sprintf( esc_html__( 'SQL table "%s" does not exist', ATKP_PLUGIN_PREFIX ), esc_html( $tablename[1] ) ) . '</span>' ) ?>
+			/* translators: %s: SQL table name */
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped, WordPress.WP.I18n.MissingTranslatorsComment -- HTML tags are static, dynamic values are escaped.
+			echo( $tablename[0] ? '<span style="">' . sprintf( esc_html__( 'SQL table "%s" exists', 'affiliate-toolkit-starter' ), esc_html( $tablename[1] ) ) . '</span>' : '<span style="">' . sprintf( esc_html__( 'SQL table "%s" does not exist', 'affiliate-toolkit-starter' ), esc_html( $tablename[1] ) ) . '</span>' ) ?>
             <br/>
 
-			<?php echo '<a class="button" onclick="return confirm(\'' . esc_html__( 'Are you sure (all product table entries will be deleted)?', 'affiliate-toolkit-starter' ) . '\')" href="?page=ATKP_affiliate_toolkit-tools&tab=debug_configuration_page&atkp_action=recreate_producttable">' . esc_html__( 'Drop & create list table (data will be deleted)', ATKP_PLUGIN_PREFIX ) . '</a>'; ?>
+			<?php echo '<a class="button" onclick="return confirm(\'' . esc_html__( 'Are you sure (all product table entries will be deleted)?', 'affiliate-toolkit-starter' ) . '\')" href="?page=ATKP_affiliate_toolkit-tools&tab=debug_configuration_page&atkp_action=recreate_producttable">' . esc_html__( 'Drop & create list table (data will be deleted)', 'affiliate-toolkit-starter' ) . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 
             <br/>
             <br/>
@@ -251,28 +266,32 @@ class atkp_tools_debug {
 		$tbl       = new atkp_listtable_helper();
 		$tablename = $tbl->exists_table();
 
-		if ( isset( $_GET['atkp_action'] ) && $_GET['atkp_action'] == 'recreate_listtable' ) {
-			echo esc_html__( 'generating table structure for ' . $tablename[1], 'affiliate-toolkit-starter' );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Admin debug page, access controlled by capability check.
+		if ( isset( $_GET['atkp_action'] ) && sanitize_text_field( wp_unslash( $_GET['atkp_action'] ) ) == 'recreate_listtable' ) {
+			/* translators: %s: table name */
+			echo esc_html( sprintf( __( 'generating table structure for %s', 'affiliate-toolkit-starter' ), $tablename[1] ) );
 
 			//drop table
 			if ( $tablename[0] ) {
-				$wpdb->query( 'DROP TABLE ' . $tablename[1] );
+				$wpdb->query( 'DROP TABLE ' . $tablename[1] ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
 			}
 
 			//create table
 			$tbl->check_table_structure( true );
 
-			header( 'Location: ' . $_SERVER['HTTP_REFERER'] );
+			header( 'Location: ' . ( isset( $_SERVER['HTTP_REFERER'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : '' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			exit;
 
 		} else {
 
 			$tbl       = new atkp_listtable_helper();
 			$tablename = $tbl->exists_table();
-			echo( $tablename[0] ? '<span style="">' . sprintf( esc_html__( 'SQL table "%s" exists', 'affiliate-toolkit-starter' ), esc_html( $tablename[1] ) ) . '</span>' : '<span style="">' . sprintf( esc_html__( 'SQL table "%s" does not exist', ATKP_PLUGIN_PREFIX ), esc_html( $tablename[1] ) ) . '</span>' ) ?>
+			/* translators: %s: SQL table name */
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped, WordPress.WP.I18n.MissingTranslatorsComment -- HTML tags are static, dynamic values are escaped.
+			echo( $tablename[0] ? '<span style="">' . sprintf( esc_html__( 'SQL table "%s" exists', 'affiliate-toolkit-starter' ), esc_html( $tablename[1] ) ) . '</span>' : '<span style="">' . sprintf( esc_html__( 'SQL table "%s" does not exist', 'affiliate-toolkit-starter' ), esc_html( $tablename[1] ) ) . '</span>' ) ?>
             <br/>
 
-			<?php echo '<a class="button" onclick="return confirm(\'' . esc_html__( 'Are you sure (all list table entries will be deleted)?', 'affiliate-toolkit-starter' ) . '\')" href="?page=ATKP_affiliate_toolkit-tools&tab=debug_configuration_page&atkp_action=recreate_listtable">' . esc_html__( 'Drop & create list table (data will be deleted)', ATKP_PLUGIN_PREFIX ) . '</a>'; ?>
+			<?php echo '<a class="button" onclick="return confirm(\'' . esc_html__( 'Are you sure (all list table entries will be deleted)?', 'affiliate-toolkit-starter' ) . '\')" href="?page=ATKP_affiliate_toolkit-tools&tab=debug_configuration_page&atkp_action=recreate_listtable">' . esc_html__( 'Drop & create list table (data will be deleted)', 'affiliate-toolkit-starter' ) . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 
             <br/>
             <br/>
@@ -324,19 +343,19 @@ class atkp_tools_debug {
 									<?php
 									$selected = get_option( ATKP_PLUGIN_PREFIX . '_loglevel' );
 
-									echo '<option value="off" ' . ( $selected == '' || $selected == 'off' ? 'selected' : '' ) . ' >' . esc_html__( 'OFF', 'affiliate-toolkit-starter' ) . '</option>';
+									echo '<option value="off" ' . ( $selected == '' || $selected == 'off' ? 'selected' : '' ) . ' >' . esc_html__( 'OFF', 'affiliate-toolkit-starter' ) . '</option>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
-									echo '<option value="debug" ' . ( $selected == 'debug' ? 'selected' : '' ) . '>' . esc_html__( 'DEBUG', 'affiliate-toolkit-starter' ) . '</option>';
+									echo '<option value="debug" ' . ( $selected == 'debug' ? 'selected' : '' ) . '>' . esc_html__( 'DEBUG', 'affiliate-toolkit-starter' ) . '</option>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
-									echo '<option value="error" ' . ( $selected == 'error' ? 'selected' : '' ) . '>' . esc_html__( 'ERROR', 'affiliate-toolkit-starter' ) . '</option>';
+									echo '<option value="error" ' . ( $selected == 'error' ? 'selected' : '' ) . '>' . esc_html__( 'ERROR', 'affiliate-toolkit-starter' ) . '</option>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 
 									?>
                                 </select> <br/>
 
-	                            <?php echo '<a ' . ( ( file_exists( ATKP_LOGFILE ) ) ? '' : 'disabled' ) . ' class="button" href="' . esc_url( ATKPTools::get_endpointurl() . '?action=atkp_download_logfile&request_nonce=' . $nounce ) . '">' . esc_html__( 'Download Logfile', 'affiliate-toolkit-starter' ) . '</a>'; ?>
+	                            <?php echo '<a ' . ( ( file_exists( ATKP_LOGFILE ) ) ? '' : 'disabled' ) . ' class="button" href="' . esc_url( ATKPTools::get_endpointurl() . '?action=atkp_download_logfile&request_nonce=' . $nounce ) . '">' . esc_html__( 'Download Logfile', 'affiliate-toolkit-starter' ) . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                                 &nbsp;
-	                            <?php echo '<a ' . ( ( file_exists( ATKP_LOGFILE ) ) ? '' : 'disabled' ) . ' class="button" href="' . esc_url( ATKPTools::get_endpointurl() . '?action=atkp_clear_logfile&request_nonce=' . $nounce ) . '">' . esc_html__( 'Clear Logfile', 'affiliate-toolkit-starter' ) . '</a>'; ?>
+	                            <?php echo '<a ' . ( ( file_exists( ATKP_LOGFILE ) ) ? '' : 'disabled' ) . ' class="button" href="' . esc_url( ATKPTools::get_endpointurl() . '?action=atkp_clear_logfile&request_nonce=' . $nounce ) . '">' . esc_html__( 'Clear Logfile', 'affiliate-toolkit-starter' ) . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 
                             </td>
                         </tr>
@@ -381,11 +400,11 @@ class atkp_tools_debug {
 								do_action( 'atkp_debug_status_action' );
 
 
-								echo '<a class="button" href="' . esc_url( ATKPTools::get_endpointurl() . '?action=atkp_reset_products&request_nonce=' . esc_html( $nounce ) ) . '">' . esc_html__( 'Mark all products for update', 'affiliate-toolkit-starter' ) . '</a>'; ?>
+								echo '<a class="button" href="' . esc_url( ATKPTools::get_endpointurl() . '?action=atkp_reset_products&request_nonce=' . esc_html( $nounce ) ) . '">' . esc_html__( 'Mark all products for update', 'affiliate-toolkit-starter' ) . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                                 <br/><br/>
-	                            <?php echo '<a class="button" href="' . esc_url( ATKPTools::get_endpointurl() . '?action=atkp_reset_lists&request_nonce=' . esc_html( $nounce ) ) . '">' . esc_html__( 'Mark all lists for update', 'affiliate-toolkit-starter' ) . '</a>'; ?>
+	                            <?php echo '<a class="button" href="' . esc_url( ATKPTools::get_endpointurl() . '?action=atkp_reset_lists&request_nonce=' . esc_html( $nounce ) ) . '">' . esc_html__( 'Mark all lists for update', 'affiliate-toolkit-starter' ) . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                                 <br/><br/>
-	                            <?php echo '<a class="button" onclick="return confirm(\'' . esc_html__( 'Are you sure (everything from the plugin will be deleted!)?', 'affiliate-toolkit-starter' ) . '\')" href="' . esc_url( ATKPTools::get_endpointurl() . '?action=atkp_reset_settings&request_nonce=' . esc_html( $nounce ) ) . '">' . esc_html__( 'Remove all settings and products (clean install)', ATKP_PLUGIN_PREFIX ) . '</a>'; ?>
+	                            <?php echo '<a class="button" onclick="return confirm(\'' . esc_html__( 'Are you sure (everything from the plugin will be deleted!)?', 'affiliate-toolkit-starter' ) . '\')" href="' . esc_url( ATKPTools::get_endpointurl() . '?action=atkp_reset_settings&request_nonce=' . esc_html( $nounce ) ) . '">' . esc_html__( 'Remove all settings and products (clean install)', 'affiliate-toolkit-starter' ) . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 
                             </td>
                         </tr>
@@ -429,7 +448,7 @@ class atkp_tools_debug {
 	}
 
 	private function get_phpinfo() {
-		return print_r( $this->parse_phpinfo(), true );
+		return print_r( $this->parse_phpinfo(), true ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r -- Debug info page.
 	}
 
 	function parse_phpinfo() {
@@ -438,7 +457,7 @@ class atkp_tools_debug {
 			return 'This information is not available.';
 		} else {
 			ob_start();
-			phpinfo();
+			phpinfo(); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.prevent_path_disclosure_phpinfo -- Admin debug info page, access controlled by capability.
 			$s = ob_get_contents();
 			ob_end_clean();
 
@@ -477,13 +496,7 @@ class atkp_tools_debug {
 	}
 
 	private function getThemeData() {
-		$themeData = null;
-
-		if ( $this->isMinimumVersion( '3.4' ) ) {
-			$themeData = wp_get_theme();
-		} else {
-			$themeData = get_theme_data( get_stylesheet() );
-		}
+		$themeData = wp_get_theme();
 
 		return $themeData;
 	}
@@ -516,25 +529,25 @@ class atkp_tools_debug {
 			'php_ipv6'         => defined( 'AF_INET6' ) ? "PHP was compiled without --disable-ipv6 option" : "PHP was compiled with --disable-ipv6 option",
 			'mysql_version'    => ! empty( $mysql_server_info ) ? $mysql_server_info : '',
 			'mysql_client'     => ! empty( $mysql_client_info ) ? $mysql_client_info : '',
-			'server_software'  => $_SERVER['SERVER_SOFTWARE'],
+			'server_software'  => isset( $_SERVER['SERVER_SOFTWARE'] ) ? sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) ) : '',
 		);
 
 
 		if ( function_exists( 'mysql_get_server_info' ) ) {
-			$mysql_server_info = @mysql_get_server_info();
+			$mysql_server_info = @mysql_get_server_info(); // phpcs:ignore PHPCompatibility.Extensions.RemovedExtensions.mysql_DeprecatedRemoved, WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.DB.RestrictedFunctions.mysql_mysql_get_server_info -- Fallback for legacy environments.
 		} else {
 			$mysql_server_info = '';
 		}
 
 		if ( function_exists( 'mysql_get_client_info' ) ) {
-			$mysql_client_info = @mysql_get_client_info();
+			$mysql_client_info = @mysql_get_client_info(); // phpcs:ignore PHPCompatibility.Extensions.RemovedExtensions.mysql_DeprecatedRemoved, WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.DB.RestrictedFunctions.mysql_mysql_get_client_info -- Fallback for legacy environments.
 		} else {
 			$mysql_client_info = '';
 		}
 
 		$context['mysql_version']   = ! empty( $mysql_server_info ) ? $mysql_server_info : '';
 		$context['mysql_client']    = ! empty( $mysql_client_info ) ? $mysql_client_info : '';
-		$context['server_software'] = $_SERVER['SERVER_SOFTWARE'];
+		$context['server_software'] = isset( $_SERVER['SERVER_SOFTWARE'] ) ? sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) ) : '';
 
 		if ( function_exists( 'apache_get_version' ) ) {
 			$context['apache_version'] = apache_get_version();
@@ -543,12 +556,12 @@ class atkp_tools_debug {
 			$context['apache_modules'] = apache_get_modules();
 		}
 
-		return print_r( $context, true );
+		return print_r( $context, true ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r -- Debug info page.
 	}
 
 	private function get_logfile() {
 		if ( file_exists( ATKP_PLUGIN_DIR . '/log/log.txt' ) ) {
-			return file_get_contents( ATKP_PLUGIN_DIR . '/log/log.txt' );
+			return file_get_contents( ATKP_PLUGIN_DIR . '/log/log.txt' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Reading local log file.
 		} else {
 			return 'file not found';
 		}

@@ -239,6 +239,9 @@
     background: #f1f1f1;
 }
 
-
-
-
+.wp-core-ui .button .dashicons,
+.wp-core-ui .button-primary .dashicons,
+.wp-core-ui .button-secondary .dashicons {
+    line-height: 20px;
+    vertical-align: middle;
+}

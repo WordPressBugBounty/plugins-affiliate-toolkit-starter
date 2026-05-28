@@ -4,6 +4,7 @@
  * Diese Datei stellt eine erweiterte Cronjob-Funktionalität zur Verfügung.
  * Hiermit kan man auch eine große Anzahl an Dateien verarbeiten.
  */
+defined('ABSPATH') || exit;
 
 // PHP-Konfiguration optimieren
 //@error_reporting( E_ALL );
@@ -15,41 +16,44 @@ if ( ! defined( 'WP_MAX_MEMORY_LIMIT' ) ) {
 }
 
 if ( ! defined( 'SAVEQUERIES' ) ) {
-	define( 'SAVEQUERIES', 0 );
+	define( 'SAVEQUERIES', 0 ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 }
 
 if ( ! defined( 'WP_DISABLE_FATAL_ERROR_HANDLER' ) ) {
-	define( 'WP_DISABLE_FATAL_ERROR_HANDLER', true );
+	define( 'WP_DISABLE_FATAL_ERROR_HANDLER', true ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 }
 
 if ( defined( 'WP_LOAD_PATH' ) ) {
-	$default_wp_path = WP_LOAD_PATH;
+	$atkp_default_wp_path = WP_LOAD_PATH;
 } else {
-	$default_wp_path = './../../../wp-load.php';
+	$atkp_default_wp_path = './../../../wp-load.php';
 
-	if ( ! file_exists( $default_wp_path ) && isset( $_SERVER['DOCUMENT_ROOT'] ) ) {
-		$default_wp_path = $_SERVER['DOCUMENT_ROOT'] . '/wp-load.php';
+	if ( ! file_exists( $atkp_default_wp_path ) && isset( $_SERVER['DOCUMENT_ROOT'] ) ) {
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- WP not loaded yet, using realpath for validation
+		$atkp_default_wp_path = realpath( stripslashes( $_SERVER['DOCUMENT_ROOT'] ) ) . '/wp-load.php';
 	}
 
-	if ( ! file_exists( $default_wp_path ) && isset( $_SERVER['SCRIPT_FILENAME'] ) ) {
-		$parse_uri       = explode( 'wp-content', $_SERVER['SCRIPT_FILENAME'] );
-		$default_wp_path = $parse_uri[0] . 'wp-load.php';
+	if ( ! file_exists( $atkp_default_wp_path ) && isset( $_SERVER['SCRIPT_FILENAME'] ) ) {
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- WP not loaded yet, using realpath for validation
+		$atkp_script_filename = realpath( stripslashes( $_SERVER['SCRIPT_FILENAME'] ) );
+		$atkp_parse_uri       = explode( 'wp-content', $atkp_script_filename );
+		$atkp_default_wp_path = $atkp_parse_uri[0] . 'wp-load.php';
 	}
 }
 
-if ( ! file_exists( $default_wp_path ) ) {
-	atkp_cron_error_page( 'wp-load.php not found', 'WordPress could not be loaded. The file was expected at: ' . htmlspecialchars( $default_wp_path ) );
+if ( ! file_exists( $atkp_default_wp_path ) ) {
+	atkp_cron_error_page( 'wp-load.php not found', 'WordPress could not be loaded. The file was expected at: ' . htmlspecialchars( $atkp_default_wp_path ) );
 }
 
 try {
-	require( $default_wp_path );
+	require( $atkp_default_wp_path );
 
 	if ( ! class_exists( 'atkp_options' ) || ! class_exists( 'ATKPTools' ) ) {
 		atkp_cron_error_page( 'Plugin not loaded', 'affiliate-toolkit is not active or was not loaded correctly. Please make sure the plugin is activated in WordPress.' );
 	}
 
-	$cron = new atkp_external_cron();
-	$cron->execute();
+	$atkp_cron = new atkp_external_cron();
+	$atkp_cron->execute();
 } catch ( \Throwable $e ) {
 	atkp_cron_error_page( get_class( $e ) . ': ' . $e->getMessage(), null, $e );
 }
@@ -98,17 +102,20 @@ function atkp_cron_error_page( string $title, ?string $detail = null, ?\Throwabl
 				<h1>affiliate-toolkit &mdash; Cron Error</h1>
 			</div>
 			<div class="atkp-error-card">
-				<div class="atkp-error-card-header"><?php echo htmlspecialchars( $title ); ?></div>
+				<div class="atkp-error-card-header"><?php echo esc_html( $title ); ?></div>
 				<div class="atkp-error-card-body">
 					<?php if ( $detail ) : ?>
-						<p><?php echo $detail; ?></p>
+						<p><?php
+						// Using htmlspecialchars because this may run before WordPress is loaded.
+						echo htmlspecialchars( $detail, ENT_QUOTES, 'UTF-8' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					?></p>
 					<?php endif; ?>
 
 					<?php if ( $exception ) : ?>
 						<dl class="atkp-error-info">
-							<dt>File</dt><dd><?php echo htmlspecialchars( $exception->getFile() ); ?></dd>
-							<dt>Line</dt><dd><?php echo $exception->getLine(); ?></dd>
-							<dt>Code</dt><dd><?php echo $exception->getCode(); ?></dd>
+							<dt>File</dt><dd><?php echo esc_html( $exception->getFile() ); ?></dd>
+							<dt>Line</dt><dd><?php echo (int) $exception->getLine(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></dd>
+							<dt>Code</dt><dd><?php echo htmlspecialchars( $exception->getCode(), ENT_QUOTES, 'UTF-8' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></dd>
 						</dl>
 
 						<div class="atkp-stacktrace"><span class="atkp-st-label">Stack Trace</span><?php
@@ -119,13 +126,14 @@ function atkp_cron_error_page( string $title, ?string $detail = null, ?\Throwabl
 								$frame = preg_replace( '/(#\d+)/', '<span class="atkp-st-num">$1</span>', $frame );
 								$frame = preg_replace( '/([^\s(]+\.php)/', '<span class="atkp-st-file">$1</span>', $frame );
 								$frame = preg_replace( '/\((\d+)\)/', '(<span class="atkp-st-line">$1</span>)', $frame );
-								echo $frame . "\n";
+								// Frame already escaped via htmlspecialchars; span tags are intentional.
+								echo $frame . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							}
 						?></div>
 					<?php endif; ?>
 				</div>
 			</div>
-			<div class="atkp-error-footer">affiliate-toolkit v<?php echo defined( 'ATKP_VERSION' ) ? ATKP_VERSION : '?'; ?> &middot; PHP <?php echo PHP_VERSION; ?> &middot; <?php echo date( 'Y-m-d H:i:s T' ); ?></div>
+			<div class="atkp-error-footer">affiliate-toolkit v<?php echo defined( 'ATKP_VERSION' ) ? htmlspecialchars( ATKP_VERSION, ENT_QUOTES, 'UTF-8' ) : '?'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> &middot; PHP <?php echo htmlspecialchars( PHP_VERSION, ENT_QUOTES, 'UTF-8' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> &middot; <?php echo htmlspecialchars( gmdate( 'Y-m-d H:i:s T' ), ENT_QUOTES, 'UTF-8' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
 		</div>
 	</body>
 	</html>
@@ -143,12 +151,12 @@ class atkp_external_cron {
 		$cron_key = ATKPTools::get_setting( ATKP_PLUGIN_PREFIX . '_cronkey' );
 
 		if ( php_sapi_name() == 'cli' )
-			echo 'cmd mode running';
+			echo 'cmd mode running'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		else if ( defined( 'WP_CLI' ) && WP_CLI ) {
-			echo 'cli mode running';
+			echo 'cli mode running'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		} else {
 			if ( $key == '' || trim( $cron_key ) != trim( $key ) ) {
-				echo 'key invalid';
+				echo 'key invalid'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				die( 401 );
 			}
 		}
@@ -158,7 +166,7 @@ class atkp_external_cron {
 			default:
 			case 'wpcron':
 				//wp cron? nothing todo...
-			echo 'external cronjob deactivated';
+			echo 'external cronjob deactivated'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			die( 404 );
 			case 'external':
 			case 'externaloutput':

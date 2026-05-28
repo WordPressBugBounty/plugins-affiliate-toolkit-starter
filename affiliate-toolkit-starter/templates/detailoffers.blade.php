@@ -1,3 +1,4 @@
+<?php defined('ABSPATH') || exit; ?>
 <?php
 
 /** @var $formatter atkp_formatter */

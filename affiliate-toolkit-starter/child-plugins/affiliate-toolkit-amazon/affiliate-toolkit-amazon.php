@@ -8,6 +8,7 @@
  * Author URI: https://www.servit.biz
  * Text Domain: ATKP
  * Domain Path: /lang
+ * Update URI: https://www.affiliate-toolkit.com
  * License: GPL2
  */
 

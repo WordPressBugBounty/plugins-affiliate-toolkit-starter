@@ -77,7 +77,6 @@ class atkp_marketplace_mapper {
 	 */
 	public static function get_credential_versions() {
 		return array(
-			''    => 'Auto-detect',
 			'2.1' => '2.1 (NA)',
 			'2.2' => '2.2 (EU)',
 			'2.3' => '2.3 (FE)',

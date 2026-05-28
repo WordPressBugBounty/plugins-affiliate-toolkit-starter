@@ -297,9 +297,9 @@ class atkp_output {
 			if ( ATKPSettings::$access_mark_links == 1 && strpos( $content, 'img src' ) == true ) {
 				$capt = __( 'Advertising', 'affiliate-toolkit-starter' );
 
-				$resultValue = '<div class="atkp-link-image ' . esc_attr( $containercss ) . '"><div class="atkp-affiliateimage atkp-clearfix"><a ' . ( $link ) . ' >' . $content . '</a><div style="margin-top:3px">' . $capt . '</div></div></div>';
+				$resultValue = '<div class="atkp-link-image ' . esc_attr( $containercss ) . '"><div class="atkp-affiliateimage atkp-clearfix"><a ' . $link . ' >' . wp_kses_post( $content ) . '</a><div style="margin-top:3px">' . esc_html( $capt ) . '</div></div></div>';
 			} else {
-				$resultValue = '<a class="atkp-link" ' . ( $link ) . ' >' . $content . '</a>';
+				$resultValue = '<a class="atkp-link" ' . $link . ' >' . wp_kses_post( $content ) . '</a>';
 			}
 		}
 

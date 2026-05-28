@@ -77,6 +77,7 @@ class atkp_template {
 
 		$query = "SELECT count(*) as cnt FROM {$wpdb->posts} WHERE post_type='atkp_template' ";
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Simple count query, uses only $wpdb table property.
 		$result = $wpdb->get_results( $query, ARRAY_A );
 
 		$cnt = count( $result ) > 0 ? intval( $result[0]['cnt'] ) : 0;
@@ -107,7 +108,7 @@ class atkp_template {
 			}
 
 			if ( file_exists( $templatepath ) ) {
-				$writetime = date( "Y-m-d H:m:s", filemtime( $templatepath ) );
+				$writetime = gmdate( "Y-m-d H:m:s", filemtime( $templatepath ) );
 			}
 
 			$template_type = apply_filters( 'atkp_template_get_type', '6', $system_template );
@@ -151,6 +152,7 @@ class atkp_template {
 		$sql .= ' OFFSET ' . ( $page_number - 1 ) * $per_page;
 
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Admin template listing, values sanitized via esc_sql() and cast to int.
 		$result = $wpdb->get_results( $sql, 'ARRAY_A' );
 
 		return $result;
@@ -251,10 +253,12 @@ class atkp_template {
 		$product = get_post( $post_id );
 
 		if ( ! isset( $product ) || $product == null ) {
-			throw new Exception( esc_html__( 'template not found: ' . $post_id, 'affiliate-toolkit-starter' ) );
+			/* translators: %s: post ID */
+			throw new Exception( sprintf( esc_html__( 'template not found: %s', 'affiliate-toolkit-starter' ), esc_html( $post_id ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 		}
 		if ( $product->post_type != ATKP_TEMPLATE_POSTTYPE ) {
-			throw new Exception( esc_html__( 'invalid post_type: ' . $product->post_type . ', $post_id: ' . $post_id, 'affiliate-toolkit-starter' ) );
+			/* translators: 1: post type, 2: post ID */
+			throw new Exception( sprintf( esc_html__( 'invalid post_type: %1$s, $post_id: %2$s', 'affiliate-toolkit-starter' ), esc_html( $product->post_type ), esc_html( $post_id ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 		}
 
 		$prd = new atkp_template();

@@ -5,6 +5,7 @@
  * Date: 01.12.2018
  * Time: 11:35
  */
+defined('ABSPATH') || exit;
 
 class ATKPSettings {
 	//Plugin-Prefix: Affiliate Toolkit Plugin (atkp)

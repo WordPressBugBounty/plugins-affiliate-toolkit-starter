@@ -4,6 +4,8 @@
 namespace eftec\bladeone;
 
 
+// phpcs:disable WordPress.Security.ValidatedSanitizedInput, WordPress.WP.AlternativeFunctions, WordPress.WP.I18n
+// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 /**
  * trait BladeOneCacheRedis
  * Copyright (c) 2016 Jorge Patricio Castro Castillo MIT License. Don't delete this comment, its part of the license.
@@ -83,7 +85,7 @@ trait BladeOneCacheRedis {
 	private function keyByScope( $scope ) {
 		$key = '';
 		if ( $scope && CACHEREDIS_SCOPEURL ) {
-			$key .= $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+			$key .= $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- third-party library
 		}
 	}
 
@@ -146,8 +148,9 @@ trait BladeOneCacheRedis {
 		if ( ! $this->cacheRunning ) {
 			$txt          = substr( ob_get_contents(), $this->curCachePosition );
 			$compiledFile = $this->getCompiledFile() . '_cache' . $this->curCacheId;
-			file_put_contents( $compiledFile, $txt );
+			file_put_contents( $compiledFile, $txt ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- third-party library
 		}
 		$this->cacheRunning = false;
 	}
 }
+// phpcs:enable

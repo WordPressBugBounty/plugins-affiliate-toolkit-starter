@@ -1,3 +1,4 @@
+<?php defined('ABSPATH') || exit; ?>
 <div class="atkp-container atkp-secondwide-box {{$parameters->get_css_container_class()}}">
     @if($products != null)
         @foreach ($products as $product)

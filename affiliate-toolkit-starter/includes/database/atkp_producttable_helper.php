@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL, PluginCheck.Security.DirectDB
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
@@ -26,9 +27,7 @@ class atkp_producttable_helper {
 	public function exists_table() {
 		global $wpdb;
 		$tablename = $this->get_producttable_tablename();
-		$sql       = "SHOW TABLES LIKE '" . $tablename . "'";
-
-		$result = $wpdb->get_results( $sql );
+		$result = $wpdb->get_results( $wpdb->prepare( "SHOW TABLES LIKE %s", $tablename ) );
 
 		return array( count( $result ) > 0, $tablename );
 	}
@@ -46,11 +45,11 @@ class atkp_producttable_helper {
 		$table_name = $this->get_producttable_tablename();
 
 		$query = $wpdb->prepare(
-			"SELECT 
+			"SELECT
             COUNT(*) as total,
             SUM(CASE WHEN haserror = 1 THEN 1 ELSE 0 END) as error,
             SUM(CASE WHEN haserror = 0 OR haserror IS NULL THEN 1 ELSE 0 END) as success
-        FROM $table_name 
+        FROM $table_name
         WHERE shop_id = %d",
 			$shop_id
 		);
@@ -70,7 +69,7 @@ class atkp_producttable_helper {
 		$table_name = $this->get_producttable_tablename();
 
 		// Produkte mit haserror = 1 in der Produkttabelle
-		$results = $wpdb->get_col( "SELECT DISTINCT product_id FROM $table_name WHERE haserror = 1" );
+		$results = $wpdb->get_col( "SELECT DISTINCT product_id FROM {$table_name} WHERE haserror = 1" );
 
 		$ids = ! empty( $results ) ? array_map( 'intval', $results ) : array();
 
@@ -102,7 +101,7 @@ class atkp_producttable_helper {
 		$table_name = $this->get_producttable_tablename();
 
 		// Alle distinct product_id holen, die haserror = 1 haben
-		$results = $wpdb->get_col( "SELECT DISTINCT product_id FROM $table_name WHERE salepricefloat is null" );
+		$results = $wpdb->get_col( "SELECT DISTINCT product_id FROM {$table_name} WHERE salepricefloat is null" );
 
 		if ( empty( $results ) ) {
 			return array();
@@ -206,7 +205,7 @@ class atkp_producttable_helper {
 
 		$table_name = $this->get_producttable_tablename();
 
-		$affected = $wpdb->query( "update $table_name set isupdated = 0 WHERE product_id=$product_id" );
+		$affected = $wpdb->query( $wpdb->prepare( "update {$table_name} set isupdated = 0 WHERE product_id=%d", $product_id ) );
 
 		return $affected;
 	}
@@ -216,8 +215,8 @@ class atkp_producttable_helper {
 
 		$table_name = $this->get_producttable_tablename();
 
-		$affected = $wpdb->query( "update $table_name set isupdated = 1 WHERE product_id=$product_id and importset_key is not null" );
-		$affected = $wpdb->query( "update $table_name set isupdated = 0 WHERE product_id=$product_id and importset_key is null" );
+		$affected = $wpdb->query( $wpdb->prepare( "update {$table_name} set isupdated = 1 WHERE product_id=%d and importset_key is not null", $product_id ) );
+		$affected = $wpdb->query( $wpdb->prepare( "update {$table_name} set isupdated = 0 WHERE product_id=%d and importset_key is null", $product_id ) );
 
 
 		return $affected;
@@ -229,7 +228,7 @@ class atkp_producttable_helper {
 
 		$table_name = $this->get_producttable_tablename();
 
-		$result = $wpdb->get_results( "select id from $table_name WHERE product_id=$product_id and isupdated " . ( $was_updated ? '=' : '<>' ) . " 1", ARRAY_A );
+		$result = $wpdb->get_results( $wpdb->prepare( "select id from {$table_name} WHERE product_id=%d and isupdated " . ( $was_updated ? '=' : '<>' ) . " 1", $product_id ), ARRAY_A );
 
 		$post_ids = array();
 
@@ -247,7 +246,7 @@ class atkp_producttable_helper {
 
 		$table_name = $this->get_producttable_tablename();
 
-		$affected = $wpdb->query( "delete from $table_name WHERE product_id=$product_id and isupdated <> 1" );
+		$affected = $wpdb->query( $wpdb->prepare( "delete from {$table_name} WHERE product_id=%d and isupdated <> 1", $product_id ) );
 
 		return $affected;
 	}
@@ -257,7 +256,7 @@ class atkp_producttable_helper {
 
 		$table_name = $this->get_producttable_tablename();
 
-		$affected = $wpdb->query( "update $table_name set listprice = null, listpricefloat = null, amountsaved = null, amountsavedfloat = null, percentagesaved =null, percentagesavedfloat = null, saleprice = null, salepricefloat = null, shipping = null, shippingfloat= null, availability = null, isprime = 0, cpc = null, cpcfloat = null, baseprice = null, basepricefloat = null  WHERE product_id=$product_id and isupdated <> 1" );
+		$affected = $wpdb->query( $wpdb->prepare( "update {$table_name} set listprice = null, listpricefloat = null, amountsaved = null, amountsavedfloat = null, percentagesaved =null, percentagesavedfloat = null, saleprice = null, salepricefloat = null, shipping = null, shippingfloat= null, availability = null, isprime = 0, cpc = null, cpcfloat = null, baseprice = null, basepricefloat = null  WHERE product_id=%d and isupdated <> 1", $product_id ) );
 
 
 		return $affected;
@@ -269,7 +268,7 @@ class atkp_producttable_helper {
 		$table_name = $this->get_producttable_tablename();
 
 		if ( $shop_id != '' ) {
-			$query = $wpdb->prepare( "SELECT product_id FROM $table_name inner join {$wpdb->posts} p on p.ID = product_id WHERE asin = %s and shop_id = %s GROUP BY product_id", $asin, intval( $shop_id ) );
+			$query = $wpdb->prepare( "SELECT product_id FROM $table_name inner join {$wpdb->posts} p on p.ID = product_id WHERE asin = %s and shop_id = %d GROUP BY product_id", $asin, intval( $shop_id ) );
 		} else {
 			$query = $wpdb->prepare( "SELECT product_id FROM $table_name inner join {$wpdb->posts} p on p.ID = product_id WHERE asin = %s GROUP BY product_id", $asin );
 		}
@@ -334,7 +333,7 @@ class atkp_producttable_helper {
 
 		$table_name = $this->get_producttable_tablename();
 
-		$query = $wpdb->prepare( "SELECT count(*) as cnt FROM $table_name WHERE product_id = %s and shop_id = %s ", $product_id, $shop_id );
+		$query = $wpdb->prepare( "SELECT count(*) as cnt FROM $table_name WHERE product_id = %d and shop_id = %d ", $product_id, $shop_id );
 
 		$result = $wpdb->get_results( $query, ARRAY_A );
 
@@ -447,7 +446,7 @@ class atkp_producttable_helper {
 
 		$data = array(
 			'product_id'           => $product_id,
-			'updatedon'            => date( "Y-m-d H:i:s" ),
+			'updatedon'            => gmdate( "Y-m-d H:i:s" ),
 			'queue_id'             => $queue_id,
 			'shop_id'              => $atkp_product->shopid,
 			'title'                => $remove_character ? $this->fix_sql_field( $atkp_product->title ) : $atkp_product->title,

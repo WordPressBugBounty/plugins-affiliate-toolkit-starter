@@ -120,7 +120,7 @@ class atkp_shortcode_generator_modern {
 
 								foreach ( $products as $product ) {
 									$selected = ( $product_id == $product->ID ) ? 'selected' : '';
-									echo '<option value="' . esc_attr( $product->ID ) . '" ' . $selected . '>'
+									echo '<option value="' . esc_attr( $product->ID ) . '" ' . esc_attr( $selected ) . '>'
 										. esc_html( $product->post_title ) . ' (' . esc_html( $product->ID ) . ')</option>';
 								}
 							} else {
@@ -162,7 +162,7 @@ class atkp_shortcode_generator_modern {
 
 								foreach ( $lists as $list ) {
 									$selected = ( $list_id == $list->ID ) ? 'selected' : '';
-									echo '<option value="' . esc_attr( $list->ID ) . '" ' . $selected . '>'
+									echo '<option value="' . esc_attr( $list->ID ) . '" ' . esc_attr( $selected ) . '>'
 										. esc_html( $list->post_title ) . ' (' . esc_html( $list->ID ) . ')</option>';
 								}
 							} else {
@@ -359,6 +359,7 @@ class atkp_shortcode_generator_modern {
 			'post_type' => $posttypes,
 			'post_status' => array( 'publish', 'draft' ),
 			'posts_per_page' => -1,
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Required to find posts referencing this product/list.
 			'meta_query' => array(
 				array(
 					'key' => ATKP_PLUGIN_PREFIX . $field,
@@ -667,9 +668,9 @@ class atkp_shortcode_generator_modern {
 		wp_localize_script( 'atkp-block-product', 'atkpBlocks', $localize_data );
 		wp_localize_script( 'atkp-block-list', 'atkpBlocks', $localize_data );
 
-		// Set script translations - WordPress will load from .po/.mo files
-		wp_set_script_translations( 'atkp-block-product', 'affiliate-toolkit-starter' );
-		wp_set_script_translations( 'atkp-block-list', 'affiliate-toolkit-starter' );
+		// Translations are provided via wp_localize_script above.
+		// wp_set_script_translations is not used because there are no Jed-format
+		// JSON translation files; the call would generate a broken inline script.
 
 		// Register product block with static callback
 		$product_block = register_block_type( 'atkp/product', array(
@@ -704,7 +705,7 @@ class atkp_shortcode_generator_modern {
 		if ( $product_block ) {
 			ATKPLog::LogDebug( 'ATKP: Product block registered successfully' );
 			ATKPLog::LogDebug( 'ATKP: Callback type: ' . gettype( $product_block->render_callback ) );
-			ATKPLog::LogDebug( 'ATKP: Callback value: ' . print_r( $product_block->render_callback, true ) );
+			ATKPLog::LogDebug( 'ATKP: Callback value: ' . wp_json_encode( $product_block->render_callback ) );
 		} else {
 			ATKPLog::LogError( 'ATKP: ERROR - Product block registration failed!' );
 		}
@@ -767,7 +768,7 @@ class atkp_shortcode_generator_modern {
 	 */
 	public function render_product_block( $attributes ) {
 		ATKPLog::LogDebug( '========== ATKP RENDER_PRODUCT_BLOCK CALLED ==========' );
-		ATKPLog::LogDebug( 'Attributes: ' . print_r( $attributes, true ) );
+		ATKPLog::LogDebug( 'Attributes: ' . wp_json_encode( $attributes ) );
 
 		// Don't render in editor context - let JavaScript handle it
 		// This is CRUCIAL for block editability after save
@@ -846,7 +847,7 @@ class atkp_shortcode_generator_modern {
 		$output = do_shortcode( $shortcode );
 
 		ATKPLog::LogDebug( 'ATKP: Output length: ' . strlen( $output ) );
-		ATKPLog::LogDebug( 'ATKP: Output preview: ' . substr( strip_tags( $output ), 0, 200 ) );
+		ATKPLog::LogDebug( 'ATKP: Output preview: ' . substr( wp_strip_all_tags( $output ), 0, 200 ) );
 		ATKPLog::LogDebug( '========== ATKP RENDER_PRODUCT_BLOCK END ==========' );
 
 		return $output;
@@ -996,7 +997,7 @@ class atkp_shortcode_generator_modern {
 		}
 
 		// Verify nonce - accept multiple nonce types
-		$nonce = isset( $_POST['nonce'] ) ? $_POST['nonce'] : '';
+		$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
 		if ( $nonce ) {
 			// Accept multiple nonce types for compatibility
 			$nonce_valid = false;
@@ -1016,9 +1017,9 @@ class atkp_shortcode_generator_modern {
 			}
 		}
 
-		$keyword = sanitize_text_field( $_POST['keyword'] ?? '' );
-		$type = sanitize_text_field( $_POST['type'] ?? ATKP_PRODUCT_POSTTYPE );
-		$limit = intval( $_POST['limit'] ?? 20 );
+		$keyword = isset( $_POST['keyword'] ) ? sanitize_text_field( wp_unslash( $_POST['keyword'] ) ) : '';
+		$type = isset( $_POST['type'] ) ? sanitize_text_field( wp_unslash( $_POST['type'] ) ) : ATKP_PRODUCT_POSTTYPE;
+		$limit = isset( $_POST['limit'] ) ? intval( $_POST['limit'] ) : 20;
 
 		// error_log( 'ATKP: Searching - keyword: ' . $keyword . ', type: ' . $type . ', limit: ' . $limit );
 
@@ -1174,7 +1175,7 @@ class atkp_shortcode_generator_modern {
 	 */
 	public function ajax_search_posts() {
 		// Verify nonce
-		$nonce = sanitize_text_field( $_GET['nonce'] ?? '' );
+		$nonce = isset( $_GET['nonce'] ) ? sanitize_text_field( wp_unslash( $_GET['nonce'] ) ) : '';
 		if ( ! wp_verify_nonce( $nonce, 'atkp-search-nonce' ) ) {
 			wp_send_json_error( array( 'message' => 'Invalid nonce' ) );
 			return;
@@ -1186,8 +1187,8 @@ class atkp_shortcode_generator_modern {
 			return;
 		}
 
-		$post_type = sanitize_text_field( $_GET['post_type'] ?? '' );
-		$search = sanitize_text_field( $_GET['search'] ?? '' );
+		$post_type = isset( $_GET['post_type'] ) ? sanitize_text_field( wp_unslash( $_GET['post_type'] ) ) : '';
+		$search = isset( $_GET['search'] ) ? sanitize_text_field( wp_unslash( $_GET['search'] ) ) : '';
 
 		if ( empty( $post_type ) || empty( $search ) ) {
 			wp_send_json( array() );
@@ -1233,12 +1234,14 @@ class atkp_shortcode_generator_modern {
 				return;
 			}
 
-			$keyword = sanitize_text_field( $_POST['keyword'] ?? '' );
-			$shop_id = intval( $_POST['shop_id'] ?? 0 );
-			$page = intval( $_POST['page'] ?? 1 );
+			check_ajax_referer( 'atkp_generator_nonce', 'nonce' );
+
+			$keyword = isset( $_POST['keyword'] ) ? sanitize_text_field( wp_unslash( $_POST['keyword'] ) ) : '';
+			$shop_id = isset( $_POST['shop_id'] ) ? intval( $_POST['shop_id'] ) : 0;
+			$page = isset( $_POST['page'] ) ? intval( $_POST['page'] ) : 1;
 
 			// Log request for debugging
-			error_log( 'External search request: keyword=' . $keyword . ', shop_id=' . $shop_id );
+			error_log( 'External search request: keyword=' . $keyword . ', shop_id=' . $shop_id ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 
 			if ( empty( $keyword ) ) {
 				wp_send_json_error( array( 'message' => 'Keyword required' ) );
@@ -1253,7 +1256,7 @@ class atkp_shortcode_generator_modern {
 			// Get shop
 			$shop = atkp_shop::load( $shop_id );
 			if ( ! $shop ) {
-				error_log( 'Shop not found: ' . $shop_id );
+				error_log( 'Shop not found: ' . $shop_id ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 				wp_send_json_error( array( 'message' => 'Shop not found (ID: ' . $shop_id . ')' ) );
 				return;
 			}
@@ -1261,14 +1264,14 @@ class atkp_shortcode_generator_modern {
 			// Get shop provider
 			$provider = $shop->provider;
 			if ( ! $provider ) {
-				error_log( 'Provider not available for shop: ' . $shop_id );
+				error_log( 'Provider not available for shop: ' . $shop_id ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 				wp_send_json_error( array( 'message' => 'Provider not available for this shop' ) );
 				return;
 			}
 
 			// Check if provider supports search
 			if ( ! method_exists( $provider, 'quick_search' ) ) {
-				error_log( 'Provider does not support search: ' . get_class( $provider ) );
+				error_log( 'Provider does not support search: ' . get_class( $provider ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 				wp_send_json_error( array( 'message' => 'Provider does not support product search' ) );
 				return;
 			}
@@ -1276,7 +1279,7 @@ class atkp_shortcode_generator_modern {
 			// Check login/credentials
 			$message = $provider->checklogon( $shop );
 			if ( $message != '' ) {
-				error_log( 'Provider checklogon failed: ' . $message );
+				error_log( 'Provider checklogon failed: ' . $message ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 				wp_send_json_error( array( 'message' => $message ) );
 				return;
 			}
@@ -1284,11 +1287,11 @@ class atkp_shortcode_generator_modern {
 			// Search products - quick_search returns atkp_product_collection
 			$search_result = $provider->quick_search( $keyword, 'product', $page );
 
-			error_log( 'ATKP: quick_search returned: ' . print_r( $search_result, true ) );
+			error_log( 'ATKP: quick_search returned: ' . print_r( $search_result, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log, WordPress.PHP.DevelopmentFunctions.error_log_print_r
 
 			$results = array();
 			if ( $search_result && isset( $search_result->products ) && is_array( $search_result->products ) ) {
-				error_log( 'ATKP: Found ' . count( $search_result->products ) . ' products from API' );
+				error_log( 'ATKP: Found ' . count( $search_result->products ) . ' products from API' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 
 				$skipped_count = 0;
 				foreach ( $search_result->products as $product ) {
@@ -1307,7 +1310,7 @@ class atkp_shortcode_generator_modern {
 					// Skip products without title or ASIN
 					if ( empty( $title ) || empty( $asin ) ) {
 						$skipped_count++;
-						error_log( 'ATKP: Skipping product - title: "' . $title . '", asin: "' . $asin . '"' );
+						error_log( 'ATKP: Skipping product - title: "' . $title . '", asin: "' . $asin . '"' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 						continue;
 					}
 
@@ -1331,14 +1334,14 @@ class atkp_shortcode_generator_modern {
 					}
 				}
 
-				error_log( 'ATKP: Skipped ' . $skipped_count . ' products (missing title/asin)' );
-				error_log( 'ATKP: Returning ' . count( $results ) . ' valid products' );
+				error_log( 'ATKP: Skipped ' . $skipped_count . ' products (missing title/asin)' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+				error_log( 'ATKP: Returning ' . count( $results ) . ' valid products' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 			} else {
-				error_log( 'ATKP: No products in search result or invalid format' );
+				error_log( 'ATKP: No products in search result or invalid format' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 			}
 
 			// Log for debugging
-			error_log( 'External search results: ' . print_r( array(
+			error_log( 'External search results: ' . print_r( array( // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log, WordPress.PHP.DevelopmentFunctions.error_log_print_r
 				'keyword' => $keyword,
 				'shop_id' => $shop_id,
 				'result_count' => count( $results ),
@@ -1351,11 +1354,11 @@ class atkp_shortcode_generator_modern {
 			) );
 
 		} catch ( Exception $e ) {
-			error_log( 'External search exception: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine() );
-			error_log( 'Stack trace: ' . $e->getTraceAsString() );
+			error_log( 'External search exception: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine() ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+			error_log( 'Stack trace: ' . $e->getTraceAsString() ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 			wp_send_json_error( array( 'message' => 'Error: ' . $e->getMessage() ) );
 		} catch ( Error $e ) {
-			error_log( 'External search fatal error: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine() );
+			error_log( 'External search fatal error: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine() ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 			wp_send_json_error( array( 'message' => 'Fatal error: ' . $e->getMessage() ) );
 		}
 	}

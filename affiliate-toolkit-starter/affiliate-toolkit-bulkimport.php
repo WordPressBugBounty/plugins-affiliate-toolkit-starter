@@ -128,7 +128,7 @@ class atkp_bulkimport {
 															$sel = '';
 														}
 
-														echo '<option ' . ( $shp->type == atkp_shop_type::SUB_SHOPS ? 'disabled' : '' ) . ' data-gtin="' . ( $support_gtin ? 'true' : 'false' ) . '" data-ean="' . ( $support_ean ? 'true' : 'false' ) . '" data-isbn="' . ( $support_isbn ? 'true' : 'false' ) . '" data-article_number="' . ( $support_articlenumber ? 'true' : 'false' ) . '" value="' . esc_attr( $shp->id ) . '"' . esc_attr( $sel ) . ' > ' . esc_html__( $shp->title, 'affiliate-toolkit-starter' ) . '</option>';
+														echo '<option ' . ( $shp->type == atkp_shop_type::SUB_SHOPS ? 'disabled' : '' ) . ' data-gtin="' . ( $support_gtin ? 'true' : 'false' ) . '" data-ean="' . ( $support_ean ? 'true' : 'false' ) . '" data-isbn="' . ( $support_isbn ? 'true' : 'false' ) . '" data-article_number="' . ( $support_articlenumber ? 'true' : 'false' ) . '" value="' . esc_attr( $shp->id ) . '"' . esc_attr( $sel ) . ' > ' . esc_html( $shp->title ) . '</option>';
 
 														foreach ( $shp->children as $child ) {
 															if ( $child->selected == true ) {
@@ -137,7 +137,7 @@ class atkp_bulkimport {
 																$sel = '';
 															}
 
-															echo '<option data-gtin="' . ( $support_gtin ? 'true' : 'false' ) . '" data-ean="' . ( $support_ean ? 'true' : 'false' ) . '" data-isbn="' . ( $support_isbn ? 'true' : 'false' ) . '" data-article_number="' . ( $support_articlenumber ? 'true' : 'false' ) . '" value="' . esc_attr( $child->id ) . '"' . esc_attr( $sel ) . ' >' . esc_html__( $child->title, 'affiliate-toolkit-starter' ) . ' [' . esc_html__( $shp->title, 'affiliate-toolkit-starter' ) . ']</option>';
+															echo '<option data-gtin="' . ( $support_gtin ? 'true' : 'false' ) . '" data-ean="' . ( $support_ean ? 'true' : 'false' ) . '" data-isbn="' . ( $support_isbn ? 'true' : 'false' ) . '" data-article_number="' . ( $support_articlenumber ? 'true' : 'false' ) . '" value="' . esc_attr( $child->id ) . '"' . esc_attr( $sel ) . ' >' . esc_html( $child->title ) . ' [' . esc_html( $shp->title ) . ']</option>';
 
 														}
 													}
@@ -237,7 +237,7 @@ class atkp_bulkimport {
 															$sel = '';
 														}
 
-														echo '<option value="' . esc_attr( $value ) . '"' . esc_attr( $sel ) . '>' . esc_html__( $name, 'affiliate-toolkit-starter' ) . '</option>';
+														echo '<option value="' . esc_attr( $value ) . '"' . esc_attr( $sel ) . '>' . esc_html( $name ) . '</option>';
 													} ?>
                                                 </select>
 												<?php ATKPTools::display_helptext( 'This key will be used to create a link for product updates. You will find this key after product import in the tab "filter information".' ) ?>
@@ -252,23 +252,22 @@ class atkp_bulkimport {
 
                                                 <a href="#" class="button primary-button"
                                                    onclick="this.closest('form').submit();return false;"
-                                                   id="searchproduct-button"><span
-                                                            class="dashicons dashicons-search atkp-button-icon"></span> <?php echo esc_html__( 'Search', 'affiliate-toolkit-starter' ) ?>
+                                                   id="searchproduct-button"><?php echo esc_html__( 'Search', 'affiliate-toolkit-starter' ) ?>
                                                 </a>
 
 
                                                 <input type="hidden" id="page"
                                                        name="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_page') ?>"
-                                                       value="<?php echo esc_attr_e( $page, 'affiliate-toolkit-starter' ) ?>">
+                                                       value="<?php echo esc_attr( $page ) ?>">
                                                 <input type="hidden" id="keyword_search"
                                                        name="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_keyword_search') ?>"
-                                                       value="<?php echo esc_attr_e( $keyword, 'affiliate-toolkit-starter' ) ?>">
+                                                       value="<?php echo esc_attr( $keyword ) ?>">
                                                 <input type="hidden" id="shop_search"
                                                        name="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_shop_search') ?>"
-                                                       value="<?php echo esc_attr_e( $selectedshopid, 'affiliate-toolkit-starter' ) ?>">
+                                                       value="<?php echo esc_attr( $selectedshopid ) ?>">
                                                 <input type="hidden" id="option_search"
                                                        name="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_option_search') ?>"
-                                                       value="<?php echo esc_attr_e( $searchoption, 'affiliate-toolkit-starter' ) ?>">
+                                                       value="<?php echo esc_attr( $searchoption ) ?>">
                                             </td>
                                         </tr>
 
@@ -283,14 +282,6 @@ class atkp_bulkimport {
                 </div>
             </div>
 
-            <style>
-                .atkp-button-icon {
-                    font-size: 16px;
-                    line-height: initial;
-                    vertical-align: middle;
-                }
-            </style>
-
             <script type="text/javascript">
                 var $j = jQuery.noConflict();
                 $j(document).ready(function () {
@@ -301,7 +292,7 @@ class atkp_bulkimport {
                         }
                     });
 
-                    $j("[name=<?php echo esc_html('ATKP_PLUGIN_PREFIX' . '_searchoption') ?>]").change(function () {
+                    $j("[name=<?php echo esc_html( ATKP_PLUGIN_PREFIX . '_searchoption' ) ?>]").change(function () {
                         $j('#keywordcaption').text($j(this).data('name'));
                     });
 
@@ -328,7 +319,7 @@ class atkp_bulkimport {
                             $j("#<?php echo esc_html(ATKP_PLUGIN_PREFIX . '_asintype') ?> option[value='ARTICLENUMBER']").remove();
                         else {
                             if ($j("#<?php echo esc_html(ATKP_PLUGIN_PREFIX . '_asintype') ?> option[value='ARTICLENUMBER']").length == 0)
-                                $j("#<?php echo esc_html( ATKP_PLUGIN_PREFIX . '_asintype' ) ?>").append('<option value="ARTICLENUMBER"><?php echo esc_html__( 'Articlenumber', 'affiliate-toolkit-starter' ) ?></option>');
+                                $j("#<?php echo esc_html( ATKP_PLUGIN_PREFIX . '_asintype' ) ?>").append('<option value="ARTICLENUMBER"><?php echo esc_js( __( 'Articlenumber', 'affiliate-toolkit-starter' ) ); ?></option>');
                         }
 
 
@@ -363,7 +354,7 @@ class atkp_bulkimport {
 							continue;
 						}
 
-						echo '<h2>' . esc_html__( $shop->title, 'affiliate-toolkit-starter' ) . ' (' . esc_html( $shop->id ) . ')</h2>';
+						echo '<h2>' . esc_html( $shop->title ) . ' (' . esc_html( $shop->id ) . ')</h2>';
 
 						$plugin_name = ATKPTools::get_plugin_name_from_object( $shop->provider );
 
@@ -396,7 +387,7 @@ class atkp_bulkimport {
 
 
 							foreach ( $shop->children as $child ) {
-								echo '<h2>- ' . esc_html__( $child->title, 'affiliate-toolkit-starter' ) . ' (' . esc_html( $child->id ) . ')</h2>';
+								echo '<h2>- ' . esc_html( $child->title ) . ' (' . esc_html( $child->id ) . ')</h2>';
 
 								echo '<div  class="atkp-backend-livesearch" init="' . esc_attr( ! $searched ? "1" : "0" ) . '" shopid="' . esc_attr( $child->id ) . '" keyword="' . esc_attr( $keyword ) . '" searchoption="' . esc_attr( $searchoption ) . '" asintype="' . esc_attr( $asintype ) . '" endpointurl="' . esc_url( ATKPTools::get_endpointurl() ) . '" ></div>';
 
@@ -453,13 +444,14 @@ class atkp_bulkimport {
 
 							ATKPLog::LogError( $e->getMessage() );
 
-							echo '<div class="atkp-error">' . esc_html__( $e->getMessage(), 'affiliate-toolkit-starter' ) . '</div>';
+							echo '<div class="atkp-error">' . esc_html( $e->getMessage() ) . '</div>';
 
 							$searched = false;
 						}
 
 						if ( $searched && isset( $result ) && $result != null && $result->message != '' ) {
 
+							/* translators: %s: API response message */
 							echo '<div class="atkp-warning">' . sprintf( esc_html__( 'API returned: %s', 'affiliate-toolkit-starter' ), esc_html( $result->message ) ) . '</div>';
 							$searched = false;
 						}
@@ -517,30 +509,33 @@ class atkp_bulkimport {
                                                            value="<?php echo esc_attr( $product['title'] ) ?>"/>
                                                     <br/>
 	                                                <?php echo esc_html__( 'Unique ID', 'affiliate-toolkit-starter' ); ?>
-                                                    : <?php echo esc_html__( $asin, 'affiliate-toolkit-starter' ); ?>,
+                                                    : <?php echo esc_html( $asin ); ?>,
                                                     EAN: <?php if ( isset( $product['ean'] ) ) {
-		                                                echo esc_html__( $product['ean'], 'affiliate-toolkit-starter' );
+		                                                echo esc_html( $product['ean'] );
 													} else {
 														echo '-';
 	                                                } ?>
                                                     , <?php echo esc_html__( 'Articlenumber', 'affiliate-toolkit-starter' ); ?>
                                                     : <?php if ( isset( $product['articlenumber'] ) ) {
-		                                                echo esc_html__( $product['articlenumber'], 'affiliate-toolkit-starter' );
+		                                                echo esc_html( $product['articlenumber'] );
 													} else {
 														echo '-';
 													}
 													echo '<br />';
-	                                                echo( isset( $product['saleprice'] ) ? sprintf( esc_html__( 'Price: %s', 'affiliate-toolkit-starter' ), esc_html( $product['saleprice'] ) ) : '-' );
+	                                                /* translators: %s: product sale price */
+													echo( isset( $product['saleprice'] ) ? sprintf( esc_html__( 'Price: %s', 'affiliate-toolkit-starter' ), esc_html( $product['saleprice'] ) ) : '-' );
 
 													$cname = '';
 													$ss    = isset( $product['shopid'] ) && $product['shopid'] != '' ? atkp_shop::load_shopid( $shop, $product['shopid'] ) : null;
 
 													if ( $ss == null && isset( $product['shopname'] ) && $product['shopname'] != '' ) {
+														/* translators: %s: shop name */
 														$cname = sprintf( esc_html__( '%s (shop is not enabled)', 'affiliate-toolkit-starter' ), esc_html( $product['shopname'] ) );
 													} else if ( $ss != null ) {
 														$cname = $ss->title;
 													}
-	                                                echo( $cname != '' ? ', ' . sprintf( esc_html__( 'Shop: %s', 'affiliate-toolkit-starter' ), esc_html( $cname ) ) : '' );
+	                                                /* translators: %s: shop name */
+													echo( $cname != '' ? ', ' . sprintf( esc_html__( 'Shop: %s', 'affiliate-toolkit-starter' ), esc_html( $cname ) ) : '' );
 													echo( isset( $product['info'] ) ? ', Information: ' . esc_html( $product['info'] ) : '' ) ?>
                                                     <br/>
                                                     <a href="<?php echo esc_url($product['producturl']); ?>"
@@ -582,19 +577,20 @@ class atkp_bulkimport {
 													if ( $post_id > 0 ) {
 
 
-														echo '<img style="vertical-align:middle" src="' . esc_url( plugins_url( 'images/yes.png', ATKP_PLUGIN_FILE ) ) . '" alt="' . esc_attr_e( 'Imported', 'affiliate-toolkit-starter' ) . '"/>';
+														echo '<img style="vertical-align:middle" src="' . esc_url( plugins_url( 'images/yes.png', ATKP_PLUGIN_FILE ) ) . '" alt="' . esc_attr__( 'Imported', 'affiliate-toolkit-starter' ) . '"/>';
 														echo '<a style="margin-left:5px" href="' . esc_url( get_edit_post_link( $post_id ) ) . '" target="_blank">' . esc_html__( 'Product imported.', 'affiliate-toolkit-starter' ) . '</a><br />';
 
 													}
 													if ( $asin == '' ) {
 														echo '<img style="vertical-align:middle" src="' . esc_url( plugins_url( 'images/no.png', ATKP_PLUGIN_FILE ) ) . '" alt="' . esc_html__( 'Key is empty', 'affiliate-toolkit-starter' ) . '"/>';
-														echo sprintf( esc_html__( '%s is empty.', 'affiliate-toolkit-starter' ), esc_html( $asintype ) ) . '<br />';
+														/* translators: %s: product filter key type (e.g. ASIN, EAN) */
+													echo sprintf( esc_html__( '%s is empty.', 'affiliate-toolkit-starter' ), esc_html( $asintype ) ) . '<br />';
 
 													}
 													/*
 													if($ss == null && $product['shopname'] != '') {
-														echo '<img style="vertical-align:middle" src="' . plugins_url( 'images/no.png', ATKP_PLUGIN_FILE ) . '" alt="' . __( 'Key is empty', ATKP_PLUGIN_PREFIX ) . '"/>';
-														echo  sprintf(__( 'Shop %s is not enabled.', ATKP_PLUGIN_PREFIX ) , $product['shopname']). '<br />';
+														echo '<img style="vertical-align:middle" src="' . plugins_url( 'images/no.png', ATKP_PLUGIN_FILE ) . '" alt="' . __( 'Key is empty', 'affiliate-toolkit-starter' ) . '"/>';
+														echo  sprintf(__( 'Shop %s is not enabled.', 'affiliate-toolkit-starter' ) , $product['shopname']). '<br />';
 
 													}*/
 
@@ -612,13 +608,13 @@ class atkp_bulkimport {
                                                             data-shop="<?php echo esc_attr($selectedshopid) ?>"
                                                             data-asin="<?php echo esc_attr($product['asin']) ?>"
                                                             data-asin2="<?php echo esc_attr($asin) ?>"
-                                                            data-asintype="<?php echo esc_html($asintype) ?>"
+                                                            data-asintype="<?php echo esc_attr($asintype) ?>"
                                                             data-subshopid="<?php echo esc_attr( ( $ss == null && isset( $product['shopname'] ) && $product['shopname'] != '' ) ? $product['shopid'] : '' ) ?>"
                                                             data-subshopname="<?php echo esc_attr( ( $ss == null && isset( $product['shopname'] ) && $product['shopname'] != '' ) ? $product['shopname'] : '' ) ?>"
                                                             data-status="draft"
                                                             class="import-button button"
-                                                            title="<?php esc_attr_e( 'Import as draft', ATKP_PLUGIN_PREFIX ) ?>"
-                                                            value="<?php esc_attr_e( 'Import as draft', ATKP_PLUGIN_PREFIX ) ?>"/><br/>
+                                                            title="<?php esc_attr_e( 'Import as draft', 'affiliate-toolkit-starter' ) ?>"
+                                                            value="<?php esc_attr_e( 'Import as draft', 'affiliate-toolkit-starter' ) ?>"/><br/>
                                                     <input <?php echo $asin == '' ? 'disabled' : '' ?>
                                                             type="button"
                                                             style="margin-top:5px"
@@ -633,8 +629,8 @@ class atkp_bulkimport {
                                                             data-subshopname="<?php echo esc_attr( ( $ss == null && isset( $product['shopname'] ) && $product['shopname'] != '' ) ? $product['shopname'] : '' ) ?>"
                                                             data-status="publish"
                                                             class="import-button button"
-                                                            title="<?php esc_attr_e( 'Import and publish', ATKP_PLUGIN_PREFIX ) ?>"
-                                                            value="<?php esc_attr_e( 'Import and publish', ATKP_PLUGIN_PREFIX ) ?>"/>
+                                                            title="<?php esc_attr_e( 'Import and publish', 'affiliate-toolkit-starter' ) ?>"
+                                                            value="<?php esc_attr_e( 'Import and publish', 'affiliate-toolkit-starter' ) ?>"/>
 
 													<?php
 													do_action( 'atkp_import_custombuttons', $asintype, $asin, $product, $selectedshopid, $uniqid );
@@ -657,9 +653,8 @@ class atkp_bulkimport {
 
 
 							} catch ( Exception $e ) {
-								echo '<span style="color:red">';
-								var_dump( $e );
-								echo '</span>';
+								ATKPLog::LogError( 'Bulk import display error: ' . $e->getMessage() );
+								echo '<div class="atkp-error">' . esc_html( $e->getMessage() ) . '</div>';
 								$searched = false;
 							}
 						}
@@ -675,8 +670,8 @@ class atkp_bulkimport {
 					<?php
 						if ( $result->currentpage > 1 ) { ?>
                             <input style="vertical-align:middle" type="submit" style="margin-top:5px" name="lastpage"
-                                   class="button primary-button" title="<?php esc_attr_e( 'Last page', ATKP_PLUGIN_PREFIX ) ?>"
-                                   value="<?php esc_attr_e( 'Previous page', ATKP_PLUGIN_PREFIX ) ?>"/>
+                                   class="button primary-button" title="<?php esc_attr_e( 'Last page', 'affiliate-toolkit-starter' ) ?>"
+                                   value="<?php esc_attr_e( 'Previous page', 'affiliate-toolkit-starter' ) ?>"/>
 						<?php }
 					?>
 
@@ -686,8 +681,8 @@ class atkp_bulkimport {
 
 					<?php if (  $result->currentpage < $result->pagecount ) { ?>
                         <input style="vertical-align:middle" type="submit" style="margin-top:5px" name="nextpage"
-                               class="button primary-button" title="<?php esc_attr_e( 'Next page', ATKP_PLUGIN_PREFIX ) ?>"
-                               value="<?php esc_attr_e( 'Next page', ATKP_PLUGIN_PREFIX ) ?>"/>
+                               class="button primary-button" title="<?php esc_attr_e( 'Next page', 'affiliate-toolkit-starter' ) ?>"
+                               value="<?php esc_attr_e( 'Next page', 'affiliate-toolkit-starter' ) ?>"/>
 					<?php }
 					?>
                 </div>
@@ -704,19 +699,19 @@ class atkp_bulkimport {
                             <input type="button" style="text-align:center;width:200px" name="atkp-importdraft"
                                    id="atkp-importdraft"
                                    class="button primary-button totalimportbutton"
-                                   title="<?php esc_attr_e( 'Import as draft', ATKP_PLUGIN_PREFIX ) ?>"
-                                   data-asintype="<?php echo esc_html($asintype) ?>"
+                                   title="<?php esc_attr_e( 'Import as draft', 'affiliate-toolkit-starter' ) ?>"
+                                   data-asintype="<?php echo esc_attr($asintype) ?>"
                                    data-status="draft"
-                                   value="<?php esc_attr_e( 'Import as draft', ATKP_PLUGIN_PREFIX ) ?>"/>
+                                   value="<?php esc_attr_e( 'Import as draft', 'affiliate-toolkit-starter' ) ?>"/>
                         </td>
                         <td>
                             <input type="button" style="text-align:center;width:200px" name="atkp-importpublish"
                                    id="atkp-importpublish"
                                    class="button primary-button totalimportbutton"
-                                   title="<?php esc_attr_e( 'Import and publish', ATKP_PLUGIN_PREFIX ) ?>"
-                                   data-asintype="<?php echo esc_html($asintype) ?>"
+                                   title="<?php esc_attr_e( 'Import and publish', 'affiliate-toolkit-starter' ) ?>"
+                                   data-asintype="<?php echo esc_attr($asintype) ?>"
                                    data-status="publish"
-                                   value="<?php esc_attr_e( 'Import and publish', ATKP_PLUGIN_PREFIX ) ?>"/>
+                                   value="<?php esc_attr_e( 'Import and publish', 'affiliate-toolkit-starter' ) ?>"/>
                         </td>
                         <td>
 		                    <?php
@@ -766,14 +761,14 @@ class atkp_bulkimport {
 
                             $j.ajax({
                                 type: "POST",
-                                url: "<?php echo esc_url(ATKPTools::get_endpointurl()); ?>",
+                                url: "<?php echo esc_js( esc_url_raw( ATKPTools::get_endpointurl() ) ); ?>",
                                 data: {
                                     action: "atkp_import_product",
                                     shop: shopid,
                                     asin: asinkey,
                                     asintype: asintype,
                                     status: status,
-                                    request_nonce: "<?php echo esc_html(wp_create_nonce( 'atkp-import-nonce' )) ?>"
+                                    request_nonce: "<?php echo esc_js( wp_create_nonce( 'atkp-import-nonce' ) ); ?>"
                                 },
 
                                 dataType: "json",
@@ -789,7 +784,7 @@ class atkp_bulkimport {
                                         var posturl = data[0].edit_url;
 
                                         $j('#atkp-status-' + asin).removeClass('atkp-spinloader');
-                                        $j('#atkp-status-' + asin).html('<img style="vertical-align:middle" src="<?php echo esc_url( plugins_url( 'images/yes.png', ATKP_PLUGIN_FILE ) ) ?>" alt="<?php echo esc_attr_e( 'Imported', 'affiliate-toolkit-starter' ) ?>"/><a style="margin-left:5px" href="' + posturl + '" target="_blank"><?php echo esc_html__( 'Product imported.', 'affiliate-toolkit-starter' ) ?></a><br />');
+                                        $j('#atkp-status-' + asin).html('<img style="vertical-align:middle" src="<?php echo esc_js( esc_url_raw( plugins_url( 'images/yes.png', ATKP_PLUGIN_FILE ) ) ); ?>" alt="<?php echo esc_js( __( 'Imported', 'affiliate-toolkit-starter' ) ); ?>"/><a style="margin-left:5px" href="' + posturl + '" target="_blank"><?php echo esc_js( __( 'Product imported.', 'affiliate-toolkit-starter' ) ); ?></a><br />');
 
                                         if ($j("#atkp-attachproduct option[value='" + data[0].postid + "']").length == 0)
                                             $j('#atkp-attachproduct').append('<option value="' + data[0].postid + '">' + data[0].title + '</option>');
@@ -853,7 +848,7 @@ class atkp_bulkimport {
                         keyword: keyword || '',
                         asintype: asintype || '',
                         searchoption: searchoption || '',
-                        request_nonce: '<?php echo wp_create_nonce( "atkp_live_search_nonce" ); ?>' // NEU
+                        request_nonce: '<?php echo esc_js( wp_create_nonce( "atkp_live_search_nonce" ) ); ?>' // NEU
                     })
                         .done(function (data, status, xhr) {
                             try {
@@ -976,7 +971,7 @@ class atkp_bulkimport {
 
 						<?php
 
-						$placeholder = esc_js( 'select value', ATKP_PLUGIN_PREFIX );
+						$placeholder = esc_js( __( 'select value', 'affiliate-toolkit-starter' ) );
 						?>
 
                         $j(obj).select2atkp({
@@ -1012,7 +1007,7 @@ class atkp_bulkimport {
 
                     $j.ajax({
                             type: "POST",
-                            url: "<?php echo esc_url(ATKPTools::get_endpointurl()); ?>",
+                            url: "<?php echo esc_js( esc_url_raw( ATKPTools::get_endpointurl() ) ); ?>",
                             data: {
                                 action: "atkp_import_product",
                                 shop: shop,
@@ -1027,12 +1022,13 @@ class atkp_bulkimport {
 				            <?php
                             if ( isset( $this->list ) ) {
 								foreach ( $this->list as $entry ) {
-		                    ?> <?php echo $entry ?>,
+		                    ?> <?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $entry is generated JS code from atkp_bulkimport_modify_jslist filter, not user input
+					      echo $entry ?>,
 									<?php
 								}
 							}
 							?>
-                            request_nonce: "<?php echo esc_html(wp_create_nonce( 'atkp-import-nonce' )) ?>"
+                            request_nonce: "<?php echo esc_js( wp_create_nonce( 'atkp-import-nonce' ) ); ?>"
                         },
                         dataType: "json",
                         success: function (data) {
@@ -1046,7 +1042,7 @@ class atkp_bulkimport {
 
                                 var $posturl = data[0].edit_url;
 
-                                statusfield.html('<img style="vertical-align:middle" src="<?php echo esc_url( plugins_url( 'images/yes.png', ATKP_PLUGIN_FILE ) ) ?>" alt="<?php echo esc_html__( 'Imported', 'affiliate-toolkit-starter' ) ?>"/><a style="margin-left:5px" href="' + $posturl + '" target="_blank"><?php echo esc_html__( 'Product imported.', 'affiliate-toolkit-starter' ) ?></a><br />');
+                                statusfield.html('<img style="vertical-align:middle" src="<?php echo esc_js( esc_url_raw( plugins_url( 'images/yes.png', ATKP_PLUGIN_FILE ) ) ); ?>" alt="<?php echo esc_js( __( 'Imported', 'affiliate-toolkit-starter' ) ); ?>"/><a style="margin-left:5px" href="' + $posturl + '" target="_blank"><?php echo esc_js( __( 'Product imported.', 'affiliate-toolkit-starter' ) ); ?></a><br />');
 
                             } catch (err) {
                                 alert(err.message);

@@ -37,9 +37,11 @@ class ATKPTools {
 		}
 
 		if ( ATKPTools::is_lang_de() ) {
-			return sprintf( __( 'Die Anzeige der Produkte wurde mit dem <a href="%s" %s target="_blank" title="Affiliate WordPress Plugin">affiliate-toolkit</a> WordPress Plugin umgesetzt.', 'affiliate-toolkit-starter' ), esc_url( $url ), esc_attr( $rel ) );
+			/* translators: %1$s: URL, %2$s: rel attribute */
+			return sprintf( __( 'Die Anzeige der Produkte wurde mit dem <a href="%1$s" %2$s target="_blank" title="Affiliate WordPress Plugin">affiliate-toolkit</a> WordPress Plugin umgesetzt.', 'affiliate-toolkit-starter' ), esc_url( $url ), esc_attr( $rel ) );
 		} else {
-			return sprintf( __( 'The product display was implemented using the <a href="%s" %s target="_blank" title="Affiliate WordPress Plugin">affiliate-toolkit</a> WordPress plugin.', 'affiliate-toolkit-starter' ), esc_url( $url ), esc_attr( $rel ) );
+			/* translators: %1$s: URL, %2$s: rel attribute */
+			return sprintf( __( 'The product display was implemented using the <a href="%1$s" %2$s target="_blank" title="Affiliate WordPress Plugin">affiliate-toolkit</a> WordPress plugin.', 'affiliate-toolkit-starter' ), esc_url( $url ), esc_attr( $rel ) );
 		}
 	}
 
@@ -123,7 +125,7 @@ class ATKPTools {
 	public static function display_helptext( $text, $url = '', $urltitle = 'Read more' ) {
 		$link = '';
 		if ( $url != '' ) {
-			$link = ' <a href="' . esc_url( $url ) . '" target="_blank">' . esc_html__( $urltitle, 'affiliate-toolkit-starter' ) . '</a>';
+			$link = ' <a href="' . esc_url( $url ) . '" target="_blank">' . esc_html( $urltitle ) . '</a>';
 		}
 		$allowed_html = array(
 			'div' => array(
@@ -141,14 +143,14 @@ class ATKPTools {
 			)
 		);
 
-		echo wp_kses( '<div class="atkp-helptext" style="margin: 5px;font-size: 11px;display:table;"><span class="dashicons dashicons-editor-help" style="color:#2271b1;display:table-cell;"></span><span style="vertical-align: middle;display:table-cell;padding-left:5px;">' . __( $text, 'affiliate-toolkit-starter' ) . $link . '</span></div>', $allowed_html );
+		echo wp_kses( '<div class="atkp-helptext" style="margin: 5px;font-size: 11px;display:table;"><span class="dashicons dashicons-editor-help" style="color:#2271b1;display:table-cell;"></span><span style="vertical-align: middle;display:table-cell;padding-left:5px;">' . $text . $link . '</span></div>', $allowed_html );
 	}
 
 
 	public static function display_warntext( $text, $url = '', $urltitle = 'Read more' ) {
 		$link = '';
 		if ( $url != '' ) {
-			$link .= ' <a href="' . $url . '" target="_blank">' . $urltitle . '</a>';
+			$link .= ' <a href="' . esc_url( $url ) . '" target="_blank">' . esc_html( $urltitle ) . '</a>';
 		}
 		$allowed_html = array(
 			'div' => array(
@@ -167,7 +169,7 @@ class ATKPTools {
 		);
 
 
-		echo wp_kses( '<div class="atkp-helptext" style="margin: 5px;font-size: 11px;display:table;"><span class="dashicons dashicons-info" style="color:orangered;display:table-cell;"></span> <span style="vertical-align: middle;display:table-cell;padding-left:5px;">' . __( $text, 'affiliate-toolkit-starter' ) . $link . '</span></div>', $allowed_html );
+		echo wp_kses( '<div class="atkp-helptext" style="margin: 5px;font-size: 11px;display:table;"><span class="dashicons dashicons-info" style="color:orangered;display:table-cell;"></span> <span style="vertical-align: middle;display:table-cell;padding-left:5px;">' . $text . $link . '</span></div>', $allowed_html );
 	}
 
 
@@ -198,7 +200,7 @@ class ATKPTools {
 			'posts_per_page' => 100,
 			'post_type'      => array( ATKP_FIELDGROUP_POSTTYPE ),
 			'post_status'    => array( 'publish', 'draft' ),
-			'meta_query'     => array(
+			'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				'key'     => ATKP_FIELDGROUP_POSTTYPE . '_hastaxonomy',
 				'value'   => 1,
 				'compare' => '=',
@@ -228,7 +230,7 @@ class ATKPTools {
 			'post_type'        => array( ATKP_FIELDGROUP_POSTTYPE ),
 			'post_status'      => array( 'publish', 'draft' ),
 			'include_children' => true,
-			'tax_query'        => array(
+			'tax_query'        => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 				array(
 					'taxonomy' => $category, //or tag or custom taxonomy
 					'field'    => 'term_id',
@@ -329,9 +331,9 @@ class ATKPTools {
 	public static function get_current_utc() {
 		$script_at = date_default_timezone_get();
 
-		date_default_timezone_set( "UTC" );
+		date_default_timezone_set( "UTC" ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.timezone_change_date_default_timezone_set
 		$time = time();
-		date_default_timezone_set( $script_at );
+		date_default_timezone_set( $script_at ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.timezone_change_date_default_timezone_set
 
 		return $time;
 	}
@@ -375,6 +377,7 @@ class ATKPTools {
 		if ( $posttitle != '' ) {
 			global $wpdb;
 
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional direct update to avoid triggering save_post hooks
 			$wpdb->update( $wpdb->posts, array(
 				'post_title' => $posttitle,
 				'post_name'  => sanitize_title( $posttitle )
@@ -496,7 +499,7 @@ class ATKPTools {
 		$args = array(
 			'post_status' => 'inherit',
 			'post_type'   => 'attachment',
-			'meta_query'  => array(
+			'meta_query'  => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				array(
 					'key'     => ATKP_PLUGIN_PREFIX . '_key',
 					'compare' => '=',
@@ -702,11 +705,12 @@ class ATKPTools {
 							if ( $data['schedule'] ) {
 
 								if ( $output ) {
-									$localtime = get_date_from_gmt( date( 'Y-m-d H:i:s', $time ), get_option( 'time_format' ) );
-									$localdate = get_date_from_gmt( date( 'Y-m-d H:i:s', $time ), get_option( 'date_format' ) );
+									$localtime = get_date_from_gmt( gmdate( 'Y-m-d H:i:s', $time ), get_option( 'time_format' ) );
+									$localdate = get_date_from_gmt( gmdate( 'Y-m-d H:i:s', $time ), get_option( 'date_format' ) );
 
 									$text = '';
-									$text .= ' ' . sprintf( esc_html__( 'Cronjob\'s next execution: %s %s', 'affiliate-toolkit-starter' ), $localdate, $localtime );
+									/* translators: %1$s: date, %2$s: time */
+									$text .= ' ' . sprintf( esc_html__( 'Cronjob\'s next execution: %1$s %2$s', 'affiliate-toolkit-starter' ), $localdate, $localtime );
 									$text .= ' (' . self::time_since( time(), $time ) . ')';
 									$text .= ' Interval: ' . self::interval( isset( $data['interval'] ) ? $data['interval'] : null );
 
@@ -733,22 +737,22 @@ class ATKPTools {
 	}
 
 	public static function interval( $since ) {
-		__( '%s years', 'affiliate-toolkit-starter' );
-		__( '%s months', 'affiliate-toolkit-starter' );
-		__( '%s weeks', 'affiliate-toolkit-starter' );
-		__( '%s days', 'affiliate-toolkit-starter' );
-		__( '%s hours', 'affiliate-toolkit-starter' );
-		__( '%s minutes', 'affiliate-toolkit-starter' );
-		__( '%s seconds', 'affiliate-toolkit-starter' );
 
 		// array of time period chunks
 		$chunks = array(
+			/* translators: %s: number of years */
 			array( 60 * 60 * 24 * 365, _n_noop( '%s year', '%s years', 'affiliate-toolkit-starter' ) ),
+			/* translators: %s: number of months */
 			array( 60 * 60 * 24 * 30, _n_noop( '%s month', '%s months', 'affiliate-toolkit-starter' ) ),
+			/* translators: %s: number of weeks */
 			array( 60 * 60 * 24 * 7, _n_noop( '%s week', '%s weeks', 'affiliate-toolkit-starter' ) ),
+			/* translators: %s: number of days */
 			array( 60 * 60 * 24, _n_noop( '%s day', '%s days', 'affiliate-toolkit-starter' ) ),
+			/* translators: %s: number of hours */
 			array( 60 * 60, _n_noop( '%s hour', '%s hours', 'affiliate-toolkit-starter' ) ),
+			/* translators: %s: number of minutes */
 			array( 60, _n_noop( '%s minute', '%s minutes', 'affiliate-toolkit-starter' ) ),
+			/* translators: %s: number of seconds */
 			array( 1, _n_noop( '%s second', '%s seconds', 'affiliate-toolkit-starter' ) ),
 		);
 
@@ -773,7 +777,7 @@ class ATKPTools {
 		}
 
 		// set output var
-		$output = sprintf( translate_nooped_plural( $name, $count, ATKP_PLUGIN_PREFIX ), $count );
+		$output = sprintf( translate_nooped_plural( $name, $count, 'affiliate-toolkit-starter' ), $count );
 
 		// step two: the second chunk
 		if ( $i + 1 < $j ) {
@@ -782,7 +786,7 @@ class ATKPTools {
 
 			if ( ( $count2 = floor( ( $since - ( $seconds * $count ) ) / $seconds2 ) ) != 0 ) {
 				// add to output var
-				$output .= ' ' . sprintf( translate_nooped_plural( $name2, $count2, ATKP_PLUGIN_PREFIX ), $count2 );
+				$output .= ' ' . sprintf( translate_nooped_plural( $name2, $count2, 'affiliate-toolkit-starter' ), $count2 );
 			}
 		}
 
@@ -905,7 +909,8 @@ class ATKPTools {
 
 				if ( is_wp_error( $term ) ) {
 					$error_string = $term->get_error_message();
-					throw new Exception ( esc_html__( 'Term error (parent: ' . $parentid . '): ' . $error_string . ' - TaxonomyName: ' . $to_taxonomyname . " - Value: " . $cat->name, 'affiliate-toolkit-starter' ) );
+					/* translators: %1$s: parent ID, %2$s: error message, %3$s: taxonomy name, %4$s: term name */
+					throw new Exception ( esc_html( sprintf( __( 'Term error (parent: %1$s): %2$s - TaxonomyName: %3$s - Value: %4$s', 'affiliate-toolkit-starter' ), $parentid, $error_string, $to_taxonomyname, $cat->name ) ) );
 				}
 
 				$termid = intval( $term['term_id'] );
@@ -1132,7 +1137,7 @@ class ATKPTools {
 			$user_dirname = self::get_uploaddir();
 
 			if ( file_exists( $user_dirname . '/' . $name ) ) {
-				unlink( $user_dirname . '/' . $name );
+				wp_delete_file( $user_dirname . '/' . $name );
 			}
 		} catch ( Exception $e ) {
 
@@ -1192,7 +1197,7 @@ class ATKPTools {
 			$class = 'notice';
 		}
 
-		echo( '<div class="' . $class . ' ' . $class . '-' . $type . '"><p>' . $text . '</p></div>' );
+		echo '<div class="' . esc_attr( $class ) . ' ' . esc_attr( $class . '-' . $type ) . '"><p>' . wp_kses_post( $text ) . '</p></div>';
 
 	}
 
@@ -1218,28 +1223,34 @@ class ATKPTools {
 	}
 
 	public static function exists_get_parameter( $key ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification handled by callers
 		return isset( $_GET[ $key ] );
 	}
 
 	public static function get_get_parameter( $key, $type ) {
 		$parametervalue = null;
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification handled by callers
 		if ( isset( $_GET[ $key ] ) ) {
-			$parametervalue = $_GET[ $key ];
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitization handled by get_casted_value
+			$parametervalue = wp_unslash( $_GET[ $key ] );
 		}
 
 		return ATKPTools::get_casted_value( $parametervalue, $type );
 	}
 
 	public static function exists_post_parameter( $key ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verification handled by callers
 		return isset( $_POST[ $key ] );
 	}
 
 	public static function get_post_parameter( $key, $type ) {
 		$parametervalue = null;
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verification handled by callers
 		if ( isset( $_POST[ $key ] ) ) {
-			$parametervalue = $_POST[ $key ];
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitization handled by get_casted_value
+			$parametervalue = wp_unslash( $_POST[ $key ] );
 		}
 
 		return ATKPTools::get_casted_value( $parametervalue, $type );
@@ -1332,7 +1343,8 @@ class ATKPTools {
 				}
 				break;
 			default:
-				throw new exception( esc_html__( 'type unkown: ' . $type, 'affiliate-toolkit-starter' ) );
+				/* translators: %s: unknown type name */
+				throw new exception( esc_html( sprintf( __( 'type unknown: %s', 'affiliate-toolkit-starter' ), $type ) ) );
 		}
 	}
 
@@ -1345,7 +1357,7 @@ class ATKPTools {
 			case 'timestamp':
 				return ( $gmt ) ? $time : $time + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS );
 			default:
-				return ( $gmt ) ? date( $time, $type ) : date( $time, $type, $time + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) );
+				return ( $gmt ) ? gmdate( $time, $type ) : gmdate( $time, $type, $time + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) );
 		}
 	}
 
@@ -1368,11 +1380,12 @@ class ATKPTools {
 
 			// Alle Metafelder auf einmal abrufen ohne LIKE-Filter
 			$query = $wpdb->prepare(
-				"SELECT meta_key, meta_value FROM {$wpdb->postmeta} 
+				"SELECT meta_key, meta_value FROM {$wpdb->postmeta}
          WHERE post_id = %d",
 				$post_id
 			);
 
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared -- Custom caching implemented in this method
 			$results = $wpdb->get_results( $query );
 
 			// Cache für diesen Post initialisieren
@@ -1468,7 +1481,8 @@ class ATKPTools {
 	public static function delete_all_options() {
 		global $wpdb;
 
-		$plugin_options = $wpdb->get_results( "SELECT option_name FROM $wpdb->options WHERE option_name LIKE '" . ATKP_PLUGIN_PREFIX . "_%'" );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Bulk cleanup operation
+		$plugin_options = $wpdb->get_results( $wpdb->prepare( "SELECT option_name FROM $wpdb->options WHERE option_name LIKE %s", ATKP_PLUGIN_PREFIX . '_%' ) );
 
 		foreach ( $plugin_options as $option ) {
 			delete_option( $option->option_name );
@@ -1559,7 +1573,7 @@ class ATKPTools {
 		}
 
 		// Strip HTML Tags
-		$clear = strip_tags( $string );
+		$clear = wp_strip_all_tags( $string );
 // Clean up things like &amp;
 		//$clear = html_entity_decode( $clear );
 // Strip out any url-encoded stuff
@@ -1602,11 +1616,11 @@ class ATKPTools {
 
 	public static function get_client_ip_address() {
 		if ( ! empty( $_SERVER['HTTP_CLIENT_IP'] ) ) {
-			$address = $_SERVER['HTTP_CLIENT_IP'];
+			$address = sanitize_text_field( wp_unslash( $_SERVER['HTTP_CLIENT_IP'] ) );
 		} elseif ( ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-			$address = $_SERVER['HTTP_X_FORWARDED_FOR'];
+			$address = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) );
 		} else {
-			$address = $_SERVER['REMOTE_ADDR'];
+			$address = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
 		}
 
 		return $address;
@@ -1657,6 +1671,7 @@ class ATKPTools {
 	public static function get_wp_charset_collate() {
 
 		global $wpdb;
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reading charset/collate from wpdb properties, no direct query
 		$charset_collate = '';
 
 		if ( ! empty ( $wpdb->charset ) ) {
@@ -1683,7 +1698,8 @@ class ATKPTools {
 			}
 		}
 
-		return $format ? ( '<pre>' . print_r( $array_names, true ) . '</pre>' ) : $array_names;
+		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r -- Debug output for admin display
+		return $format ? ( '<pre>' . esc_html( print_r( $array_names, true ) ) . '</pre>' ) : $array_names;
 	}
 
 	public static function get_plugin_name_from_callable( $callable ) {

@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || exit;
 
 
 class atkp_queue_view {
@@ -89,7 +90,8 @@ class atkp_queue_view {
 	public function show_page() {
 		$atkp_queuetable_helper = new atkp_queuetable_helper();
 		if ( ! $atkp_queuetable_helper->exists_table()[0] ) {
-			echo esc_html__( 'database table does not exists: ' . $atkp_queuetable_helper->get_queuetable_tablename(), 'affiliate-toolkit-starter' );
+			/* translators: %s: database table name */
+			echo esc_html( sprintf( __( 'database table does not exists: %s', 'affiliate-toolkit-starter' ), $atkp_queuetable_helper->get_queuetable_tablename() ) );
 
 			return;
 		}
@@ -156,7 +158,7 @@ class atkp_queue_view {
 
 			$obj->delete();
 
-			wp_redirect( sprintf( '?page=%s', esc_attr( $_REQUEST['page'] ) ) );
+			wp_safe_redirect( sprintf( '?page=%s', isset( $_REQUEST['page'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) : '' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			exit;
 		}
 

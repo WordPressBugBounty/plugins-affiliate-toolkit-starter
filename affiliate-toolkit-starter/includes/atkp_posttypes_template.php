@@ -4,6 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 class atkp_posttypes_template {
+
 //private $nounce = '';
 
 	/**
@@ -11,6 +12,7 @@ class atkp_posttypes_template {
 	 */
 	public function __construct( $pluginbase ) {
 		$this->register_templatePostType();
+		$this->register_template_capabilities();
 
 		add_action( 'add_meta_boxes', array( &$this, 'template_boxes' ) );
 		add_action( 'save_post', array( &$this, 'template_detail_save' ) );
@@ -19,7 +21,7 @@ class atkp_posttypes_template {
 
 		ATKPTools::add_column( ATKP_TEMPLATE_POSTTYPE, __( 'Action', 'affiliate-toolkit-starter' ), function ( $post_id ) {
 
-			echo esc_html__( '<span style="font-weight:bold">' . esc_html__( 'ID', 'affiliate-toolkit-starter' ) . ':</span> <span >' . $post_id . '</span> ', 'affiliate-toolkit-starter' );
+			echo '<span style="font-weight:bold">' . esc_html__( 'ID', 'affiliate-toolkit-starter' ) . ':</span> <span >' . esc_html( $post_id ) . '</span> ';
 
 
 			do_action( 'atkp_template_action_column', $post_id );
@@ -237,7 +239,9 @@ class atkp_posttypes_template {
 
 					$label                                                                               = $field["label"];
 					$name                                                                                = $field["name"];
+					/* translators: %s: ACF field label */
 					$acfcmds[ 'get_field(\'' . $name . '\', $formatter->get_shop_value($product)->id)' ] = sprintf( __( '%s (shop)', 'affiliate-toolkit-starter' ), $label );
+					/* translators: %s: ACF field label */
 					$acfcmds[ 'get_field(\'' . $name . '\', $offer->shop->id)' ]                         = sprintf( __( '%s (shop, offer)', 'affiliate-toolkit-starter' ), $label );
 				}
 			}
@@ -287,7 +291,7 @@ class atkp_posttypes_template {
 									<?php
 
 									foreach ( $prdcmds as $prdcmd => $caption ) {
-										echo '<a href="javascript:void(0)" class="atkp-insert" data-insertvalue="{!!$formatter->' . esc_attr( $prdcmd ) . '!!}">' . esc_html__( $caption, 'affiliate-toolkit-starter' ) . '</a>';
+										echo '<a href="javascript:void(0)" class="atkp-insert" data-insertvalue="{!!$formatter->' . esc_attr( $prdcmd ) . '!!}">' . esc_html( $caption ) . '</a>';
 									}
 
 									?>
@@ -300,7 +304,7 @@ class atkp_posttypes_template {
 									<?php
 
 									foreach ( $offercmds as $prdcmd => $caption ) {
-										echo '<a href="javascript:void(0)" class="atkp-insert" data-insertvalue="{!!$formatter->' . esc_attr( $prdcmd ) . '!!}">' . esc_html__( $caption, 'affiliate-toolkit-starter' ) . '</a>';
+										echo '<a href="javascript:void(0)" class="atkp-insert" data-insertvalue="{!!$formatter->' . esc_attr( $prdcmd ) . '!!}">' . esc_html( $caption ) . '</a>';
 									}
 
 									?>
@@ -313,7 +317,7 @@ class atkp_posttypes_template {
 									<?php
 
 									foreach ( $imgcmds as $prdcmd => $caption ) {
-										echo '<a href="javascript:void(0)" class="atkp-insert" data-insertvalue="{!!$formatter->' . esc_attr( $prdcmd ) . '!!}">' . esc_html__( $caption, 'affiliate-toolkit-starter' ) . '</a>';
+										echo '<a href="javascript:void(0)" class="atkp-insert" data-insertvalue="{!!$formatter->' . esc_attr( $prdcmd ) . '!!}">' . esc_html( $caption ) . '</a>';
 									}
 
 									?>
@@ -327,9 +331,9 @@ class atkp_posttypes_template {
 
 									foreach ( $customcmds as $prdcmd => $caption ) {
 										if ( ATKPTools::startsWith( $prdcmd, '$offer' ) ) {
-											echo esc_html( '<a href="javascript:void(0)" class="atkp-insert" data-insertvalue="{!!' . esc_attr( $prdcmd ) . '!!}">' . esc_html__( $caption, 'affiliate-toolkit-starter' ) . '</a>' );
+											echo esc_html( '<a href="javascript:void(0)" class="atkp-insert" data-insertvalue="{!!' . esc_attr( $prdcmd ) . '!!}">' . esc_html( $caption ) . '</a>' );
 										} else {
-											echo esc_html( '<a href="javascript:void(0)" class="atkp-insert" data-insertvalue="{!!$formatter->' . esc_attr( $prdcmd ) . '!!}">' . esc_html__( $caption, 'affiliate-toolkit-starter' ) . '</a>' );
+											echo esc_html( '<a href="javascript:void(0)" class="atkp-insert" data-insertvalue="{!!$formatter->' . esc_attr( $prdcmd ) . '!!}">' . esc_html( $caption ) . '</a>' );
 										}
 									}
 
@@ -344,7 +348,7 @@ class atkp_posttypes_template {
 										<?php
 
 										foreach ( $acfcmds as $prdcmd => $caption ) {
-											echo esc_html( '<a href="javascript:void(0)" class="atkp-insert" data-insertvalue="{!!' . esc_attr( $prdcmd ) . '!!}">' . esc_html__( $caption, 'affiliate-toolkit-starter' ) . '</a>' );
+											echo esc_html( '<a href="javascript:void(0)" class="atkp-insert" data-insertvalue="{!!' . esc_attr( $prdcmd ) . '!!}">' . esc_html( $caption ) . '</a>' );
 										}
 
 										?>
@@ -446,6 +450,11 @@ class atkp_posttypes_template {
 
                     <textarea style="width:100%;height:220px" id="<?php echo esc_attr(ATKP_TEMPLATE_POSTTYPE . '_body') ?>"
                               name="<?php echo esc_attr( ATKP_TEMPLATE_POSTTYPE . '_body' ) ?>"><?php echo esc_textarea( ATKPTools::get_post_setting( $post_id, ATKP_TEMPLATE_POSTTYPE . '_body', '' ) ); ?></textarea>
+
+                    <div style="padding:10px 14px;background:#fff8e1;border-left:4px solid #ffb300;margin-top:10px;font-size:13px;line-height:1.5;">
+                        <strong><?php echo esc_html__( 'Security notice', 'affiliate-toolkit-starter' ); ?>:</strong>
+                        <?php echo esc_html__( 'Starting with version 3.8.6, raw PHP code (e.g. <?php ?> tags) is automatically filtered from templates and will not be executed. Please use only Blade template syntax.', 'affiliate-toolkit-starter' ); ?>
+                    </div>
                 </td>
             </tr>
 
@@ -517,6 +526,9 @@ class atkp_posttypes_template {
 
 		$body = ATKPTools::get_post_parameter( ATKP_TEMPLATE_POSTTYPE . '_body', 'allhtml' );
 		$css  = ATKPTools::get_post_parameter( ATKP_TEMPLATE_POSTTYPE . '_css', 'allhtml' );
+
+		// Sanitize: strip raw PHP tags to prevent code injection
+		$body = atkp_template_helper::sanitize_template_content( $body );
 
 		ATKPTools::set_post_setting( $post_id, ATKP_TEMPLATE_POSTTYPE . '_body', $body );
 		ATKPTools::set_post_setting( $post_id, ATKP_TEMPLATE_POSTTYPE . '_css', $css );
@@ -705,6 +717,34 @@ class atkp_posttypes_template {
 	}
 
 
+	/**
+	 * Grant atkp_template capabilities to administrators only.
+	 * This prevents Editors from creating/editing templates that could contain malicious code.
+	 */
+	private function register_template_capabilities() {
+		$admin_role = get_role( 'administrator' );
+		if ( $admin_role && ! $admin_role->has_cap( 'edit_atkp_templates' ) ) {
+			$caps = array(
+				'edit_atkp_template',
+				'read_atkp_template',
+				'delete_atkp_template',
+				'edit_atkp_templates',
+				'edit_others_atkp_templates',
+				'publish_atkp_templates',
+				'read_private_atkp_templates',
+				'delete_atkp_templates',
+				'delete_private_atkp_templates',
+				'delete_published_atkp_templates',
+				'delete_others_atkp_templates',
+				'edit_private_atkp_templates',
+				'edit_published_atkp_templates',
+			);
+			foreach ( $caps as $cap ) {
+				$admin_role->add_cap( $cap );
+			}
+		}
+	}
+
 	function register_templatePostType() {
 		$labels = array(
 			'name'               => __( 'Templates', 'affiliate-toolkit-starter' ),
@@ -732,7 +772,8 @@ class atkp_posttypes_template {
 			'has_archive'         => false,  // it shouldn't have archive page
 			'rewrite'             => false,  // it shouldn't have rewrite rules
 
-			'capability_type' => 'page',
+			'capability_type' => 'atkp_template',
+			'map_meta_cap'    => true,
 
 			'menu_position' => 200,
 			'supports' => array( 'title' ),
@@ -799,11 +840,11 @@ class atkp_posttypes_template {
 			<?php
 			$output = new atkp_output();
 
-			echo "<link rel='stylesheet' id='atkp-styles-css' href='" . esc_url( plugins_url( '/dist/style.css', ATKP_PLUGIN_FILE ) ) . "' media='all' />";
-			echo "<script src='" . esc_url(plugins_url( '/dist/script.js', ATKP_PLUGIN_FILE )) . "' id='atkp-scripts-js'></script>";
+			echo "<link rel='stylesheet' id='atkp-styles-css' href='" . esc_url( plugins_url( '/dist/style.css', ATKP_PLUGIN_FILE ) ) . "' media='all' />"; // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet -- Inline preview in template editor.
+			echo "<script src='" . esc_url(plugins_url( '/dist/script.js', ATKP_PLUGIN_FILE )) . "' id='atkp-scripts-js'></script>"; // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript -- Inline preview in template editor.
 
 			echo '<style>';
-			echo $output->get_css_output();
+			echo wp_kses( $output->get_css_output(), array() );
 			echo '</style>';
 			echo '<script>';
 			$output->get_js_output();
@@ -824,10 +865,10 @@ class atkp_posttypes_template {
 
             <input type="hidden" value="" id="<?php echo esc_attr(ATKP_TEMPLATE_POSTTYPE . '_templateparams') ?>"/>
             <script type="application/json" id="<?php echo esc_attr('atkp-data-parameters-' . $uid) ?>">
-                <?php echo $str_params; ?>
+                <?php echo wp_json_encode( $parameters->data, JSON_PRETTY_PRINT ); ?>
             </script>
             <script type="application/json" id="<?php echo esc_attr( 'atkp-data-products-' . $uid ) ?>">
-                <?php echo $str_products; ?>
+                <?php echo wp_json_encode( $prd_ids, JSON_PRETTY_PRINT ); ?>
             </script>
 
             <div style="max-width:700px;margin-left:auto;margin-right:auto;padding: 20px; border-left: 1px solid #005162;border-right: 1px solid #005162">
@@ -908,7 +949,7 @@ class atkp_posttypes_template {
                             }
                         });
 
-                        atkpparameters['templateid'] = '<?php echo esc_html__( get_the_ID() ); ?>';
+                        atkpparameters['templateid'] = '<?php echo esc_js( get_the_ID() ); ?>';
                         //atkpparameters['templatecontent'] = $j('').val();
                         //atkpparameters['csscontent'] = $j('').val();
 
@@ -1630,7 +1671,7 @@ class atkp_posttypes_template {
 									$sel = '';
 								}
 
-								echo '<option value="' . esc_attr( $template ) . '" ' . esc_attr( $sel ) . '>' . esc_html__( htmlentities( $caption ), 'affiliate-toolkit-starter' ) . '</option>';
+								echo '<option value="' . esc_attr( $template ) . '" ' . esc_attr( $sel ) . '>' . esc_html( $caption ) . '</option>';
 							}
 							?>
                         </select>
@@ -1799,7 +1840,7 @@ class atkp_posttypes_template {
 									$sel = '';
 								}
 
-								echo '<option value="' . esc_attr( $value ) . '"' . esc_attr( $sel ) . '>' . esc_html__( $name, 'affiliate-toolkit-starter' ) . '</option>';
+								echo '<option value="' . esc_attr( $value ) . '"' . esc_attr( $sel ) . '>' . esc_html( $name ) . '</option>';
 							} ?>
                         </select>
 	                    <?php ATKPTools::display_helptext( 'For simple product boxes you can use "product template". Search forms are fields for filtering. You can add more template types by installing extensions.', get_admin_url() . 'admin.php?page=ATKP_affiliate_toolkit-Extensions', __( 'View extensions', 'affiliate-toolkit-starter' ) ) ?>

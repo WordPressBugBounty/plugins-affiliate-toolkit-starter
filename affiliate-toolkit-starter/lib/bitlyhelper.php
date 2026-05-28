@@ -3,6 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
+// phpcs:disable WordPress.WP.AlternativeFunctions, WordPress.NamingConventions.PrefixAllGlobals, PluginCheck.CodeAnalysis.ShortURL
 class bitlyhelper {
 	private $bitly_api = 'http://api.bit.ly/v3/';
 	private $bitly_oauth_api = 'https://api-ssl.bit.ly/v3/';
@@ -210,6 +211,6 @@ class bitlyhelper {
 		return $output;
 	}
 }
-
+// phpcs:enable
 
 ?>

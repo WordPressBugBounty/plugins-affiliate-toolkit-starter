@@ -49,6 +49,7 @@ class atkp_shop_provider_base {
 	 * @return string The default string value
 	 */
 	public function get_defaultbtn1_text() {
+		/* translators: %s: shop name */
 		return __( 'Buy now at %s!', 'affiliate-toolkit-starter' );
 	}
 
@@ -57,6 +58,7 @@ class atkp_shop_provider_base {
 	 * @return string The default string value
 	 */
 	public function get_defaultbtn2_text() {
+		/* translators: %s: shop name */
 		return __( 'Buy now at %s!', 'affiliate-toolkit-starter' );
 	}
 

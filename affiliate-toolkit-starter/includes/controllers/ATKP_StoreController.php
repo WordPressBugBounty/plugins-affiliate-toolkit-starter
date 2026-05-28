@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || exit;
 
 class ATKP_StoreController {
 
@@ -6,9 +7,9 @@ class ATKP_StoreController {
 		$cache = $override ? false : get_transient( 'atkp_discount' );
 
 		if ( false === $cache ) {
-			$url = ATKP_STORE_URL . '/wp-json/affiliate-toolkit/v1/aktion?version=' . ATKP_UPDATE_VERSION;
+			$url = ATKP_STORE_URL . 'wp-json/affiliate-toolkit/v1/aktion?version=' . ATKP_UPDATE_VERSION;
 
-			$feed = wp_remote_get( esc_url_raw( $url ), array( 'sslverify' => false ) );
+			$feed = wp_remote_get( esc_url_raw( $url ), array( 'timeout' => 30, 'sslverify' => false ) );
 
 			if ( ! is_wp_error( $feed ) ) {
 				if ( isset( $feed['body'] ) && strlen( $feed['body'] ) > 0 ) {
@@ -50,9 +51,9 @@ class ATKP_StoreController {
 		$cache = get_transient( 'atkp_add_ons_feed' );
 
 		if ( false === $cache ) {
-			$url = ATKP_STORE_URL . '/edd-api/v2/products/?number=100&lang=en';
+			$url = ATKP_STORE_URL . 'edd-api/v2/products/?number=100&lang=en';
 
-			$feed = wp_remote_get( esc_url_raw( $url ), array( 'sslverify' => false ) );
+			$feed = wp_remote_get( esc_url_raw( $url ), array( 'timeout' => 30, 'sslverify' => false ) );
 
 			if ( ! is_wp_error( $feed ) ) {
 				if ( isset( $feed['body'] ) && strlen( $feed['body'] ) > 0 ) {

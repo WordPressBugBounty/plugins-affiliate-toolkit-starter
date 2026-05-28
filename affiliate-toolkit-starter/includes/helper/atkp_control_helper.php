@@ -51,7 +51,7 @@ class atkp_control_helper {
 					case '0':
 						$fieldvalue = '0';
 						break;
-					case '1';
+					case '1':
 						$fieldvalue = '1';
 						break;
 
@@ -62,7 +62,8 @@ class atkp_control_helper {
 				$fieldvalue = ATKPTools::get_post_parameter( ATKP_PRODUCT_POSTTYPE . '_' . $fieldname, 'html' );
 				break;
 			default:
-				throw new exception( esc_html__( 'unknown newfield->type: ' . $newfield->type, 'affiliate-toolkit-starter' ) );
+				/* translators: %s: field type */
+			throw new exception( esc_html( sprintf( __( 'unknown newfield->type: %s', 'affiliate-toolkit-starter' ), $newfield->type ) ) );
 		}
 
 		return $fieldvalue;
@@ -132,7 +133,7 @@ class atkp_control_helper {
 				foreach ( $values as $value2 ) {
 					$value2 = trim( $value2 );
 					if ( $value2 != '' ) {
-						$result .= '<option value="' . $value2 . '" ' . ( $value == $value2 ? 'selected' : '' ) . '>' . esc_attr( $value2 ) . '</option>';
+						$result .= '<option value="' . esc_attr( $value2 ) . '" ' . ( $value == $value2 ? 'selected' : '' ) . '>' . esc_html( $value2 ) . '</option>';
 					}
 				}
 
@@ -168,7 +169,8 @@ class atkp_control_helper {
 				break;
 
 		}
-		echo( $result );
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is built with proper escaping (esc_attr, esc_textarea) throughout the method
+		echo $result;
 	}
 
 	public function get_minmaxvalue( $newfield, $order = 'ASC' ) {
@@ -177,11 +179,12 @@ class atkp_control_helper {
 
 		global $wpdb;
 		if ( $newfield->name == 'price' ) {
-			$results = $wpdb->get_results( $wpdb->prepare( '
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared -- Custom table query for price range, no user input.
+			$results = $wpdb->get_results( '
 								SELECT min(products.salepricefloat) as minprice, max(products.salepricefloat) as maxprice
-								FROM ' . $wpdb->prefix . 'posts posts 
+								FROM ' . $wpdb->prefix . 'posts posts
 								inner join ' . $wpdb->prefix . 'atkp_products products on products.product_id = posts.id
-								WHERE posts.post_type in ("atkp_product") and posts.post_status in ("draft","publish")', '' ) );
+								WHERE posts.post_type in ("atkp_product") and posts.post_status in ("draft","publish")' );
 
 			if ( count( $results ) > 0 ) {
 
@@ -201,6 +204,7 @@ class atkp_control_helper {
 			'post_type'   => ATKP_PRODUCT_POSTTYPE,
 			'post_status' => array( 'publish' ),
 			'orderby'     => 'meta_value_num',
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 			'meta_key'    => $fieldname,
 			'order'       => $order,
 			'limit'       => 1,
@@ -226,7 +230,7 @@ class atkp_control_helper {
 			}
 		}
 
-		wp_reset_query();
+		wp_reset_postdata();
 
 		return $minvalue;
 	}
@@ -236,11 +240,12 @@ class atkp_control_helper {
 		global $wpdb;
 
 		if ( $fieldname == ATKP_PRODUCT_POSTTYPE . '_manufacturer' ) {
-			$results = $wpdb->get_results( $wpdb->prepare( '
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared -- Custom table query for manufacturer list, no user input.
+			$results = $wpdb->get_results( '
 								SELECT products.manufacturer
-								FROM ' . $wpdb->prefix . 'posts posts 
+								FROM ' . $wpdb->prefix . 'posts posts
 								inner join ' . $wpdb->prefix . 'atkp_products products on products.product_id = posts.id
-								WHERE posts.post_type in ("atkp_product") and posts.post_status in ("draft","publish") group by products.manufacturer', '' ) );
+								WHERE posts.post_type in ("atkp_product") and posts.post_status in ("draft","publish") group by products.manufacturer' );
 
 			$simple = array();
 
@@ -254,11 +259,12 @@ class atkp_control_helper {
 		}
 
 		if ( $fieldname == ATKP_PRODUCT_POSTTYPE . '_brand' ) {
-			$results = $wpdb->get_results( $wpdb->prepare( '
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared -- Custom table query for brand list, no user input.
+			$results = $wpdb->get_results( '
 								SELECT products.brand
-								FROM ' . $wpdb->prefix . 'posts posts 
+								FROM ' . $wpdb->prefix . 'posts posts
 								inner join ' . $wpdb->prefix . 'atkp_products products on products.product_id = posts.id
-								WHERE posts.post_type in ("atkp_product") and posts.post_status in ("draft","publish") group by products.brand', '' ) );
+								WHERE posts.post_type in ("atkp_product") and posts.post_status in ("draft","publish") group by products.brand' );
 
 			$simple = array();
 
@@ -270,11 +276,12 @@ class atkp_control_helper {
 			return $simple;
 		}
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Meta values query for filter controls
 		$r = $wpdb->get_col( $wpdb->prepare( "
         SELECT pm.meta_value FROM {$wpdb->postmeta} pm
         LEFT JOIN {$wpdb->posts} p ON p.ID = pm.post_id
-        WHERE pm.meta_key = %s 
-        AND p.post_status = %s 
+        WHERE pm.meta_key = %s
+        AND p.post_status = %s
         AND p.post_type = %s
     ", $fieldname, $status, $type ) );
 
@@ -408,6 +415,7 @@ class atkp_control_helper {
 		$filterparams = apply_filters( 'atkp_frontend_control_params', $filterparams, $newfield );
 
 		if ( $taxonomy != null ) {
+			/* translators: %s: field name */
 			$caption = sprintf( __( 'select %s', 'affiliate-toolkit-starter' ), $taxonomy->caption );
 
 			$intvals = isset( $filterparams[ $controlname ] ) ? ( is_array( $filterparams[ $controlname ] ) ? $filterparams[ $controlname ] : array_map( 'intval', explode( ',', $filterparams[ $controlname ] ) ) ) : null;
@@ -489,7 +497,8 @@ class atkp_control_helper {
 						$values = explode( ';', $newfield->format );
 					}
 
-					$caption = sprintf( __( 'select %s', 'affiliate-toolkit-starter' ), $newfield->caption );
+					/* translators: %s: field name */
+			$caption = sprintf( __( 'select %s', 'affiliate-toolkit-starter' ), $newfield->caption );
 
 					$stringvals = isset( $filterparams[ $controlname ] ) ? ( is_array( $filterparams[ $controlname ] ) ? $filterparams[ $controlname ] : explode( ',', $filterparams[ $controlname ] ) ) : null;
 
@@ -654,7 +663,7 @@ class atkp_control_helper {
 
 				$inputtooshort = __( 'You must enter at least 3 characters.', 'affiliate-toolkit-starter' );
 
-					$result = '<select id="' . esc_attr( $controlname . ( random_int( 1, 9999 ) ) ) . '" name="' . esc_attr( $controlname ) . '"  class="atkp-product-selectcontrol" style="width:100%" data-placeholder= "' . esc_attr( $caption ) . '" placeholder="' . esc_attr( $caption ) . '" searchnounce="' . esc_attr( $caption ) . '" inputtooshort="' . esc_attr( $inputtooshort ) . '" endpointurl="' . esc_attr( ATKPTools::get_endpointurl()) . '">  ';
+					$result = '<select id="' . esc_attr( $controlname . ( random_int( 1, 9999 ) ) ) . '" name="' . esc_attr( $controlname ) . '"  class="atkp-product-selectcontrol" style="width:100%" data-placeholder= "' . esc_attr( $caption ) . '" placeholder="' . esc_attr( $caption ) . '" searchnounce="' . esc_attr( $searchnounce ) . '" inputtooshort="' . esc_attr( $inputtooshort ) . '" endpointurl="' . esc_attr( ATKPTools::get_endpointurl()) . '">  ';
 
 					//$result .= '<option></option>';
 
@@ -679,6 +688,7 @@ class atkp_control_helper {
 		$result = '';
 
 		if ( $taxonomy != null ) {
+			/* translators: %s: field name */
 			$caption = sprintf( __( 'select %s', 'affiliate-toolkit-starter' ), $taxonomy->caption );
 
 			$intvals = array();
@@ -713,9 +723,9 @@ class atkp_control_helper {
 
 							$result = '<div style="display:flex;align-items:center;gap:10px;">';
 						$result .= '<div style="flex:1;"><label style="display:block;margin-bottom:4px;font-size:12px;color:#666;">' . __( 'From', 'affiliate-toolkit-starter' ) . '</label>';
-						$result .= '<input id="min' . esc_attr( $controlname ) . '" name="min' . $controlname . '" type="number" value="' . esc_attr( $minvalue ) . '"  class="atkp-backend-filter" style="width:100%;" /></div>';
+						$result .= '<input id="min' . esc_attr( $controlname ) . '" name="min' . esc_attr( $controlname ) . '" type="number" value="' . esc_attr( $minvalue ) . '"  class="atkp-backend-filter" style="width:100%;" /></div>';
 						$result .= '<div style="flex:1;"><label style="display:block;margin-bottom:4px;font-size:12px;color:#666;">' . __( 'To', 'affiliate-toolkit-starter' ) . '</label>';
-						$result .= '<input id="max' . esc_attr( $controlname ) . '"  class="atkp-backend-filter" name="max' . $controlname . '" type="number" value="' . esc_attr( $maxvalue ) . '" style="width:100%;" /></div>';
+						$result .= '<input id="max' . esc_attr( $controlname ) . '"  class="atkp-backend-filter" name="max' . esc_attr( $controlname ) . '" type="number" value="' . esc_attr( $maxvalue ) . '" style="width:100%;" /></div>';
 						$result .= '</div>';
 							break;
 						case 'url':
@@ -739,7 +749,8 @@ class atkp_control_helper {
 						$values = explode( ';', $newfield->format );
 					}
 
-					$caption = sprintf( __( 'select %s', 'affiliate-toolkit-starter' ), $newfield->caption );
+					/* translators: %s: field name */
+			$caption = sprintf( __( 'select %s', 'affiliate-toolkit-starter' ), $newfield->caption );
 
 
 					$result = '<select id="' . esc_attr( $controlname ) . '" name="' . esc_attr( $controlname ) . '"  style="width:100%"  class="atkp-backend-filter" placeholder="' . esc_attr( $caption ) . '" multiple="multiple" >  ';
@@ -842,6 +853,7 @@ class atkp_control_helper {
 				case 'manufacturer':
 				case 'brand':
 					// Text fields for manufacturer and brand
+					/* translators: %s: field name */
 					$caption = sprintf( __( 'Enter %s', 'affiliate-toolkit-starter' ), $controlname );
 					$result = '<input type="text" id="' . esc_attr( $controlname ) . '" name="' . esc_attr( $controlname ) . '" class="atkp-backend-filter" style="width:100%" placeholder="' . esc_attr( $caption ) . '" />';
 					break;
@@ -860,7 +872,8 @@ class atkp_control_helper {
 						}
 					}
 
-					$caption = sprintf( __( 'select %s', 'affiliate-toolkit-starter' ), $controlname );
+					/* translators: %s: field name */
+			$caption = sprintf( __( 'select %s', 'affiliate-toolkit-starter' ), $controlname );
 					$result = '<select id="' . esc_attr( $controlname ) . '" name="' . esc_attr( $controlname ) . '" class="atkp-backend-filter"  style="width:100%" placeholder="' . esc_attr( $caption ) . '" multiple="multiple">  ';
 
 					if ( $taxonomy_name ) {

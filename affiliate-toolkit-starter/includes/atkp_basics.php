@@ -31,13 +31,13 @@ if ( ! defined( 'ATKP_FILTER_COUNT' ) ) {
 	define( 'ATKP_FILTER_COUNT', 10 );
 }
 if ( ! defined( 'ATKP_LOGFILE' ) ) {
-	$log_key = ATKPTools::get_setting( ATKP_PLUGIN_PREFIX . '_logkey' );
-	if ( $log_key == '' ) {
-		$log_key = uniqid();
-		ATKPTools::set_setting( ATKP_PLUGIN_PREFIX . '_logkey', $log_key );
+	$atkp_log_key = ATKPTools::get_setting( ATKP_PLUGIN_PREFIX . '_logkey' );
+	if ( $atkp_log_key == '' ) {
+		$atkp_log_key = uniqid();
+		ATKPTools::set_setting( ATKP_PLUGIN_PREFIX . '_logkey', $atkp_log_key );
 	}
 
-	define( 'ATKP_LOGFILE', WP_CONTENT_DIR . '/atkp-' . $log_key . '-debug.log' );
+	define( 'ATKP_LOGFILE', WP_CONTENT_DIR . '/atkp-' . $atkp_log_key . '-debug.log' );
 }
 if ( ! defined( 'ATKP_TEMPLATEDIR' ) ) {
 	define( 'ATKP_TEMPLATEDIR', ATKP_PLUGIN_DIR . '/templates' );
@@ -53,9 +53,9 @@ ATKPSettings::load_settings();
 $atkp_options = new atkp_options();
 
 
-add_filter( 'atkp_variation_name', 'my_atkp_variation_name', 10 );
+add_filter( 'atkp_variation_name', 'atkp_variation_name', 10 );
 
-function my_atkp_variation_name( $variationName ) {
+function atkp_variation_name( $variationName ) {
 	switch ( $variationName ) {
 		case 'Size':
 			// return 'Größe';
@@ -70,10 +70,10 @@ function my_atkp_variation_name( $variationName ) {
 	}
 }
 
-add_filter( 'atkp_find_product', 'my_atkp_find_product_callback', 10, 7 );
+add_filter( 'atkp_find_product', 'atkp_find_product_callback', 10, 7 );
 
 
-function my_atkp_find_product_callback( $product_id, $shop_id, $asin, $ean, $title, $brand, $mpn ) {
+function atkp_find_product_callback( $product_id, $shop_id, $asin, $ean, $title, $brand, $mpn ) {
 
 	//search in internal database
 
@@ -116,6 +116,7 @@ function my_atkp_find_product_callback( $product_id, $shop_id, $asin, $ean, $tit
 			'post_status'    => array( 'publish', 'draft' ),
 			'posts_per_page' => 2,
 
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Required to find product by brand+MPN combination.
 			'meta_query' => array(
 				'relation' => 'AND',
 				array(
@@ -143,7 +144,7 @@ function my_atkp_find_product_callback( $product_id, $shop_id, $asin, $ean, $tit
 }
 
 
-//add_filter( 'atkp_post_exists', 'my_atkp_post_exists', 10, 7 );
+//add_filter( 'atkp_post_exists', 'atkp_post_exists', 10, 7 );
 
 /**
  * @param $post_id
@@ -156,7 +157,7 @@ function my_atkp_find_product_callback( $product_id, $shop_id, $asin, $ean, $tit
  *
  * @return int|mixed|null
  */
-function my_atkp_post_exists( $post_id, $shopid, $asin, $asintype, $title, $brand, $mpn ) {
+function atkp_post_exists( $post_id, $shopid, $asin, $asintype, $title, $brand, $mpn ) {
 
 	if ( $brand != '' && $mpn != '' ) {
 
@@ -165,6 +166,7 @@ function my_atkp_post_exists( $post_id, $shopid, $asin, $asintype, $title, $bran
 			'post_status'    => array( 'publish', 'draft' ),
 			'posts_per_page' => 2,
 
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Required to find product by brand+MPN combination.
 			'meta_query' => array(
 				'relation' => 'AND',
 				array(
@@ -220,9 +222,9 @@ function my_atkp_post_exists( $post_id, $shopid, $asin, $asintype, $title, $bran
 
 }
 
-add_filter( 'atkp_ajax_products', 'my_atkp_ajax_products_demo', 10, 2 );
+add_filter( 'atkp_ajax_products', 'atkp_ajax_products_demo', 10, 2 );
 
-function my_atkp_ajax_products_demo( $products, $parameters ) {
+function atkp_ajax_products_demo( $products, $parameters ) {
 
 	if ( count( $products ) > 0 && $products[0]->productid == - 1 && ( $parameters->templateid == 'list_display' || $parameters->templateid == 'grid_3_columns' || $parameters->templateid == 'product_table' ) ) {
 		$products[] = $products[0];
@@ -235,41 +237,53 @@ function my_atkp_ajax_products_demo( $products, $parameters ) {
 }
 
 
-add_action( 'template_redirect', 'my_atkp_out_redirect', 20 );
-function my_atkp_out_redirect() {
+add_action( 'template_redirect', 'atkp_out_redirect', 20 );
+function atkp_out_redirect() {
 
-	$request_url = $_SERVER['REQUEST_URI'];
+	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+	$request_url = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 
 	if ( ATKPTools::str_contains( $request_url, '/a_out/' ) ) {
-		$hash     = ! isset( $_GET['hash'] ) ? null : $_GET['hash'];
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public redirect endpoint, nonce not applicable for affiliate link redirects.
+		$hash     = ! isset( $_GET['hash'] ) ? null : sanitize_text_field( wp_unslash( $_GET['hash'] ) );
 		$site_key = atkp_formatter::get_sitekey();
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public redirect endpoint, nonce not applicable.
 		if ( isset( $_GET['url'] ) ) {
-			$url = $_GET['url'];
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$url = sanitize_text_field( wp_unslash( $_GET['url'] ) );
 
 			//redirect by url
 			$url = base64_decode( $url );
 
 			if ( md5( $url . $site_key ) != $hash ) {
-				die( 'Checksum is invalid' );
+				wp_die( esc_html__( 'Checksum is invalid', 'affiliate-toolkit-starter' ) );
 			}
 
 			if ( substr( strtolower( $url ), 0, 7 ) !== 'http://' && substr( strtolower( $url ), 0, 8 ) !== 'https://' ) {
-				die( 'URL must start with http:// or https://' );
+				wp_die( esc_html__( 'URL must start with http:// or https://', 'affiliate-toolkit-starter' ) );
 			}
 
-			do_action( 'atkp_out_link_redirect', intval( $_GET['pid'] ), intval( $_GET['sid'] ), intval( $_GET['pt'] ) );
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public redirect endpoint.
+			do_action( 'atkp_out_link_redirect', isset( $_GET['pid'] ) ? intval( $_GET['pid'] ) : 0, isset( $_GET['sid'] ) ? intval( $_GET['sid'] ) : 0, isset( $_GET['pt'] ) ? intval( $_GET['pt'] ) : 0 ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
-			wp_redirect( $url, 301 );
+			// wp_redirect is intentional here: redirecting to external affiliate URLs
+			// which wp_safe_redirect would block (it only allows same-host redirects).
+			wp_redirect( esc_url_raw( $url ), 301 ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
+			exit;
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public redirect endpoint, nonce not applicable.
 		} else if ( isset( $_GET['pid'] ) && isset( $_GET['sid'] ) && isset( $_GET['pt'] ) ) {
 			//redirect by id
 			$url        = '';
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$product_id = intval( $_GET['pid'] );
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$shop_id    = intval( $_GET['sid'] );
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$link_type  = intval( $_GET['pt'] );
 
 			if ( md5( $product_id . $site_key ) != $hash ) {
-				die( 'Checksum is invalid' );
+				wp_die( esc_html__( 'Checksum is invalid', 'affiliate-toolkit-starter' ) );
 			}
 
 			$prds = atkp_product_collection::load( $product_id, $shop_id );
@@ -306,26 +320,35 @@ function my_atkp_out_redirect() {
 
 			do_action( 'atkp_out_link_redirect', $product_id, $shop_id, $link_type );
 
-			wp_redirect( $url, 301 );
+			// wp_redirect is intentional here: redirecting to external affiliate URLs
+			// which wp_safe_redirect would block (it only allows same-host redirects).
+			wp_redirect( esc_url_raw( $url ), 301 ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
+			exit;
 		}
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public image proxy endpoint, nonce not applicable.
 	} else if ( isset( $_GET['a_image'] ) && intval( $_GET['a_image'] ) == 1 ) {
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public image proxy endpoint.
 		if ( isset( $_GET['pid'] ) && isset( $_GET['sid'] ) && isset( $_GET['name'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$product_id = intval( $_GET['pid'] );
-			$list_id    = intval( $_GET['lid'] );
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$list_id    = isset( $_GET['lid'] ) ? intval( $_GET['lid'] ) : 0;
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$shop_id    = intval( $_GET['sid'] );
 
-			// Robustes Einlesen mit wp_unslash
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Base64-encoded value, sanitized after decode.
 			$name_param_raw = isset( $_GET['name'] ) ? (string) wp_unslash( $_GET['name'] ) : '';
 			$image_name     = $name_param_raw !== '' ? base64_decode( $name_param_raw, true ) : '';
-			$hash           = isset( $_GET['key'] ) ? (string) wp_unslash( $_GET['key'] ) : '';
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$hash           = isset( $_GET['key'] ) ? sanitize_text_field( wp_unslash( $_GET['key'] ) ) : '';
 
 			if ( $image_name === false || $image_name == '' ) {
-				wp_die( __( 'Image parameter missing or invalid', 'affiliate-toolkit-starter' ) );
+				wp_die( esc_html__( 'Image parameter missing or invalid', 'affiliate-toolkit-starter' ) );
 			}
 
 			if ( $shop_id < 0 && $list_id < 0 && $product_id < 0 ) {
-				wp_die( __( 'Shop ID missing', 'affiliate-toolkit-starter' ) );
+				wp_die( esc_html__( 'Shop ID missing', 'affiliate-toolkit-starter' ) );
 			}
 
 			$image_url = '';
@@ -438,7 +461,7 @@ function my_atkp_out_redirect() {
 			}
 
 			// Content-Type dynamisch anhand Dateiendung bestimmen
-			$path = parse_url( $image_url, PHP_URL_PATH );
+			$path = wp_parse_url( $image_url, PHP_URL_PATH );
 			$ext  = strtolower( pathinfo( $path ?? '', PATHINFO_EXTENSION ) );
 			$mime = 'image/jpeg';
 			if ( $ext === 'png' ) {
@@ -465,7 +488,7 @@ function my_atkp_out_redirect() {
 				if ( ! file_exists( $cache_dir ) ) {
 					if ( ! wp_mkdir_p( $cache_dir ) ) {
 						// Fallback ohne Cache
-						readfile( $image_url );
+						readfile( $image_url ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_readfile
 						exit;
 					}
 				}
@@ -473,7 +496,7 @@ function my_atkp_out_redirect() {
 				$filename = md5( $image_url );
 
 				if ( file_exists( $cache_dir . $filename ) && filemtime( $cache_dir . $filename ) >= ( time() - 86400 ) ) {
-					readfile( $cache_dir . $filename );
+					readfile( $cache_dir . $filename ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_readfile
 					exit;
 				} else {
 					// Verbessertes Remote-Fetch mit wp_remote_get
@@ -497,14 +520,15 @@ function my_atkp_out_redirect() {
 					$image_data = wp_remote_retrieve_body( $response );
 
 					if ( $image_data !== '' ) {
+						// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- Writing to cache directory, WP_Filesystem not available at this point.
 						file_put_contents( $cache_dir . $filename, $image_data );
-						readfile( $cache_dir . $filename );
+						readfile( $cache_dir . $filename ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_readfile
 						exit;
 					}
 				}
 			}
 
-			readfile( $image_url );
+			readfile( $image_url ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_readfile
 			exit;
 		}
 	}

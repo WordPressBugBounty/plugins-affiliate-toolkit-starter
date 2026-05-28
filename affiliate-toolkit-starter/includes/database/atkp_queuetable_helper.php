@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL, PluginCheck.Security.DirectDB
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
@@ -32,9 +33,8 @@ class atkp_queuetable_helper {
 	public function exists_table() {
 		global $wpdb;
 		$tablename = $this->get_queuetable_tablename();
-		$sql       = "SHOW TABLES LIKE '" . $tablename . "'";
 
-		$result = $wpdb->get_results( $sql );
+		$result = $wpdb->get_results( $wpdb->prepare( "SHOW TABLES LIKE %s", $tablename ) );
 
 		return array( count( $result ) > 0, $tablename );
 	}
@@ -42,9 +42,8 @@ class atkp_queuetable_helper {
 	public function exists_detailtable() {
 		global $wpdb;
 		$tablename = $this->get_queueentrytable_tablename();
-		$sql       = "SHOW TABLES LIKE '" . $tablename . "'";
 
-		$result = $wpdb->get_results( $sql );
+		$result = $wpdb->get_results( $wpdb->prepare( "SHOW TABLES LIKE %s", $tablename ) );
 
 		return array( count( $result ) > 0, $tablename );
 	}
@@ -114,9 +113,9 @@ class atkp_queuetable_helper {
 		$table_name  = $this->get_queuetable_tablename();
 		$table_name2 = $this->get_queueentrytable_tablename();
 
-		$affected = $wpdb->query( "DELETE FROM $table_name2 WHERE queue_id=$queue_id" );
+		$affected = $wpdb->query( $wpdb->prepare( "DELETE FROM {$table_name2} WHERE queue_id=%d", $queue_id ) );
 
-		$affected = $wpdb->query( "DELETE FROM $table_name WHERE id=$queue_id" );
+		$affected = $wpdb->query( $wpdb->prepare( "DELETE FROM {$table_name} WHERE id=%d", $queue_id ) );
 
 		return $affected;
 	}
@@ -323,9 +322,7 @@ class atkp_queuetable_helper {
 			return 0;
 		}
 
-		$sql = "SELECT id FROM {$tablename} where  DATE(createdon) <= CURDATE() - INTERVAL $days DAY";
-
-		$result = $wpdb->get_results( $sql, 'ARRAY_A' );
+		$result = $wpdb->get_results( $wpdb->prepare( "SELECT id FROM {$tablename} where DATE(createdon) <= CURDATE() - INTERVAL %d DAY", $days ), 'ARRAY_A' );
 
 		return $result;
 	}
@@ -343,9 +340,12 @@ class atkp_queuetable_helper {
 			$sql .= ! empty( $order ) ? ' ' . esc_sql( $order ) : ' ASC';
 		}
 
-		$sql .= " LIMIT $per_page";
-		$sql .= ' OFFSET ' . ( $page_number - 1 ) * $per_page;
+		$per_page    = intval( $per_page );
+		$page_number = intval( $page_number );
+		$offset      = ( $page_number - 1 ) * $per_page;
 
+		$sql .= $wpdb->prepare( " LIMIT %d", $per_page );
+		$sql .= $wpdb->prepare( " OFFSET %d", $offset );
 
 		$result = $wpdb->get_results( $sql, 'ARRAY_A' );
 
@@ -364,8 +364,8 @@ class atkp_queuetable_helper {
 			$sql .= ! empty( $order ) ? ' ' . esc_sql( $order ) : ' ASC';
 		}
 
-		$sql .= " LIMIT " . $limit;
-
+		$limit = intval( $limit );
+		$sql  .= " LIMIT " . $limit;
 
 		$result = $wpdb->get_results( $wpdb->prepare( $sql, $date ), 'ARRAY_A' );
 
@@ -378,16 +378,29 @@ class atkp_queuetable_helper {
 
 		$tablename = self::get_queueentrytable_tablename();
 
-		$sql = "SELECT * FROM {$tablename} where " . ( $post_id > 0 ? " post_id = $post_id" : "queue_id=$queue_id" ) . ( $filter == 'error' ? ' and status in ("error", "not_processed")' : '' );
+		$post_id     = intval( $post_id );
+		$queue_id    = intval( $queue_id );
+		$per_page    = intval( $per_page );
+		$page_number = intval( $page_number );
+		$offset      = ( $page_number - 1 ) * $per_page;
+
+		if ( $post_id > 0 ) {
+			$sql = $wpdb->prepare( "SELECT * FROM {$tablename} where post_id = %d", $post_id );
+		} else {
+			$sql = $wpdb->prepare( "SELECT * FROM {$tablename} where queue_id = %d", $queue_id );
+		}
+
+		if ( $filter == 'error' ) {
+			$sql .= ' and status in ("error", "not_processed")';
+		}
 
 		if ( ! empty( $orderby ) ) {
 			$sql .= ' ORDER BY ' . esc_sql( $orderby );
 			$sql .= ! empty( $order ) ? ' ' . esc_sql( $order ) : ' ASC';
 		}
 
-		$sql .= " LIMIT $per_page";
-		$sql .= ' OFFSET ' . ( $page_number - 1 ) * $per_page;
-
+		$sql .= $wpdb->prepare( " LIMIT %d", $per_page );
+		$sql .= $wpdb->prepare( " OFFSET %d", $offset );
 
 		$result = $wpdb->get_results( $sql, 'ARRAY_A' );
 
@@ -399,9 +412,7 @@ class atkp_queuetable_helper {
 
 		$table_name = $this->get_queuetable_tablename();
 
-		$query = "SELECT count(*) as cnt FROM $table_name  ";
-
-		$result = $wpdb->get_results( $query, ARRAY_A );
+		$result = $wpdb->get_results( "SELECT count(*) as cnt FROM {$table_name}", ARRAY_A );
 
 		$cnt = count( $result ) > 0 ? intval( $result[0]['cnt'] ) : 0;
 
@@ -464,12 +475,12 @@ class atkp_queuetable_helper {
 			'functionname'      => $atkp_queue->functionname,
 			'functionparameter' => $atkp_queue->functionparameter,
 			'status'            => $atkp_queue->status,
-			'updatedon'         => date( "Y-m-d H:i:s" ),
+			'updatedon'         => gmdate( "Y-m-d H:i:s" ),
 			'updatedmessage'    => $atkp_queue->updatedmessage,
 		);
 
 		if ( $initial_insert ) {
-			$data['createdon'] = date( "Y-m-d H:i:s" );
+			$data['createdon'] = gmdate( "Y-m-d H:i:s" );
 		}
 
 		$data = apply_filters( 'atkp_modify_queueentry_before_db_write', $data );
@@ -506,12 +517,12 @@ class atkp_queuetable_helper {
 			'internalstatus' => $atkp_queue->internalstatus,
 			'type'           => $atkp_queue->type,
 			'retries'        => $atkp_queue->retries,
-			'updatedon'      => date( "Y-m-d H:i:s" ),
+			'updatedon'      => gmdate( "Y-m-d H:i:s" ),
 			'updatedmessage' => $atkp_queue->updatedmessage,
 		);
 
 		if ( $initial_insert ) {
-			$data['createdon'] = date( "Y-m-d H:i:s" );
+			$data['createdon'] = gmdate( "Y-m-d H:i:s" );
 		}
 
 		$data = apply_filters( 'atkp_modify_queue_before_db_write', $data );

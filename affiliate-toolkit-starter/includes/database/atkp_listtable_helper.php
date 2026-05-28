@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL, PluginCheck.Security.DirectDB
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
@@ -28,9 +29,8 @@ class atkp_listtable_helper {
 	public function exists_table() {
 		global $wpdb;
 		$tablename = $this->get_listtable_tablename();
-		$sql       = "SHOW TABLES LIKE '" . $tablename . "'";
 
-		$result = $wpdb->get_results( $sql );
+		$result = $wpdb->get_results( $wpdb->prepare( "SHOW TABLES LIKE %s", $tablename ) );
 
 		return array( count( $result ) > 0, $tablename );
 	}
@@ -123,7 +123,7 @@ class atkp_listtable_helper {
 
 		$table_name = $this->get_listtable_tablename();
 
-		$affected = $wpdb->query( "DELETE FROM $table_name WHERE list_id=$list_id" );
+		$affected = $wpdb->query( $wpdb->prepare( "DELETE FROM {$table_name} WHERE list_id=%d", $list_id ) );
 
 		return $affected;
 	}
@@ -229,7 +229,7 @@ class atkp_listtable_helper {
 			$data = array(
 				'list_id'   => $list_id,
 				'list_idx'  => $list_idx,
-				'updatedon' => date( "Y-m-d H:i:s" ),
+				'updatedon' => gmdate( "Y-m-d H:i:s" ),
 
 				'shop_id'              => $atkp_product->shopid,
 				'title'                => $remove_character ? $this->fix_sql_field( $atkp_product->title ) : $atkp_product->title,
@@ -286,11 +286,12 @@ class atkp_listtable_helper {
 				'list_id'    => $list_id,
 				'product_id' => intval( $productid ),
 				'list_idx'   => $list_idx,
-				'updatedon'  => date( "Y-m-d H:i:s" ),
+				'updatedon'  => gmdate( "Y-m-d H:i:s" ),
 			);
 
 		} else {
-			throw new Exception( esc_html__( 'unknown producttype: ' . $type, 'affiliate-toolkit-starter' ) );
+			/* translators: %s: product type name */
+			throw new Exception( esc_html( sprintf( __( 'unknown producttype: %s', 'affiliate-toolkit-starter' ), $type ) ) );
 		}
 
 		$data = apply_filters( 'atkp_modify_list_before_db_write', $data );

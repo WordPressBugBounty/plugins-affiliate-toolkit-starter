@@ -59,7 +59,8 @@ class atkp_endpoints {
 
 			$atkp_queueservices->send_data_report( true );
 
-			header( 'Location: ' . $_SERVER['HTTP_REFERER'] );
+			$referer = isset( $_SERVER['HTTP_REFERER'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : admin_url();
+			header( 'Location: ' . $referer );
 			exit;
 
 		} catch ( Exception $e ) {
@@ -78,18 +79,18 @@ class atkp_endpoints {
 	public function atkp_render_template() {
 		try {
 			//render
-			$preview = isset( $_REQUEST['preview'] ) ? $_REQUEST['preview'] : false;
+			$preview = isset( $_REQUEST['preview'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['preview'] ) ) : false;
 			if ( $preview ) {
-				$wp_nounce = $_REQUEST['wp_nounce'];
+				$wp_nounce = isset( $_REQUEST['wp_nounce'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['wp_nounce'] ) ) : '';
 
 				if ( ! wp_verify_nonce( $wp_nounce, "generate_atkp_preview" ) ) {
 					throw new Exception( 'invalid nounce' );
 				}
 			}
 
-			$products_str   = $_REQUEST['products'];
+			$products_str   = isset( $_REQUEST['products'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['products'] ) ) : '';
 			$product_ids    = json_decode( stripslashes( $products_str ), true );
-			$parameters_str = $_REQUEST['parameters'];
+			$parameters_str = isset( $_REQUEST['parameters'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['parameters'] ) ) : '';
 			$parameters_data = json_decode( stripslashes( $parameters_str ), true );
 
 
@@ -245,7 +246,7 @@ class atkp_endpoints {
 			header( "Content-Transfer-Encoding: utf-8" );
 			header( "Content-Length: " . strlen( $string ) );
 
-			echo( $string);
+			echo $string; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Raw JSON for file download
 
 			exit;
 		} catch ( Exception $e ) {
@@ -271,10 +272,11 @@ class atkp_endpoints {
 
 			global $wpdb;
 			$table = $wpdb->prefix . 'postmeta';
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 			$wpdb->delete( $table, array( 'meta_key' => ATKP_PRODUCT_POSTTYPE . '_updatedon' ) );
 
-
-			header( 'Location: ' . $_SERVER['HTTP_REFERER'] );
+			$referer = isset( $_SERVER['HTTP_REFERER'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : admin_url();
+			header( 'Location: ' . $referer );
 			exit;
 
 		} catch ( Exception $e ) {
@@ -301,22 +303,33 @@ class atkp_endpoints {
 
 			global $wpdb;
 
-			echo esc_html__($wpdb->query( 'DELETE FROM `' . $wpdb->prefix . 'options` where option_name like \'atkp_%\'' ));
-			echo esc_html__($wpdb->query( 'DELETE FROM `' . $wpdb->prefix . 'comments` where comment_post_ID in (select ID FROM `' . $wpdb->prefix . 'posts` where post_type like \'atkp_%\')' ));
-			echo esc_html__($wpdb->query( 'DELETE FROM `' . $wpdb->prefix . 'term_relationships` where object_id in (select ID FROM `' . $wpdb->prefix . 'posts` where post_type like \'atkp_%\')' ));
-			echo esc_html__($wpdb->query( 'DELETE FROM `' . $wpdb->prefix . 'postmeta` where meta_key like \'atkp_%\'' ));
-			echo esc_html__($wpdb->query( 'DELETE FROM `' . $wpdb->prefix . 'posts` where post_type like \'atkp_%\'' ));
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			echo esc_html( $wpdb->query( $wpdb->prepare( 'DELETE FROM `' . $wpdb->prefix . 'options` WHERE option_name LIKE %s', 'atkp_%' ) ) );
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			echo esc_html( $wpdb->query( $wpdb->prepare( 'DELETE FROM `' . $wpdb->prefix . 'comments` WHERE comment_post_ID IN (SELECT ID FROM `' . $wpdb->prefix . 'posts` WHERE post_type LIKE %s)', 'atkp_%' ) ) );
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			echo esc_html( $wpdb->query( $wpdb->prepare( 'DELETE FROM `' . $wpdb->prefix . 'term_relationships` WHERE object_id IN (SELECT ID FROM `' . $wpdb->prefix . 'posts` WHERE post_type LIKE %s)', 'atkp_%' ) ) );
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			echo esc_html( $wpdb->query( $wpdb->prepare( 'DELETE FROM `' . $wpdb->prefix . 'postmeta` WHERE meta_key LIKE %s', 'atkp_%' ) ) );
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			echo esc_html( $wpdb->query( $wpdb->prepare( 'DELETE FROM `' . $wpdb->prefix . 'posts` WHERE post_type LIKE %s', 'atkp_%' ) ) );
 
 
-			echo esc_html__($wpdb->query( 'DROP TABLE `' . strtolower( $wpdb->prefix . ATKP_PLUGIN_PREFIX . '_products' ) . '`' ));
-			echo esc_html__($wpdb->query( 'DROP TABLE `' . strtolower( $wpdb->prefix . ATKP_PLUGIN_PREFIX . '_lists' ) . '`' ));
-			echo esc_html__($wpdb->query( 'DROP TABLE `' . strtolower( $wpdb->prefix . ATKP_PLUGIN_PREFIX . '_queues' ) . '`' ));
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
+			echo esc_html( $wpdb->query( 'DROP TABLE IF EXISTS `' . strtolower( $wpdb->prefix . ATKP_PLUGIN_PREFIX . '_products' ) . '`' ) );
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
+			echo esc_html( $wpdb->query( 'DROP TABLE IF EXISTS `' . strtolower( $wpdb->prefix . ATKP_PLUGIN_PREFIX . '_lists' ) . '`' ) );
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
+			echo esc_html( $wpdb->query( 'DROP TABLE IF EXISTS `' . strtolower( $wpdb->prefix . ATKP_PLUGIN_PREFIX . '_queues' ) . '`' ) );
 
-			echo esc_html__($wpdb->query( 'DROP TABLE `' . strtolower( $wpdb->prefix . ATKP_PLUGIN_PREFIX . '_productdata' ) . '`' ));
-			echo esc_html__($wpdb->query( 'DROP TABLE `' . strtolower( $wpdb->prefix . ATKP_PLUGIN_PREFIX . '_offertable' ) . '`' ));
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
+			echo esc_html( $wpdb->query( 'DROP TABLE IF EXISTS `' . strtolower( $wpdb->prefix . ATKP_PLUGIN_PREFIX . '_productdata' ) . '`' ) );
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
+			echo esc_html( $wpdb->query( 'DROP TABLE IF EXISTS `' . strtolower( $wpdb->prefix . ATKP_PLUGIN_PREFIX . '_offertable' ) . '`' ) );
 
 			//header( 'Refresh:5; url='.$_SERVER['HTTP_REFERER'], true, 303);
-			header( 'Location: ' . $_SERVER['HTTP_REFERER'] );
+			$referer = isset( $_SERVER['HTTP_REFERER'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : admin_url();
+			header( 'Location: ' . $referer );
 			exit;
 
 		} catch ( Exception $e ) {
@@ -343,10 +356,11 @@ class atkp_endpoints {
 
 			global $wpdb;
 			$table = $wpdb->prefix . 'postmeta';
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 			$wpdb->delete( $table, array( 'meta_key' => ATKP_LIST_POSTTYPE . '_updatedon' ) );
 
-
-			header( 'Location: ' . $_SERVER['HTTP_REFERER'] );
+			$referer = isset( $_SERVER['HTTP_REFERER'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : admin_url();
+			header( 'Location: ' . $referer );
 			exit;
 
 		} catch ( Exception $e ) {
@@ -372,10 +386,11 @@ class atkp_endpoints {
 				throw new Exception( 'User has no permission.' );
 
 			if ( file_exists( ATKP_LOGFILE ) ) {
-				unlink( ATKP_LOGFILE );
+				wp_delete_file( ATKP_LOGFILE );
 			}
 
-			header( 'Location: ' . $_SERVER['HTTP_REFERER'] );
+			$referer = isset( $_SERVER['HTTP_REFERER'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : admin_url();
+			header( 'Location: ' . $referer );
 			exit;
 
 		} catch ( Exception $e ) {
@@ -796,7 +811,7 @@ class atkp_endpoints {
 																<span>' . $product['title'] . '</span>
 																<br/>
 																' . __( 'Unique ID', 'affiliate-toolkit-starter' ) . ': ' . $asin . ', EAN: ' . ( isset( $product['ean'] ) ? $product['ean'] : '-' ) . ', ' . __( 'Articlenumber', 'affiliate-toolkit-starter' ) . ': ' . ( isset( $product['articlenumber'] ) ? $product['articlenumber'] : '-' ) . ' 
-																' . ( isset( $product['saleprice'] ) ? ', ' . sprintf( __( 'Price: %s', 'affiliate-toolkit-starter' ), $product['saleprice'] ) : '' ) . '
+																' . ( isset( $product['saleprice'] ) ? ', ' . sprintf( /* translators: %s: product price */ __( 'Price: %s', 'affiliate-toolkit-starter' ), $product['saleprice'] ) : '' ) . '
 																<br/>
 																<a href="' . $product['producturl'] . '"
 																   target="_blank">' . __( 'View product', 'affiliate-toolkit-starter' ) . '</a>
@@ -828,7 +843,9 @@ class atkp_endpoints {
 
 		if ( $asin != '' ) {
 			$args     = array(
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 				'meta_key'       => ATKP_PRODUCT_POSTTYPE . '_asin',
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 				'meta_value'     => $asin,
 				'post_type'      => ATKP_PRODUCT_POSTTYPE,
 				'post_status'    => array( 'publish', 'draft' ),
@@ -874,7 +891,7 @@ class atkp_endpoints {
 		$products = array();
 		$args     = array(
 			'post_type'        => array( $type ),
-			'suppress_filters' => true,
+			'suppress_filters' => false, // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.SuppressFilters_suppress_filters
 			's'                => $keyword,
 			'post_status'      => $isfrontend ? array( 'publish' ) : array( 'draft', 'publish' ),
 			'paged'            => 1,
@@ -1062,7 +1079,7 @@ class atkp_endpoints {
 
 		if ( count( $result_values ) == 0 )
 			return $result_values;
-		else if ( count( $shop_ids ) > 1 || isset( $_POST['groups'] ) ) {
+		else if ( count( $shop_ids ) > 1 || isset( $_POST['groups'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 			return $result_values;
 		} else
 			return reset( $result_values);

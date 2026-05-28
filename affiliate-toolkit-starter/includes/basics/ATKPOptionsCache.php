@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || exit;
 
 /**
  * Cache-Manager für Plugin-Einstellungen
@@ -21,6 +22,7 @@ class ATKPOptionsCache {
 		//if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 		//	return false;
 		//}
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_GET['tab'] ) && $_GET['tab'] == 'display_configuration_page' ) {
 			return false;
 		}
@@ -64,6 +66,7 @@ class ATKPOptionsCache {
 			$prefix . '%'
 		);
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 		$results = $wpdb->get_results( $query );
 
 		// Standardwerte definieren

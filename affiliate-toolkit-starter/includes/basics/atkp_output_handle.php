@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || exit;
 
 class atkp_output_handle {
 	public function __construct() {
@@ -983,7 +984,7 @@ function atkp_get_short_title( $id = '' ) {
  *
  * @return string
  */
-function get_get_reviews_text( $id = '' ) {
+function get_get_reviews_text( $id = '' ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Legacy template function, renaming would break user templates.
 	$prd = atkp_get_product( $id );
 
 	$formatter = atkp_get_formatter();

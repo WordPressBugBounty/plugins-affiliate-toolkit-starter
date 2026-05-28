@@ -1,7 +1,8 @@
 <?php
-
-
+// phpcs:disable WordPress.WP.I18n, WordPress.NamingConventions.PrefixAllGlobals, PluginCheck.CodeAnalysis.DirectFileAccess, WordPress.WP.AlternativeFunctions, WordPress.PHP.DevelopmentFunctions
 namespace eftec\bladeone;
+
+defined('ABSPATH') || exit;
 
 /**
  * Trait BladeOneLang

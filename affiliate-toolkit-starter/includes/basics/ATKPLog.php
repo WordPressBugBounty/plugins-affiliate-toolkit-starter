@@ -78,7 +78,7 @@ class ATKPLog {
 				'=> $1',
 				'array()',
 				'    '
-			), str_replace( 'array (', 'array(', var_export( $value, true ) ) );
+			), str_replace( 'array (', 'array(', var_export( $value, true ) ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export -- Debug logging utility.
 			$export .= PHP_EOL;
 		}
 

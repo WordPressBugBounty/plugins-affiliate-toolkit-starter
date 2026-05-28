@@ -5,6 +5,7 @@
  * Date: 02.12.2018
  * Time: 16:46
  */
+defined('ABSPATH') || exit;
 
 class atkp_udtaxonomy {
 	public $data = array();

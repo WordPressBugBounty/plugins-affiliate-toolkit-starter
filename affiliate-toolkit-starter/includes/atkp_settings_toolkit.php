@@ -113,7 +113,7 @@ class atkp_settings_toolkit {
 											$sel = '';
 										}
 
-										echo '<option value="' . esc_attr( $value ) . '"' . esc_attr( $sel ) . '>' . esc_html__( $name, 'affiliate-toolkit-starter' ) . '</option>';
+										echo '<option value="' . esc_attr( $value ) . '"' . esc_attr( $sel ) . '>' . esc_html( $name ) . '</option>';
 									} ?>
                                 </select>
 
@@ -193,7 +193,7 @@ class atkp_settings_toolkit {
 									if ( $minutes_ago > ( 60 * 24 ) ) {
 										?>
                                         <div class="atkp-validation">
-                                            <b><?php echo sprintf( esc_html__( 'Last cronjob execution was %s ago', 'affiliate-toolkit-starter' ), esc_html( $timesince ) ); ?></b>
+                                            <b><?php /* translators: %s: time since last cronjob execution */ echo sprintf( esc_html__( 'Last cronjob execution was %s ago', 'affiliate-toolkit-starter' ), esc_html( $timesince ) ); ?></b>
                                             <p><?php echo esc_html__( 'The cronjob was last called a day ago. This is suspicious. If you don\'t know why this is, you should check the problem more closely.', 'affiliate-toolkit-starter' ); ?></p>
 											<?php if ( $crontype == 2 ) { ?>
                                                 <p><?php echo esc_html__( 'You can try to save this settings page and attach the plugin again in the WordPress scheduler.', 'affiliate-toolkit-starter' ) ?></p>
@@ -205,7 +205,7 @@ class atkp_settings_toolkit {
 									} else if ( $minutes_ago > 30 ) {
 										?>
                                         <div class="atkp-info">
-                                            <b><?php echo sprintf( esc_html__( 'Last cronjob execution was %s ago', 'affiliate-toolkit-starter' ), esc_html( $timesince ) ); ?></b>
+                                            <b><?php /* translators: %s: time since last cronjob execution */ echo sprintf( esc_html__( 'Last cronjob execution was %s ago', 'affiliate-toolkit-starter' ), esc_html( $timesince ) ); ?></b>
                                             <p><?php echo esc_html__( 'The cronjob was last called more than 30 minutes ago. Depending on the configuration (e.g. execution in special time windows) this can be normal.', 'affiliate-toolkit-starter' ); ?></p>
                                         </div>
 										<?php
@@ -217,7 +217,7 @@ class atkp_settings_toolkit {
 										if ( $last_processed == '' || $minutes_ago2 > 30 ) {
 											?>
                                             <div class="atkp-validation">
-                                                <b><?php echo sprintf( esc_html__( 'Last cronjob execution was %s ago but nothing was processed.', 'affiliate-toolkit-starter' ), esc_html( $timesince ) ); ?></b>
+                                                <b><?php /* translators: %s: time since last cronjob execution */ echo sprintf( esc_html__( 'Last cronjob execution was %s ago but nothing was processed.', 'affiliate-toolkit-starter' ), esc_html( $timesince ) ); ?></b>
                                                 <p><?php echo esc_html__( 'The cronjob was called correctly but nothing was processed. This is an could be an issue.', 'affiliate-toolkit-starter' ); ?></p>
 
                                                 <p><?php echo esc_html__( 'Please check if the cronjob is running into an HTTP 500 error.', 'affiliate-toolkit-starter' ) ?></p>
@@ -227,7 +227,7 @@ class atkp_settings_toolkit {
 										} else {
 											?>
                                             <div class="atkp-success">
-                                                <b><?php echo sprintf( esc_html__( 'Last cronjob execution was %s ago', 'affiliate-toolkit-starter' ), esc_html( $timesince ) ); ?></b>
+                                                <b><?php /* translators: %s: time since last cronjob execution */ echo sprintf( esc_html__( 'Last cronjob execution was %s ago', 'affiliate-toolkit-starter' ), esc_html( $timesince ) ); ?></b>
                                                 <p><?php echo esc_html__( 'Gratualation, the configuration of the cronjob seems to be correct. The product update is called regularly.', 'affiliate-toolkit-starter' ); ?></p>
                                             </div>
 											<?php
@@ -292,8 +292,8 @@ class atkp_settings_toolkit {
                                        name="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_cron_to') ?>"
                                        value="<?php echo esc_attr( get_option( ATKP_PLUGIN_PREFIX . '_cron_to' ) ); ?>">
 
-	                            <?php esc_html__( 'Current time', 'affiliate-toolkit-starter' ) ?>:
-	                            <?php esc_html__( date( 'd.m.y H:i:s', time() ), 'affiliate-toolkit-starter' ); ?>
+	                            <?php echo esc_html__( 'Current time', 'affiliate-toolkit-starter' ) ?>:
+	                            <?php echo esc_html( gmdate( 'd.m.y H:i:s', time() ) ); ?>
 
 								<?php ATKPTools::display_helptext( 'If you are using api keys on multipe websites it is good to gave every website a own time frame to process the product updates.' ) ?>
 
@@ -389,7 +389,7 @@ class atkp_settings_toolkit {
 											$sel = '';
 										}
 
-										echo '<option value="' . esc_attr( $value ) . '"' . esc_attr( $sel ) . '>' . esc_html__( $name, 'affiliate-toolkit-starter' ) . '</option>';
+										echo '<option value="' . esc_attr( $value ) . '"' . esc_attr( $sel ) . '>' . esc_html( $name ) . '</option>';
 									} ?>
                                 </select>
 
@@ -424,7 +424,7 @@ class atkp_settings_toolkit {
 
 	                            <?php $reportnounce = wp_create_nonce( 'atkp-send-report' ); ?>
 
-                                <a href="<?php echo( esc_url(ATKPTools::get_endpointurl() . '?action=atkp_send_report&request_nonce=' . esc_html($reportnounce)) ) ?>"
+                                <a href="<?php echo( esc_url(ATKPTools::get_endpointurl() . '?action=atkp_send_report&request_nonce=' . urlencode($reportnounce)) ) ?>"
                                    class="button atkp-btn-report" style="margin-right:10px"><span
                                             class="dashicons dashicons-email"
                                             style="margin-top:3px"></span> <?php echo esc_html__( 'Send report now', 'affiliate-toolkit-starter' ) ?>
@@ -465,7 +465,7 @@ class atkp_settings_toolkit {
 
 										$item_translated = '';
 
-										echo '<option value="' . esc_attr( $value ) . '"' . esc_attr( $sel ) . '>' . esc_html__( $name, 'affiliate-toolkit-starter' ) . '</option>';
+										echo '<option value="' . esc_attr( $value ) . '"' . esc_attr( $sel ) . '>' . esc_html( $name ) . '</option>';
 									} ?>
                                 </select>
 

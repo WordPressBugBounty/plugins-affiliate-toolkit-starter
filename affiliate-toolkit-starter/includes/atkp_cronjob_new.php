@@ -29,6 +29,7 @@ class atkp_cronjob_new {
 		$this->send_message( "deleted queues: " . implode( ',', $deleted ) );
 	}
 
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- This is a cron job, nonce verification is not applicable.
 	public function do_work( $iswpcronjob = false, $mode = '' ) {
 
 		try {
@@ -135,7 +136,7 @@ class atkp_cronjob_new {
 						}
 
 						if ( ! ( $now >= $begin && $now <= $end ) ) {
-							$this->send_message( 'time ' . date( 'd.m.y H:i:s', $now ) . ' is NOT between ' . date( 'd.m.y H:i:s', $begin ) . ' and ' . date( 'd.m.y H:i:s', $end ) . ' - queue will not be processed' );
+							$this->send_message( 'time ' . gmdate( 'd.m.y H:i:s', $now ) . ' is NOT between ' . gmdate( 'd.m.y H:i:s', $begin ) . ' and ' . gmdate( 'd.m.y H:i:s', $end ) . ' - queue will not be processed' );
 
 							return;
 						}
@@ -158,7 +159,7 @@ class atkp_cronjob_new {
 					/** @var atkp_queue_entry[] $entries */
 
 					if ( ! $iswpcronjob && ! class_exists( 'WP_CLI' ) && $max_execution > 0 ) {
-						set_time_limit( $max_execution );
+						set_time_limit( $max_execution ); // phpcs:ignore Squiz.PHP.DiscouragedFunctions.Discouraged -- Required for long-running cron operations.
 					}
 
 					$entries = $atkp_queue->get_next_entries( atkp_queue_entry_status::PREPARED );
@@ -215,7 +216,8 @@ class atkp_cronjob_new {
 
 							foreach ( $entries as $entry ) {
 								$entry->status         = atkp_queue_entry_status::ERROR;
-								$entry->updatedmessage = sprintf( __( 'Exception in entries hook: %s', 'affiliate-toolkit-starter' ), $e->getMessage() );
+								/* translators: %s: error message from exception */
+							$entry->updatedmessage = sprintf( __( 'Exception in entries hook: %s', 'affiliate-toolkit-starter' ), $e->getMessage() );
 
 								$entry->save();
 							}
@@ -277,7 +279,7 @@ class atkp_cronjob_new {
 		ATKPTools::set_setting( 'atkp_cron_last_processed', time() );
 
 		if ( ! $iswpcronjob ) {
-			echo 'OK';
+			echo esc_html( 'OK' );
 			exit;
 		}
 	}

@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.WP.AlternativeFunctions.curl_curl_init, WordPress.WP.AlternativeFunctions.curl_curl_setopt, WordPress.WP.AlternativeFunctions.curl_curl_exec
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
@@ -32,18 +33,15 @@ class atkp_shortener {
 				);
 				$payload = json_encode( $data );
 
-				$header = array(
-					'Authorization: Bearer ' . $api_key,
-					'Content-Type: application/json',
-					'Content-Length: ' . strlen( $payload )
-				);
-
-				$ch = curl_init( $apiv4 );
-				curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, "POST" );
-				curl_setopt( $ch, CURLOPT_POSTFIELDS, $payload );
-				curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-				curl_setopt( $ch, CURLOPT_HTTPHEADER, $header );
-				$result       = curl_exec( $ch );
+				$response = wp_remote_post( $apiv4, array(
+					'headers' => array(
+						'Authorization' => 'Bearer ' . $api_key,
+						'Content-Type'  => 'application/json',
+					),
+					'body'    => $payload,
+					'timeout' => 30,
+				) );
+				$result       = wp_remote_retrieve_body( $response );
 				$resultToJson = json_decode( $result );
 
 				if ( isset( $resultToJson->link ) ) {

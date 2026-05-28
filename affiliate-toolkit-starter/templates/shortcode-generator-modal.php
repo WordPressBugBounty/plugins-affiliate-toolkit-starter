@@ -4,6 +4,7 @@
  *
  * @since 3.0.0
  */
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template file, variables set by parent scope.
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

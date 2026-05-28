@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.WP.AlternativeFunctions, WordPress.DateTime.RestrictedFunctions, WordPress.NamingConventions.PrefixAllGlobals, WordPress.PHP.DevelopmentFunctions
 
 /* Finally, A light, permissions-checking logging class.
  *

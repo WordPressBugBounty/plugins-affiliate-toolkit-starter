@@ -1,3 +1,4 @@
+<?php defined('ABSPATH') || exit; ?>
 <div class="atkp-list-outer-container {{$parameters->get_css_container_class()}}">
     <div class="atkp-display">
         <ol class="atkp-ol-list-display">

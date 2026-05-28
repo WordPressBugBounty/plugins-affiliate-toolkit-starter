@@ -1,5 +1,6 @@
 <?php
 declare( ticks=1 );
+defined('ABSPATH') || exit;
 
 class atkp_timeouter {
 

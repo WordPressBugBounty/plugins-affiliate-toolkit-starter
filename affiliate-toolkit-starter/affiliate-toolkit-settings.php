@@ -18,8 +18,8 @@ class atkp_settings {
 
 		add_submenu_page(
 			$parentmenu,
-			__( 'Settings', 'affiliate-toolkit-starter' ),
-			__( 'Settings', 'affiliate-toolkit-starter' ),
+			esc_html__( 'Settings', 'affiliate-toolkit-starter' ),
+			esc_html__( 'Settings', 'affiliate-toolkit-starter' ),
 			'manage_options',
 			ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin',
 			array( &$this, 'toolkit_settings' )
@@ -51,7 +51,7 @@ class atkp_settings {
 				$class    = ( $mytab == $tab_name ) ? ' nav-tab-active' : '';
 
 				?> <a class="nav-tab<?php echo esc_attr($class) ?>"
-                      href="<?php echo esc_url( admin_url() ) ?>admin.php?page=<?php echo esc_html__( ATKP_PLUGIN_PREFIX, 'affiliate-toolkit-starter' ) . '_affiliate_toolkit-plugin' ?>&tab=<?php echo esc_html__( $tab_name, 'affiliate-toolkit-starter' ) ?>"><?php echo esc_html__( $key, 'affiliate-toolkit-starter' ) ?></a><?php
+                      href="<?php echo esc_url( admin_url() . 'admin.php?page=' . ATKP_PLUGIN_PREFIX . '_affiliate_toolkit-plugin&tab=' . $tab_name ) ?>"><?php echo esc_html( $key ) ?></a><?php
 			}
 			?>
 
