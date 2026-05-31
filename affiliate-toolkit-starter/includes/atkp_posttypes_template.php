@@ -528,7 +528,9 @@ class atkp_posttypes_template {
 		$css  = ATKPTools::get_post_parameter( ATKP_TEMPLATE_POSTTYPE . '_css', 'allhtml' );
 
 		// Sanitize: strip raw PHP tags to prevent code injection
-		$body = atkp_template_helper::sanitize_template_content( $body );
+		if ( ! atkp_options::$loader->get_disable_template_sanitize() ) {
+			$body = atkp_template_helper::sanitize_template_content( $body );
+		}
 
 		ATKPTools::set_post_setting( $post_id, ATKP_TEMPLATE_POSTTYPE . '_body', $body );
 		ATKPTools::set_post_setting( $post_id, ATKP_TEMPLATE_POSTTYPE . '_css', $css );

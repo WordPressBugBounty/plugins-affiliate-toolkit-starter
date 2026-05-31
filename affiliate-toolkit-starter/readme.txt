@@ -3,8 +3,8 @@ Contributors: cservit
 Tags: affiliate, amazon, ebay, awin, product display
 Requires at least: 5.6
 Tested up to: 7.0
-Stable tag: 3.8.6
-Requires PHP: 7.4
+Stable tag: 3.8.7
+Requires PHP: 8.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -375,7 +375,15 @@ You just need to install the extension from our website.
 
  
 == Changelog ==
+= 3.8.7 =
+*   NEW: Admin notice informing about the PHP tag filtering security feature (with explicit confirmation)
+*   NEW: Option to disable PHP tag filtering in templates (Advanced Settings, requires explicit opt-in)
+*   IMPROVED: Extension loading moved from init to plugins_loaded for better compatibility
+*   IMPROVED: Minimum PHP version raised to 8.2
+*   FIX: ATKP_StoreController class existence check added to prevent fatal errors in discount notifications
+
 = 3.8.6 =
+*   SECURITY: Raw PHP code (<?php ?> tags) is now automatically stripped from templates to prevent code injection via BladeOne eval()
 *   FIX: Double-slash in API URLs to affiliate-toolkit.com
 *   FIX: HTTP timeouts increased from 15s to 30s for license checks and store API calls
 *   FIX: Sub-module plugins no longer trigger unnecessary WordPress.org update checks (Update URI header added)

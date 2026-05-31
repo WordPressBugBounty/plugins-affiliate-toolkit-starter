@@ -4,7 +4,6 @@
  * Diese Datei stellt eine erweiterte Cronjob-Funktionalität zur Verfügung.
  * Hiermit kan man auch eine große Anzahl an Dateien verarbeiten.
  */
-defined('ABSPATH') || exit;
 
 // PHP-Konfiguration optimieren
 //@error_reporting( E_ALL );

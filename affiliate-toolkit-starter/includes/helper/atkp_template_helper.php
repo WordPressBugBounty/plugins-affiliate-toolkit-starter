@@ -1103,7 +1103,9 @@ class atkp_template_helper {
 		*/
 
 		// Sanitize: strip raw PHP tags to prevent code injection
-		$bladecontent = self::sanitize_template_content( $bladecontent );
+		if ( ! atkp_options::$loader->get_disable_template_sanitize() ) {
+			$bladecontent = self::sanitize_template_content( $bladecontent );
+		}
 
 		// Add error handling to prevent fatal errors
 		try {

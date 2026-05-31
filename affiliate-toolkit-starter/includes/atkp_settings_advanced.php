@@ -60,6 +60,7 @@ class atkp_settings_advanced {
 			//ATKPTools::set_setting( ATKP_PLUGIN_PREFIX . '_ignoreoffernotfound', ATKPTools::get_post_parameter( ATKP_PLUGIN_PREFIX . '_ignoreoffernotfound', 'bool' ) );
 
 			ATKPTools::set_setting( ATKP_PLUGIN_PREFIX . '_disable_sponsored_attribute', ATKPTools::get_post_parameter( ATKP_PLUGIN_PREFIX . '_disable_sponsored_attribute', 'bool' ) );
+			ATKPTools::set_setting( ATKP_PLUGIN_PREFIX . '_disable_template_sanitize', ATKPTools::get_post_parameter( ATKP_PLUGIN_PREFIX . '_disable_template_sanitize', 'bool' ) );
 
 			$args = array(
 				'public'   => true,
@@ -483,6 +484,32 @@ class atkp_settings_advanced {
                             </td>
                         </tr>
 
+                        <tr>
+                            <th scope="row">
+
+                            </th>
+                            <td>
+                                <div style="background: #FEEFB3; border: 1px solid #9F6000; border-left: 4px solid #D8000C; border-radius: 3px; padding: 15px 18px; margin-bottom: 5px;">
+                                    <p style="margin: 0 0 10px 0; color: #005162; font-weight: bold; font-size: 14px;">
+                                        &#9888; <?php echo __( 'Security Warning: PHP tag filtering in templates', 'affiliate-toolkit-starter' ) ?>
+                                    </p>
+                                    <p style="margin: 0 0 10px 0; color: #1d2327; font-size: 13px;">
+                                        <?php echo sprintf( __( 'This option disables the security feature that automatically strips raw PHP code (e.g. %s tags) from templates. The Blade template engine uses eval() internally — allowing raw PHP code in templates can lead to arbitrary code execution and compromise your website.', 'affiliate-toolkit-starter' ), '<code>&lt;?php ?&gt;</code>' ) ?>
+                                    </p>
+                                    <p style="margin: 0 0 14px 0; color: #D8000C; font-size: 13px; font-weight: bold;">
+                                        <?php echo __( 'Only enable this option if you fully understand the security implications and explicitly accept the risk.', 'affiliate-toolkit-starter' ) ?>
+                                    </p>
+                                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; background: #FFBABA; border: 1px solid #D8000C; border-radius: 3px; padding: 10px 14px;">
+                                        <input type="checkbox" id="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_disable_template_sanitize') ?>"
+                                               name="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_disable_template_sanitize') ?>"
+                                               value="1" <?php echo checked( 1, atkp_options::$loader->get_disable_template_sanitize(), true ); ?>>
+                                        <span style="color: #D8000C; font-weight: bold;">
+                                            <?php echo __( 'I understand the risk and want to explicitly disable PHP tag filtering', 'affiliate-toolkit-starter' ) ?>
+                                        </span>
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
 
                         <tr>
                             <th scope="row">

@@ -4,7 +4,6 @@
  * Diese Datei stellt eine erweiterte Cronjob-Funktionalität zur Verfügung.
  * Hiermit kan man auch eine große Anzahl an Dateien verarbeiten.
  */
-defined('ABSPATH') || exit;
 
 
 //execute command line: wp eval-file --url=https://webseite.de/wp-content/plugins/affiliate-toolkit/affiliate-toolkit-wp-cli.php /var/www/html/wp-content/plugins/affiliate-toolkit/affiliate-toolkit-wp-cli.php

@@ -571,6 +571,10 @@ class atkp_options {
 		return $this->get_cachedoption( '_disable_sponsored_attribute', false );
 	}
 
+	public function get_disable_template_sanitize() {
+		return $this->get_cachedoption( '_disable_template_sanitize', false );
+	}
+
 	public function get_show_priceinfo() {
 		return $this->get_cachedoption( '_show_priceinfo', true );
 	}

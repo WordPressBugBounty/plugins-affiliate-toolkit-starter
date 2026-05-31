@@ -31,6 +31,10 @@ class atkp_extensions {
 			wp_die( esc_html__( 'You do not have sufficient permissions to access this page', 'affiliate-toolkit-starter' ) );
 		}
 
+		if ( ! class_exists( 'ATKP_StoreController' ) ) {
+			return;
+		}
+
 		$products = ATKP_StoreController::get_products_feed();
 		?>
         <div class="wrap">

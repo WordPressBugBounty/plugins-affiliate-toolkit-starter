@@ -124,7 +124,7 @@ class atkp_template_view {
 					}
 
 					// Sanitize template content fields to prevent code injection
-					if ( is_string( $unval ) ) {
+					if ( is_string( $unval ) && ! atkp_options::$loader->get_disable_template_sanitize() ) {
 						foreach ( $content_fields as $cf ) {
 							if ( substr( $field, -strlen( $cf ) ) === $cf ) {
 								$unval = atkp_template_helper::sanitize_template_content( $unval );
@@ -160,7 +160,10 @@ class atkp_template_view {
 				$template_content_fields = array( 'header', 'bodyheader', 'detailheader', 'detailfooter', 'body', 'bodyfooter', 'footer' );
 				$template_meta_keys = array( '_header', '_body_header', '_detail_header', '_detail_footer', '_body', '_body_footer', '_footer' );
 				foreach ( $template_content_fields as $idx => $field ) {
-					$value = isset( $mytemplate[ $field ] ) ? atkp_template_helper::sanitize_template_content( $mytemplate[ $field ] ) : '';
+					$value = isset( $mytemplate[ $field ] ) ? $mytemplate[ $field ] : '';
+					if ( ! atkp_options::$loader->get_disable_template_sanitize() ) {
+						$value = atkp_template_helper::sanitize_template_content( $value );
+					}
 					ATKPTools::set_post_setting( $post_id, ATKP_TEMPLATE_POSTTYPE . $template_meta_keys[ $idx ], $value );
 				}
 

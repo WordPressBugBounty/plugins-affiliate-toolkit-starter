@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: affiliate-toolkit 3.0\n"
-"POT-Creation-Date: 2026-05-27 16:57+0200\n"
-"PO-Revision-Date: 2026-05-27 17:03+0200\n"
+"POT-Creation-Date: 2026-05-31 08:52+0200\n"
+"PO-Revision-Date: 2026-05-31 08:54+0200\n"
 "Last-Translator: Christof Servit <office@servit.biz>\n"
 "Language-Team: SERVIT Software Solutions <office@servit.biz>\n"
 "Language: de\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Poedit-SearchPath-1: affiliate-toolkit-starter/js\n"
 "X-Poedit-SearchPath-2: affiliate-toolkit-amazon\n"
 
-#: affiliate-toolkit-amazon/affiliate-toolkit-amazon.php:34
+#: affiliate-toolkit-amazon/affiliate-toolkit-amazon.php:35
 msgid ""
 "<span style=\"font-weight:bold\">affiliate-toolkit - Amazon:</span> You are using affiliate-"
 "toolkit from the WordPress directory. Please uninstall the Amazon extension. It's already "
@@ -29,17 +29,17 @@ msgstr ""
 "affiliate-toolkit aus dem WordPress-Verzeichnis. Deinstalliere die Amazon-Erweiterung. Es ist "
 "bereits im Haupt-Plugin enthalten."
 
-#: affiliate-toolkit-amazon/affiliate-toolkit-amazon.php:62
+#: affiliate-toolkit-amazon/affiliate-toolkit-amazon.php:63
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:138
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:513
 msgid "Amazon"
 msgstr "Amazon"
 
-#: affiliate-toolkit-amazon/affiliate-toolkit-amazon.php:74
+#: affiliate-toolkit-amazon/affiliate-toolkit-amazon.php:75
 msgid "Show Prime logo"
 msgstr "Prime-Logo anzeigen"
 
-#: affiliate-toolkit-amazon/affiliate-toolkit-amazon.php:83
+#: affiliate-toolkit-amazon/affiliate-toolkit-amazon.php:84
 msgid "Link Prime logo"
 msgstr "Prime-Logo verlinken"
 
@@ -166,11 +166,11 @@ msgstr "Geben Sie Ihren ASIN-Daten-API-Schlüssel ein..."
 #, php-format
 msgid ""
 "No-API requests are included in your affiliate-toolkit license. For unlimited requests, you "
-"can purchase an external ASIN Data API key. %sGet API Key%s"
+"can purchase an external ASIN Data API key. %1$sGet API Key%2$s"
 msgstr ""
 "Anfragen ohne API sind in Ihrer Affiliate-Toolkit-Lizenz enthalten. Für eine unbegrenzte "
-"Anzahl von Anfragen können Sie einen externen ASIN-Daten-API-Schlüssel erwerben. %sAPI-"
-"Schlüssel abrufen%s"
+"Anzahl von Anfragen können Sie einen externen ASIN-Daten-API-Schlüssel erwerben. %1$sAPI-"
+"Schlüssel abrufen%2$s"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:863
 msgid "Star Ratings"
@@ -235,12 +235,8 @@ msgid "Credential Version"
 msgstr "Version der Anmeldedaten"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:969
-msgid ""
-"Select your credential version. Auto-detect will determine it based on your selected Amazon "
-"website."
-msgstr ""
-"Wählen Sie die Version Ihrer Anmeldedaten aus. Die automatische Erkennung ermittelt diese "
-"anhand der von Ihnen ausgewählten Amazon-Website."
+msgid "Select your credential version."
+msgstr "Wählen Sie die Version Ihrer Zugangsdaten aus."
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:981
 msgid "Amazon Website"
@@ -327,10 +323,10 @@ msgstr "Bevorzugte Sprachen"
 #, php-format
 msgid ""
 "You can set a list of languages you want to receive (comma separated). You can find the valid "
-"languages for each marketplace %shere%s."
+"languages for each marketplace %1$shere%2$s."
 msgstr ""
 "Sie können eine Liste der Sprachen festlegen, die Sie erhalten möchten (durch Kommas "
-"getrennt). Die für die einzelnen Marktplätze %shere% verfügbaren Sprachen finden Sie hier."
+"getrennt). Die für den jeweiligen Marktplatz verfügbaren Sprachen finden Sie %1$shier%2$s."
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:1209
 msgid "Amazon Product Advertising API (PA-API 5.0) Requirements"
@@ -506,26 +502,26 @@ msgid "Artist"
 msgstr "Künstler"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:2011
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1806
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1795
 msgid "Author"
 msgstr "Autor"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:2012
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:853
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2841
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:3042
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2830
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:3031
 #: affiliate-toolkit-starter/includes/helper/atkp_template_helper.php:513
 msgid "Availability"
 msgstr "Verfügbarkeit"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:2013
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1835
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1824
 #: affiliate-toolkit-starter/includes/helper/atkp_template_helper.php:507
 msgid "Brand"
 msgstr "Marke"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:2014
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1028
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1020
 msgid "BrowseNode"
 msgstr "BrowseNode"
 
@@ -579,11 +575,11 @@ msgstr "Sortierung"
 
 #: affiliate-toolkit-amazon/includes/atkp_shop_provider_amazon.php:2031
 #: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:229
-#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:481
+#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:472
 #: affiliate-toolkit-starter/includes/atkp_endpoints.php:762
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1458
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1445
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:995
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1744
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1733
 #: affiliate-toolkit-starter/includes/atkp_posttypes_shop.php:952
 #: affiliate-toolkit-starter/includes/helper/atkp_template_helper.php:492
 #: affiliate-toolkit-starter/includes/pages/atkp_queue_table.php:211
@@ -703,7 +699,7 @@ msgstr "Suchen nach"
 #: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:166
 #: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:200
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:490
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1082
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1074
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator2.php:1467
 msgid "Keyword"
 msgstr "Schlüsselbegriff"
@@ -718,20 +714,20 @@ msgstr "EAN(s)"
 
 #: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:181
 #: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:230
-#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:331
-#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:527
+#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:322
+#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:518
 #: affiliate-toolkit-starter/includes/atkp_endpoints.php:813
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:996
 msgid "Articlenumber"
 msgstr "Artikelnummer"
 
 #: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:187
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1190
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1186
 msgid "GTIN"
 msgstr "GTIN"
 
 #: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:193
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1154
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1150
 #: affiliate-toolkit-starter/includes/helper/atkp_template_helper.php:501
 msgid "ISBN"
 msgstr "ISBN"
@@ -741,15 +737,15 @@ msgid "Product filter key"
 msgstr "Produkte filtern nach"
 
 #: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:227
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1169
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1161
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:993
 msgid "Unique productid"
 msgstr "Eindeutige Produkt-ID"
 
 #: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:228
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:994
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1118
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1444
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1114
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1439
 #: affiliate-toolkit-starter/includes/helper/atkp_template_helper.php:504
 msgid "EAN"
 msgstr "EAN"
@@ -762,12 +758,12 @@ msgstr ""
 "Dieser Schlüssel wird verwendet, um einen Link für Produktaktualisierungen zu erstellen. "
 "Diesen Schlüssel findest du nach dem Produktimport im Reiter \"Filterinformationen\"."
 
-#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:256
+#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:255
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:68
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:497
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1002
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1282
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1076
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:994
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1273
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1073
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator2.php:635
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator2.php:780
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator_modern.php:572
@@ -782,48 +778,48 @@ msgstr ""
 msgid "Search"
 msgstr "Suchen"
 
-#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:377
-#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:428
+#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:368
+#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:419
 #: affiliate-toolkit-starter/affiliate-toolkit-settings.php:76
 msgid "License Required"
 msgstr "Lizenz erforderlich"
 
-#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:380
-#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:431
+#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:371
+#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:422
 msgid ""
 "No active license found for this extension. Please activate your license to access this shop."
 msgstr ""
 "Für diese Erweiterung wurde keine aktive Lizenz gefunden. Bitte aktivieren Sie Ihre Lizenz, "
 "um auf diesen Shop zugreifen zu können."
 
-#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:387
-#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:438
+#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:378
+#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:429
 #: affiliate-toolkit-starter/affiliate-toolkit-settings.php:87
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1055
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1053
 #: affiliate-toolkit-starter/includes/atkp_posttypes_shop.php:547
 msgid "Manage Licenses"
 msgstr "Lizenzen verwalten"
 
-#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:412
+#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:403
 msgid "shop extension was not loaded. Check if extension is activated."
 msgstr "Shop-Erweiterung wurde nicht geladen. Überprüfe, ob die Erweiterung aktiviert ist."
 
-#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:464
+#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:455
 #, php-format
 msgid "API returned: %s"
 msgstr "API hat zurückgegeben: %s"
 
-#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:477
+#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:468
 #: affiliate-toolkit-starter/includes/atkp_endpoints.php:758
 #: affiliate-toolkit-starter/includes/helper/atkp_formatter.php:2725
 msgid "Image"
 msgstr "Bild"
 
-#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:485
+#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:476
 msgid "Custom Fields"
 msgstr "Benutzerdefinierte Felder"
 
-#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:489
+#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:480
 #: affiliate-toolkit-starter/includes/atkp_endpoints.php:767
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:17
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:288
@@ -838,14 +834,14 @@ msgstr "Benutzerdefinierte Felder"
 msgid "Status"
 msgstr "Status"
 
-#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:520
+#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:511
 #: affiliate-toolkit-starter/includes/atkp_endpoints.php:813
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:805
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1438
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1433
 msgid "Unique ID"
 msgstr "Eindeutige ID"
 
-#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:535
+#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:526
 #: affiliate-toolkit-starter/includes/atkp_endpoints.php:814
 #: affiliate-toolkit-starter/includes/helper/atkp_template_helper.php:353
 #: affiliate-toolkit-starter/includes/helper/atkp_translator.php:92
@@ -853,53 +849,53 @@ msgstr "Eindeutige ID"
 msgid "Price: %s"
 msgstr "Preis: %s"
 
-#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:542
+#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:533
 #, php-format
 msgid "%s (shop is not enabled)"
 msgstr "%s (Shop ist nicht aktiviert)"
 
-#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:547
+#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:538
 #, php-format
 msgid "Shop: %s"
 msgstr "Shop: %s"
 
-#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:551
+#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:542
 #: affiliate-toolkit-starter/includes/atkp_endpoints.php:817
 msgid "View product"
 msgstr "Produkt anzeigen"
 
-#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:589
-#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:796
-#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:1053
+#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:580
+#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:787
+#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:1045
 #: affiliate-toolkit-starter/includes/atkp_endpoints.php:862
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator2.php:1784
 msgid "Imported"
 msgstr "Importiert"
 
-#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:590
-#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:796
-#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:1053
+#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:581
+#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:787
+#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:1045
 #: affiliate-toolkit-starter/includes/atkp_endpoints.php:863
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator2.php:1784
 msgid "Product imported."
 msgstr "Produkt importiert."
 
-#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:594
+#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:585
 msgid "Key is empty"
 msgstr "Schlüssel ist leer"
 
-#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:596
+#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:587
 #, php-format
 msgid "%s is empty."
 msgstr "%s ist leer."
 
-#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:983
+#: affiliate-toolkit-starter/affiliate-toolkit-bulkimport.php:974
 msgid "select value"
 msgstr "Wert wählen"
 
 #: affiliate-toolkit-starter/affiliate-toolkit-compatibility.php:20
 #: affiliate-toolkit-starter/affiliate-toolkit-compatibility.php:21
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:389
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:390
 msgid "Compatibility"
 msgstr "Kompatibilität"
 
@@ -908,40 +904,40 @@ msgstr "Kompatibilität"
 msgid "Extensions"
 msgstr "Erweiterungen"
 
-#: affiliate-toolkit-starter/affiliate-toolkit-extensions.php:38
+#: affiliate-toolkit-starter/affiliate-toolkit-extensions.php:42
 msgid "Apps and Integrations for affiliate-toolkit"
 msgstr "Apps und Integrationen für affiliate-toolkit"
 
-#: affiliate-toolkit-starter/affiliate-toolkit-extensions.php:42
+#: affiliate-toolkit-starter/affiliate-toolkit-extensions.php:46
 msgid "View all extensions"
 msgstr "Alle Erweiterungen anzeigen"
 
-#: affiliate-toolkit-starter/affiliate-toolkit-extensions.php:46
+#: affiliate-toolkit-starter/affiliate-toolkit-extensions.php:50
 msgid "View all packages"
 msgstr "Alle Pakete anzeigen"
 
-#: affiliate-toolkit-starter/affiliate-toolkit-extensions.php:53
+#: affiliate-toolkit-starter/affiliate-toolkit-extensions.php:57
 msgid ""
 "There was an error retrieving the extensions list from the server. Please try again later."
 msgstr ""
 "Beim Abrufen der Erweiterungsliste vom Server ist ein Fehler aufgetreten. Bitte versuche es "
 "später erneut."
 
-#: affiliate-toolkit-starter/affiliate-toolkit-extensions.php:79
+#: affiliate-toolkit-starter/affiliate-toolkit-extensions.php:83
 msgid "Free"
 msgstr "Kostenlos"
 
-#: affiliate-toolkit-starter/affiliate-toolkit-extensions.php:82
+#: affiliate-toolkit-starter/affiliate-toolkit-extensions.php:86
 #, php-format
 msgid "Price starts at: %s"
 msgstr "Preis ab: %s"
 
-#: affiliate-toolkit-starter/affiliate-toolkit-extensions.php:86
+#: affiliate-toolkit-starter/affiliate-toolkit-extensions.php:90
 #, php-format
 msgid "Version: %1$s - %2$s"
 msgstr "Version: %1$s – %2$s"
 
-#: affiliate-toolkit-starter/affiliate-toolkit-extensions.php:94
+#: affiliate-toolkit-starter/affiliate-toolkit-extensions.php:98
 msgid "Get this Extension"
 msgstr "Diese Erweiterung holen"
 
@@ -1000,12 +996,58 @@ msgstr "Willkommen"
 msgid "affiliate-toolkit"
 msgstr "affiliate-toolkit"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:489
-#: affiliate-toolkit-starter/affiliate-toolkit.php:511
+#: affiliate-toolkit-starter/affiliate-toolkit.php:491
+msgid "affiliate-toolkit: Important Security Notice"
+msgstr "affiliate-toolkit: Wichtiger Sicherheitshinweis"
+
+#: affiliate-toolkit-starter/affiliate-toolkit.php:495
+#, php-format
+msgid ""
+"Starting with version 3.8.6, raw PHP code (e.g. %s tags) is automatically filtered from "
+"templates and will no longer be executed."
+msgstr ""
+"Ab Version 3.8.6 wird reiner PHP-Code (z. B. %s-Tags) automatisch aus den Vorlagen "
+"herausgefiltert und nicht mehr ausgeführt."
+
+#: affiliate-toolkit-starter/affiliate-toolkit.php:498
+msgid ""
+"This change was introduced to improve the security of your website. The Blade template engine "
+"(BladeOne) uses eval() to render templates. In previous versions, it was possible to inject "
+"arbitrary PHP code into templates, which could pose a significant security risk."
+msgstr ""
+"Diese Änderung wurde eingeführt, um die Sicherheit Ihrer Website zu verbessern. Die Blade-"
+"Template-Engine (BladeOne) verwendet eval() zum Rendern von Templates. In früheren Versionen "
+"war es möglich, beliebigen PHP-Code in Templates einzuschleusen, was ein erhebliches "
+"Sicherheitsrisiko darstellen konnte."
+
+#: affiliate-toolkit-starter/affiliate-toolkit.php:501
+msgid ""
+"Please use only the Blade template syntax (@if, @foreach, {{ }}, etc.) in your templates. Raw "
+"PHP code is no longer supported by default."
+msgstr ""
+"Bitte verwenden Sie in Ihren Vorlagen ausschließlich die Blade-Vorlagensyntax (@if, @foreach, "
+"{{ }} usw.). Reiner PHP-Code wird standardmäßig nicht mehr unterstützt."
+
+#: affiliate-toolkit-starter/affiliate-toolkit.php:508
+#, php-format
+msgid ""
+"If you absolutely need raw PHP code in your templates and understand the security risks, you "
+"can disable this protection in the %1$sAdvanced Settings%2$s."
+msgstr ""
+"Wenn Sie unbedingt reinen PHP-Code in Ihren Vorlagen benötigen und sich der "
+"Sicherheitsrisiken bewusst sind, können Sie diesen Schutz in den %1$sErweiterten "
+"Einstellungen%2$s deaktivieren."
+
+#: affiliate-toolkit-starter/affiliate-toolkit.php:518
+msgid "I understand, do not show this message again"
+msgstr "Ich habe verstanden, diese Meldung nicht mehr anzeigen"
+
+#: affiliate-toolkit-starter/affiliate-toolkit.php:584
+#: affiliate-toolkit-starter/affiliate-toolkit.php:606
 msgid "affiliate-toolkit:"
 msgstr "Affiliate-Toolkit:"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:489
+#: affiliate-toolkit-starter/affiliate-toolkit.php:584
 #, php-format
 msgid ""
 "You must migrate your products to newest version (v2 to v3). Please %1$sclick here%2$s to "
@@ -1015,7 +1057,7 @@ msgstr ""
 "Sie hier%2$s, um die Aktualisierung jetzt durchzuführen. Bitte erstellen Sie vor der "
 "Aktualisierung eine Sicherungskopie."
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:511
+#: affiliate-toolkit-starter/affiliate-toolkit.php:606
 #, php-format
 msgid ""
 "Please check your display settings. Please %1$sclick here%2$s to go to your display settings "
@@ -1024,17 +1066,17 @@ msgstr ""
 "Bitte überprüfen Sie Ihre Anzeigeeinstellungen. Bitte %1$sklicken Sie hier%2$s, um zur Seite "
 "mit den Anzeigeeinstellungen zu gelangen."
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:524
+#: affiliate-toolkit-starter/affiliate-toolkit.php:619
 #, php-format
 msgid "affiliate-toolkit: %s"
 msgstr "Affiliate-Toolkit: %s"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:542
+#: affiliate-toolkit-starter/affiliate-toolkit.php:641
 #, php-format
 msgid "affiliate-toolkit - %1$s:"
 msgstr "Affiliate-Toolkit – %1$s:"
 
-#: affiliate-toolkit-starter/affiliate-toolkit.php:542
+#: affiliate-toolkit-starter/affiliate-toolkit.php:641
 #, php-format
 msgid "(Ends on %s)"
 msgstr "(Endet bei %s)"
@@ -1197,7 +1239,7 @@ msgid "Setup your product box"
 msgstr "Einrichten der Produktbox"
 
 #: affiliate-toolkit-starter/includes/atkp_generator.php:316
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1080
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1076
 #: affiliate-toolkit-starter/includes/atkp_tools_shortcodegenerator.php:63
 #: affiliate-toolkit-starter/includes/atkp_tools_shortcodegenerator.php:180
 msgid "Close"
@@ -1274,27 +1316,27 @@ msgid "Updated on"
 msgstr "Aktualisiert am"
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:66
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1000
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:992
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator2.php:778
 #: affiliate-toolkit-starter/templates/shortcode-generator-modal.php:215
 msgid "Category - Best Seller"
 msgstr "Kategorie - Bestseller"
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:67
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1001
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:993
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator2.php:779
 #: affiliate-toolkit-starter/templates/shortcode-generator-modal.php:216
 msgid "Category - New Releases"
 msgstr "Kategorie - Neuerscheinungen"
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:69
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1003
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:995
 msgid "Extended Search"
 msgstr "Erweiterte Suche"
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:77
 #: affiliate-toolkit-starter/includes/atkp_posttypes_shop.php:29
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1828
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1830
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator.php:348
 #: affiliate-toolkit-starter/includes/pages/atkp_queue_table.php:213
 #: affiliate-toolkit-starter/templates/shortcode-generator-modal.php:29
@@ -1370,13 +1412,13 @@ msgstr "Liste suchen"
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:201
 #: affiliate-toolkit-starter/includes/atkp_posttypes_shop.php:192
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:758
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:760
 msgid "No lists found"
 msgstr "Keine Liste gefunden"
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:202
 #: affiliate-toolkit-starter/includes/atkp_posttypes_shop.php:193
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:759
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:761
 msgid "No lists found in the Trash"
 msgstr "Keine Liste im Papierkorb"
 
@@ -1404,9 +1446,9 @@ msgid "Queue History"
 msgstr "Warteschlangenverlauf"
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:274
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1435
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1422
 msgid "database table does not exists:"
-msgstr "SQL-Datenbank existiert nicht: "
+msgstr "SQL-Datenbank existiert nicht:"
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:286
 #: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:314
@@ -1504,45 +1546,45 @@ msgstr "Liste aktualisiert am %refresh_date% um %refresh_time%"
 msgid "This list will be added to the next queue."
 msgstr "Diese Liste wird der nächsten Warteschlange hinzugefügt."
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:606
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:658
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:598
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:650
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator2.php:1352
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator2.php:1441
 msgid "No results"
 msgstr "Keine Ergebnisse"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:868
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:860
 msgid "no sorting"
 msgstr "Keine Sortierung"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:987
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:979
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator2.php:770
 #: affiliate-toolkit-starter/templates/shortcode-generator-modal.php:33
 msgid "Source"
 msgstr "Quelle"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1039
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1041
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1031
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1033
 msgid "Search BrowseNode"
 msgstr "BrowseNode suchen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1050
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1042
 msgid "Department"
 msgstr "Abteilung"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1062
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1054
 msgid ""
 "You can only find the root categories of the shop. We are not loading the full category tree."
 msgstr ""
 "Sie können nur die Stammkategorien des Shops finden. Wir laden nicht den gesamten "
 "Kategorienbaum."
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1067
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1059
 msgid "Order by "
 msgstr "Sortieren nach "
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1096
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1143
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1088
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1135
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator.php:409
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator2.php:942
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator_modern.php:645
@@ -1551,11 +1593,11 @@ msgstr "Sortieren nach "
 msgid "Limit"
 msgstr "Limit"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1195
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1187
 msgid "Prefer local product information"
 msgstr "Lokale Produktinformationen bevorzugen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1197
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1189
 msgid ""
 "The plugin is searching in your local product database (by id) if you imported this product "
 "already and will use the local information."
@@ -1563,21 +1605,21 @@ msgstr ""
 "Das Plugin sucht in Ihrer lokalen Produktdatenbank (nach ID), wenn du dieses Produkt bereits "
 "importiert hast, werden die lokalen Informationen verwendet."
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1209
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1201
 msgid "Auto import products"
 msgstr "Produkte automatisch importieren"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1211
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1203
 msgid "If you enable this option the products from this list will be imported as local product."
 msgstr ""
 "Wenn du diese Option aktivierst, werden die Produkte aus dieser Liste als lokales Produkt "
 "importiert."
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1223
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1215
 msgid "Auto delete products"
 msgstr "Produkte automatisch löschen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1225
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1217
 msgid ""
 "All products from this list will be deleted in your local product database. Take care: If you "
 "enable \"Auto import\" and \"Auto delete\" the products will be deleted directly after "
@@ -1587,11 +1629,11 @@ msgstr ""
 "Wenn du \"Automatischer Import\" und \"Automatisches Löschen\" aktiviert hast, werden die "
 "Produkte direkt nach der Erstellung gelöscht."
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1238
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1230
 msgid "Load offers from other shops"
 msgstr "Lade Angebote von anderen Shops"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1240
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1232
 msgid ""
 "If you want to search for offers from other shops you need to activate this option. The price "
 "search will be performed in the background."
@@ -1599,11 +1641,11 @@ msgstr ""
 "Wenn du nach Angeboten aus anderen Shops suchen möchtest, musst du diese Option aktivieren. "
 "Die Preissuche wird im Hintergrund durchgeführt."
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1250
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1242
 msgid "Title filter (one keyword per line)"
 msgstr "Titel-Filter (ein Schlüsselbegriff pro Zeile)"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1262
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1254
 msgid ""
 "For removing entries from your list you can use this field. Add one keyword per line. If you "
 "add \"<b>keyword</b>\" only products including this keyword will be displayed. If you add "
@@ -1614,8 +1656,8 @@ msgstr ""
 "Produkte angezeigt, welche  dieses <b>Schlüsselwort</b> enthalten. Wenn du \"-Schlüsselwort\" "
 "hinzufügen, entfernt das Plugin nur Produkte, die das \"<b>Schlüsselwort</b>\" enthalten."
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1275
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1071
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1267
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1069
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator2.php:632
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator2.php:687
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator2.php:796
@@ -1623,12 +1665,12 @@ msgstr ""
 msgid "Keyword:"
 msgstr "Schlüsselbegriff:"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1277
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1073
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1269
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1071
 msgid "Your keyword..."
 msgstr "Dein Suchbegriff..."
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1288
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1279
 msgid ""
 "This list shows the first 25 products. Please use the search if you cannot find your product "
 "below."
@@ -1636,45 +1678,45 @@ msgstr ""
 "Die Liste zeigt die ersten 25 Produkte. Bitte nutze die Suche, wenn du die Produkte unten "
 "nicht finden kannst."
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1339
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1329
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1342
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1331
 msgid "Remove"
 msgstr "Entfernen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1360
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1348
 msgid "Up"
 msgstr "Hoch"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1363
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1350
 msgid "Down"
 msgstr "Hinunter"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1379
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1366
 msgid "List URL"
 msgstr "Listen URL"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1393
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2057
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1380
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2046
 #: affiliate-toolkit-starter/includes/helper/atkp_formatter.php:92
 #: affiliate-toolkit-starter/includes/helper/atkp_formatter.php:100
 msgid "Post"
 msgstr "Beitrag"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1405
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1413
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2069
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2077
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1392
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1400
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2058
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2066
 msgid "edit post"
 msgstr "Beitrag bearbeiten"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1418
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1405
 msgid "This List is not used as a main list in any contribution."
 msgstr "Diese Liste wird in keinem Beitrag als Hauptliste verwendet."
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1683
+#: affiliate-toolkit-starter/includes/atkp_posttypes_list.php:1670
 msgid "Manual list update"
 msgstr "Manuelle Listenaktualisierung"
 
@@ -1700,14 +1742,14 @@ msgstr "Keine Ergebnisse"
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:223
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:264
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2422
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2411
 msgid "Main image"
 msgstr "Hauptbild"
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:280
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2472
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2493
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2514
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2461
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2482
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2503
 #: affiliate-toolkit-starter/includes/atkp_posttypes_shop.php:149
 #: affiliate-toolkit-starter/includes/atkp_posttypes_shop.php:995
 #: affiliate-toolkit-starter/includes/atkp_posttypes_shop.php:1016
@@ -1745,7 +1787,7 @@ msgstr "Neues Produkt"
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:412
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:981
-#: affiliate-toolkit-starter/includes/basics/atkp_options.php:896
+#: affiliate-toolkit-starter/includes/basics/atkp_options.php:900
 #: affiliate-toolkit-starter/includes/helper/atkp_template_parameters.php:333
 msgid "View Product"
 msgstr "Produkt ansehen"
@@ -1838,8 +1880,8 @@ msgid " (hidden)"
 msgstr " (versteckt)"
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:811
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1441
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2985
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1436
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2974
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator2.php:715
 msgid "Name"
 msgstr "Name"
@@ -1857,7 +1899,7 @@ msgid "Affiliate product"
 msgstr "Affiliate-Produkt"
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:833
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1447
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1442
 msgid "Sale Price"
 msgstr "Verkaufspreis"
 
@@ -1866,8 +1908,8 @@ msgid "This product is a fallback. Please replace it."
 msgstr "Dieses Produkt ist ein Fallback. Bitte ersetzen Sie es."
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:847
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2856
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:3041
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2845
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:3030
 #: affiliate-toolkit-starter/includes/helper/atkp_template_helper.php:480
 msgid "Shipping"
 msgstr "Versand"
@@ -1881,30 +1923,30 @@ msgid "Hide product"
 msgstr "Produkt ausblenden"
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:951
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1105
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1143
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1179
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1101
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1139
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1175
 msgid "All shops"
 msgstr "Alle Shops"
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:982
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1114
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1151
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1187
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1110
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1147
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1183
 msgid "select key type"
 msgstr "Schlüsseltyp wählen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1024
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1023
 #: affiliate-toolkit-starter/includes/helper/atkp_control_helper.php:556
 msgid "Find"
 msgstr "Finden"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1050
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1048
 #: affiliate-toolkit-starter/includes/atkp_posttypes_shop.php:544
 msgid "License Information"
 msgstr "Lizenzinformationen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1052
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1050
 msgid ""
 "One of the shops you use for this product requires an active license. You can add the "
 "product, but it won’t work until you activate a valid license."
@@ -1912,172 +1954,172 @@ msgstr ""
 "Dieser Shop erfordert eine aktive Lizenz. Sie können den Shop konfigurieren, aber er ist erst "
 "funktionsfähig, wenn Sie eine gültige Lizenz aktivieren."
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1132
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1128
 msgid "Lock EANs"
 msgstr "EANs sperren"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1168
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1164
 msgid "Lock ISBNs"
 msgstr "ISBNs sperren"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1204
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1200
 msgid "Lock GTINs"
 msgstr "GTINs sperren"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1212
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1207
 msgid "Add a new search key"
 msgstr "Hinzufügen eines neuen Suchschlüssels"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1231
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1226
 msgid "Load products from shops on save"
 msgstr "Lade Produkte aus den Shops beim Speichern"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1233
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1228
 msgid "If you select this option the product will be searched in the selected shop on save."
 msgstr ""
 "Wenn du diese Option auswählst, wird das Produkt im ausgewählten Shop beim Speichern gesucht."
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1243
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1238
 msgid "Product updated on %refresh_date% at %refresh_time%"
 msgstr "Produkt aktualisiert am %refresh_date% um %refresh_time%"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1251
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1246
 msgid "This product will be added to the next queue."
 msgstr "Dieses Produkt wird der nächsten Warteschlange hinzugefügt."
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1275
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1270
 #, php-format
 msgid "Maximum allowed fields of %s exceeded."
 msgstr "Maximal zulässige Anzahl von  %s Feldern erreicht."
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1450
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1445
 msgid "Select this product"
 msgstr "Produkt auswählen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1563
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1552
 msgid "Product Information"
 msgstr "Produktinformationen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1567
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1556
 msgid "Link Information"
 msgstr "Links"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1571
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1560
 msgid "Review Information"
 msgstr "Bewertungsinformationen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1575
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:228
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1564
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:229
 msgid "Images"
 msgstr "Bilder"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1579
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1568
 msgid "Price Information"
 msgstr "Preisinformationen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1583
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1572
 msgid "Variations"
 msgstr "Variationen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1587
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1576
 msgid "Manual offers"
 msgstr "Manuelles Angebot"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1760
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1749
 msgid "Manufacturer Part Number"
 msgstr "Hersteller-Teilenummer"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1776
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1765
 #: affiliate-toolkit-starter/includes/helper/atkp_template_helper.php:510
 msgid "Product group"
 msgstr "Produktgruppe"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1792
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1781
 #: affiliate-toolkit-starter/includes/helper/atkp_formatter.php:1237
 #: affiliate-toolkit-starter/includes/helper/atkp_translator.php:28
 msgid "Manufacturer"
 msgstr "Hersteller"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1820
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1809
 msgid "Number of pages"
 msgstr "Seitenanzahl"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1850
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1839
 msgid "Release date"
 msgstr "Erscheinungsdatum"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1866
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1855
 #: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:108
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1597
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1599
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:966
 #: affiliate-toolkit-starter/includes/helper/atkp_template_helper.php:616
 msgid "Description"
 msgstr "Beschreibung"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1886
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1875
 msgid "Description from shop"
 msgstr "Beschreibung aus dem Shop"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1892
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1881
 msgid "Overwrite description"
 msgstr "Beschreibung überschreiben"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1899
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1888
 msgid "Empty description"
 msgstr "Leere Beschreibung"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1961
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1950
 #: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:107
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1596
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1598
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:965
 #: affiliate-toolkit-starter/includes/helper/atkp_template_helper.php:613
 msgid "Features"
 msgstr "Eigenschaften"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1983
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1972
 msgid "Features from shop"
 msgstr "Features aus dem Shop"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1989
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1978
 msgid "Overwrite features"
 msgstr "Überschreiben von Features"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1996
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:1985
 msgid "Empty features"
 msgstr "Leere Features"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2082
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2071
 msgid "This product is not used as a main product in any post."
 msgstr "Dieses Produkt wird nicht als Hauptprodukt in einem Beitrag verwendet."
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2105
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2094
 msgid "Do not import the main image of this product"
 msgstr "Das Hauptbild dieses Produktes nicht importieren"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2120
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2109
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:1190
 msgid "Output description and features as html. Overwrites substring settings."
 msgstr ""
 "Beschreibung und Eigenschaften als HTML ausgeben. Übersteuert die Kürzungsfunktion aus den "
 "Einstellungen."
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2128
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2117
 msgid "Override Price comparison sort"
 msgstr "Übersteuere Preisvergleichssortierung"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2137
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2126
 msgid "Global setting"
 msgstr "Globale Einstellungen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2139
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:139
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2128
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:140
 msgid "Price + Shipping cost"
 msgstr "Preis + Versandkosten"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2140
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:3040
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1241
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:140
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2129
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:3029
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1243
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:141
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:607
 #: affiliate-toolkit-starter/includes/helper/atkp_control_helper.php:565
 #: affiliate-toolkit-starter/includes/helper/atkp_control_helper.php:805
@@ -2086,48 +2128,48 @@ msgstr "Preis + Versandkosten"
 msgid "Price"
 msgstr "Preis"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2141
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:141
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2130
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:142
 msgid "Main product and Price"
 msgstr "Hauptprodukt und Preis"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2142
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:142
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2131
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:143
 msgid "Main product and Price + Shipping cost"
 msgstr "Hauptprodukt und Preis + Versandkosten"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2177
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2942
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2166
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2931
 #: affiliate-toolkit-starter/includes/helper/atkp_template_helper.php:568
 msgid "Product page URL"
 msgstr "Produktseite URL"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2191
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2180
 msgid "Add to cart URL"
 msgstr "Warenkorb URL"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2205
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2194
 #: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:116
 #: affiliate-toolkit-starter/includes/helper/atkp_template_helper.php:571
 msgid "Customer Reviews URL"
 msgstr "Kundenbewertung URL"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2234
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2223
 #: affiliate-toolkit-starter/includes/helper/atkp_template_helper.php:577
 msgid "Rating"
 msgstr "Bewertung"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2249
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2238
 #: affiliate-toolkit-starter/includes/helper/atkp_template_helper.php:583
 msgid "Amount of reviews"
 msgstr "Anzahl der Bewertungen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2264
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2253
 msgid "Predicate"
 msgstr "Plakette"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2274
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2299
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2263
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2288
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator.php:261
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator2.php:388
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator2.php:410
@@ -2146,32 +2188,32 @@ msgstr "Plakette"
 msgid "None"
 msgstr "Keine Angabe"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2289
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2278
 #: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:106
 msgid "Test result"
 msgstr "Testergebnis"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2316
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2305
 msgid "Rating of test"
 msgstr "Bewertung des Tests"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2329
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2318
 msgid "Date of test"
 msgstr "Datum des Tests"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2342
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2331
 msgid "Pro (per line)"
 msgstr "Pro (pro Zeile)"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2354
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2343
 msgid "Contra (per line)"
 msgstr "Kontra (pro Zeile)"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2384
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2373
 msgid "Override main image"
 msgstr "Hauptbild übersteuern"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2390
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2379
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator_modern.php:518
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator_modern.php:590
 #: affiliate-toolkit-starter/js/blocks/list-block.js:179
@@ -2183,139 +2225,139 @@ msgstr "Hauptbild übersteuern"
 msgid "Default"
 msgstr "Standard"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2404
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2393
 #, php-format
 msgid "Image %s"
 msgstr "Bild %s"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2458
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2579
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2648
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2447
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2568
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2637
 #: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:126
 #: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:148
 msgid "Small image URL"
 msgstr "Bild klein (URL)"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2478
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2594
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2647
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2467
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2583
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2636
 #: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:127
 #: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:149
 msgid "Medium image URL"
 msgstr "Bild mittel (URL)"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2499
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2609
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2649
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2488
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2598
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2638
 #: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:128
 #: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:150
 msgid "Large image URL"
 msgstr "Bild groß (URL)"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2523
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2512
 msgid "Gallery images"
 msgstr "Galerie-Bilder"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2548
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2549
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2537
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2538
 msgid "Add Image"
 msgstr "Bild hinzufügen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2567
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2650
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2556
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2639
 #: affiliate-toolkit-starter/includes/pages/atkp_template_table.php:184
 msgid "Delete"
 msgstr "Löschen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2667
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2676
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2684
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2656
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2665
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2673
 msgid "Are you sure?"
 msgstr "Bist du sicher?"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2722
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2711
 #: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:122
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1222
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1224
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:588
 #: affiliate-toolkit-starter/includes/helper/atkp_template_helper.php:601
 msgid "List price"
 msgstr "Listenpreis"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2740
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2729
 #: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:120
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1232
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1234
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:598
 #: affiliate-toolkit-starter/includes/helper/atkp_control_helper.php:807
 #: affiliate-toolkit-starter/includes/helper/atkp_template_helper.php:598
 msgid "Amount saved"
 msgstr "Gespart"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2758
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2747
 #: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:119
 #: affiliate-toolkit-starter/includes/helper/atkp_template_helper.php:589
 msgid "Percentage saved"
 msgstr "Prozent gespart"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2774
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2763
 msgid "Sale price"
 msgstr "Verkaufspreis"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2792
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2781
 msgid "Base price"
 msgstr "Grundpreis"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2810
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2799
 msgid "Base unit"
 msgstr "Grundpreis Einheit"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2827
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2816
 msgid "Base units"
 msgstr "Anzahl Einheiten"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2874
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2863
 #: affiliate-toolkit-starter/includes/helper/atkp_template_helper.php:586
 msgid "Is prime"
 msgstr "Ist Prime"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2887
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2876
 msgid "Is warehouse"
 msgstr "Ist Warehouse"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2912
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2901
 msgid "Parent ASIN:"
 msgstr "Übergeordente ASIN:"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2929
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2918
 #: affiliate-toolkit-starter/includes/helper/atkp_template_helper.php:498
 msgid "ASIN"
 msgstr "Eindeutige ID"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2979
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2968
 msgid "Manual Variations"
 msgstr "Manuelle Variationen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2986
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:3043
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2975
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:3032
 msgid "Product-URL"
 msgstr "Produkt-URL"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2987
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:2976
 msgid "Small-Image-URL"
 msgstr "Bild klein (URL)"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:3032
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:3021
 msgid "Manual Offers"
 msgstr "Manuelle Angebote"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:3038
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:3027
 msgid "Shop-Name"
 msgstr "Shop-Name"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:3039
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:3028
 msgid "Shop-Logo-URL"
 msgstr "Shop Logo (URL)"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:3430
+#: affiliate-toolkit-starter/includes/atkp_posttypes_product.php:3419
 msgid "Manual product update"
 msgstr "Manuelle Produktaktualisierung"
 
@@ -2425,7 +2467,7 @@ msgid "Subshop"
 msgstr "Untergeordneter Shop"
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_shop.php:505
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1846
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1848
 msgid "View extensions"
 msgstr "Erweiterungen anzeigen"
 
@@ -2886,7 +2928,7 @@ msgid "Open documentation"
 msgstr "Dokumentation öffnen"
 
 #: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:455
-#: affiliate-toolkit-starter/includes/pages/atkp_template_view.php:266
+#: affiliate-toolkit-starter/includes/pages/atkp_template_view.php:269
 msgid "Security notice"
 msgstr "Sicherheitshinweis"
 
@@ -2899,18 +2941,18 @@ msgstr ""
 "herausgefiltert und nicht ausgeführt. Bitte verwenden Sie ausschließlich die Blade-"
 "Vorlagensyntax."
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:750
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:755
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:761
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:752
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:757
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:763
 #: affiliate-toolkit-starter/includes/pages/atkp_template_table.php:13
 #: affiliate-toolkit-starter/includes/pages/atkp_template_view.php:48
 #: affiliate-toolkit-starter/includes/pages/atkp_template_view.php:49
-#: affiliate-toolkit-starter/includes/pages/atkp_template_view.php:249
+#: affiliate-toolkit-starter/includes/pages/atkp_template_view.php:252
 msgid "Templates"
 msgstr "Vorlagen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:751
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1654
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:753
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1656
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:1024
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator.php:426
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator2.php:848
@@ -2924,69 +2966,69 @@ msgstr "Vorlagen"
 msgid "Template"
 msgstr "Vorlage"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:752
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:754
 msgid "Add new Template"
 msgstr "Neue Vorlage hinzufügen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:753
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:755
 msgid "Edit Template"
 msgstr "Vorlage bearbeiten"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:754
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:756
 msgid "New Template"
 msgstr "Neue Vorlage"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:756
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:758
 msgid "View Template"
 msgstr "Vorlage ansehen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:757
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:759
 msgid "Search Templates"
 msgstr "Vorlage suchen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:794
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:796
 msgid "Template information"
 msgstr "Vorlageninformation"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:803
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:805
 msgid "Template CSS"
 msgstr "Vorlage CSS"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:812
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:814
 msgid "Template preview and styling"
 msgstr "Vorlagenvorschau und Styling"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1014
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1016
 msgid "Use your own styles (independent of the global style)"
 msgstr "Verwende deine eigenen Stile (unabhängig vom globalen Stil)"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1022
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1024
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:388
 msgid "Colors"
 msgstr "Farben"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1031
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1134
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1178
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1033
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1136
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1180
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:397
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:500
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:544
 msgid "Background"
 msgstr "Hintergrund"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1043
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1163
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1206
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1045
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1165
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1208
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:409
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:529
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:572
 msgid "Border"
 msgstr "Rahmen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1055
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1084
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1154
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1197
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1057
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1086
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1156
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1199
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:421
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:450
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:520
@@ -2994,12 +3036,12 @@ msgstr "Rahmen"
 msgid "Foreground"
 msgstr "Schriftfarbe"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1067
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1069
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:433
 msgid "Badge"
 msgstr "Abzeichen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1080
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1082
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:446
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator_modern.php:592
 #: affiliate-toolkit-starter/includes/helper/atkp_formatter.php:2713
@@ -3010,243 +3052,243 @@ msgstr "Abzeichen"
 msgid "Link"
 msgstr "Link"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1095
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1097
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:461
 msgid "Hover"
 msgstr "Hover"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1107
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1109
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:473
 msgid "Dropdown Foreground"
 msgstr "Dropdown-Schriftfarbe"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1118
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1120
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:484
 msgid "Dropdown Hover"
 msgstr "Dropdown Hover"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1130
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1463
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1132
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1465
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:496
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:829
 msgid "Button 1"
 msgstr "Button 1"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1145
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1188
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1147
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1190
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:511
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:554
 msgid "Hover Background"
 msgstr "Hover Hintergrundfarbe"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1253
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1255
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:189
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:619
 msgid "Display"
 msgstr "Anzeige"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1264
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1266
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:630
 msgid "Show shop"
 msgstr "Shop anzeigen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1275
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1277
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:641
 msgid "Show star rating"
 msgstr "Sterne-Bewertung anzeigen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1284
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1286
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:650
 msgid "Link rating"
 msgstr "Verlinke Bewertungen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1293
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1295
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:659
 msgid "Link product image"
 msgstr "Produktbild verlinken"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1306
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1308
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:672
 msgid "Show price"
 msgstr "Preis anzeigen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1315
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1317
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:681
 msgid "Show list price"
 msgstr "Listenpreis anzeigen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1324
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1326
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:690
 msgid "Show base price"
 msgstr "Grundpreis anzeigen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1333
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1335
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:699
 msgid "Show price discount"
 msgstr "Preisnachlass anzeigen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1347
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1349
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:713
 msgid "Hide ratings with 0 stars"
 msgstr "Bewertungen mit 0 Sterne ausblenden"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1356
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1358
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:722
 msgid "Hide reviews without value"
 msgstr "Kundenbewertungen mit Anzahl 0 ausblenden"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1365
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1367
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:731
 msgid "Hide pro/contra"
 msgstr "Pro/Contra ausblenden"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1375
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1377
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:741
 msgid "Show Box shadow"
 msgstr "Box-Schatten anzeigen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1384
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1386
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:750
 msgid "Button 1 image"
 msgstr "Bild für Button 1"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1393
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1415
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1395
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1417
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:759
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:781
 msgid "No image "
 msgstr "Kein Bild "
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1395
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1417
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1397
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1419
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:761
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:783
 msgid "Amazon black"
 msgstr "Amazon schwarz"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1396
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1418
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1398
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1420
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:762
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:784
 msgid "Amazon white"
 msgstr "Amazonas weiß"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1397
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1419
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1399
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1421
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:763
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:785
 msgid "Cart black"
 msgstr "Warenkorb schwarz"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1398
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1420
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1400
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1422
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:764
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:786
 msgid "Cart white"
 msgstr "Warenkorb weiß"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1406
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1408
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:772
 msgid "Button 2 image"
 msgstr "Bild für Button 2"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1428
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1430
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:794
 msgid "Radius"
 msgstr "Radius"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1435
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1437
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:801
 msgid "Button Radius"
 msgstr "Button Radius"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1445
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1447
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:811
 msgid "Box Radius"
 msgstr "Box Radius"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1456
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1458
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:822
 msgid "Size & Length"
 msgstr "Größe & Länge"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1470
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1489
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1472
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1491
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:836
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:856
 msgid "normal"
 msgstr "normal"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1472
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1491
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1474
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1493
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:838
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:858
 msgid "small"
 msgstr "klein"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1474
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1493
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1476
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1495
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:840
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:860
 msgid "big"
 msgstr "groß"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1482
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1484
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:849
 msgid "Button 2"
 msgstr "Button 2"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1507
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1509
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:875
 msgid "Title length"
 msgstr "Titel Länge"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1519
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1521
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:887
 msgid "Description length"
 msgstr "Länge der Beschreibung"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1531
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1533
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:899
 msgid "Features count"
 msgstr "Anzahl der Features"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1545
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1547
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:913
 msgid "Texts"
 msgstr "Texte"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1556
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1558
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:924
 msgid "Show disclaimer"
 msgstr "Haftungsausschluss anzeigen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1570
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1572
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:938
 msgid "Price info text"
 msgstr "Preisinfo-Text"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1585
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1587
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:953
 msgid "Description & Features"
 msgstr "Beschreibung & Eigenschaften"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1594
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1596
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:963
 msgid "Features and (if empty) description "
 msgstr "Eigenschaften und (wenn leer) Beschreibung "
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1604
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1606
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:973
 msgid "Product page text"
 msgstr "\"Zum Produkt\"-Text"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1620
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1622
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:990
 msgid "Mark affiliate links (*)"
 msgstr "Affiliate-Links markieren (*)"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1627
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1629
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:997
 msgid ""
 "This character will be attached do your affiliate links. You can also use html for special "
@@ -3255,12 +3297,12 @@ msgstr ""
 "Dieses Zeichen wird an deine Affiliate-Links angehängt. Du kannst HTML auch für spezielle "
 "Formatierungen verwenden."
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1634
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1636
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:1004
 msgid "Additional Offers"
 msgstr "Weitere Angebote"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1638
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1640
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:1008
 msgid ""
 "The system templates are not showing the price comparision by default. Activate this option "
@@ -3269,12 +3311,12 @@ msgstr ""
 "Die Systemvorlagen zeigen den Preisvergleich standardmäßig nicht an. Aktiviere diese Option, "
 "um abweichende Preise anzuzeigen."
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1649
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1651
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:1019
 msgid "Show additional offers"
 msgstr "Weitere Angebote anzeigen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1661
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1663
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:1031
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:1500
 #: affiliate-toolkit-starter/includes/atkp_shortcode_generator.php:431
@@ -3285,26 +3327,26 @@ msgstr "Weitere Angebote anzeigen"
 msgid "default"
 msgstr "Standard"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1683
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1685
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:1053
 msgid "Text"
 msgstr "Text"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1694
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1696
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:1064
 msgid "Maximum offers count"
 msgstr "Maximale Anzahl von Angeboten"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1713
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1715
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:1083
 msgid "Include main offer"
 msgstr "Primäres Angebot ebenfalls anzeigen"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1798
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1800
 msgid "CSS selector for this template:"
 msgstr "CSS-Selektor für diese Vorlage:"
 
-#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1846
+#: affiliate-toolkit-starter/includes/atkp_posttypes_template.php:1848
 msgid ""
 "For simple product boxes you can use \"product template\". Search forms are fields for "
 "filtering. You can add more template types by installing extensions."
@@ -3312,20 +3354,20 @@ msgstr ""
 "Für einfache Produktboxen kannst du \"Produktvorlage\" verwenden. Suchformulare sind Felder "
 "zum Filtern. Du kannst weitere Vorlagentypen hinzufügen, indem du Erweiterungen installierst."
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:92
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:93
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:178
 msgid "Affiliate Toolkit - Advanced Settings"
 msgstr "Affiliate Toolkit - Erweiterte Einstellungen"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:101
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:102
 msgid "Links & Offers"
 msgstr "Links & Angebote"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:116
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:117
 msgid "Disable \"sponsored\" link attribute"
 msgstr "\"sponsored\" Linkattribut deaktivieren"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:119
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:120
 msgid ""
 "The new sponsored attribute can be used to identify links on your site that were created as "
 "part of advertisements, sponsorships or other compensation agreements."
@@ -3334,51 +3376,51 @@ msgstr ""
 "identifizieren, die im Rahmen von Werbung, Sponsoring oder anderen Vergütungsvereinbarungen "
 "erstellt wurden."
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:128
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:129
 msgid "Main product selector"
 msgstr "Hauptproduktselektor"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:157
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:158
 msgid "Open links in new window/tab"
 msgstr "Links in neuem Fenster/Tab öffnen"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:172
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:173
 msgid ""
 "Open affiliate links with javascript (does not display the target link within the browser)"
 msgstr "Affiliate-Links mit Javascript öffnen (zeigt das Linkziel im Browser nicht an)"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:180
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:181
 msgid "Click tracking"
 msgstr "Klick Verfolgung"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:190
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:191
 #: affiliate-toolkit-starter/includes/helper/atkp_control_helper.php:150
 #: affiliate-toolkit-starter/includes/helper/atkp_formatter.php:1396
 #: affiliate-toolkit-starter/includes/helper/atkp_formatter.php:1411
 msgid "No"
 msgstr "Nein"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:192
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:193
 msgid "Google Universal Tracking (ga)"
 msgstr "Google Universal Tracking (ga)"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:193
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:194
 msgid "Google Standard Tracking (_gaq)"
 msgstr "Google Standard Tracking (_gaq)"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:195
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:196
 msgid "Google Tag Manager Tracking (gtag)"
 msgstr "Google Tag Manager Tracking (gtag)"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:196
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:197
 msgid "Matomo (Piwik) Tracking (_paq)"
 msgstr "Matomo (Piwik) Tracking (_paq)"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:197
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:198
 msgid "Umami Tracking (umami)"
 msgstr "Umami Tracking (umami)"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:202
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:203
 msgid ""
 "It is required that the base script is embedded and loaded. The plugin only fires the event "
 "and does no integration."
@@ -3386,31 +3428,31 @@ msgstr ""
 "Es ist erforderlich, dass das Basisskript eingebettet und geladen ist. Das Plugin löst nur "
 "das Ereignis aus und führt keine Integration durch."
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:216
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:217
 msgid "Use prices as fallback in product. Do not overwrite the price."
 msgstr "Preise als Fallback im Produkt verwenden. Preis nicht überschreiben."
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:234
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:235
 msgid "Post thumbnail"
 msgstr "Beitragsbild"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:244
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:245
 msgid "Do not import the image"
 msgstr "Beitragsbild nicht importieren"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:245
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:246
 msgid "Import main image"
 msgstr "Beitragsbild importieren"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:246
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:247
 msgid "Use FIFU plugin for external image"
 msgstr "Verwende FIFU für externes Beitragsbild"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:250
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:251
 msgid "More about Featured Image from URL (FIFU)"
 msgstr "Mehr über Featured Image from URL (FIFU)"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:250
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:251
 msgid ""
 "By default the plugin does not import affiliate images. If you dont want to import the image "
 "but display it you need to use the FIFU plugin."
@@ -3418,23 +3460,23 @@ msgstr ""
 "Standardmäßig importiert das Plugin keine Affiliate-Bilder. Wenn du das Bild nicht "
 "importieren, sondern anzeigen möchten, musst du das FIFU-Plugin verwenden."
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:258
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:259
 msgid "Image redirect"
 msgstr "Bild umleiten"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:268
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:269
 msgid "Don´t redirect image"
 msgstr "Bild nicht umleiten"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:270
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:271
 msgid "Redirect image"
 msgstr "Bild umleiten"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:271
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:272
 msgid "Redirect image and main image"
 msgstr "Bild umleiten und Hauptbild berücksichtigen"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:276
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:277
 msgid ""
 "If you want to be GDPR compliant you need to use a image proxy (it will stress your server). "
 "If you already import the post thumbnail you can also use the imported image and all other "
@@ -3444,36 +3486,36 @@ msgstr ""
 "Server belasten). Wenn du das Bild als Beitragsbild bereits importiert hast, kannst du auch "
 "das importierte Bild verwenden und alle anderen Bilder werden umgeleitet."
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:283
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:284
 msgid "Imports"
 msgstr "Importe"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:290
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:291
 msgid "Default import state"
 msgstr "Standard-Importstatus"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:300
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:301
 #: affiliate-toolkit-starter/includes/helper/atkp_control_helper.php:829
 msgid "Draft"
 msgstr "Entwurf"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:302
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:303
 msgid "Publish"
 msgstr "Veröffentlicht"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:305
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:306
 msgid "WooCommerce product"
 msgstr "WooCommerce-Produkt"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:321
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:322
 msgid "Import field \"Productgroup\" as product category (taxonomy)"
 msgstr "Importiere das Feld \"Produktgruppe\" als Produktkategorie (Taxonomie)"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:336
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:337
 msgid "Delete old product categories"
 msgstr "Alte Produktkategorie entfernen"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:339
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:340
 msgid ""
 "If a category changes this option will delete the old one otherwise both categories will be "
 "displayed."
@@ -3481,15 +3523,15 @@ msgstr ""
 "Wenn sich eine Kategorie ändert, löscht diese Option die alte, andernfalls werden beide "
 "Kategorien angezeigt."
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:348
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:349
 msgid "Split product category by character"
 msgstr "Produktkategorie durch Zeichen aufteilen"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:370
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:371
 msgid "Update product title and permalink when changed"
 msgstr "Produkttitel und Permalink bei Änderung aktualisieren"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:373
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:374
 msgid ""
 "By default a product title and URL will not be updated if the product behind changes. If you "
 "enable this option it will update the data regulary."
@@ -3498,15 +3540,15 @@ msgstr ""
 "liegende Produkt ändert. Wenn du diese Option aktivierst, werden die Daten regelmäßig "
 "aktualisiert."
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:402
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:403
 msgid "Show additional shortcode button"
 msgstr "Zusätzlichen Shortcode-Generator-Button anzeigen"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:416
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:417
 msgid "Disable internal JavaScript library"
 msgstr "Deaktivieren der internen JavaScript-Bibliothek"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:418
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:419
 msgid ""
 "This option disables the main JS library from the plugin. Please pay attention that some "
 "features are not working after disabling."
@@ -3514,11 +3556,11 @@ msgstr ""
 "Diese Option deaktiviert die Haupt-JS-Bibliothek aus dem Plugin. Bitte beachte, dass einige "
 "Funktionen nach der Deaktivierung nicht funktionieren."
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:432
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:433
 msgid "Disable all styles from the plugin"
 msgstr "Alle Styles vom Plugin deaktivieren"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:434
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:435
 msgid ""
 "This option will prevent the plugin to output any style file. Also inline styles will not be "
 "displayed"
@@ -3526,11 +3568,11 @@ msgstr ""
 "Diese Option verhindert, dass das Plugin eine Style-Datei ausgibt. Auch Inline-Stile werden "
 "nicht angezeigt"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:448
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:449
 msgid "Disable select2 fields"
 msgstr "Select2-Felder deaktivieren"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:450
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:451
 msgid ""
 "If you have problems in the backend (controls are not opening or hiding) you can try to "
 "disable select2."
@@ -3538,11 +3580,11 @@ msgstr ""
 "Wenn du Probleme im Backend hast (Elemente öffnen oder verstecken sich nicht), kannst du "
 "versuchen, select2 zu deaktivieren."
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:463
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:464
 msgid "Disable select2 fields for widgets"
 msgstr "Deaktivieren Sie select2-Felder für Widgets"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:465
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:466
 msgid ""
 "If you have problems in the widgets area (controls are not opening or hiding) you can try to "
 "disable select2."
@@ -3550,15 +3592,44 @@ msgstr ""
 "Wenn Sie Probleme im Widgetbereich haben (Steuerelemente werden nicht geöffnet oder "
 "ausgeblendet), können Sie versuchen, select2 zu deaktivieren."
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:479
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:480
 msgid "Disable discount notifications"
 msgstr "Rabattbenachrichtigungen deaktivieren"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:481
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:482
 msgid "If you don't want to see discounts in the backend you can disable it here.."
 msgstr "Wenn Sie keine Rabatte im Backend sehen möchten, können Sie es hier deaktivieren."
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:490
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:494
+msgid "Security Warning: PHP tag filtering in templates"
+msgstr "Sicherheitswarnung: Filterung von PHP-Tags in Vorlagen"
+
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:497
+#, php-format
+msgid ""
+"This option disables the security feature that automatically strips raw PHP code (e.g. %s "
+"tags) from templates. The Blade template engine uses eval() internally — allowing raw PHP "
+"code in templates can lead to arbitrary code execution and compromise your website."
+msgstr ""
+"Diese Option deaktiviert die Sicherheitsfunktion, die rohen PHP-Code (z. B. %s-Tags) "
+"automatisch aus Vorlagen entfernt. Die Blade-Template-Engine verwendet intern die Funktion "
+"`eval()` – die Zulassung von rohem PHP-Code in Vorlagen kann zur Ausführung von beliebigem "
+"Code führen und Ihre Website gefährden."
+
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:500
+msgid ""
+"Only enable this option if you fully understand the security implications and explicitly "
+"accept the risk."
+msgstr ""
+"Aktivieren Sie diese Option nur, wenn Sie die sicherheitstechnischen Auswirkungen vollständig "
+"verstehen und das Risiko ausdrücklich akzeptieren."
+
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:507
+msgid "I understand the risk and want to explicitly disable PHP tag filtering"
+msgstr ""
+"Ich bin mir des Risikos bewusst und möchte die PHP-Tag-Filterung ausdrücklich deaktivieren"
+
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:517
 msgid "Shortcode-Generator post-types"
 msgstr "Shortcode-Generator in diesen Posttypen verwenden"
 
@@ -3573,7 +3644,7 @@ msgid "hide"
 msgstr "ausblenden"
 
 #: affiliate-toolkit-starter/includes/atkp_settings_display.php:1058
-#: affiliate-toolkit-starter/includes/basics/atkp_options.php:654
+#: affiliate-toolkit-starter/includes/basics/atkp_options.php:658
 #: affiliate-toolkit-starter/includes/helper/atkp_template_parameters.php:435
 msgid "Additional offers »"
 msgstr "Weitere Angebote »"
@@ -5377,7 +5448,7 @@ msgstr "Preistipp"
 msgid "Custom"
 msgstr "Leistungstipp"
 
-#: affiliate-toolkit-starter/includes/basics/atkp_options.php:591
+#: affiliate-toolkit-starter/includes/basics/atkp_options.php:595
 msgid ""
 "Last updated on %refresh_date% at %refresh_time% - Image source: Amazon Affiliate Program. "
 "All statements without guarantee."
@@ -5385,7 +5456,7 @@ msgstr ""
 "Zuletzt aktualisiert am %refresh_date% um %refresh_time% . Wir weisen darauf hin, dass sich "
 "hier angezeigte Preise inzwischen geändert haben können. Alle Angaben ohne Gewähr."
 
-#: affiliate-toolkit-starter/includes/basics/atkp_options.php:595
+#: affiliate-toolkit-starter/includes/basics/atkp_options.php:599
 #: affiliate-toolkit-starter/includes/helper/atkp_formatter.php:1135
 msgid "Price incl. VAT., Excl. Shipping"
 msgstr "Preis inkl. MwSt., zzgl. Versandkosten"
@@ -6186,20 +6257,20 @@ msgstr "Vorlagentyp"
 msgid "Last modified"
 msgstr "Zuletzt geändert"
 
-#: affiliate-toolkit-starter/includes/pages/atkp_template_view.php:201
+#: affiliate-toolkit-starter/includes/pages/atkp_template_view.php:204
 msgid "You do not have sufficient permissions to access this page."
 msgstr "Du hast nicht die erforderlichen Rechte, um auf diese Seite zuzugreifen."
 
-#: affiliate-toolkit-starter/includes/pages/atkp_template_view.php:251
+#: affiliate-toolkit-starter/includes/pages/atkp_template_view.php:254
 msgid "Add New"
 msgstr "Neu hinzufügen"
 
-#: affiliate-toolkit-starter/includes/pages/atkp_template_view.php:253
-#: affiliate-toolkit-starter/includes/pages/atkp_template_view.php:306
+#: affiliate-toolkit-starter/includes/pages/atkp_template_view.php:256
+#: affiliate-toolkit-starter/includes/pages/atkp_template_view.php:309
 msgid "Import template"
 msgstr "Vorlage importieren"
 
-#: affiliate-toolkit-starter/includes/pages/atkp_template_view.php:267
+#: affiliate-toolkit-starter/includes/pages/atkp_template_view.php:270
 msgid ""
 "Starting with version 3.8.6, raw PHP code (e.g. <?php ?> tags) is automatically filtered from "
 "imported templates and will not be executed."
@@ -6207,15 +6278,15 @@ msgstr ""
 "Ab Version 3.8.6 wird reiner PHP-Code (z. B. <?php ?>-Tags) automatisch aus importierten "
 "Vorlagen herausgefiltert und nicht ausgeführt."
 
-#: affiliate-toolkit-starter/includes/pages/atkp_template_view.php:278
+#: affiliate-toolkit-starter/includes/pages/atkp_template_view.php:281
 msgid "Upload your template"
 msgstr "Laden Sie Ihre Vorlage hoch"
 
-#: affiliate-toolkit-starter/includes/pages/atkp_template_view.php:286
+#: affiliate-toolkit-starter/includes/pages/atkp_template_view.php:289
 msgid "Template file"
 msgstr "Template Datei"
 
-#: affiliate-toolkit-starter/includes/pages/atkp_template_view.php:292
+#: affiliate-toolkit-starter/includes/pages/atkp_template_view.php:295
 msgid "Upload your exported template. The file extension must be \".json\" to import the file."
 msgstr ""
 "Laden Sie Ihre exportierte Vorlage hoch. Die Dateierweiterung muss „.json“ sein, damit die "
@@ -6518,6 +6589,13 @@ msgstr "Shortcode einfügen"
 #: affiliate-toolkit-starter/templates/shortcode-generator-modal.php:394
 msgid "Insert as Gutenberg Block"
 msgstr "Als Gutenberg-Block einfügen"
+
+#~ msgid ""
+#~ "Select your credential version. Auto-detect will determine it based on your selected "
+#~ "Amazon website."
+#~ msgstr ""
+#~ "Wählen Sie die Version Ihrer Anmeldedaten aus. Die automatische Erkennung ermittelt diese "
+#~ "anhand der von Ihnen ausgewählten Amazon-Website."
 
 #~ msgid "Get API Key"
 #~ msgstr "API-Schlüssel abrufen"

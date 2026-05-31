@@ -4,6 +4,7 @@
  * Plugin URI: https://www.affiliate-toolkit.com
  * Description: Adds the Amazon Partner Program to affiliate-toolkit
  * Version: 1.1.3
+ * Requires PHP:      8.2
  * Author: Christof Servit
  * Author URI: https://www.servit.biz
  * Text Domain: ATKP

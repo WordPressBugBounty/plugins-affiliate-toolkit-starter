@@ -2,8 +2,8 @@
 /*** Plugin Name: affiliate-toolkit – Multi-Network Affiliate & Amazon Product Display
  * Plugin URI: https://www.affiliate-toolkit.com
  * Description: Display products from Amazon, AWIN, CJ, eBay and 10+ affiliate networks with beautiful product boxes, comparison tables, and automatic price updates.
- * Version: 3.8.6
- * Requires PHP:      7.4
+ * Version: 3.8.7
+ * Requires PHP:      8.2
  * Author: SERVIT Software Solutions
  * Author URI: https://servit.dev
  *
@@ -178,7 +178,7 @@ function atkp_welcome_redirect() {
 	exit;
 }
 
-add_action( 'init', 'atkp_loaded', 12 );
+add_action( 'plugins_loaded', 'atkp_loaded');
 
 function atkp_loaded() {
 	do_action( 'atkp_initialize_extensions' );
@@ -467,6 +467,101 @@ add_filter( 'atkp_shop_support_articlenumber_search', 'atkp_shop_support_article
 add_action( 'admin_notices', 'atkp_admin_discounts' );
 //add_action( 'admin_notices', 'atkp_admin_display_settings' );
 add_action( 'admin_notices', 'atkp_admin_license' );
+add_action( 'admin_notices', 'atkp_admin_template_sanitize_notice' );
+add_action( 'wp_ajax_atkp_dismiss_template_sanitize_notice', 'atkp_dismiss_template_sanitize_notice' );
+add_action( 'wp_ajax_atkp_confirm_template_sanitize_notice', 'atkp_confirm_template_sanitize_notice' );
+
+function atkp_admin_template_sanitize_notice() {
+	// Only show for admins
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	// Don't show if already confirmed
+	if ( get_option( 'atkp_template_sanitize_notice_confirmed', false ) ) {
+		return;
+	}
+
+	$settings_url = admin_url( 'admin.php?page=ATKP_affiliate_toolkit-plugin&tab=advanced_configuration_page' );
+	$nonce        = wp_create_nonce( 'atkp_template_sanitize_notice' );
+
+	?>
+	<div class="notice atkp-template-sanitize-notice" id="atkp-template-sanitize-notice" style="border: 1px solid #005162; border-left: 4px solid #D8000C; background: #fff; padding: 0; margin: 15px 0;">
+		<div style="background: #005162; color: #fff; padding: 12px 18px; font-size: 14px; font-weight: bold;">
+			&#9888; <?php echo __( 'affiliate-toolkit: Important Security Notice', 'affiliate-toolkit-starter' ); ?>
+		</div>
+		<div style="padding: 15px 18px;">
+			<p style="font-size: 14px; margin-top: 0;">
+				<strong><?php echo sprintf( __( 'Starting with version 3.8.6, raw PHP code (e.g. %s tags) is automatically filtered from templates and will no longer be executed.', 'affiliate-toolkit-starter' ), '<code>&lt;?php ?&gt;</code>' ); ?></strong>
+			</p>
+			<p style="font-size: 13px;">
+				<?php echo __( 'This change was introduced to improve the security of your website. The Blade template engine (BladeOne) uses eval() to render templates. In previous versions, it was possible to inject arbitrary PHP code into templates, which could pose a significant security risk.', 'affiliate-toolkit-starter' ); ?>
+			</p>
+			<p style="font-size: 13px;">
+				<?php echo __( 'Please use only the Blade template syntax (@if, @foreach, {{ }}, etc.) in your templates. Raw PHP code is no longer supported by default.', 'affiliate-toolkit-starter' ); ?>
+			</p>
+			<div style="background: #FEEFB3; border: 1px solid #9F6000; border-radius: 3px; padding: 10px 14px; margin: 12px 0;">
+				<span style="color: #9F6000; font-size: 13px;">
+				<?php
+				/* translators: %1$s: opening link tag, %2$s: closing link tag */
+				echo sprintf(
+					__( 'If you absolutely need raw PHP code in your templates and understand the security risks, you can disable this protection in the %1$sAdvanced Settings%2$s.', 'affiliate-toolkit-starter' ),
+					'<a href="' . esc_url( $settings_url ) . '" style="color: #005162; font-weight: bold;">',
+					'</a>'
+				);
+				?>
+				</span>
+			</div>
+			<p style="margin-bottom: 5px; margin-top: 15px;">
+				<button type="button" id="atkp-confirm-template-sanitize" data-nonce="<?php echo esc_attr( $nonce ); ?>"
+				        style="background-color: #005162; border: 1px solid #005162; color: #fff; border-radius: 3px; padding: 10px 16px; line-height: 1.6; font-size: 14px; font-weight: 400; cursor: pointer;">
+					<?php echo __( 'I understand, do not show this message again', 'affiliate-toolkit-starter' ); ?>
+				</button>
+			</p>
+		</div>
+	</div>
+	<script>
+	(function() {
+		var btn = document.getElementById('atkp-confirm-template-sanitize');
+		if (!btn) return;
+		btn.addEventListener('click', function() {
+			var xhr = new XMLHttpRequest();
+			xhr.open('POST', '<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>', true);
+			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+			xhr.onload = function() {
+				var notice = document.getElementById('atkp-template-sanitize-notice');
+				if (notice) {
+					notice.style.display = 'none';
+				}
+			};
+			xhr.send('action=atkp_confirm_template_sanitize_notice&nonce=' + encodeURIComponent(btn.getAttribute('data-nonce')));
+		});
+	})();
+	</script>
+	<?php
+}
+
+function atkp_confirm_template_sanitize_notice() {
+	check_ajax_referer( 'atkp_template_sanitize_notice', 'nonce' );
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error();
+	}
+
+	update_option( 'atkp_template_sanitize_notice_confirmed', true );
+	wp_send_json_success();
+}
+
+function atkp_dismiss_template_sanitize_notice() {
+	check_ajax_referer( 'atkp_template_sanitize_notice', 'nonce' );
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error();
+	}
+
+	update_option( 'atkp_template_sanitize_notice_confirmed', true );
+	wp_send_json_success();
+}
 
 function atkp_migration_admin_notice() {
 	global $pagenow;
@@ -527,6 +622,10 @@ function atkp_admin_license() {
 
 function atkp_admin_discounts() {
 	if ( atkp_options::$loader->get_disablediscounts() ) {
+		return;
+	}
+
+	if ( ! class_exists( 'ATKP_StoreController' ) ) {
 		return;
 	}
 
