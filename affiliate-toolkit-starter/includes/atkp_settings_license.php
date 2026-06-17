@@ -42,8 +42,8 @@ class atkp_settings_license {
 					continue;
 				}
 
-				if ( $license_old != $license || $license_status_old != 'active' ) {
-					if ( $license_status_old == 'active' ) {
+				if ( $license_old != $license || $license_status_old != 'valid' ) {
+					if ( $license_status_old == 'valid' ) {
 						//Deactivate
 						ATKP_LicenseController::deactivate_license_request( $license_old, $moduleid );
 						ATKP_LicenseController::set_module_license( $modulename, '' );

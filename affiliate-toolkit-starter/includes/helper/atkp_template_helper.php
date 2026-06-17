@@ -900,6 +900,11 @@ class atkp_template_helper {
 				if ( isset( $templatefound ) && $templatefound != null && ( $templatefound->post_status == 'publish' || $templatefound->post_status == 'draft' ) ) {
 					$mytemplate = html_entity_decode( ATKPTools::get_post_setting( $templatefound->ID, ATKP_TEMPLATE_POSTTYPE . '_body' ) );
 
+					// Sanitize user-created templates: strip PHP tags to prevent code injection via BladeOne eval()
+					if ( ! atkp_options::$loader->get_disable_template_sanitize() ) {
+						$mytemplate = self::sanitize_template_content( $mytemplate );
+					}
+
 					$css = html_entity_decode( ATKPTools::get_post_setting( $templatefound->ID, ATKP_TEMPLATE_POSTTYPE . '_css' ) );
 					if ( ! $this->disable_custom_styles && atkp_options::$loader->get_css_inline() == atkp_css_type::Inline && $css != '' ) {
 						$mytemplate .= '<style>' . $css . '</style>';
@@ -1102,10 +1107,8 @@ class atkp_template_helper {
 					do_action('atkp_add_inline_script', $script, $parameters->templateid);
 		*/
 
-		// Sanitize: strip raw PHP tags to prevent code injection
-		if ( ! atkp_options::$loader->get_disable_template_sanitize() ) {
-			$bladecontent = self::sanitize_template_content( $bladecontent );
-		}
+		// Note: sanitize_template_content is applied only to user-created templates (from DB)
+		// in get_html_template(), not here — filesystem templates legitimately contain PHP.
 
 		// Add error handling to prevent fatal errors
 		try {

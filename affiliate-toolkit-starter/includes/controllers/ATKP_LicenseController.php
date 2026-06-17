@@ -76,7 +76,7 @@ class ATKP_LicenseController {
 	}
 
 	public static function check_license_status() {
-		$cache = get_transient( 'atkp_license' );
+		$cache = get_transient( 'atkp_license_checked' );
 
 		if ( false === $cache ) {
 			$modules = ATKP_LicenseController::get_modules();
@@ -88,9 +88,9 @@ class ATKP_LicenseController {
 					continue;
 				}
 
-
 				$license_status  = ATKP_LicenseController::get_module_license_status( $modulename );
 				$license_message = ATKP_LicenseController::get_module_license_message( $modulename );
+				$license_owner   = ATKP_LicenseController::get_module_license_owner( $modulename );
 
 				$api_params = array(
 					'edd_action' => 'check_license',
@@ -105,39 +105,26 @@ class ATKP_LicenseController {
 					'body'      => $api_params
 				) );
 
-				set_transient( 'atkp_license', $response, 43200 );
-
-				$result = [];
-
 				// make sure the response came back okay
 				if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
-					$result['message'] = ( is_wp_error( $response ) && ! empty( $response->get_error_message() ) ) ? $response->get_error_message() : __( 'An error occurred, please try again.', 'affiliate-toolkit-starter' );
-				} else {
-
-					$license_data = json_decode( wp_remote_retrieve_body( $response ) );
-
-					if ( isset( $license_data ) && $license_data != null ) {
-						$result['status']  = $license_data->license;
-						$result['message'] = self::get_license_message( $license_data->license, $modulename );
-						if ( isset( $license_data->customer_name ) ) {
-							$result['customer_name'] = $license_data->customer_name;
-						}
-						if ( isset( $license_data->customer_email ) ) {
-							$result['customer_email'] = $license_data->customer_email;
-						}
-					} else {
-
-						$result['message'] = __( 'Your license key is invalid.', 'affiliate-toolkit-starter' );
-						$result['status']  = 'invalid';
-					}
+					// API error: keep existing license status, do not invalidate
+					continue;
 				}
 
-				ATKP_LicenseController::set_module_license( $modulename, $license );
-				ATKP_LicenseController::set_module_license_message( $modulename, $result['message'] );
-				ATKP_LicenseController::set_module_license_status( $modulename, $result['status'] );
-				ATKP_LicenseController::set_module_license_owner( $modulename, $result['customer_name'] );
+				$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+
+				if ( isset( $license_data ) && $license_data != null ) {
+					ATKP_LicenseController::set_module_license_status( $modulename, $license_data->license );
+					ATKP_LicenseController::set_module_license_message( $modulename, self::get_license_message( $license_data->license, $modulename ) );
+					if ( isset( $license_data->customer_name ) ) {
+						ATKP_LicenseController::set_module_license_owner( $modulename, $license_data->customer_name );
+					}
+				}
+				// If response body is not valid JSON, keep existing status
 
 			}
+
+			set_transient( 'atkp_license_checked', true, 43200 );
 		}
 	}
 

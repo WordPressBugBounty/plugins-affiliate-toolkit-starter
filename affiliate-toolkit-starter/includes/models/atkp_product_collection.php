@@ -25,7 +25,7 @@ class atkp_product_collection {
 		$offer->updatedon = time();
 
 		$offer->shop                     = new atkp_shop();
-		$offer->shopid                   = wp_rand( - 5, - 500 );
+		$offer->shopid                   = -wp_rand( 5, 500 );
 		$offer->shop->displayshoplogo    = true;
 		$offer->shop->shopid             = $offer->shopid;
 		$offer->shop->title              = 'Amazon';
@@ -100,7 +100,7 @@ These pages contain EVERYTHING you need to start an online business in the affil
 		array_push( $prds, $offer );
 
 		$offer2                           = unserialize( serialize( $offer ) );
-		$offer2->shopid                   = wp_rand( - 500, - 1000 );
+		$offer2->shopid                   = -wp_rand( 500, 1000 );
 		$offer2->shop->displayshoplogo    = true;
 		$offer2->shop->title              = 'eBay';
 		$offer2->shop->customlogourl      = plugins_url( 'images/ebay-logo.png', ATKP_PLUGIN_FILE );
@@ -113,7 +113,7 @@ These pages contain EVERYTHING you need to start an online business in the affil
 		array_push( $prds, $offer2 );
 
 		$offer3                           = unserialize( serialize( $offer ) );
-		$offer3->shopid                   = wp_rand( - 1000, - 1500 );
+		$offer3->shopid                   = -wp_rand( 1000, 1500 );
 		$offer3->shop->displayshoplogo    = true;
 		$offer3->shop->title              = 'thalia.de';
 		$offer3->shop->customlogourl      = plugins_url( 'images/thalia-logo.png', ATKP_PLUGIN_FILE );
@@ -210,7 +210,7 @@ These pages contain EVERYTHING you need to start an online business in the affil
 
 			} else {
 				$offer->shop                     = new atkp_shop();
-				$offer->shopid                   = wp_rand( - 5, - 500 );
+				$offer->shopid                   = -wp_rand( 5, 500 );
 				$offer->shop->displayshoplogo    = $logo != '';
 				$offer->shop->shopid             = $offer->shopid;
 				$offer->shop->title              = $name;

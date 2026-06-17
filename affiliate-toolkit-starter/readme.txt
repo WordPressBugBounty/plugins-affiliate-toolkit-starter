@@ -3,7 +3,7 @@ Contributors: cservit
 Tags: affiliate, amazon, ebay, awin, product display
 Requires at least: 5.6
 Tested up to: 7.0
-Stable tag: 3.8.7
+Stable tag: 3.8.8
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -375,6 +375,12 @@ You just need to install the extension from our website.
 
  
 == Changelog ==
+= 3.8.8 =
+*   FIX: License check no longer invalidates active licenses when the API server is temporarily unreachable
+*   FIX: License status comparison corrected from 'active' to 'valid' on the license settings page
+*   FIX: Manual offers not displayed in the frontend due to wp_rand() returning positive shop IDs instead of negative
+*   FIX: Template PHP sanitization now only applies to user-created templates (DB), not to built-in filesystem templates
+
 = 3.8.7 =
 *   NEW: Admin notice informing about the PHP tag filtering security feature (with explicit confirmation)
 *   NEW: Option to disable PHP tag filtering in templates (Advanced Settings, requires explicit opt-in)
