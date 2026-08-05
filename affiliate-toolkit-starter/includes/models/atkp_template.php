@@ -143,16 +143,20 @@ class atkp_template {
 
 		$sql = "SELECT * FROM {$wpdb->posts} where post_type='atkp_template' and post_status in ('draft', 'publish')";
 
-		if ( ! empty( $orderby ) ) {
-			$sql .= ' ORDER BY ' . esc_sql( $orderby );
-			$sql .= ! empty( $order ) ? ' ' . esc_sql( $order ) : ' ASC';
+		$allowed_orderby = array( 'id', 'post_title', 'post_date', 'post_status' );
+		if ( ! empty( $orderby ) && in_array( $orderby, $allowed_orderby, true ) ) {
+			$order = in_array( strtolower( $order ), array( 'asc', 'desc' ), true ) ? $order : 'ASC';
+			$sql  .= ' ORDER BY ' . $orderby . ' ' . $order;
 		}
 
-		$sql .= " LIMIT $per_page";
-		$sql .= ' OFFSET ' . ( $page_number - 1 ) * $per_page;
+		$per_page    = intval( $per_page );
+		$page_number = intval( $page_number );
+		$offset      = ( $page_number - 1 ) * $per_page;
 
+		$sql .= $wpdb->prepare( " LIMIT %d", $per_page );
+		$sql .= $wpdb->prepare( " OFFSET %d", $offset );
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Admin template listing, values sanitized via esc_sql() and cast to int.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared -- Admin template listing, orderby/order whitelisted, limit/offset prepared.
 		$result = $wpdb->get_results( $sql, 'ARRAY_A' );
 
 		return $result;

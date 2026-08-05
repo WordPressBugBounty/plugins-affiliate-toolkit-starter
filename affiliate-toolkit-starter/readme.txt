@@ -3,7 +3,7 @@ Contributors: cservit
 Tags: affiliate, amazon, ebay, awin, product display
 Requires at least: 5.6
 Tested up to: 7.0
-Stable tag: 3.8.8
+Stable tag: 3.8.9
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -375,6 +375,9 @@ You just need to install the extension from our website.
 
  
 == Changelog ==
+= 3.8.9 =
+*   SECURITY: Fixed SQL Injection vulnerability in admin list tables (orderby parameter) — reported via Wordfence. orderby and order parameters are now validated against a strict whitelist of allowed column names instead of relying on esc_sql(), which does not protect unquoted SQL identifiers.
+
 = 3.8.8 =
 *   FIX: License check no longer invalidates active licenses when the API server is temporarily unreachable
 *   FIX: License status comparison corrected from 'active' to 'valid' on the license settings page

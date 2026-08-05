@@ -335,9 +335,10 @@ class atkp_queuetable_helper {
 
 		$sql = "SELECT * FROM {$tablename}";
 
-		if ( ! empty( $orderby ) ) {
-			$sql .= ' ORDER BY ' . esc_sql( $orderby );
-			$sql .= ! empty( $order ) ? ' ' . esc_sql( $order ) : ' ASC';
+		$allowed_orderby = array( 'id', 'title', 'createdon', 'status' );
+		if ( ! empty( $orderby ) && in_array( $orderby, $allowed_orderby, true ) ) {
+			$order = in_array( strtolower( $order ), array( 'asc', 'desc' ), true ) ? $order : 'ASC';
+			$sql  .= ' ORDER BY ' . $orderby . ' ' . $order;
 		}
 
 		$per_page    = intval( $per_page );
@@ -358,11 +359,6 @@ class atkp_queuetable_helper {
 		$tablename = self::get_queueentrytable_tablename();
 
 		$sql = "SELECT * FROM {$tablename} where createdon >= %s and status in ('error')";
-
-		if ( ! empty( $orderby ) ) {
-			$sql .= ' ORDER BY ' . esc_sql( $orderby );
-			$sql .= ! empty( $order ) ? ' ' . esc_sql( $order ) : ' ASC';
-		}
 
 		$limit = intval( $limit );
 		$sql  .= " LIMIT " . $limit;
@@ -394,9 +390,10 @@ class atkp_queuetable_helper {
 			$sql .= ' and status in ("error", "not_processed")';
 		}
 
-		if ( ! empty( $orderby ) ) {
-			$sql .= ' ORDER BY ' . esc_sql( $orderby );
-			$sql .= ! empty( $order ) ? ' ' . esc_sql( $order ) : ' ASC';
+		$allowed_orderby = array( 'id', 'title', 'createdon', 'status' );
+		if ( ! empty( $orderby ) && in_array( $orderby, $allowed_orderby, true ) ) {
+			$order = in_array( strtolower( $order ), array( 'asc', 'desc' ), true ) ? $order : 'ASC';
+			$sql  .= ' ORDER BY ' . $orderby . ' ' . $order;
 		}
 
 		$sql .= $wpdb->prepare( " LIMIT %d", $per_page );

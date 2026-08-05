@@ -262,9 +262,12 @@ class atkp_queue_entry_table extends WP_List_Table {
 		] );
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- WP_List_Table sorting parameters.
-		$orderby = isset( $_REQUEST['orderby'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['orderby'] ) ) : 'id';
+		$orderby_raw    = isset( $_REQUEST['orderby'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['orderby'] ) ) : 'id';
+		$allowed_orderby = array( 'id', 'title', 'createdon', 'status' );
+		$orderby         = in_array( $orderby_raw, $allowed_orderby, true ) ? $orderby_raw : 'id';
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$order = isset( $_REQUEST['order'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['order'] ) ) : 'asc';
+		$order_raw = isset( $_REQUEST['order'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['order'] ) ) : 'asc';
+		$order     = in_array( strtolower( $order_raw ), array( 'asc', 'desc' ), true ) ? $order_raw : 'asc';
 		$this->items = atkp_queue_entry::get_list( self::$queue->id, $filter, $per_page, $current_page, $orderby, $order );
 	}
 
