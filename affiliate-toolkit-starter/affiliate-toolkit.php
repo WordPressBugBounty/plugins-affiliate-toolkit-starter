@@ -2,7 +2,7 @@
 /*** Plugin Name: affiliate-toolkit – Multi-Network Affiliate & Amazon Product Display
  * Plugin URI: https://www.affiliate-toolkit.com
  * Description: Display products from Amazon, AWIN, CJ, eBay and 10+ affiliate networks with beautiful product boxes, comparison tables, and automatic price updates.
- * Version: 3.8.9
+ * Version: 3.9.0
  * Requires PHP:      8.2
  * Author: SERVIT Software Solutions
  * Author URI: https://servit.dev
@@ -12,7 +12,7 @@
  * License: GPL2
  */
 
-define( 'ATKP_UPDATE_VERSION', '3.8.9' );
+define( 'ATKP_UPDATE_VERSION', '3.9.0' );
 define( 'ATKP_UPDATE_ITEM_ID', '7680' );
 
 if ( ! defined( 'ABSPATH' ) ) {

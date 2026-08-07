@@ -467,7 +467,7 @@ class atkp_posttypes_template {
                 margin: 0;
                 padding: 0;
                 overflow: hidden;
-                background-color: #005162;
+                background-color: #1d2327;
                 border-radius: 3px;
             }
 
@@ -485,7 +485,7 @@ class atkp_posttypes_template {
             }
 
             .atkp-template-placeholder li a:hover, .atkp-template-placeholder .dropdown:hover .dropbtn {
-                background-color: #bde4ea;
+                background-color: #3c434a;
             }
 
             .atkp-template-placeholder li.dropdown {
@@ -2088,7 +2088,7 @@ class atkp_posttypes_template {
 
         <style>
             .CodeMirror {
-                border: 1px solid #bde4ea;
+                border: 1px solid #c3c4c7;
                 height: auto;
             }
 

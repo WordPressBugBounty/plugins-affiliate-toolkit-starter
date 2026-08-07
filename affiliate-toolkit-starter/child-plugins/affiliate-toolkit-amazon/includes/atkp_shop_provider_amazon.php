@@ -64,18 +64,24 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 		$startpos = strrpos( $url, '&AssociateTag=' );
 
 		if ( ! $startpos ) {
-			$startpos = strrpos( $url, '&tag=' );
+			$startpos = strrpos( $url, '?AssociateTag=' );
 
 			if ( ! $startpos ) {
-				$startpos = strrpos( $url, '?tag=' );
+				$startpos = strrpos( $url, '&tag=' );
 
 				if ( ! $startpos ) {
-					throw new exception( esc_html__( 'trackingcode not found: ' . $url, 'affiliate-toolkit-starter' ) );
+					$startpos = strrpos( $url, '?tag=' );
+
+					if ( ! $startpos ) {
+						return $url;
+					} else {
+						$startpos = $startpos + 5;
+					}
 				} else {
 					$startpos = $startpos + 5;
 				}
 			} else {
-				$startpos = $startpos + 5;
+				$startpos = $startpos + 14;
 			}
 		} else {
 			$startpos = $startpos + 14;
@@ -1596,7 +1602,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 
 		if ( $this->sitetripemode == 2) {
 
-			if ( $searchType == 'product' ) {
+			if ( $searchType == 'product' || $searchType == 'asin' ) {
 				$products = $this->search_sitestripeproduct( $keyword, $searchType, $pagination );
 			} else {
 				$products->message = esc_html__( 'Search and import not supported. You enabled "sitestripe mode" in your amazon shop.', 'affiliate-toolkit-starter' );
@@ -2070,7 +2076,12 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 
 		try {
 
-			$url = 'https://api.affiliate-toolkit.com/amazon/noapi.php?keywords=' . urlencode( $keyword ) . '&tag=' . $this->associateTag . '&country=' . strtoupper( $this->country ) . '&key=' . $license . '&page_number=' . $pagination;
+            if($searchType == 'asin'){
+                $url = 'https://api.affiliate-toolkit.com/amazon/noapi.php?asin=' . $keyword . '&tag=' . $this->associateTag . '&country=' . strtoupper( $this->country ) . '&key=' . $license;
+
+            }else {
+                $url = 'https://api.affiliate-toolkit.com/amazon/noapi.php?keywords=' . urlencode( $keyword ) . '&tag=' . $this->associateTag . '&country=' . strtoupper( $this->country ) . '&key=' . $license . '&page_number=' . $pagination;
+            }
 
 			if ( $this->asindataapikey != '' )
 				$url .= '&apikey=' . $this->asindataapikey;
@@ -2081,18 +2092,21 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 
 			if ( function_exists( 'wp_remote_get' ) ) {
 
-				$response = wp_remote_get( $url );
+				$response = wp_remote_get( $url, array( 'timeout' => 20 ) );
 
-				if ( function_exists( 'is_wp_error' ) && ! is_wp_error( $response ) ) {
+				if ( function_exists( 'is_wp_error' ) && is_wp_error( $response ) ) {
+					$products          = new atkp_search_resp();
+					$products->message = 'API request failed: ' . $response->get_error_message() . ' / ' . esc_url( $url );
 
-					// Success
-					if ( isset( $response['response']['code'] ) ) {
-						$statusCode = $response['response']['code'];
-					}
+					return $products;
+				}
 
-					if ( isset( $response['body'] ) ) {
-						$page = $response['body'];
-					}
+				if ( isset( $response['response']['code'] ) ) {
+					$statusCode = $response['response']['code'];
+				}
+
+				if ( isset( $response['body'] ) ) {
+					$page = $response['body'];
 				}
 			}
 
@@ -2130,6 +2144,17 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 
 						$products_x[] = $xxd;
 					}
+				} else if ( $xx != null && isset( $xx->productitem ) && $xx->productitem != null ) {
+					$p               = $xx->productitem->data;
+					$xxd             = array();
+					$xxd['imageurl'] = isset( $p->mediumimageurl ) ? $p->mediumimageurl : '';
+					$xxd['asin']     = isset( $p->asin ) ? $p->asin : $keyword;
+					$xxd['producturl'] = isset( $p->producturl ) ? $p->producturl : '';
+					$xxd['title']      = isset( $p->title ) ? $p->title : '';
+					$xxd['saleprice']  = isset( $p->saleprice ) ? $p->saleprice : '';
+					$xxd['listprice']  = isset( $p->listprice ) ? $p->listprice : '';
+
+					$products_x[] = $xxd;
 				}
 
 				$products->products = $products_x;
@@ -2151,7 +2176,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 				if ( $statusCode == 429 ) {
 					$products->message = __( 'The query limit has been reached.', 'affiliate-toolkit-starter' );
 				} else {
-					$products->message = 'Invalid Status code: ' . $statusCode . ' / ' . esc_url( $url ) . ' / Please try again.';
+					$products->message = 'Invalid Status code: ' . $statusCode . ' / ' . esc_url( $url ) . ' / ' . substr( $page, 0, 200 ) . ' / Please try again.';
 				}
 
 				return $products;

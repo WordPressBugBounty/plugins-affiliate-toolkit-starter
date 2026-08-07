@@ -17,7 +17,13 @@ class ATKPTools {
 	}
 
 	public static function is_lang_de() {
-		return ( strpos( get_bloginfo( 'language' ), 'de-' ) !== false ) ? true : false;
+		if ( is_admin() && function_exists( 'get_user_locale' ) ) {
+			$locale = get_user_locale();
+		} else {
+			$locale = get_bloginfo( 'language' );
+		}
+
+		return ( strpos( $locale, 'de' ) === 0 );
 	}
 
 	/**

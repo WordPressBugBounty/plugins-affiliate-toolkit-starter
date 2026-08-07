@@ -227,16 +227,18 @@ class atkp_shortcodes_product {
 			return $output->get_product_output( $id, $template, $content, $buttontype, $field, $link, $elementcss, $containercss, $hidedisclaimer, $tracking_id, $offerstemplate, $imagetemplate );
 
 		} catch ( TypeError $e ) {
+			ATKPLog::LogError( 'TypeError in atkp_product shortcode: ' . $e->getMessage() . "\n" . $e->getTraceAsString() );
 			if ( ATKPSettings::$hideerrormessages ) {
 				return '';
 			} else {
-				return 'TypeError: ' . esc_html( $e->getMessage() );
+				return 'TypeError: ' . esc_html( $e->getMessage() ) . '<br><pre>' . esc_html( $e->getTraceAsString() ) . '</pre>';
 			}
 		} catch ( Exception $e ) {
+			ATKPLog::LogError( 'Exception in atkp_product shortcode: ' . $e->getMessage() . "\n" . $e->getTraceAsString() );
 			if ( ATKPSettings::$hideerrormessages ) {
 				return '';
 			} else {
-				return 'Exception: ' . esc_html( $e->getMessage() );
+				return 'Exception: ' . esc_html( $e->getMessage() ) . '<br><pre>' . esc_html( $e->getTraceAsString() ) . '</pre>';
 			}
 		}
 	}

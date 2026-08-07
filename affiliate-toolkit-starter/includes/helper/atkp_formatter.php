@@ -2544,7 +2544,11 @@ class atkp_formatter {
 		$shop = atkp_shop::load( $shop_id );
 
 		if ( $shop != null && $shop->provider != null ) {
-			$url = $shop->provider->replace_trackingid( $shop->parent_id, $url, $tracking_id );
+			try {
+				$url = $shop->provider->replace_trackingid( $shop->parent_id, $url, $tracking_id );
+			} catch ( \Exception $e ) {
+				// Return original URL if tracking code replacement fails
+			}
 		}
 
 		return $url;

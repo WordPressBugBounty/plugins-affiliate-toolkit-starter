@@ -411,7 +411,14 @@ class atkp_template_helper {
 
 		$placeholders['disclaimer'] = $formatter->get_disclaimer( $myproduct );
 
-		$placeholders = apply_filters( 'atkp_modify_placeholders', $placeholders );
+		try {
+			$placeholders = apply_filters( 'atkp_modify_placeholders', $placeholders );
+		} catch ( \Throwable $e ) {
+			ATKPLog::LogError( 'Error in atkp_modify_placeholders filter: ' . $e->getMessage() . "\n" . $e->getTraceAsString() );
+			if ( ! ATKPSettings::$hideerrormessages ) {
+				$placeholders['_filter_error'] = 'atkp_modify_placeholders: ' . $e->getMessage();
+			}
+		}
 
 		return $placeholders;
 	}
@@ -880,7 +887,15 @@ class atkp_template_helper {
 
 			}
 
-			$adminlinks = apply_filters( 'atkp_modify_adminlinks', $adminlinks, $template, $listid, $products );
+			try {
+				$adminlinks = apply_filters( 'atkp_modify_adminlinks', $adminlinks, $template, $listid, $products );
+			} catch ( \Throwable $e ) {
+				ATKPLog::LogError( 'Error in atkp_modify_adminlinks filter: ' . $e->getMessage() . "\n" . $e->getTraceAsString() );
+			}
+
+			if ( ! is_array( $adminlinks ) ) {
+				$adminlinks = array();
+			}
 
 			$resultValue .= apply_filters( 'atkp_modify_adminoutput', '<div class="atkp-admin-actions">' . implode( ' ', $adminlinks ) . '</div>' );
 		}

@@ -305,6 +305,11 @@ class atkp_output {
 
 		$resultValue = apply_filters( 'atkp_modify_output_product', $resultValue, $prd, $template );
 
+		if ( isset( $placeholders ) && is_array( $placeholders ) && isset( $placeholders['_filter_error'] ) ) {
+			$resultValue .= '<div style="padding:5px;background:#fff3cd;border:1px solid #ffc107;border-radius:4px;margin:5px 0;font-size:12px;">'
+				. '<strong>Filter Error:</strong> ' . esc_html( $placeholders['_filter_error'] )
+				. '</div>';
+		}
 
 		return $resultValue;
 	}
@@ -520,6 +525,10 @@ class atkp_output {
 
 		$custom_css = apply_filters( 'atkp_custom_css_inline', $custom_css );
 
+		if ( ! is_array( $custom_css ) ) {
+			return (string) $custom_css;
+		}
+
 		return implode( "\r\n", $custom_css );
 	}
 
@@ -571,6 +580,10 @@ class atkp_output {
 
 		$custom_css = apply_filters( 'atkp_custom_css_output', $custom_css );
 
+		if ( ! is_array( $custom_css ) ) {
+			return (string) $custom_css;
+		}
+
 		return implode( "\r\n", $custom_css);
 	}
 
@@ -596,6 +609,9 @@ function atkp_open_link(link, mode, trackingtype, linktype, linkcaption) {
 
 		$custom_script = apply_filters( 'atkp_custom_script_output', $custom_script );
 
+		if ( ! is_array( $custom_script ) ) {
+			return (string) $custom_script;
+		}
 
 		return implode( "\r\n", $custom_script);
 	}

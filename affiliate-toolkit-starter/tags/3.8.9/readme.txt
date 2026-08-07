@@ -3,7 +3,7 @@ Contributors: cservit
 Tags: affiliate, amazon, ebay, awin, product display
 Requires at least: 5.6
 Tested up to: 7.0
-Stable tag: 3.9.0
+Stable tag: 3.8.9
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -398,12 +398,6 @@ After importing products, you can display them using the Gutenberg product box b
 
  
 == Changelog ==
-= 3.9.0 =
-*   FIX: Comparison table not rendered when tracking_id is set in shortcode (Creators API cart URLs use ?AssociateTag= instead of &AssociateTag= after removal of AWSAccessKeyId parameter)
-*   FIX: Tracking code replacement errors no longer break entire template output (graceful fallback to original URL)
-*   IMPROVED: Admin styles updated to use standard WordPress UI colors and buttons instead of custom branding
-*   IMPROVED: Extensions page redesigned with installed/bundled status badges, version info, and cleaner layout
-
 = 3.8.9 =
 *   SECURITY: Fixed SQL Injection vulnerability in admin list tables (orderby parameter) — reported via Wordfence. orderby and order parameters are now validated against a strict whitelist of allowed column names instead of relying on esc_sql(), which does not protect unquoted SQL identifiers.
 

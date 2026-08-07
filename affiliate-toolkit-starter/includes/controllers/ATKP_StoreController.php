@@ -51,7 +51,8 @@ class ATKP_StoreController {
 		$cache = get_transient( 'atkp_add_ons_feed' );
 
 		if ( false === $cache ) {
-			$url = ATKP_STORE_URL . 'edd-api/v2/products/?number=100&lang=en';
+			$lang = ATKPTools::is_lang_de() ? 'de' : 'en';
+			$url  = ATKP_STORE_URL . 'edd-api/v2/products/?number=100&lang=' . $lang;
 
 			$feed = wp_remote_get( esc_url_raw( $url ), array( 'timeout' => 30, 'sslverify' => false ) );
 

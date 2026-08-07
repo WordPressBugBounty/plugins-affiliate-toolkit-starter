@@ -2151,7 +2151,7 @@ class atkp_posttypes_product {
 	}
 
 	function create_clipboard_button( $fieldname ) {
-		echo '<a href="javascript:void(0)" data-fieldname="' . esc_attr( $fieldname ) . '" class="button copy-clipboard-button"></a>';
+		echo '<a href="javascript:void(0)" data-fieldname="' . esc_attr( $fieldname ) . '" class="button copy-clipboard-button"><span class="dashicons dashicons-clipboard"></span></a>';
 	}
 
 	function product_tab2( $post ) {
