@@ -3633,22 +3633,35 @@ msgid "If you don't want to see discounts in the backend you can disable it here
 msgstr "Wenn Sie keine Rabatte im Backend sehen möchten, können Sie es hier deaktivieren."
 
 #: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:494
-msgid "Security Warning: PHP tag filtering in templates"
-msgstr "Sicherheitswarnung: Filterung von PHP-Tags in Vorlagen"
+msgid "Security Warning: PHP filtering in templates"
+msgstr "Sicherheitswarnung: PHP-Filterung in Vorlagen"
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:497
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:498
 #, php-format
 msgid ""
-"This option disables the security feature that automatically strips raw PHP code (e.g. %s "
-"tags) from templates. The Blade template engine uses eval() internally — allowing raw PHP "
-"code in templates can lead to arbitrary code execution and compromise your website."
+"This option disables the security feature that automatically strips raw PHP code from "
+"templates. The filter removes both PHP tags (%1$s) and the Blade directives that the "
+"template engine compiles into PHP (%2$s). The Blade template engine uses eval() internally — "
+"allowing raw PHP code in templates can lead to arbitrary code execution and compromise your "
+"website."
 msgstr ""
-"Diese Option deaktiviert die Sicherheitsfunktion, die rohen PHP-Code (z. B. %s-Tags) "
-"automatisch aus Vorlagen entfernt. Die Blade-Template-Engine verwendet intern die Funktion "
-"`eval()` – die Zulassung von rohem PHP-Code in Vorlagen kann zur Ausführung von beliebigem "
-"Code führen und Ihre Website gefährden."
+"Diese Option deaktiviert die Sicherheitsfunktion, die rohen PHP-Code automatisch aus Vorlagen "
+"entfernt. Der Filter entfernt sowohl PHP-Tags (%1$s) als auch die Blade-Direktiven, die die "
+"Template-Engine zu PHP kompiliert (%2$s). Die Blade-Template-Engine verwendet intern die "
+"Funktion `eval()` – die Zulassung von rohem PHP-Code in Vorlagen kann zur Ausführung von "
+"beliebigem Code führen und Ihre Website gefährden."
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:500
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:501
+msgid ""
+"This filter only applies to templates stored in the database. It does not control who may "
+"create templates — that is restricted to administrators and is always enforced, regardless "
+"of this setting."
+msgstr ""
+"Dieser Filter gilt nur für Vorlagen, die in der Datenbank gespeichert sind. Er steuert nicht, "
+"wer Vorlagen anlegen darf – das ist Administratoren vorbehalten und wird unabhängig von "
+"dieser Einstellung immer erzwungen."
+
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:504
 msgid ""
 "Only enable this option if you fully understand the security implications and explicitly "
 "accept the risk."
@@ -3656,10 +3669,10 @@ msgstr ""
 "Aktivieren Sie diese Option nur, wenn Sie die sicherheitstechnischen Auswirkungen vollständig "
 "verstehen und das Risiko ausdrücklich akzeptieren."
 
-#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:507
-msgid "I understand the risk and want to explicitly disable PHP tag filtering"
+#: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:511
+msgid "I understand the risk and want to explicitly disable PHP filtering"
 msgstr ""
-"Ich bin mir des Risikos bewusst und möchte die PHP-Tag-Filterung ausdrücklich deaktivieren"
+"Ich bin mir des Risikos bewusst und möchte die PHP-Filterung ausdrücklich deaktivieren"
 
 #: affiliate-toolkit-starter/includes/atkp_settings_advanced.php:517
 msgid "Shortcode-Generator post-types"

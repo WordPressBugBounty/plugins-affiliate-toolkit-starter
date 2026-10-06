@@ -171,7 +171,8 @@ class atkp_template_table extends WP_List_Table {
 	 */
 	function column_name( $item ) {
 
-		$delete_nonce = wp_create_nonce( 'atkp_edit_template' );
+		$edit_nonce   = wp_create_nonce( 'atkp_edit_template' );
+		$delete_nonce = wp_create_nonce( 'atkp_delete_link' );
 		$naunce       = wp_create_nonce( 'atkp-export-template' );
 
 		if ( is_numeric( $item['ID'] ) ) {
@@ -182,7 +183,7 @@ class atkp_template_table extends WP_List_Table {
 			$actions = [
 				'edit'   => sprintf( '<a href="post.php?post=%s&action=edit">%s</a>', absint( $item['ID'] ), esc_html__( 'Edit', 'affiliate-toolkit-starter' ) ),
 				'delete' => sprintf( '<a href="?page=%1$s&action=%2$s&templateid=%3$s&_wpnonce=%4$s">%5$s</a>', esc_attr( $page ), 'delete', absint( $item['ID'] ), $delete_nonce, esc_html__( 'Delete', 'affiliate-toolkit-starter' ) ),
-				'clone'  => sprintf( '<a href="?page=%1$s&action=%2$s&templateid=%3$s&templatename=%4$s&_wpnonce=%5$s">%6$s</a>', esc_attr( $page ), 'clone', absint( $item['ID'] ), urlencode( $item['post_title'] ), $delete_nonce, esc_html__( 'Duplicate', 'affiliate-toolkit-starter' ) ),
+				'clone'  => sprintf( '<a href="?page=%1$s&action=%2$s&templateid=%3$s&templatename=%4$s&_wpnonce=%5$s">%6$s</a>', esc_attr( $page ), 'clone', absint( $item['ID'] ), urlencode( $item['post_title'] ), $edit_nonce, esc_html__( 'Duplicate', 'affiliate-toolkit-starter' ) ),
 				'export' => sprintf( '<a href="%1$s?action=atkp_export_template&templateid=%2$s&request_nonce=%3$s">%4$s</a>', esc_url( ATKPTools::get_endpointurl() ), absint( $item['ID'] ), $naunce, esc_html__( 'Export', 'affiliate-toolkit-starter' ) ),
 			];
 
@@ -192,7 +193,7 @@ class atkp_template_table extends WP_List_Table {
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- WP_List_Table display, nonce not applicable.
 			$page = isset( $_REQUEST['page'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) : '';
 			$actions = [
-				'clone' => sprintf( '<a href="?page=%1$s&action=%2$s&templateid=%3$s&templatename=%4$s&_wpnonce=%5$s">%6$s</a>', esc_attr( $page ), 'clone', esc_attr( $item['ID'] ), urlencode( $item['post_title'] ), $delete_nonce, esc_html__( 'Duplicate', 'affiliate-toolkit-starter' ) ),
+				'clone' => sprintf( '<a href="?page=%1$s&action=%2$s&templateid=%3$s&templatename=%4$s&_wpnonce=%5$s">%6$s</a>', esc_attr( $page ), 'clone', esc_attr( $item['ID'] ), urlencode( $item['post_title'] ), $edit_nonce, esc_html__( 'Duplicate', 'affiliate-toolkit-starter' ) ),
 			];
 
 		}

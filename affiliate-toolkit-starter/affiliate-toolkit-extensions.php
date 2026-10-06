@@ -99,7 +99,17 @@ class atkp_extensions {
 
 		if ( $products != null && isset( $products->products ) ) {
 			foreach ( $products->products as $product ) {
-				if ( ATKPTools::str_contains( $product->info->title, 'Pass' ) || $product->info->title == 'affiliate-toolkit' || $product->licensing->enabled != true ) {
+				if ( ! isset( $product->info->title ) ) {
+					continue;
+				}
+
+				if ( ATKPTools::str_contains( $product->info->title, 'Pass' ) || $product->info->title == 'affiliate-toolkit' ) {
+					continue;
+				}
+
+				// Only an explicitly disabled license means "not an extension". Missing
+				// licensing data is a store-side glitch and must not empty the list.
+				if ( isset( $product->licensing->enabled ) && $product->licensing->enabled != true ) {
 					continue;
 				}
 
@@ -197,7 +207,8 @@ class atkp_extensions {
 					$match         = $this->find_installed( $product, $installed_extensions );
 					$is_installed  = $is_bundled || $match !== null;
 					$installed_ver = $match !== null ? $match['version'] : '';
-					$has_update    = $is_installed && ! empty( $installed_ver ) && version_compare( $installed_ver, $product->licensing->version, '<' );
+					$store_ver     = isset( $product->licensing->version ) ? $product->licensing->version : '';
+					$has_update    = $is_installed && ! empty( $installed_ver ) && ! empty( $store_ver ) && version_compare( $installed_ver, $store_ver, '<' );
 
 					// Bundled plugins: don't show update date
 					$last_updated   = $is_bundled ? '' : ( isset( $product->info->modified_date ) ? $product->info->modified_date : '' );
@@ -212,9 +223,9 @@ class atkp_extensions {
 				?>
 					<tr>
 						<td><strong><?php echo esc_html( $product->info->title ); ?></strong></td>
-						<td><?php echo esc_html( $product->info->excerpt ); ?></td>
+						<td><?php echo esc_html( isset( $product->info->excerpt ) ? $product->info->excerpt : '' ); ?></td>
 						<td>
-							<?php echo esc_html( $product->licensing->version ); ?>
+							<?php echo esc_html( $store_ver ); ?>
 							<?php if ( $has_update ) : ?>
 								<br><span style="color: #d63638;">
 									<?php

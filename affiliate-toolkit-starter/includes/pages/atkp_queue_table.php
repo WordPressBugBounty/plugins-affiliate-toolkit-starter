@@ -79,8 +79,10 @@ class atkp_queue_table extends WP_List_Table {
 				break;
 
 			case 'retries':
+				//the value counts the cron runs without progress and is reset as soon as the
+				//queue advances, so it is shown as is instead of the former "runs minus one"
 				/* translators: %s: number of retries */
-				return sprintf( esc_html__( '%s Retries', 'affiliate-toolkit-starter' ), $item[ $column_name ] == null || $item[ $column_name ] <= 1 ? 0 : ( $item[ $column_name ] - 1 ) );
+				return sprintf( esc_html__( '%s Retries', 'affiliate-toolkit-starter' ), $item[ $column_name ] == null ? 0 : intval( $item[ $column_name ] ) );
 			case 'entries':
 				$atkp_queuetable_helper = new atkp_queuetable_helper();
 
@@ -184,14 +186,15 @@ class atkp_queue_table extends WP_List_Table {
 	 */
 	function column_name( $item ) {
 
-		$delete_nonce = wp_create_nonce( 'atkp_edit_queue' );
+		$detail_nonce = wp_create_nonce( 'atkp_edit_queue' );
+		$delete_nonce = wp_create_nonce( 'atkp_delete_link' );
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- WP_List_Table display, nonce not applicable.
 		$page = isset( $_REQUEST['page'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) : '';
-		$title = sprintf( '<a href="?page=%s&action=%s&queueid=%s&_wpnonce=%s"><strong>%s</strong></a>', esc_attr( $page ), 'detail', absint( $item['id'] ), $delete_nonce, esc_html( $item['title'] ) );
+		$title = sprintf( '<a href="?page=%s&action=%s&queueid=%s&_wpnonce=%s"><strong>%s</strong></a>', esc_attr( $page ), 'detail', absint( $item['id'] ), $detail_nonce, esc_html( $item['title'] ) );
 
 		$actions = [
-			//'edit' => sprintf( '<a href="?page=%s&action=%s&queueid=%s&_wpnonce=%s">Edit</a>', esc_attr( $page ), 'edit', absint( $item['id'] ), $delete_nonce ),
+			//'edit' => sprintf( '<a href="?page=%s&action=%s&queueid=%s&_wpnonce=%s">Edit</a>', esc_attr( $page ), 'edit', absint( $item['id'] ), $detail_nonce ),
 			'delete' => sprintf( '<a href="?page=%s&action=%s&queueid=%s&_wpnonce=%s">Delete</a>', esc_attr( $page ), 'delete', absint( $item['id'] ), $delete_nonce ),
 
 		];

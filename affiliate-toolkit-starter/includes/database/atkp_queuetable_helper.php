@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 if ( ! defined( 'ATKP_VERSION_QUEUETABLE' ) ) {
-	define( 'ATKP_VERSION_QUEUETABLE', 2 );
+	define( 'ATKP_VERSION_QUEUETABLE', 3 );
 }
 
 class atkp_queuetable_helper {
@@ -98,13 +98,46 @@ class atkp_queuetable_helper {
 
 			dbDelta( $sql );
 
-			$wpdb->query( "CREATE INDEX atkp_queues_entries_queue_id ON {$table_name2} (queue_id)" );
-			$wpdb->query( "CREATE INDEX atkp_queues_entries_queue_id_status ON {$table_name2} (queue_id, status)" );
+			$this->create_index_if_missing( $table_name2, 'atkp_queues_entries_queue_id', '(queue_id)' );
+			$this->create_index_if_missing( $table_name2, 'atkp_queues_entries_queue_id_status', '(queue_id, status)' );
+			$this->create_index_if_missing( $table_name2, 'atkp_queues_entries_post_id_id', '(post_id, id)', 'post_id' );
+			$this->create_index_if_missing( $table_name2, 'atkp_queues_entries_queue_id_updatedon', '(queue_id, updatedon)' );
 
 
 			update_option( ATKP_PLUGIN_PREFIX . '_version_posts_queues', ATKP_VERSION_QUEUETABLE );
 
 		}
+	}
+
+	/**
+	 * Legt einen Index an, wenn er noch nicht vorhanden ist. Verhindert "Duplicate key name"
+	 * Fehler, wenn check_table_structure wegen eines Versionssprungs erneut durchlaeuft.
+	 *
+	 * @param string $table_name Tabellenname inkl. Prefix
+	 * @param string $index_name Name des Index
+	 * @param string $columns Spaltenliste inkl. Klammern, z.B. '(post_id, id)'
+	 * @param string $leading_column Optional: wenn gesetzt und bereits ein beliebiger Index
+	 *                               mit dieser Spalte an erster Position existiert (z.B. ein
+	 *                               manuell angelegter), wird kein zweiter Index erstellt.
+	 */
+	private function create_index_if_missing( $table_name, $index_name, $columns, $leading_column = '' ) {
+		global $wpdb;
+
+		$exists = $wpdb->get_var( $wpdb->prepare( "SHOW INDEX FROM {$table_name} WHERE Key_name = %s", $index_name ) );
+
+		if ( $exists !== null ) {
+			return;
+		}
+
+		if ( $leading_column !== '' ) {
+			$exists = $wpdb->get_var( $wpdb->prepare( "SHOW INDEX FROM {$table_name} WHERE Seq_in_index = 1 AND Column_name = %s", $leading_column ) );
+
+			if ( $exists !== null ) {
+				return;
+			}
+		}
+
+		$wpdb->query( "CREATE INDEX {$index_name} ON {$table_name} {$columns}" );
 	}
 
 	public function delete_queue( $queue_id ) {
@@ -217,6 +250,50 @@ class atkp_queuetable_helper {
 		return $cnt;
 	}
 
+	public function get_queue_prepared( $queue_id ) {
+
+		global $wpdb;
+
+		$table_name = $this->get_queueentrytable_tablename();
+
+		$query = $wpdb->prepare( "SELECT count(*) as cnt FROM $table_name WHERE queue_id = %d and status = %s", $queue_id, atkp_queue_entry_status::PREPARED );
+
+		$result = $wpdb->get_results( $query, ARRAY_A );
+
+		$cnt = count( $result ) > 0 ? intval( $result[0]['cnt'] ) : 0;
+
+		return $cnt;
+	}
+
+	/**
+	 * Setzt alle Eintraege einer Queue von einem Status auf einen anderen. Wird beim Abbruch
+	 * einer haengenden Queue verwendet - ein einzelnes UPDATE statt zehntausender save() Aufrufe.
+	 *
+	 * @param int $queue_id Die Queue
+	 * @param string $from_status Nur Eintraege in diesem Status werden geaendert
+	 * @param string $to_status Der neue Status
+	 * @param string $message Die Meldung fuer updatedmessage
+	 *
+	 * @return int Anzahl der geaenderten Eintraege
+	 */
+	public function set_entries_status( $queue_id, $from_status, $to_status, $message ) {
+
+		global $wpdb;
+
+		$table_name = $this->get_queueentrytable_tablename();
+
+		$affected = $wpdb->query( $wpdb->prepare(
+			"UPDATE {$table_name} SET status = %s, updatedmessage = %s, updatedon = %s WHERE queue_id = %d AND status = %s",
+			$to_status,
+			$message,
+			gmdate( "Y-m-d H:i:s" ),
+			$queue_id,
+			$from_status
+		) );
+
+		return intval( $affected );
+	}
+
 	public function get_queue_count( $queue_id, $filter = null ) {
 
 		global $wpdb;
@@ -318,11 +395,13 @@ class atkp_queuetable_helper {
 
 		$days = intval( atkp_options::$loader->get_queue_clean_days() );
 
-		if ( $days == 0 ) {
-			return 0;
+		if ( $days <= 0 ) {
+			return array();
 		}
 
-		$result = $wpdb->get_results( $wpdb->prepare( "SELECT id FROM {$tablename} where DATE(createdon) <= CURDATE() - INTERVAL %d DAY", $days ), 'ARRAY_A' );
+		//Aktive Queues sind ausgenommen: die Bereinigung laeuft jetzt bei jedem Cronlauf und
+		//wuerde sonst die gerade in Verarbeitung befindliche Queue loeschen.
+		$result = $wpdb->get_results( $wpdb->prepare( "SELECT id FROM {$tablename} where (status IS NULL or status <> %s) and DATE(createdon) <= CURDATE() - INTERVAL %d DAY", atkp_queue_status::ACTIVE, $days ), 'ARRAY_A' );
 
 		return $result;
 	}
@@ -433,7 +512,7 @@ class atkp_queuetable_helper {
 
 		$table_name = $this->get_queuetable_tablename();
 
-		$query = $wpdb->prepare( "SELECT * FROM $table_name WHERE status = %s ", atkp_queue_status::ACTIVE );
+		$query = $wpdb->prepare( "SELECT * FROM $table_name WHERE status = %s ORDER BY id LIMIT 1", atkp_queue_status::ACTIVE );
 
 		$result = $wpdb->get_results( $query, ARRAY_A );
 

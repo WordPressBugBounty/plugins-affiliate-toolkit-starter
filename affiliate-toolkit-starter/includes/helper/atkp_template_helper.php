@@ -11,10 +11,20 @@ class atkp_template_helper {
 	public $preview_generation = false;
 
 	/**
-	 * Strip raw PHP tags from template content to prevent code injection via BladeOne eval().
+	 * Strip raw-PHP constructs from template content.
+	 *
+	 * This is defence in depth, not the security boundary. BladeOne compiles a template
+	 * into PHP and eval()s it, and most of the Blade language ({{ }}, {!! !!}, @if, ...)
+	 * emits the enclosed expression into that PHP verbatim — so no filter can make an
+	 * untrusted Blade template safe. The actual boundary is ATKPTools::get_template_post(),
+	 * which only lets administrator-authored atkp_template posts reach the compiler.
+	 *
+	 * What this removes is the subset that carries no templating value: literal PHP tags
+	 * and the Blade directives whose only purpose is emitting raw PHP (@php/@endphp) or
+	 * instantiating an arbitrary class (@inject).
 	 *
 	 * @param string $content Template content to sanitize.
-	 * @return string Sanitized content without PHP tags.
+	 * @return string Sanitized content.
 	 */
 	public static function sanitize_template_content( $content ) {
 		if ( empty( $content ) || ! is_string( $content ) ) {
@@ -32,7 +42,32 @@ class atkp_template_helper {
 		$content = preg_replace( '/<[?]=.*$/si', '', $content );
 		$content = preg_replace( '/<[?](?!xml\b).*$/si', '', $content );
 
+		// Strip the Blade directives that compile straight into raw PHP. BladeOne turns
+		// @php(expr) into an opening PHP tag followed by the expression, and an
+		// @php ... @endphp block into an open PHP section — both of which are produced
+		// after the tag stripping above has already run.
+		$content = self::strip_blade_php_blocks( $content );
+		// @php(expr) — the (?1) subroutine call matches nested parentheses in the expression.
+		$content = preg_replace( '/\B@php[ \t]*(\((?:[^()]++|(?1))*\))/i', '', $content );
+		// Bare @php / @endphp left over from unbalanced or block usage.
+		$content = preg_replace( '/\B@(?:end)?php\b/i', '', $content );
+		// @inject('var', 'Class') compiles to a "new $class()" call.
+		$content = preg_replace( '/\B@inject[ \t]*(\((?:[^()]++|(?1))*\))/i', '', $content );
+
 		return $content;
+	}
+
+	/**
+	 * Remove complete "@php ... @endphp" blocks including their body.
+	 *
+	 * Done separately from the single-directive patterns so the PHP inside the block is
+	 * discarded rather than left behind as literal output.
+	 *
+	 * @param string $content Template content.
+	 * @return string Content without @php blocks.
+	 */
+	private static function strip_blade_php_blocks( $content ) {
+		return preg_replace( '/\B@php\b(?![ \t]*\().*?\B@endphp\b/is', '', $content );
 	}
 
 	public function add_shop_info( atkp_formatter $formatter, atkp_shop $myshop, &$placeholders ) {
@@ -710,9 +745,15 @@ class atkp_template_helper {
 			if ( $mytemplate == '' ) {
 				if ( is_numeric( $template ) ) {
 
-					$templatefound = get_post( $template );
-					if ( isset( $templatefound ) && $templatefound != null && ( $templatefound->post_status == 'publish' || $templatefound->post_status == 'draft' ) ) {
+					// Only real atkp_template posts may be compiled — see ATKPTools::get_template_post().
+					$templatefound = ATKPTools::get_template_post( $template );
+					if ( $templatefound != null ) {
 						$mytemplate = html_entity_decode( ATKPTools::get_post_setting( $templatefound->ID, ATKP_TEMPLATE_POSTTYPE . '_body' ) );
+
+						// Sanitize user-created templates: strip PHP tags to prevent code injection via BladeOne eval()
+						if ( ! atkp_options::$loader->get_disable_template_sanitize() ) {
+							$mytemplate = self::sanitize_template_content( $mytemplate );
+						}
 					} else {
 						return ATKPSettings::$hideerrormessages ? '' : ( 'template not found: ' . esc_html( $template ) );
 					}
@@ -807,7 +848,7 @@ class atkp_template_helper {
 
 				$formatter = new atkp_formatter( $this, $parameters );
 
-				$resultValue .= '<span class="atkp-disclaimer">' . $formatter->get_disclaimer( $products[0] ) . '</span>';
+				$resultValue .= '<span class="atkp-disclaimer">' . $formatter->get_disclaimer( $products[0], $parameters->get_disclaimer_text() ) . '</span>';
 			}
 
 		} else {
@@ -911,8 +952,9 @@ class atkp_template_helper {
 		if ( $mytemplate == '' ) {
 			if ( is_numeric( $template ) ) {
 
-				$templatefound = get_post( $template );
-				if ( isset( $templatefound ) && $templatefound != null && ( $templatefound->post_status == 'publish' || $templatefound->post_status == 'draft' ) ) {
+				// Only real atkp_template posts may be compiled — see ATKPTools::get_template_post().
+				$templatefound = ATKPTools::get_template_post( $template );
+				if ( $templatefound != null ) {
 					$mytemplate = html_entity_decode( ATKPTools::get_post_setting( $templatefound->ID, ATKP_TEMPLATE_POSTTYPE . '_body' ) );
 
 					// Sanitize user-created templates: strip PHP tags to prevent code injection via BladeOne eval()
@@ -967,16 +1009,15 @@ class atkp_template_helper {
 		if ( $renderedOutput ) {
 			$resultValue = $renderedOutput;
 
-			$disabledisclaimer = is_numeric( $parameters->templateid ) ? ATKPTools::get_post_setting( $parameters->templateid, ATKP_TEMPLATE_POSTTYPE . '_disabledisclaimer' ) : 0;
-			if ( $disabledisclaimer ) {
-				$hidedisclaimer = true;
-			}
+			//$parameters instead of the global option: it carries the hidedisclaimer attribute of
+			//the shortcode as well as the _disabledisclaimer flag of the template (evaluated in
+			//atkp_template_parameters::buildTemplateArray), and the disclaimer text has to be
+			//passed on just like in createOutput()
+			if ( count( $products ) > 0 && $parameters->get_show_disclaimer() ) {
 
-			if ( count( $products ) > 0 && atkp_options::$loader->get_show_disclaimer() && ! $hidedisclaimer ) {
+				$formatter = new atkp_formatter( $this, $parameters );
 
-				$formatter = new atkp_formatter( $this, null );
-
-				$resultValue .= '<span class="atkp-disclaimer">' . $formatter->get_disclaimer( $products[0] ) . '</span>';
+				$resultValue .= '<span class="atkp-disclaimer">' . $formatter->get_disclaimer( $products[0], $parameters->get_disclaimer_text() ) . '</span>';
 			}
 
 		} else {

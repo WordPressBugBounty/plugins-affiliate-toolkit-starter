@@ -592,7 +592,7 @@ class atkp_options {
 	}
 
 	public function get_disclaimer_text() {
-		return $this->get_cachedoption( '_disclaimer_text', stripslashes( __( 'Last updated on %refresh_date% at %refresh_time% - Image source: Amazon Affiliate Program. All statements without guarantee.', 'affiliate-toolkit-starter' ) ) );
+		return $this->get_cachedoption( '_disclaimer_text', ATKPOptionsCache::get_default_disclaimer_text() );
 	}
 
 	public function get_priceinfo_text() {

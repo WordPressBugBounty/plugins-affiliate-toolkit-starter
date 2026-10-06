@@ -244,6 +244,14 @@ class atkp_template_parameters {
 			$array['disablediscounts'] = ATKPTools::get_post_setting( $templateid, ATKP_TEMPLATE_POSTTYPE . '_disablediscounts' );
 		}
 
+		//Bewusst ausserhalb von $ownstyles: _disabledisclaimer gehoert zu den Kompatibilitaets-
+		//templates und ist von den eigenen Styles unabhaengig. Die Auswertung liegt hier und
+		//nicht im Renderer, damit das Flag auf allen Ausgabewegen greift - inklusive der
+		//@if($parameters->get_show_disclaimer()) Abfragen in den Blade Templates.
+		if ( ATKPTools::get_post_setting( $templateid, ATKP_TEMPLATE_POSTTYPE . '_disabledisclaimer' ) ) {
+			$array['show_disclaimer'] = false;
+		}
+
 		return $array;
 	}
 
@@ -335,6 +343,14 @@ class atkp_template_parameters {
 
 
 	public function get_show_disclaimer() {
+		//Nur das aeusserste Template gibt den Disclaimer aus. Templates mit Disclaimer-Block
+		//(z.B. offers_table, detailoffers, eigene Templates) lassen sich auch als Template fuer
+		//die weiteren Angebote auswaehlen - der @include wuerde dann einen zweiten Disclaimer
+		//mitten in der Box erzeugen.
+		if ( class_exists( 'BladeOne' ) && BladeOne::getRenderDepth() > 0 ) {
+			return false;
+		}
+
 		return $this->get_option( 'show_disclaimer', true );
 	}
 

@@ -87,7 +87,9 @@ class ATKPSettings {
 		ATKPSettings::$access_cache_duration  = $options[ $prefix . 'cache_duration' ];
 		ATKPSettings::$access_mark_links      = $options[ $prefix . 'mark_links' ];
 		ATKPSettings::$access_show_disclaimer = $options[ $prefix . 'show_disclaimer' ];
-		ATKPSettings::$access_disclaimer_text = $options[ $prefix . 'disclaimer_text' ];
+		//null bedeutet "nie gespeichert" und wird erst bei der Ausgabe durch den Standardtext
+		//ersetzt, '' bedeutet "bewusst geleert" und bleibt leer
+		ATKPSettings::$access_disclaimer_text = $options[ $prefix . 'disclaimer_text' ] ?? null;
 		ATKPSettings::$add_to_cart            = $options[ $prefix . 'add_to_cart' ];
 		ATKPSettings::$open_window            = $options[ $prefix . 'open_window' ];
 		ATKPSettings::$show_linkinfo          = $options[ $prefix . 'show_linkinfo' ];

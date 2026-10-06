@@ -29,6 +29,83 @@ class atkp_cronjob_new {
 		$this->send_message( "deleted queues: " . implode( ',', $deleted ) );
 	}
 
+	/**
+	 * Prueft, ob eine wieder aufgenommene Queue noch Fortschritt macht, und bricht sie
+	 * andernfalls ab. Als Vergleichswert dient die Anzahl der offenen Eintraege beim letzten
+	 * Lauf, die in internalstatus hinterlegt wird. retries zaehlt dabei die Laeufe ohne
+	 * Fortschritt und wird bei Fortschritt zurueckgesetzt.
+	 *
+	 * @param atkp_queue $atkp_queue Die aktive Queue
+	 * @param float $diff_lastactivity Minuten seit dem letzten geschriebenen Eintrag
+	 *
+	 * @return bool true wenn die Queue weiter verarbeitet werden soll, false bei Abbruch
+	 */
+	private function handle_stalled_queue( $atkp_queue, $diff_lastactivity ) {
+
+		$remaining = $atkp_queue->get_prepared_count();
+
+		$this->send_message( 'open entries: ' . $remaining );
+
+		//nothing left to do - the finalization below sets the final status, so this is not a stall
+		if ( $remaining == 0 ) {
+			return true;
+		}
+
+		$baseline = $atkp_queue->internalstatus;
+
+		if ( $baseline === null || $baseline === '' || intval( $baseline ) !== $remaining ) {
+			//first resume or progress since the last run
+			$atkp_queue->internalstatus = $remaining;
+			$atkp_queue->retries        = 0;
+			$atkp_queue->save();
+
+			return true;
+		}
+
+		/**
+		 * Minutes without a single written entry before a queue is considered stalled. The
+		 * wall clock guard is needed in addition to the retry counter below, otherwise a
+		 * frequently running cronjob would abort a queue whose provider is only slow.
+		 *
+		 * @param int $minutes
+		 */
+		$minminutes = intval( apply_filters( 'atkp_queue_stall_minutes', 30 ) );
+
+		if ( $diff_lastactivity < $minminutes ) {
+			$this->send_message( 'queue made no progress, but last activity is only ' . $diff_lastactivity . ' minutes old' );
+
+			return true;
+		}
+
+		/**
+		 * Number of consecutive cron runs without any progress before a queue is aborted.
+		 *
+		 * @param int $maxretries
+		 */
+		$maxretries = intval( apply_filters( 'atkp_queue_max_stall_retries', 3 ) );
+
+		if ( $atkp_queue->retries < $maxretries ) {
+			$this->send_message( 'queue made no progress (' . $atkp_queue->retries . '/' . $maxretries . ')' );
+
+			return true;
+		}
+
+		/* translators: %1$s: number of runs, %2$s: minutes since last activity, %3$s: number of open entries */
+		$message = sprintf( __( 'Queue aborted: no progress in %1$s runs and no activity for %2$s minutes, %3$s entries were not processed', 'affiliate-toolkit-starter' ), $atkp_queue->retries, $diff_lastactivity, $remaining );
+
+		$affected = $atkp_queue->abort( $message );
+
+		$this->send_message( 'queue aborted, entries marked as error: ' . $affected );
+
+		try {
+			do_action( 'atkp_queue_aborted', $atkp_queue->id );
+		} catch ( Throwable $ex ) {
+			$this->send_message( $ex->getMessage() );
+		}
+
+		return false;
+	}
+
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- This is a cron job, nonce verification is not applicable.
 	public function do_work( $iswpcronjob = false, $mode = '' ) {
 
@@ -50,6 +127,12 @@ class atkp_cronjob_new {
 				$this->send_message( '"SAVEQUERIES" not defined' );
 			}
 
+			//runs on every cronjob, not only after a queue has completed - otherwise a single
+			//stalled queue stops the cleanup permanently and the entries table keeps growing
+			$this->send_message( 'clean queues' );
+			$this->clean_queues();
+			$this->send_message( 'clean queues finished' );
+
 			$atkp_queue = null;
 
 			if ( atkp_queue::exists_notfinished() ) {
@@ -64,14 +147,25 @@ class atkp_cronjob_new {
 				$this->send_message( 'last activity: ' . $atkp_queue->updatedon );
 				$this->send_message( 'last activity entries: ' . $lastactivity );
 
-				if ( ! $override ) {
-					$diff_lastactivity = round( abs( time() - strtotime( $lastactivity ) ) / 60, 2 );
+				//a queue without any entry has no activity timestamp - treat it as long inactive so
+				//the run below can finalize it instead of blocking the pipeline forever
+				$diff_lastactivity = $lastactivity == null ? 99999 : round( abs( time() - strtotime( $lastactivity ) ) / 60, 2 );
 
+				if ( ! $override ) {
 					if ( $diff_lastactivity <= 5 ) {
 						$this->send_message( 'queue is still running...' );
 
 						return;
 					}
+				}
+
+				//the queue is resumed - check whether it made any progress since the last run.
+				//without this check a queue that always dies on the same package (fatal error,
+				//timeout, out of memory) stays 'active' forever, blocks every new queue and
+				//stops the cleanup of old queues, because clean_queues only ran after a queue
+				//had completed.
+				if ( ! $this->handle_stalled_queue( $atkp_queue, $diff_lastactivity ) ) {
+					return;
 				}
 
 			} else {
@@ -202,6 +296,8 @@ class atkp_cronjob_new {
 								$this->send_message( 'atkp_queue_process_entries_' . $functionname . ' returned $entries: ' . count( $entries ) );
 							}
 
+							$saved_ids = array();
+
 							foreach ( $entries as $entry ) {
 								if ( $entry->status == atkp_queue_entry_status::PREPARED ) {
 									$entry->status         = atkp_queue_entry_status::NOT_PROCESSED;
@@ -209,8 +305,23 @@ class atkp_cronjob_new {
 								}
 
 								$entry->save();
+
+								$saved_ids[ $entry->id ] = true;
 							}
-						} catch ( Exception $e ) {
+
+							//entries the hook dropped from its return value would stay 'prepared'
+							//and get_next_entries would deliver the same batch again endlessly
+							foreach ( $entries_bak as $entry ) {
+								if ( isset( $saved_ids[ $entry->id ] ) ) {
+									continue;
+								}
+
+								$entry->status         = atkp_queue_entry_status::NOT_PROCESSED;
+								$entry->updatedmessage = __( 'Entry was not updated via function', 'affiliate-toolkit-starter' );
+
+								$entry->save();
+							}
+						} catch ( Throwable $e ) {
 
 							$this->send_message( 'atkp_queue_process_entries_' . $functionname . ' exception: ' . $e->getMessage() );
 
@@ -235,14 +346,9 @@ class atkp_cronjob_new {
 
 				try {
 					do_action( 'atkp_queue_finished', $atkp_queue->id );
-				} catch ( Exception $ex ) {
+				} catch ( Throwable $ex ) {
 					$this->send_message( $ex->getMessage() );
 				}
-
-
-				$this->send_message( 'clean queues' );
-				$this->clean_queues();
-				$this->send_message( 'clean queues finished' );
 			}
 
 			if ( atkp_options::$loader->get_check_enabled() ) {
@@ -261,7 +367,7 @@ class atkp_cronjob_new {
 				if ( $run_check ) {
 					try {
 						do_action( 'atkp_datacheck_report' );
-					} catch ( Exception $e ) {
+					} catch ( Throwable $e ) {
 						ATKPLog::LogError( $e->getMessage() );
 					}
 
@@ -271,7 +377,7 @@ class atkp_cronjob_new {
 
 			$this->send_message( 'Total Execution Time: ' . ( microtime( true ) - $time_start ) . ' Seconds' );
 			$this->send_message( '### cronjob finished ###' );
-		} catch ( Exception $e ) {
+		} catch ( Throwable $e ) {
 			$this->send_message( '### cronjob error ###' );
 			$this->send_message( $e->getMessage() );
 		}

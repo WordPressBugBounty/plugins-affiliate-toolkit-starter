@@ -92,6 +92,39 @@ class atkp_queue {
 	}
 
 
+	public function get_prepared_count() {
+		$atkp_queuetable_helper = new atkp_queuetable_helper();
+
+		return $atkp_queuetable_helper->get_queue_prepared( $this->id );
+	}
+
+	/**
+	 * Bricht die Queue ab und markiert alle noch offenen Eintraege als Fehler. Wird verwendet,
+	 * wenn die Queue ueber mehrere Cronlaeufe keinen Fortschritt mehr macht - ohne Abbruch
+	 * bleibt sie dauerhaft auf 'active' und blockiert sowohl neue Queues als auch die
+	 * Bereinigung alter Queues.
+	 *
+	 * @param string $message Begruendung fuer Queue und Eintraege
+	 *
+	 * @return int Anzahl der abgebrochenen Eintraege
+	 */
+	public function abort( $message ) {
+		$atkp_queuetable_helper = new atkp_queuetable_helper();
+
+		$affected = $atkp_queuetable_helper->set_entries_status(
+			$this->id,
+			atkp_queue_entry_status::PREPARED,
+			atkp_queue_entry_status::ERROR,
+			$message
+		);
+
+		$this->status         = atkp_queue_status::ABORT;
+		$this->updatedmessage = $message;
+		$this->save();
+
+		return $affected;
+	}
+
 	public function get_next_entries( $status ) {
 		$atkp_queuetable_helper = new atkp_queuetable_helper();
 

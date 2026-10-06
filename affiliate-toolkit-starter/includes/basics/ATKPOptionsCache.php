@@ -5,6 +5,9 @@ defined('ABSPATH') || exit;
  * Cache-Manager für Plugin-Einstellungen
  */
 class ATKPOptionsCache {
+	/**
+	 * @var array|null ['options' => array merged with the fallbacks, 'db' => keys present in wp_options]
+	 */
 	private static $options_cache = null;
 
 	/**
@@ -36,6 +39,15 @@ class ATKPOptionsCache {
 	 * @return array Alle Plugin-Optionen
 	 */
 	public static function get_options() {
+		return self::get_loaded()['options'];
+	}
+
+	/**
+	 * Lädt Optionswerte und die Liste der tatsächlich gespeicherten Optionsnamen
+	 *
+	 * @return array ['options' => array, 'db' => array]
+	 */
+	private static function get_loaded() {
 		// Cache-Prüfung
 		if ( ! self::should_use_cache() ) {
 			return self::load_options();
@@ -51,7 +63,7 @@ class ATKPOptionsCache {
 	/**
 	 * Lädt die Optionen aus der Datenbank
 	 *
-	 * @return array
+	 * @return array ['options' => array, 'db' => array]
 	 */
 	private static function load_options() {
 		global $wpdb;
@@ -76,9 +88,8 @@ class ATKPOptionsCache {
 			$prefix . 'link_click_tracking'   => 0,
 			$prefix . 'cache_duration'        => 1440,
 			$prefix . 'mark_links'            => 1,
-			$prefix . 'show_disclaimer'       => 0,
-			$prefix . 'disclaimer_text'       => '',
-			$prefix . 'add_to_cart'           => 0,
+			$prefix . 'show_disclaimer'       => 1,
+			$prefix . 'add_to_cart'           => 'link',
 			$prefix . 'open_window'           => 1,
 			$prefix . 'show_linkinfo'         => 0,
 			$prefix . 'linkinfo_template'     => '',
@@ -92,7 +103,7 @@ class ATKPOptionsCache {
 			$prefix . 'list_default_count'    => 0,
 			$prefix . 'feature_count'         => 0,
 			$prefix . 'description_length'    => 0,
-			$prefix . 'boxcontent'            => '',
+			$prefix . 'boxcontent'            => 1,
 			$prefix . 'boxstyle'              => 1,
 			$prefix . 'showprice'             => 1,
 			$prefix . 'linkprime'             => 0,
@@ -106,15 +117,32 @@ class ATKPOptionsCache {
 		];
 
 		$options = $defaults;
+		$db      = array();
 
 		// Alle Ergebnisse laden
 		if ( $results ) {
 			foreach ( $results as $row ) {
 				$options[ $row->option_name ] = maybe_unserialize( $row->option_value );
+				$db[ $row->option_name ]      = true;
 			}
 		}
 
-		return $options;
+		return array( 'options' => $options, 'db' => $db );
+	}
+
+	/**
+	 * Standardtext des Disclaimers - die einzige Quelle dafür, damit atkp_options und
+	 * ATKPSettings nicht auseinanderlaufen können. Genau diese Doppelung war die Ursache
+	 * dafür, dass die "Last updated on ..." Zeile nicht mehr ausgegeben wurde.
+	 *
+	 * Absichtlich nicht in der Fallback-Tabelle oben: load_options() läuft vor dem init Hook,
+	 * und ein __() Aufruf dort löst auf WordPress 6.7+ die "translation loading triggered too
+	 * early" Meldung aus. Der Text wird deshalb erst bei der Ausgabe aufgelöst.
+	 *
+	 * @return string
+	 */
+	public static function get_default_disclaimer_text() {
+		return stripslashes( __( 'Last updated on %refresh_date% at %refresh_time% - Image source: Amazon Affiliate Program. All statements without guarantee.', 'affiliate-toolkit-starter' ) );
 	}
 
 	/**
@@ -134,9 +162,21 @@ class ATKPOptionsCache {
 	 * @return mixed Optionswert
 	 */
 	public static function get_option( $option_name, $default = null ) {
-		$options   = self::get_options();
+		$loaded    = self::get_loaded();
 		$full_name = ATKP_PLUGIN_PREFIX . $option_name;
 
-		return isset( $options[ $full_name ] ) ? $options[ $full_name ] : $default;
+		//gespeicherter Wert gewinnt immer, auch wenn er leer ist
+		if ( isset( $loaded['db'][ $full_name ] ) ) {
+			return $loaded['options'][ $full_name ];
+		}
+
+		//Option wurde nie gespeichert: der Standardwert des Aufrufers ist der maßgebliche.
+		//Vor der Cache-Umstellung lieferte get_option() genau diesen Wert zurück, während die
+		//Fallback-Tabelle ihn verdeckt hat.
+		if ( $default !== null ) {
+			return $default;
+		}
+
+		return isset( $loaded['options'][ $full_name ] ) ? $loaded['options'][ $full_name ] : $default;
 	}
 }

@@ -457,49 +457,160 @@ class ATKPTools {
 		}
 	}
 
+	/**
+	 * Request arguments for downloading a remote product image.
+	 *
+	 * The http stream wrapper that was used before sent no User-Agent, no Accept and no
+	 * Referer header at all, which several shop CDNs answer with 403 Forbidden. A desktop
+	 * browser user agent, an Accept and a Referer header pointing at the image host are
+	 * sent instead.
+	 *
+	 * The Accept header deliberately contains neither image/avif nor image/webp. CDNs that
+	 * do content negotiation (loberon.at for example) answer a .jpg url with an AVIF body
+	 * when a browser Accept header is sent, and the attachment would end up with a mime
+	 * type that does not match its content.
+	 *
+	 * Can be adjusted per installation with the atkp_image_download_args filter, e.g. when
+	 * a shop expects a specific referer or blocks a certain user agent.
+	 *
+	 * @param string $image_url
+	 * @param string $user_agent
+	 *
+	 * @return array
+	 */
+	private static function get_image_download_args( $image_url, $user_agent ) {
+		$scheme = wp_parse_url( $image_url, PHP_URL_SCHEME );
+		$host   = wp_parse_url( $image_url, PHP_URL_HOST );
+
+		$args = array(
+			'timeout'     => 30,
+			'redirection' => 5,
+			'sslverify'   => true,
+			'user-agent'  => $user_agent,
+			'headers'     => array(
+				'Accept'          => 'image/jpeg,image/png,image/gif,image/*;q=0.8,*/*;q=0.5',
+				'Accept-Language' => 'de,en;q=0.8',
+			),
+		);
+
+		if ( $host ) {
+			$args['headers']['Referer'] = ( $scheme ? $scheme : 'https' ) . '://' . $host . '/';
+		}
+
+		return apply_filters( 'atkp_image_download_args', $args, $image_url, $user_agent );
+	}
+
+	/**
+	 * Downloads a remote product image.
+	 *
+	 * A shop CDN that answers 403 or 429 to the first attempt is retried once with the
+	 * Googlebot image crawler user agent, because hotlink protections and bot filters
+	 * commonly let the search engine crawlers through. The list of user agents to try can
+	 * be changed with the atkp_image_download_useragents filter - a 403 that is caused by
+	 * the server ip being blocked or rate limited cannot be solved with headers at all.
+	 *
+	 * @param string $image_url
+	 *
+	 * @return array|false array with body and mime_type, false when the image is not available
+	 */
+	private static function download_image( $image_url ) {
+		$useragents = apply_filters( 'atkp_image_download_useragents', array(
+			'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
+			'Googlebot-Image/1.0',
+		), $image_url );
+
+		$lasterror = '';
+
+		foreach ( array_values( $useragents ) as $attempt => $useragent ) {
+			$response = wp_remote_get( $image_url, ATKPTools::get_image_download_args( $image_url, $useragent ) );
+
+			if ( is_wp_error( $response ) ) {
+				$lasterror = $response->get_error_message();
+
+				//info: a transport error is not answered differently by another user agent
+				break;
+			}
+
+			$httpcode = intval( wp_remote_retrieve_response_code( $response ) );
+
+			if ( $httpcode == 200 ) {
+				$body      = wp_remote_retrieve_body( $response );
+				$mime_type = strtok( (string) wp_remote_retrieve_header( $response, 'content-type' ), ';' );
+
+				if ( $body == '' ) {
+					$lasterror = 'the response body was empty';
+					break;
+				}
+
+				//info: a blocked request is sometimes answered with an error page and status 200
+				if ( strpos( (string) $mime_type, 'image/' ) !== 0 && ! @getimagesizefromstring( $body ) ) {
+					$lasterror = 'the response was no image but ' . ( $mime_type != '' ? $mime_type : 'of unknown type' );
+					break;
+				}
+
+				if ( ATKPLog::$logenabled && $attempt > 0 ) {
+					ATKPLog::LogDebug( 'image downloaded with fallback user agent (' . $useragent . '): ' . $image_url );
+				}
+
+				return array(
+					'body'      => $body,
+					'mime_type' => $mime_type,
+				);
+			}
+
+			$lasterror = 'HTTP ' . $httpcode;
+
+			//info: only a block is worth a second attempt, a 404 stays a 404
+			if ( $httpcode != 403 && $httpcode != 429 ) {
+				break;
+			}
+		}
+
+		if ( ATKPLog::$logenabled ) {
+			ATKPLog::LogDebug( '$image_data is empty: ' . $image_url );
+		}
+
+		ATKPLog::LogError( 'HTTP request failed. Error was: ' . $lasterror . ' (' . $image_url . ')' );
+
+		return false;
+	}
+
+	/**
+	 * Returns the file extension that belongs to a mime type, '' when it is unknown.
+	 *
+	 * @param string $mime_type
+	 *
+	 * @return string
+	 */
+	private static function get_extension_for_mime( $mime_type ) {
+		foreach ( wp_get_mime_types() as $extensions => $mime ) {
+			if ( $mime == $mime_type ) {
+				$extensions = explode( '|', $extensions );
+
+				return $extensions[0];
+			}
+		}
+
+		return '';
+	}
+
 	public static function upload_image( $image_url, $image_name, $post_id, $idx = 1 ) {
 		if ( ATKPLog::$logenabled ) {
 			ATKPLog::LogDebug( '*** upload_image started (' . $image_url . ' / ' . $image_name . ' / ' . $post_id . ') ***' );
 		}
 
-		if ( ! function_exists( 'file_get_contents' ) ) {
-			if ( ATKPLog::$logenabled ) {
-				ATKPLog::LogDebug( 'function file_get_contents not exists' );
-			}
-
-			return false;
-		}
-
 		// Add Featured Image to Post
 		$upload_dir = wp_upload_dir(); // Set upload folder
 
-		$context = stream_context_create(
-			array(
-				'http' => array(
-					'method' => "GET",
-					'header' => "Accept-language: en\r\n" .
-					            "Cookie: foo=bar\r\n" .  // check function.stream-context-create on php.net
-					            "User-Agent: Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B334b Safari/531.21.102011-10-16 20:23:10\r\n"
-					// i.e. An iPad
-				)
-			)
-		);
-
-		$image_data = @file_get_contents( $image_url, false, null ); // Get image data
+		$download = ATKPTools::download_image( $image_url );
 
 		//wenn fehler beim lesen auftritt, wird false zurück gegeben
-		if ( ! $image_data ) {
-			$error = error_get_last();
-
-			if ( ATKPLog::$logenabled ) {
-				ATKPLog::LogDebug( '$image_data is empty: ' . $image_url );
-			}
-
-			ATKPLog::LogError( "HTTP request failed. Error was: " . $error['message'] );
-
+		if ( ! $download ) {
 			return false;
 		}
 
+		$image_data = $download['body'];
+		$mime_type  = $download['mime_type'];
 
 		//find attachmentid
 		$args = array(
@@ -542,9 +653,20 @@ class ATKPTools {
 			$filename = $posts_array[0]->post_name;
 
 		} else {
-			$ext = substr( strrchr( $image_url, '.' ), 1 );
-			//dateiendung hat nur 3 stellen
-			$ext = strlen( $ext ) <= 3 ? $ext : '';
+			//info: strrchr() on the whole url takes the query string with it (image.jpg?ts=123)
+			$ext = strtolower( pathinfo( (string) wp_parse_url( $image_url, PHP_URL_PATH ), PATHINFO_EXTENSION ) );
+
+			//dateiendung hat nur 3 stellen, jpeg und avif sind die ausnahmen
+			$ext = strlen( $ext ) <= 4 ? $ext : '';
+
+			//info: a cdn doing content negotiation can answer a .jpg url with a webp or avif body
+			if ( $mime_type != '' && $mime_type != wp_check_filetype( 'image.' . $ext )['type'] ) {
+				$mime_ext = ATKPTools::get_extension_for_mime( $mime_type );
+
+				if ( $mime_ext != '' ) {
+					$ext = $mime_ext;
+				}
+			}
 
 			if ( $ext == '' || $ext == ' ' ) {
 				$ext = 'jpg';
@@ -1368,6 +1490,42 @@ class ATKPTools {
 	}
 
 	private static $post_meta_cache = array();
+
+	/**
+	 * Resolves a numeric template reference to a real template post.
+	 *
+	 * Template bodies are compiled and eval()'d by BladeOne, so a template post is
+	 * effectively executable code. The atkp_template post type is capability-gated to
+	 * administrators; without this check any post id (including a low-privileged user's
+	 * own draft carrying a hand-written atkp_template_body meta field) would be accepted
+	 * as a template and executed. Callers must never read a template body from a post
+	 * this method rejects.
+	 *
+	 * @param mixed $template Template reference from a request, shortcode or option.
+	 *
+	 * @return WP_Post|null The template post, or null if it is not a usable template.
+	 */
+	public static function get_template_post( $template ) {
+		if ( ! is_numeric( $template ) || (int) $template <= 0 ) {
+			return null;
+		}
+
+		$post = get_post( (int) $template );
+
+		if ( ! $post instanceof WP_Post ) {
+			return null;
+		}
+
+		if ( ATKP_TEMPLATE_POSTTYPE !== $post->post_type ) {
+			return null;
+		}
+
+		if ( 'publish' !== $post->post_status && 'draft' !== $post->post_status ) {
+			return null;
+		}
+
+		return $post;
+	}
 
 	/**
 	 * Lädt ein Metafield von einem Post mit Cache-Unterstützung

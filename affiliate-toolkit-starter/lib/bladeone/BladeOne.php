@@ -12,6 +12,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 // phpcs:disable WordPress.WP.AlternativeFunctions, WordPress.Security, WordPress.PHP.DiscouragedPHPFunctions, Squiz.PHP.Eval.Discouraged, WordPress.NamingConventions.ValidVariableName, WordPress.Security.EscapeOutput.OutputNotEscaped, WordPress.PHP.DevelopmentFunctions, Generic.PHP.ForbiddenFunctions, WordPress.NamingConventions.PrefixAllGlobals, WordPress.WP.I18n, PluginCheck.CodeAnalysis.DirectFileAccess
 class BladeOne {    //<editor-fold desc="fields">
+	/** @var int Nesting level of runChild(), see getRenderDepth() */
+	private static $renderDepth = 0;
+
 
 	/** @var array All of the registered extensions. */
 	protected $extensions = array();
@@ -186,7 +189,23 @@ class BladeOne {    //<editor-fold desc="fields">
 			return "";
 		}
 
-		return $this->runInternal( $view, $newVariables, false, false, $this->isRunFast );
+		self::$renderDepth ++;
+
+		try {
+			return $this->runInternal( $view, $newVariables, false, false, $this->isRunFast );
+		} finally {
+			self::$renderDepth --;
+		}
+	}
+
+	/**
+	 * Nesting level of the template currently being rendered. 0 while the outermost template
+	 * runs, greater than 0 inside an @include.
+	 *
+	 * @return int
+	 */
+	public static function getRenderDepth() {
+		return self::$renderDepth;
 	}
 
 	/**
@@ -2207,10 +2226,19 @@ class BladeOne {    //<editor-fold desc="fields">
 
 		if($templateName != null && is_numeric( $templateName )) {
 
-			$templatefound = get_post( $templateName );
+			// Reached from @include(123)/@extends(123). Only real atkp_template posts may be
+			// compiled — see ATKPTools::get_template_post().
+			$templatefound = ATKPTools::get_template_post( $templateName );
 
-			if ( isset( $templatefound ) && $templatefound != null && ( $templatefound->post_status == 'publish' || $templatefound->post_status == 'draft' ) ) {
-				return html_entity_decode( ATKPTools::get_post_setting( $templatefound->ID, ATKP_TEMPLATE_POSTTYPE . '_body', true ) );
+			if ( $templatefound != null ) {
+				$body = html_entity_decode( ATKPTools::get_post_setting( $templatefound->ID, ATKP_TEMPLATE_POSTTYPE . '_body', true ) );
+
+				// Sanitize user-created templates: strip PHP tags to prevent code injection via BladeOne eval()
+				if ( ! atkp_options::$loader->get_disable_template_sanitize() ) {
+					$body = atkp_template_helper::sanitize_template_content( $body );
+				}
+
+				return $body;
 			}
 		}else {
 

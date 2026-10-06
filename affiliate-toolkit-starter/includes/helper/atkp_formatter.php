@@ -1477,8 +1477,20 @@ class atkp_formatter {
 	 * @return string
 	 */
 	public function get_disclaimer( $myproduct, $disclaimertext = '' ) {
+		//siehe atkp_template_parameters::get_show_disclaimer() - greift zusaetzlich fuer
+		//Templates, die get_disclaimer() ohne die vorangestellte @if Abfrage aufrufen
+		if ( class_exists( 'BladeOne' ) && BladeOne::getRenderDepth() > 0 ) {
+			return '';
+		}
+
 		if ( $disclaimertext == '' ) {
 			$disclaimertext = ATKPSettings::$access_disclaimer_text;
+
+			//Option nie gespeichert: mitgelieferten Standardtext verwenden. Ein bewusst
+			//geleerter Text ist '' und bleibt davon unberührt.
+			if ( $disclaimertext === null ) {
+				$disclaimertext = ATKPOptionsCache::get_default_disclaimer_text();
+			}
 		}
 
 		return str_replace( '%refresh_time%', $this->get_refreshtime( $myproduct ), str_replace( '%refresh_date%', $this->get_refreshdate( $myproduct ), $disclaimertext ) );
