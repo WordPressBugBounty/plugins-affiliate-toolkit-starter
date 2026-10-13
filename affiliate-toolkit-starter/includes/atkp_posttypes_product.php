@@ -1022,7 +1022,11 @@ class atkp_posttypes_product {
                            data-keytype="<?php echo esc_attr('atkp_product_asintype' . ( $x > 1 ? '_' . $i : '' ) ) ?>"
                            data-shopid="<?php echo esc_attr('atkp_product_shopid' . ( $x > 1 ? '_' . $i : '' ) ) ?>"><?php echo esc_html__( 'Find', 'affiliate-toolkit-starter' ) ?>
                         </a>
-                        <a href="javascript:void(0)" class="button atkp_searchbutton atkp_prdbtndelete"></a>
+                        <a href="javascript:void(0)" class="button atkp_searchbutton atkp_prdbtndelete"
+                           title="<?php echo esc_attr__( 'Remove', 'affiliate-toolkit-starter' ) ?>"
+                           aria-label="<?php echo esc_attr__( 'Remove', 'affiliate-toolkit-starter' ) ?>"><span
+                                    class="dashicons dashicons-trash"
+                                    style="line-height:20px;vertical-align:middle"></span></a>
                     </td>
                 </tr>
 

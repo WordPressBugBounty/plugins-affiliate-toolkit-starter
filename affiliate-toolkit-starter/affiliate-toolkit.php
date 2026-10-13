@@ -2,7 +2,7 @@
 /*** Plugin Name: affiliate-toolkit – Multi-Network Affiliate & Amazon Product Display
  * Plugin URI: https://www.affiliate-toolkit.com
  * Description: Display products from Amazon, AWIN, CJ, eBay and 10+ affiliate networks with beautiful product boxes, comparison tables, and automatic price updates.
- * Version: 3.9.1
+ * Version: 3.9.2
  * Requires PHP:      8.2
  * Author: SERVIT Software Solutions
  * Author URI: https://servit.dev
@@ -12,7 +12,7 @@
  * License: GPL2
  */
 
-define( 'ATKP_UPDATE_VERSION', '3.9.1' );
+define( 'ATKP_UPDATE_VERSION', '3.9.2' );
 define( 'ATKP_UPDATE_ITEM_ID', '7680' );
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -629,12 +629,23 @@ function atkp_admin_discounts() {
 		return;
 	}
 
+	//Erst pruefen, ob der Hinweis auf diesem Screen ueberhaupt erscheinen darf. Der Abruf stand
+	//vorher davor und lief damit auf jeder Seite im Backend - bei kaltem Cache synchron und mit
+	//Timeout, was die Produkt- und Shop-Listen minutenlang blockieren konnte.
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended
+	$page      = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
+	$post_type = isset( $_GET['post_type'] ) ? sanitize_text_field( wp_unslash( $_GET['post_type'] ) ) : '';
+	// phpcs:enable WordPress.Security.NonceVerification.Recommended
+
+	//ATKPTools::startsWith( $post_type, 'affiliate-toolkit-starter' ) konnte nie zutreffen: die
+	//Posttypes des Plugins heissen atkp_product, atkp_list, atkp_shop und atkp_template.
+	if ( ! ATKPTools::startsWith( $page, ATKP_PLUGIN_PREFIX ) && ! ATKPTools::startsWith( $post_type, strtolower( ATKP_PLUGIN_PREFIX ) . '_' ) ) {
+		return;
+	}
+
 	$discounts = ATKP_StoreController::get_product_discounts();
 
-	// phpcs:disable WordPress.Security.NonceVerification.Recommended
-	if ( ! is_string( $discounts ) && $discounts->active &&
-	     ( ( isset( $_GET['page'] ) && ATKPTools::startsWith( sanitize_text_field( wp_unslash( $_GET['page'] ) ), 'ATKP' ) ) || ( isset( $_GET['post_type'] ) && ATKPTools::startsWith( sanitize_text_field( wp_unslash( $_GET['post_type'] ) ), 'affiliate-toolkit-starter' ) ) ) ) {
-		// phpcs:enable WordPress.Security.NonceVerification.Recommended
+	if ( ! is_string( $discounts ) && $discounts != null && $discounts->active ) {
 		$aktion_bis = new DateTime( $discounts->aktion_bis );
 
 		/* translators: %1$s: discount teaser text, %2$s: link URL, %3$s: link text, %4$s: end date */

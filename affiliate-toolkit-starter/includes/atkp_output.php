@@ -125,6 +125,14 @@ class atkp_output {
 							if ( $preferlocalproductinfo ) {
 								$prdfound = atkp_product::loadbyasin( $value->asin );
 
+								//a local product matched by asin is subject to the same rule: it is
+								//looked up in the product table, which carries no post status, so an
+								//unpublished product could be rendered through a published list.
+								//Fall back to the shop data of the list in that case.
+								if ( $prdfound != null && ATKPTools::get_renderable_post( $prdfound->productid, ATKP_PRODUCT_POSTTYPE ) == null ) {
+									$prdfound = null;
+								}
+
 								if ( $prdfound != null ) {
 									$prodcollection = atkp_product_collection::load( $prdfound->productid, $shop_id );
 									if ( $prodcollection != null ) {
@@ -142,7 +150,7 @@ class atkp_output {
 							break;
 						case 'productid':
 
-							if ( get_post_status( $value ) == 'publish' || get_post_status( $value ) == 'draft' ) {
+							if ( ATKPTools::get_renderable_post( $value, ATKP_PRODUCT_POSTTYPE ) != null ) {
 								$prodcollection = atkp_product_collection::load( $value, $shop_id );
 								if ( $prodcollection != null ) {
 									$value         = $prodcollection->get_main_product( $shop_id );

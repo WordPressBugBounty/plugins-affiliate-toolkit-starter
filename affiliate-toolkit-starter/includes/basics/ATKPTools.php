@@ -1506,17 +1506,36 @@ class ATKPTools {
 	 * @return WP_Post|null The template post, or null if it is not a usable template.
 	 */
 	public static function get_template_post( $template ) {
-		if ( ! is_numeric( $template ) || (int) $template <= 0 ) {
+		return self::get_renderable_post( $template, ATKP_TEMPLATE_POSTTYPE );
+	}
+
+	/**
+	 * Resolves a post id from a request to a post that may be rendered in the frontend.
+	 *
+	 * The guard for every path that takes a post id from a request (AJAX endpoint,
+	 * shortcodes, blocks). An id only resolves when it belongs to the expected post type
+	 * and its status is publish or draft. Draft products and lists are accepted on
+	 * purpose: they are regularly embedded in posts and atkp_output::get_product_output()
+	 * renders them as well - the AJAX path only lazy-loads that same output. Everything
+	 * else (private, pending, future, trash) must not reach a visitor.
+	 *
+	 * @param mixed $post_id Post id from a request, shortcode or option.
+	 * @param string $post_type The post type the id has to belong to.
+	 *
+	 * @return WP_Post|null The post, or null if it must not be rendered.
+	 */
+	public static function get_renderable_post( $post_id, $post_type ) {
+		if ( ! is_numeric( $post_id ) || (int) $post_id <= 0 ) {
 			return null;
 		}
 
-		$post = get_post( (int) $template );
+		$post = get_post( (int) $post_id );
 
 		if ( ! $post instanceof WP_Post ) {
 			return null;
 		}
 
-		if ( ATKP_TEMPLATE_POSTTYPE !== $post->post_type ) {
+		if ( $post_type !== $post->post_type ) {
 			return null;
 		}
 
@@ -1593,7 +1612,11 @@ class ATKPTools {
 
 		// Neuen Wert hinzufügen, wenn nicht null
 		if ( $value !== null ) {
-			add_post_meta( $post_id, $key, $value );
+			//add_post_meta() erwartet geslashte Daten und unslasht selbst. Die Werte kommen hier
+			//durchgaengig ungeslasht an - get_post_parameter() unslasht bereits, alles andere
+			//stammt aus der Datenbank oder aus einem Import. Ohne wp_slash() wuerde ein zweites
+			//Mal unslasht und jeder Backslash ginge verloren (Regex und PHP-Strings in Templates).
+			add_post_meta( $post_id, $key, wp_slash( $value ) );
 
 			// Cache aktualisieren, falls er existiert
 			if ( isset( self::$post_meta_cache[ $post_id ] ) ) {

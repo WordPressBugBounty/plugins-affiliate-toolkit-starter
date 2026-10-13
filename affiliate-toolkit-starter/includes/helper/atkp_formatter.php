@@ -2566,20 +2566,48 @@ class atkp_formatter {
 		return $url;
 	}
 
+	/**
+	 * Schluessel, mit dem die Adressen des Bildproxys signiert werden.
+	 *
+	 * Wer ihn kennt, kann eine beliebige Adresse signieren, und der Proxy ruft sie ab - der
+	 * Schluessel ist damit sicherheitsrelevant. Er liegt deshalb in den Optionen und nicht mehr
+	 * als Datei unter uploads: dort wurde er im Klartext ausgeliefert, sobald der Server in
+	 * uploads kein PHP ausfuehrt. Einen aus dem Pluginpfad ableitbaren Ersatzschluessel gibt es
+	 * nicht mehr; ohne Schluessel wird eine Signatur abgelehnt statt geraten.
+	 *
+	 * @return string
+	 */
 	public static function get_sitekey() {
+		$option_name = ATKP_PLUGIN_PREFIX . '_imagereceiver_key';
+
+		$site_key = get_option( $option_name, '' );
+
+		if ( is_string( $site_key ) && $site_key !== '' ) {
+			return $site_key;
+		}
+
 		$key_path = WP_CONTENT_DIR . '/uploads/atkp-imagereceiver-key.php';
 
-		if ( ! file_exists( $key_path ) ) {
-			$pw = chr( wp_rand( 97, 122 ) ) . wp_rand( 0, 9 ) . chr( wp_rand( 97, 122 ) ) . wp_rand( 10, 99 ) . chr( wp_rand( 97, 122 ) ) . wp_rand( 100, 999 ) . chr( wp_rand( 97, 122 ) ) . wp_rand( 10, 99 ) . chr( wp_rand( 97, 122 ) ) . wp_rand( 100, 999 );
-
-			file_put_contents( $key_path, '<?php $x = "' . $pw . '";' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- Writing site key file.
-		}
-
 		if ( file_exists( $key_path ) ) {
+			//Bestandsschluessel unveraendert uebernehmen, damit bereits ausgelieferte Bildadressen
+			//gueltig bleiben - es wechselt nur der Ablageort. Die Datei wird erst geloescht, wenn
+			//der Wert nachweislich in den Optionen steht.
 			$site_key = file_get_contents( $key_path ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Reading local key file.
-		} else {
-			$site_key = md5( ATKP_PLUGIN_DIR . '/tools/atkp_imagereceiver.php' );
+
+			if ( is_string( $site_key ) && $site_key !== '' ) {
+				update_option( $option_name, $site_key, false );
+
+				if ( get_option( $option_name, '' ) === $site_key ) {
+					wp_delete_file( $key_path );
+				}
+
+				return $site_key;
+			}
 		}
+
+		$site_key = wp_generate_password( 64, false, false );
+
+		update_option( $option_name, $site_key, false );
 
 		return $site_key;
 	}

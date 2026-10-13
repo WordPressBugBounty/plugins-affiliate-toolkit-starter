@@ -12,7 +12,9 @@ class ATKP_StoreController {
 		if ( false === $cache ) {
 			$url = ATKP_STORE_URL . 'wp-json/affiliate-toolkit/v1/aktion?version=' . ATKP_UPDATE_VERSION;
 
-			$feed = wp_remote_get( esc_url_raw( $url ), array( 'timeout' => 30, 'sslverify' => false ) );
+			//Der Hinweis ist reine Werbung und darf das Backend nicht aufhalten, deshalb ein
+			//deutlich kuerzerer Timeout als bei Lizenz- und Store-Abfragen.
+			$feed = wp_remote_get( esc_url_raw( $url ), array( 'timeout' => 5, 'sslverify' => false ) );
 
 			if ( ! is_wp_error( $feed ) ) {
 				if ( isset( $feed['body'] ) && strlen( $feed['body'] ) > 0 ) {
@@ -37,6 +39,13 @@ class ATKP_StoreController {
 					set_transient( 'atkp_discount', $cache, 10800 );
 				}
 			} else {
+
+				//Fehlschlaege ebenfalls merken: ohne diesen Eintrag wurde der Abruf bei jedem
+				//einzelnen Seitenaufruf im Backend erneut versucht und lief jedes Mal in den
+				//Timeout, solange der Store nicht erreichbar war.
+				//ein leerer String statt null: get_transient() liefert false, wenn nichts
+				//hinterlegt ist, und die Aufrufer behandeln Strings bereits als "keine Aktion"
+				set_transient( 'atkp_discount', '', 900 );
 
 				$cache = null;
 			}

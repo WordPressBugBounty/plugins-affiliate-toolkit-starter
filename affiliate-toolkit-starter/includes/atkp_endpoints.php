@@ -93,6 +93,13 @@ class atkp_endpoints {
 			$parameters_str = isset( $_REQUEST['parameters'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['parameters'] ) ) : '';
 			$parameters_data = json_decode( stripslashes( $parameters_str ), true );
 
+			if ( ! is_array( $product_ids ) ) {
+				$product_ids = array();
+			}
+
+			if ( ! is_array( $parameters_data ) ) {
+				$parameters_data = array();
+			}
 
 			$parameters = new atkp_template_parameters();
 			$da         = array();
@@ -111,10 +118,16 @@ class atkp_endpoints {
 			$lists    = array();
 
 			foreach ( $product_ids as $product_id ) {
-				$listid = $product_id['list_id'];
+				$listid = isset( $product_id['list_id'] ) ? intval( $product_id['list_id'] ) : 0;
 				$list   = array();
 				if ( $listid > 0 && ! isset( $lists[ $listid ] ) ) {
-					$list_idx[ $listid ]    = 0;
+					//the list id is attacker controlled on the nopriv endpoint: only a published
+					//or draft atkp_list may be rendered, never a private one or a foreign post
+					if ( ATKPTools::get_renderable_post( $listid, ATKP_LIST_POSTTYPE ) == null ) {
+						$lists[ $listid ] = array();
+						continue;
+					}
+
 					$atkp_listtable_helper  = new atkp_listtable_helper();
 					$selectedshopid         = ATKPTools::get_post_setting( $listid, ATKP_LIST_POSTTYPE . '_shopid' );
 					$preferlocalproductinfo = ATKPTools::get_post_setting( $listid, ATKP_LIST_POSTTYPE . '_preferlocalproduct' );
@@ -129,6 +142,14 @@ class atkp_endpoints {
 								//nur nach lokalen produkten suchen wenn in der
 								if ( $preferlocalproductinfo ) {
 									$prdfound = atkp_product::loadbyasin( $value->asin );
+
+									//a local product matched by asin is subject to the same rule: it
+									//is looked up in the product table, which carries no post status,
+									//so an unpublished product could be rendered through a published
+									//list. Fall back to the shop data of the list in that case.
+									if ( $prdfound != null && ATKPTools::get_renderable_post( $prdfound->productid, ATKP_PRODUCT_POSTTYPE ) == null ) {
+										$prdfound = null;
+									}
 
 									if ( $prdfound != null ) {
 										$prodcollection = atkp_product_collection::load( $prdfound->productid );
@@ -145,7 +166,7 @@ class atkp_endpoints {
 
 								break;
 							case 'productid':
-								if ( get_post_status( $value ) == 'publish' || get_post_status( $value ) == 'draft' ) {
+								if ( ATKPTools::get_renderable_post( $value, ATKP_PRODUCT_POSTTYPE ) != null ) {
 									$prodcollection = atkp_product_collection::load( $value, $selectedshopid );
 									if ( $prodcollection != null ) {
 										$value = $prodcollection->get_main_product( $selectedshopid );
@@ -167,19 +188,37 @@ class atkp_endpoints {
 
 
 			foreach ( $product_ids as $product_id ) {
-				$prdid    = $product_id['product_id'];
-				$listid   = $product_id['list_id'];
-				$list_idx = $product_id['list_idx'];
+				$prdid    = isset( $product_id['product_id'] ) ? intval( $product_id['product_id'] ) : 0;
+				$listid   = isset( $product_id['list_id'] ) ? intval( $product_id['list_id'] ) : 0;
+				$list_idx = isset( $product_id['list_idx'] ) ? intval( $product_id['list_idx'] ) : 0;
 
 				if ( $listid > 0 ) {
-					$list       = $lists[ $listid ];
-					$products[] = $list[ $list_idx ];
+					if ( ! isset( $lists[ $listid ][ $list_idx ] ) ) {
+						continue;
+					}
+
+					$products[] = $lists[ $listid ][ $list_idx ];
 
 				} else {
-					$prd_coll   = atkp_product_collection::load( $prdid );
+					//same here: the product id comes straight from the request. -1 is the demo
+					//product of the template preview and has no post behind it.
+					if ( $prdid != - 1 && ATKPTools::get_renderable_post( $prdid, ATKP_PRODUCT_POSTTYPE ) == null ) {
+						continue;
+					}
+
+					$prd_coll = atkp_product_collection::load( $prdid );
+
+					if ( $prd_coll == null ) {
+						continue;
+					}
+
 					$products[] = $prd_coll->get_main_product();
 				}
 			}
+
+			//a rejected or unavailable product leaves a null behind, and the templates as well as
+			//the disclaimer in createAjaxOutput() address $products[0], so reindex the array
+			$products = array_values( array_filter( $products ) );
 
 			$products = apply_filters( 'atkp_ajax_products', $products, $parameters );
 

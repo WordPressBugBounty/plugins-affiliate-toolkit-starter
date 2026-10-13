@@ -113,6 +113,13 @@ class atkp_template_view {
 
 				foreach ( $fields as $field ) {
 
+					//the keys come from the uploaded file. The export only ever writes the atkp_
+					//meta keys of the template, so everything else is skipped instead of being
+					//created as an arbitrary meta key on the new post.
+					if ( substr( $field, 0, 5 ) !== 'atkp_' ) {
+						continue;
+					}
+
 					$unval = is_array( $mytemplate->fields->$field ) ? ( count( $mytemplate->fields->$field ) > 0 ? $mytemplate->fields->$field[0] : null ) : $mytemplate->fields->$field;
 
 					if ( $unval != null ) {
@@ -133,7 +140,9 @@ class atkp_template_view {
 						}
 					}
 
-					update_post_meta( $post_id, $field, $unval );
+					//die Werte stammen aus der hochgeladenen Datei und sind ungeslasht,
+					//update_post_meta() unslasht aber selbst - siehe set_post_setting()
+					update_post_meta( $post_id, $field, wp_slash( $unval ) );
 				}
 
 			} else {
@@ -384,6 +393,15 @@ class atkp_template_view {
             </div>
 			<?php
 		} else if ( $this->action == 'clone' ) {
+			//the duplicate link is a plain GET link and carries the atkp_edit_template nonce,
+			//but it was never verified - only the delete action checked it
+			$nounce = ATKPTools::get_get_parameter( '_wpnonce', 'string' );
+
+			if ( ! wp_verify_nonce( $nounce, 'atkp_edit_template' ) ) {
+				echo( 'Nonce expired. Please reload page.' );
+				exit;
+			}
+
 			$importpath = apply_filters( 'atkp_template_import_filename', '', $this->templateid );
 
 			//copy template
@@ -410,23 +428,30 @@ class atkp_template_view {
 
 				if ( is_numeric( $this->templateid ) ) {
 					global $wpdb;
-					//custom template
+					//custom template: only a real template may be cloned. The id used to be taken
+					//as given, so the meta of any post could be copied into a new atkp_template.
+					$source_template = ATKPTools::get_template_post( $this->templateid );
+
+					if ( $source_template == null ) {
+						wp_delete_post( $new_post_id, true );
+
+						echo 'not allowed';
+						exit;
+					}
+
 					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
-					$post_meta_infos = $wpdb->get_results( $wpdb->prepare( "SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=%d", absint( $this->templateid ) ) );
-					if ( count( $post_meta_infos ) != 0 ) {
-						$sql_query     = "INSERT INTO $wpdb->postmeta (post_id, meta_key, meta_value) ";
-						$sql_query_sel = array();
-						foreach ( $post_meta_infos as $meta_info ) {
-							$meta_key = $meta_info->meta_key;
-							if ( $meta_key == '_wp_old_slug' ) {
-								continue;
-							}
-							$meta_value      = addslashes( $meta_info->meta_value );
-							$sql_query_sel[] = "SELECT $new_post_id, '$meta_key', '$meta_value'";
+					$post_meta_infos = $wpdb->get_results( $wpdb->prepare( "SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=%d", $source_template->ID ) );
+
+					foreach ( $post_meta_infos as $meta_info ) {
+						if ( $meta_info->meta_key == '_wp_old_slug' ) {
+							continue;
 						}
-						$sql_query .= implode( " UNION ALL ", $sql_query_sel );
-						// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
-						$wpdb->query( $sql_query );
+
+						//this used to be one INSERT ... UNION ALL SELECT built by hand, with the
+						//meta key interpolated unescaped and the value run through addslashes().
+						//add_post_meta() unslashes its input, so the raw database value has to be
+						//slashed to be stored byte identical.
+						add_post_meta( $new_post_id, $meta_info->meta_key, wp_slash( $meta_info->meta_value ) );
 					}
 
 

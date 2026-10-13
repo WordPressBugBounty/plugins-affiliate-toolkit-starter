@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 if ( ! defined( 'ATKP_VERSION_PRODUCTTABLE' ) ) {
-	define( 'ATKP_VERSION_PRODUCTTABLE', 2 );
+	define( 'ATKP_VERSION_PRODUCTTABLE', 3 );
 }
 
 class atkp_producttable_helper {
@@ -40,27 +40,104 @@ class atkp_producttable_helper {
 	 * @return array Array with 'total', 'error' and 'success' counts
 	 */
 	public function count_products_by_shop_with_stats( $shop_id ) {
+		$stats = $this->count_products_by_shop_with_stats_all();
+
+		$shop_id = (int) $shop_id;
+
+		if ( isset( $stats[ $shop_id ] ) ) {
+			return $stats[ $shop_id ];
+		}
+
+		return array( 'total' => 0, 'error' => 0, 'success' => 0 );
+	}
+
+	/**
+	 * Zaehlt die Produkte aller Shops in einer einzigen Abfrage.
+	 *
+	 * Die Shop-Uebersicht rendert diese Zahlen pro Zeile. Vorher lief dafuer eine eigene
+	 * Abfrage je Shop, was bei 20 Shops 20 Abfragen ueber die gesamte Produkttabelle waren.
+	 * Das Ergebnis wird fuer die Dauer des Requests gehalten, weil die Spalte es fuer jede
+	 * Zeile erneut anfragt.
+	 *
+	 * @return array shop_id => array( 'total', 'error', 'success' )
+	 */
+	public function count_products_by_shop_with_stats_all() {
+		if ( self::$shop_stats_cache !== null ) {
+			return self::$shop_stats_cache;
+		}
+
 		global $wpdb;
 
 		$table_name = $this->get_producttable_tablename();
 
-		$query = $wpdb->prepare(
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Tabellenname aus $wpdb, keine Nutzereingabe.
+		$rows = $wpdb->get_results(
 			"SELECT
+            shop_id,
             COUNT(*) as total,
             SUM(CASE WHEN haserror = 1 THEN 1 ELSE 0 END) as error,
             SUM(CASE WHEN haserror = 0 OR haserror IS NULL THEN 1 ELSE 0 END) as success
-        FROM $table_name
-        WHERE shop_id = %d",
-			$shop_id
+        FROM {$table_name}
+        GROUP BY shop_id",
+			ARRAY_A
 		);
 
-		$result = $wpdb->get_row( $query, ARRAY_A );
+		$stats = array();
 
-		return array(
-			'total'   => (int) $result['total'],
-			'error'   => (int) $result['error'],
-			'success' => (int) $result['success']
-		);
+		if ( is_array( $rows ) ) {
+			foreach ( $rows as $row ) {
+				$stats[ (int) $row['shop_id'] ] = array(
+					'total'   => (int) $row['total'],
+					'error'   => (int) $row['error'],
+					'success' => (int) $row['success'],
+				);
+			}
+		}
+
+		self::$shop_stats_cache = $stats;
+
+		return $stats;
+	}
+
+	/**
+	 * Leert den Request-Cache der Shop-Statistik.
+	 */
+	public static function clear_shop_stats_cache() {
+		self::$shop_stats_cache = null;
+	}
+
+	private static $shop_stats_cache = null;
+
+	/**
+	 * Legt einen Index nur an, wenn er noch nicht existiert.
+	 *
+	 * @param string $table_name Tabellenname.
+	 * @param string $index_name Name des Index.
+	 * @param string $columns Spaltenliste inkl. Klammern, z.B. '( `shop_id` )'.
+	 * @param string $leading_column Optional: existiert bereits ein beliebiger Index mit dieser
+	 *                               Spalte an erster Position, wird kein zweiter angelegt.
+	 */
+	private function create_index_if_missing( $table_name, $index_name, $columns, $leading_column = '' ) {
+		global $wpdb;
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Tabellenname aus $wpdb.
+		$exists = $wpdb->get_var( $wpdb->prepare( "SHOW INDEX FROM {$table_name} WHERE Key_name = %s", $index_name ) );
+
+		if ( $exists !== null ) {
+			return;
+		}
+
+		if ( $leading_column !== '' ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Tabellenname aus $wpdb.
+			$exists = $wpdb->get_var( $wpdb->prepare( "SHOW INDEX FROM {$table_name} WHERE Seq_in_index = 1 AND Column_name = %s", $leading_column ) );
+
+			if ( $exists !== null ) {
+				return;
+			}
+		}
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Tabellenname aus $wpdb.
+		$wpdb->query( "CREATE INDEX {$index_name} ON {$table_name} {$columns}" );
 	}
 
 	public function get_product_ids_with_error() {
@@ -191,9 +268,15 @@ class atkp_producttable_helper {
 
 			dbDelta( $sql );
 
-			$wpdb->query( "ALTER TABLE $table_name ADD INDEX {$table_name}_idx_product_id ( `product_id`);" );
-			$wpdb->query( "ALTER TABLE $table_name ADD INDEX {$table_name}_idx_ean ( `ean`);" );
-			$wpdb->query( "ALTER TABLE $table_name ADD INDEX {$table_name}_idx_asin ( `asin`);" );
+			//idempotent: bei einem Versionssprung liefen die alten ALTER-Statements erneut und
+			//scheiterten mit "Duplicate key name" (gleiche Ursache wie bei den Queue-Indizes)
+			$this->create_index_if_missing( $table_name, $table_name . '_idx_product_id', '( `product_id` )', 'product_id' );
+			$this->create_index_if_missing( $table_name, $table_name . '_idx_ean', '( `ean` )', 'ean' );
+			$this->create_index_if_missing( $table_name, $table_name . '_idx_asin', '( `asin` )', 'asin' );
+
+			//ohne diesen Index ist jede Auswertung je Shop ein Full Scan ueber die gesamte
+			//Produkttabelle - auf der Shop-Uebersicht einmal pro Shop-Zeile
+			$this->create_index_if_missing( $table_name, $table_name . '_idx_shop_id', '( `shop_id` )', 'shop_id' );
 
 			update_option( ATKP_PLUGIN_PREFIX . '_version_posts_products', ATKP_VERSION_PRODUCTTABLE );
 

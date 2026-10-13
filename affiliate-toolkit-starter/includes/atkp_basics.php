@@ -3,6 +3,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
+//Obergrenze fuer ein ueber den Bildproxy ausgeliefertes Bild. In wp-config.php ueberschreibbar.
+if ( ! defined( 'ATKP_IMAGE_PROXY_MAX_BYTES' ) ) {
+	define( 'ATKP_IMAGE_PROXY_MAX_BYTES', 10 * 1024 * 1024 );
+}
+
 define( 'ATKP_EVENT', strtolower( ATKP_PLUGIN_PREFIX ) . '_event' );
 define( 'ATKP_CHECK', strtolower( ATKP_PLUGIN_PREFIX ) . '_check' );
 define( 'ATKP_CSVIMPORT', strtolower( ATKP_PLUGIN_PREFIX ) . '_csvimport' );
@@ -238,6 +243,97 @@ function atkp_ajax_products_demo( $products, $parameters ) {
 
 
 add_action( 'template_redirect', 'atkp_out_redirect', 20 );
+/**
+ * Vergleicht eine gespeicherte Bildadresse mit der vom Proxy angefragten.
+ *
+ * Frueher lief das ueber str_contains(): ein einzelnes Zeichen als Parameter traf damit die
+ * erstbeste Adresse des Produkts. Die Anfrage traegt immer die vollstaendige Quelladresse,
+ * also wird exakt verglichen - nur protokollrelative Quellen werden wie beim Erzeugen der
+ * URL um das Schema ergaenzt.
+ *
+ * @param string $candidate In den Produkt-, Listen- oder Shopdaten gespeicherte Adresse.
+ * @param string $requested Angefragte Adresse.
+ *
+ * @return bool
+ */
+function atkp_image_url_matches( $candidate, $requested ) {
+	if ( ! is_string( $candidate ) || $candidate === '' || ! is_string( $requested ) || $requested === '' ) {
+		return false;
+	}
+
+	if ( $candidate === $requested ) {
+		return true;
+	}
+
+	if ( ATKPTools::startsWith( $candidate, '//' ) && 'https:' . $candidate === $requested ) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Darf der Bildproxy diese Adresse abrufen?
+ *
+ * wp_http_validate_url() laesst nur http und https zu und weist Loopback-, Link-Local- und
+ * private Adressen ab. Ohne diese Pruefung waere der Proxy eine Bruecke ins interne Netz,
+ * sobald jemand eine Adresse signieren kann.
+ *
+ * @param string $image_url Abzurufende Adresse.
+ *
+ * @return bool
+ */
+function atkp_image_proxy_is_fetchable( $image_url ) {
+	if ( ! is_string( $image_url ) || $image_url === '' ) {
+		return false;
+	}
+
+	$scheme = strtolower( (string) wp_parse_url( $image_url, PHP_URL_SCHEME ) );
+
+	if ( $scheme !== 'http' && $scheme !== 'https' ) {
+		return false;
+	}
+
+	return (bool) wp_http_validate_url( $image_url );
+}
+
+/**
+ * Holt ein Bild fuer den Proxy ueber die HTTP-API von WordPress.
+ *
+ * Begrenzt Laufzeit, Weiterleitungen und Groesse; die Pruefung aus
+ * atkp_image_proxy_is_fetchable() wird ueber reject_unsafe_urls auch auf jede Weiterleitung
+ * angewendet.
+ *
+ * @param string $image_url Abzurufende Adresse.
+ *
+ * @return string|null Bilddaten oder null, wenn der Abruf nicht verwendbar ist.
+ */
+function atkp_image_proxy_fetch( $image_url ) {
+	$response = wp_remote_get( $image_url, array(
+		'timeout'             => 15,
+		'sslverify'           => true,
+		'redirection'         => 3,
+		'reject_unsafe_urls'  => true,
+		'limit_response_size' => ATKP_IMAGE_PROXY_MAX_BYTES,
+	) );
+
+	if ( is_wp_error( $response ) ) {
+		return null;
+	}
+
+	if ( wp_remote_retrieve_response_code( $response ) !== 200 ) {
+		return null;
+	}
+
+	$image_data = wp_remote_retrieve_body( $response );
+
+	if ( $image_data === '' || strlen( $image_data ) > ATKP_IMAGE_PROXY_MAX_BYTES ) {
+		return null;
+	}
+
+	return $image_data;
+}
+
 function atkp_out_redirect() {
 
 	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
@@ -358,9 +454,9 @@ function atkp_out_redirect() {
 				$shop = atkp_shop::load( $shop_id );
 
 				if ( $shop != null ) {
-					if ( ATKPTools::str_contains( $shop->customlogourl, $image_name ) ) {
+					if ( atkp_image_url_matches( $shop->customlogourl, $image_name ) ) {
 						$image_url = $shop->customlogourl;
-					} else if ( ATKPTools::str_contains( $shop->customsmalllogourl, $image_name ) ) {
+					} else if ( atkp_image_url_matches( $shop->customsmalllogourl, $image_name ) ) {
 						$image_url = $shop->customsmalllogourl;
 					}
 				}
@@ -386,19 +482,19 @@ function atkp_out_redirect() {
 
 				$prd = $prds->get_main_product( $shop_id );
 
-				if ( ATKPTools::str_contains( $prd->largeimageurl, $image_name ) ) {
+				if ( atkp_image_url_matches( $prd->largeimageurl, $image_name ) ) {
 					$image_url = $prd->largeimageurl;
-				} else if ( ATKPTools::str_contains( $prd->mediumimageurl, $image_name ) ) {
+				} else if ( atkp_image_url_matches( $prd->mediumimageurl, $image_name ) ) {
 					$image_url = $prd->mediumimageurl;
-				} else if ( ATKPTools::str_contains( $prd->smallimageurl, $image_name ) ) {
+				} else if ( atkp_image_url_matches( $prd->smallimageurl, $image_name ) ) {
 					$image_url = $prd->smallimageurl;
 				} else if ( $prd->images != null ) {
 					foreach ( $prd->images as $img ) {
-						if ( ATKPTools::str_contains( $img->largeimageurl, $image_name ) ) {
+						if ( atkp_image_url_matches( $img->largeimageurl, $image_name ) ) {
 							$image_url = $img->largeimageurl;
-						} else if ( ATKPTools::str_contains( $img->mediumimageurl, $image_name ) ) {
+						} else if ( atkp_image_url_matches( $img->mediumimageurl, $image_name ) ) {
 							$image_url = $img->mediumimageurl;
-						} else if ( ATKPTools::str_contains( $img->smallimageurl, $image_name ) ) {
+						} else if ( atkp_image_url_matches( $img->smallimageurl, $image_name ) ) {
 							$image_url = $img->smallimageurl;
 						}
 					}
@@ -406,7 +502,7 @@ function atkp_out_redirect() {
 
 				if ( $prd->variations != null ) {
 					foreach ( $prd->variations as $var ) {
-						if ( ATKPTools::str_contains( $var->smallimageurl, $image_name ) ) {
+						if ( atkp_image_url_matches( $var->smallimageurl, $image_name ) ) {
 							$image_url = $var->smallimageurl;
 						}
 					}
@@ -418,19 +514,19 @@ function atkp_out_redirect() {
 				$outputprds = $x->get_list_products( $list_id, 100, false, array(), false, 999, '', $max_num_pages, $found_posts );
 
 				foreach ( $outputprds as $prd ) {
-					if ( ATKPTools::str_contains( $prd->largeimageurl, $image_name ) ) {
+					if ( atkp_image_url_matches( $prd->largeimageurl, $image_name ) ) {
 						$image_url = $prd->largeimageurl;
-					} else if ( ATKPTools::str_contains( $prd->mediumimageurl, $image_name ) ) {
+					} else if ( atkp_image_url_matches( $prd->mediumimageurl, $image_name ) ) {
 						$image_url = $prd->mediumimageurl;
-					} else if ( ATKPTools::str_contains( $prd->smallimageurl, $image_name ) ) {
+					} else if ( atkp_image_url_matches( $prd->smallimageurl, $image_name ) ) {
 						$image_url = $prd->smallimageurl;
 					} else if ( $prd->images != null ) {
 						foreach ( $prd->images as $img ) {
-							if ( ATKPTools::str_contains( $img->largeimageurl, $image_name ) ) {
+							if ( atkp_image_url_matches( $img->largeimageurl, $image_name ) ) {
 								$image_url = $img->largeimageurl;
-							} else if ( ATKPTools::str_contains( $img->mediumimageurl, $image_name ) ) {
+							} else if ( atkp_image_url_matches( $img->mediumimageurl, $image_name ) ) {
 								$image_url = $img->mediumimageurl;
-							} else if ( ATKPTools::str_contains( $img->smallimageurl, $image_name ) ) {
+							} else if ( atkp_image_url_matches( $img->smallimageurl, $image_name ) ) {
 								$image_url = $img->smallimageurl;
 							}
 						}
@@ -450,7 +546,9 @@ function atkp_out_redirect() {
 				$checkkey_base64 = $site_key !== '' ? hash_hmac( 'sha256', $name_param_raw, $site_key ) : '';
 				$checkkey_decurl = $site_key !== '' ? hash_hmac( 'sha256', $image_name, $site_key ) : '';
 
-				$hmac_ok = ( $hash !== '' ) &&
+				//ohne Schluessel wird nicht geraten, sondern abgelehnt - frueher gab es einen
+				//aus dem Pluginpfad ableitbaren Ersatzschluessel
+				$hmac_ok = ( $site_key !== '' ) && ( $hash !== '' ) &&
 				           ( hash_equals( $checkkey_base64, $hash ) || hash_equals( $checkkey_decurl, $hash ) );
 
 				if ( $hmac_ok ) {
@@ -458,6 +556,14 @@ function atkp_out_redirect() {
 				} else {
 					wp_die( esc_html__( 'Image not found in database: ', 'affiliate-toolkit-starter' ) . esc_html( $image_name ) );
 				}
+			}
+
+			//Die Adresse stammt entweder aus den eigenen Daten oder aus einer signierten Anfrage.
+			//Geprueft werden beide Wege: der Proxy darf ausschliesslich oeffentliche http(s)-Ziele
+			//abrufen.
+			if ( ! atkp_image_proxy_is_fetchable( $image_url ) ) {
+				status_header( 400 );
+				wp_die( esc_html__( 'Image url not allowed', 'affiliate-toolkit-starter' ) );
 			}
 
 			// Content-Type dynamisch anhand Dateiendung bestimmen
@@ -477,58 +583,51 @@ function atkp_out_redirect() {
 			$uploads_dir = wp_upload_dir()['basedir'];
 
 			header( 'Content-Type: ' . $mime );
+			header( 'X-Content-Type-Options: nosniff' );
 			header( 'X-Robots-Tag: noindex' );
 			header( 'Cache-Control: public, max-age=86400' );
+
+			if ( $mime === 'image/svg+xml' ) {
+				//fremdes SVG liegt unter der eigenen Domain: ohne Sandbox waere enthaltenes
+				//Script ein XSS im Kontext der Seite
+				header( "Content-Security-Policy: sandbox; default-src 'none'; style-src 'none'" );
+			}
+
 			header( 'HTTP/1.1 200 OK' );
 
-			if ( file_exists( $uploads_dir ) ) {
+			$cache_dir = '';
+
+			if ( is_string( $uploads_dir ) && $uploads_dir !== '' && file_exists( $uploads_dir ) ) {
 				$cache_dir = $uploads_dir . '/affiliate-toolkit-cache/';
 
 				// Verbessertes Verzeichnis-Erstellen mit wp_mkdir_p
-				if ( ! file_exists( $cache_dir ) ) {
-					if ( ! wp_mkdir_p( $cache_dir ) ) {
-						// Fallback ohne Cache
-						readfile( $image_url ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_readfile
-						exit;
-					}
-				}
-
-				$filename = md5( $image_url );
-
-				if ( file_exists( $cache_dir . $filename ) && filemtime( $cache_dir . $filename ) >= ( time() - 86400 ) ) {
-					readfile( $cache_dir . $filename ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_readfile
-					exit;
-				} else {
-					// Verbessertes Remote-Fetch mit wp_remote_get
-					$response = wp_remote_get( $image_url, array(
-						'timeout'   => 15,
-						'sslverify' => true
-					) );
-
-					if ( is_wp_error( $response ) ) {
-						// Fehler beim Abrufen - 404 zurückgeben
-						header( 'HTTP/1.1 404 Not Found' );
-						exit;
-					}
-
-					$status_code = wp_remote_retrieve_response_code( $response );
-					if ( $status_code !== 200 ) {
-						header( 'HTTP/1.1 ' . $status_code . ' Error' );
-						exit;
-					}
-
-					$image_data = wp_remote_retrieve_body( $response );
-
-					if ( $image_data !== '' ) {
-						// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- Writing to cache directory, WP_Filesystem not available at this point.
-						file_put_contents( $cache_dir . $filename, $image_data );
-						readfile( $cache_dir . $filename ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_readfile
-						exit;
-					}
+				if ( ! file_exists( $cache_dir ) && ! wp_mkdir_p( $cache_dir ) ) {
+					$cache_dir = '';
 				}
 			}
 
-			readfile( $image_url ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_readfile
+			$filename = md5( $image_url );
+
+			if ( $cache_dir !== '' && file_exists( $cache_dir . $filename ) && filemtime( $cache_dir . $filename ) >= ( time() - 86400 ) ) {
+				readfile( $cache_dir . $filename ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_readfile
+				exit;
+			}
+
+			//frueher stand hier als letzter Ausweg readfile( $image_url ) auf die entfernte
+			//Adresse: ohne Zeit- und Groessenlimit und abhaengig von allow_url_fopen
+			$image_data = atkp_image_proxy_fetch( $image_url );
+
+			if ( $image_data === null ) {
+				status_header( 404 );
+				exit;
+			}
+
+			if ( $cache_dir !== '' ) {
+				// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- Writing to cache directory, WP_Filesystem not available at this point.
+				file_put_contents( $cache_dir . $filename, $image_data );
+			}
+
+			echo $image_data; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Binaerdaten eines Bildes.
 			exit;
 		}
 	}

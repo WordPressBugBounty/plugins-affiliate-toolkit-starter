@@ -1250,7 +1250,8 @@ if (!ATKPTools::is_license_active_for_plugin($plugin_name)) {
                                 $unval = $data;
                             }
                         }
-                        update_post_meta($post_id, $field, $unval);
+                        //ungeslashte Importdaten, update_post_meta() unslasht selbst
+                        update_post_meta($post_id, $field, wp_slash($unval));
                     }
                 }
 
