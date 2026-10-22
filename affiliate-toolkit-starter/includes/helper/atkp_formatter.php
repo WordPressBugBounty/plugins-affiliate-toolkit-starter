@@ -1847,7 +1847,7 @@ class atkp_formatter {
 	 * @return string
 	 */
 	public function get_image_smallimage( $myproduct, $myimage ) {
-		return '<img src="' . $this->get_image_smallimageurl( $myproduct, $myimage ) . '" alt="' . esc_attr( $myproduct->title ) . '" />';
+		return '<img src="' . esc_url( $this->get_image_smallimageurl( $myproduct, $myimage ) ) . '" alt="' . esc_attr( $myproduct->title ) . '" />';
 	}
 
 	/**
@@ -1857,7 +1857,7 @@ class atkp_formatter {
 	 * @return string
 	 */
 	public function get_image_mediumimage( $myproduct, $myimage ) {
-		return '<img src="' . $this->get_image_mediumimageurl( $myproduct, $myimage ) . '" alt="' . esc_attr( $myproduct->title ) . '" />';
+		return '<img src="' . esc_url( $this->get_image_mediumimageurl( $myproduct, $myimage ) ) . '" alt="' . esc_attr( $myproduct->title ) . '" />';
 	}
 
 	/**
@@ -1867,7 +1867,7 @@ class atkp_formatter {
 	 * @return string
 	 */
 	public function get_image_largeimage( $myproduct, $myimage ) {
-		return '<img src="' . $this->get_image_largeimageurl( $myproduct, $myimage ) . '" alt="' . esc_attr( $myproduct->title ) . '" />';
+		return '<img src="' . esc_url( $this->get_image_largeimageurl( $myproduct, $myimage ) ) . '" alt="' . esc_attr( $myproduct->title ) . '" />';
 	}
 
 	/**
@@ -1931,7 +1931,7 @@ class atkp_formatter {
 	 * @return string
 	 */
 	public function get_smallimage( $myproduct ) {
-		return '<img src="' . $this->get_smallimageurl( $myproduct ) . '" alt="' . esc_attr( $myproduct->title ) . '" />';
+		return '<img src="' . esc_url( $this->get_smallimageurl( $myproduct ) ) . '" alt="' . esc_attr( $myproduct->title ) . '" />';
 	}
 
 	/**
@@ -1940,7 +1940,7 @@ class atkp_formatter {
 	 * @return string
 	 */
 	public function get_mediumnimage( $myproduct ) {
-		return '<img src="' . $this->get_mediumnimageurl( $myproduct ) . '" alt="' . esc_attr( $myproduct->title ) . '" />';
+		return '<img src="' . esc_url( $this->get_mediumnimageurl( $myproduct ) ) . '" alt="' . esc_attr( $myproduct->title ) . '" />';
 	}
 
 	/**
@@ -1949,7 +1949,7 @@ class atkp_formatter {
 	 * @return string
 	 */
 	public function get_largeimage( $myproduct ) {
-		return '<img src="' . $this->get_largeimageurl( $myproduct ) . '" alt="' . esc_attr( $myproduct->title ) . '" />';
+		return '<img src="' . esc_url( $this->get_largeimageurl( $myproduct ) ) . '" alt="' . esc_attr( $myproduct->title ) . '" />';
 	}
 
 	/**
@@ -2837,9 +2837,9 @@ class atkp_formatter {
 		//atkp_open_link
 
 		if ( ATKPSettings::$jslink ) {
-			$link = ' style="cursor: pointer;" onclick="atkp_open_link(\'' . self::urlencode( $url ) . '\', \'_blank\', ' . ATKPSettings::$linktracking . ', ' . $trackingparams . ');" title="' . esc_attr( $title ) . '"';
+			$link = ' style="cursor: pointer;" onclick="atkp_open_link(\'' . esc_js( esc_url_raw( $url ) ) . '\', \'_blank\', ' . ATKPSettings::$linktracking . ', ' . $trackingparams . ');" title="' . esc_attr( $title ) . '"';
 		} else {
-			$link = 'href="' . self::urlencode( $url ) . '" rel="' . esc_attr( self::get_link_rel()).'" ' . $target . ' ' . $tracking . ' title="' . esc_attr($title) . '"';
+			$link = 'href="' . esc_url( $url ) . '" rel="' . esc_attr( self::get_link_rel()).'" ' . $target . ' ' . $tracking . ' title="' . esc_attr($title) . '"';
 		}
 
 		return $link;

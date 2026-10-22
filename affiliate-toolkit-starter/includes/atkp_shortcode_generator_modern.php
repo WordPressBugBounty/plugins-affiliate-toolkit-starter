@@ -489,8 +489,6 @@ class atkp_shortcode_generator_modern {
 			return;
 		}
 
-		ATKPLog::LogDebug( '========== ATKP: Registering blocks... ==========' );
-
 		// Register block scripts (they will be enqueued automatically by WordPress)
 		// Force cache bust with new version
 		$version = ATKP_UPDATE_VERSION . '.blocks.v2';
@@ -702,11 +700,7 @@ class atkp_shortcode_generator_modern {
 			),
 		) );
 
-		if ( $product_block ) {
-			ATKPLog::LogDebug( 'ATKP: Product block registered successfully' );
-			ATKPLog::LogDebug( 'ATKP: Callback type: ' . gettype( $product_block->render_callback ) );
-			ATKPLog::LogDebug( 'ATKP: Callback value: ' . wp_json_encode( $product_block->render_callback ) );
-		} else {
+		if ( ! $product_block ) {
 			ATKPLog::LogError( 'ATKP: ERROR - Product block registration failed!' );
 		}
 
@@ -738,13 +732,9 @@ class atkp_shortcode_generator_modern {
 			),
 		) );
 
-		if ( $list_block ) {
-			ATKPLog::LogDebug( 'ATKP: List block registered successfully' );
-		} else {
+		if ( ! $list_block ) {
 			ATKPLog::LogError( 'ATKP: ERROR - List block registration failed!' );
 		}
-
-		ATKPLog::LogDebug( '========== ATKP: Block registration complete ==========' );
 	}
 
 	/**
@@ -767,26 +757,19 @@ class atkp_shortcode_generator_modern {
 	 * Render product block
 	 */
 	public function render_product_block( $attributes ) {
-		ATKPLog::LogDebug( '========== ATKP RENDER_PRODUCT_BLOCK CALLED ==========' );
-		ATKPLog::LogDebug( 'Attributes: ' . wp_json_encode( $attributes ) );
-
 		// Don't render in editor context - let JavaScript handle it
 		// This is CRUCIAL for block editability after save
 		if ( is_admin() && function_exists( 'get_current_screen' ) ) {
 			$screen = get_current_screen();
 			if ( $screen && $screen->is_block_editor() ) {
-				ATKPLog::LogDebug( 'ATKP: In block editor context - skipping server render' );
 				return '';
 			}
 		}
 
 		// Check if we have a product ID
 		if ( empty( $attributes['productId'] ) ) {
-			ATKPLog::LogDebug( 'ATKP: No product ID - returning notice' );
 			return '<div class="atkp-block-notice" style="padding:20px;background:#f0f0f0;border:2px dashed #999;border-radius:4px;text-align:center;">No product selected. Please select a product in the block settings.</div>';
 		}
-
-		ATKPLog::LogDebug( 'ATKP: Building shortcode for product ID: ' . $attributes['productId'] );
 
 		// Build shortcode
 		$shortcode = '[atkp_product';
@@ -797,7 +780,6 @@ class atkp_shortcode_generator_modern {
 
 		if ( ! empty( $attributes['template'] ) ) {
 			$shortcode .= ' template="' . esc_attr( $attributes['template'] ) . '"';
-			ATKPLog::LogDebug( 'ATKP: Using template: ' . $attributes['template'] );
 		}
 
 		if ( ! empty( $attributes['buttonType'] ) ) {
@@ -841,14 +823,8 @@ class atkp_shortcode_generator_modern {
 
 		$shortcode .= '[/atkp_product]';
 
-		ATKPLog::LogDebug( 'ATKP: Generated shortcode: ' . $shortcode );
-
 		// Execute shortcode and return output
 		$output = do_shortcode( $shortcode );
-
-		ATKPLog::LogDebug( 'ATKP: Output length: ' . strlen( $output ) );
-		ATKPLog::LogDebug( 'ATKP: Output preview: ' . substr( wp_strip_all_tags( $output ), 0, 200 ) );
-		ATKPLog::LogDebug( '========== ATKP RENDER_PRODUCT_BLOCK END ==========' );
 
 		return $output;
 	}
@@ -862,7 +838,6 @@ class atkp_shortcode_generator_modern {
 		if ( is_admin() && function_exists( 'get_current_screen' ) ) {
 			$screen = get_current_screen();
 			if ( $screen && $screen->is_block_editor() ) {
-				ATKPLog::LogDebug( 'ATKP: In block editor context - skipping server render for list' );
 				return '';
 			}
 		}

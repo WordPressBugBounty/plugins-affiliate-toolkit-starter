@@ -543,7 +543,11 @@ class ATKPTools {
 				}
 
 				//info: a blocked request is sometimes answered with an error page and status 200
-				if ( strpos( (string) $mime_type, 'image/' ) !== 0 && ! @getimagesizefromstring( $body ) ) {
+				//info: a content-type starting with image/ is not enough, an attacker controls it (image/x-custom).
+				//      we only trust a content-type that maps to a wordpress image mime, otherwise the bytes must be a real image.
+				$is_known_image_mime = ( strpos( (string) $mime_type, 'image/' ) === 0 && ATKPTools::get_extension_for_mime( $mime_type ) != '' );
+
+				if ( ! $is_known_image_mime && ! @getimagesizefromstring( $body ) ) {
 					$lasterror = 'the response was no image but ' . ( $mime_type != '' ? $mime_type : 'of unknown type' );
 					break;
 				}
@@ -592,6 +596,52 @@ class ATKPTools {
 		}
 
 		return '';
+	}
+
+	/**
+	 * Returns the list of file extensions wordpress knows as an image mime type.
+	 * This is the allow-list of extensions we are willing to write to the uploads folder.
+	 *
+	 * @return string[] lower case extensions, e.g. array( 'jpg', 'jpeg', 'png', ... )
+	 */
+	private static function get_image_extensions() {
+		$image_extensions = array();
+
+		foreach ( wp_get_mime_types() as $extensions => $mime ) {
+			if ( strpos( (string) $mime, 'image/' ) !== 0 ) {
+				continue;
+			}
+
+			foreach ( explode( '|', $extensions ) as $extension ) {
+				$image_extensions[] = strtolower( $extension );
+			}
+		}
+
+		return array_values( array_unique( $image_extensions ) );
+	}
+
+	/**
+	 * Detects the real image extension from the raw bytes, independent of the url or the
+	 * attacker controlled content-type header. Returns '' when the bytes are not a known image.
+	 *
+	 * @param string $image_data
+	 *
+	 * @return string lower case extension without the dot, '' when unknown
+	 */
+	private static function detect_image_extension( $image_data ) {
+		if ( ! function_exists( 'getimagesizefromstring' ) ) {
+			return '';
+		}
+
+		$info = @getimagesizefromstring( $image_data );
+
+		if ( ! $info || empty( $info[2] ) ) {
+			return '';
+		}
+
+		$extension = image_type_to_extension( $info[2], false );
+
+		return $extension ? strtolower( $extension ) : '';
 	}
 
 	public static function upload_image( $image_url, $image_name, $post_id, $idx = 1 ) {
@@ -670,6 +720,24 @@ class ATKPTools {
 
 			if ( $ext == '' || $ext == ' ' ) {
 				$ext = 'jpg';
+			}
+
+			//security: the extension so far is derived from the attacker controlled url/content-type.
+			//          never write a file whose extension is not a known image extension (e.g. php, phtml).
+			$allowed_extensions = ATKPTools::get_image_extensions();
+
+			if ( ! in_array( $ext, $allowed_extensions, true ) ) {
+				//the url/content-type lied about the type, fall back to what the real bytes say
+				$detected_ext = ATKPTools::detect_image_extension( $image_data );
+
+				if ( $detected_ext != '' && in_array( $detected_ext, $allowed_extensions, true ) ) {
+					$ext = $detected_ext;
+				} else {
+					//the download is not a safe image, refuse to persist it
+					ATKPLog::LogError( 'refused to save image, the resolved extension is not an image type (' . $ext . '): ' . $image_url );
+
+					return false;
+				}
 			}
 
 			$image_name = strlen( $image_name ) > 30 ? substr( $image_name, 0, 30 ) : $image_name;
@@ -1461,13 +1529,11 @@ class ATKPTools {
 				if ( $parametervalue == null || $parametervalue == '' ) {
 					return '';
 				} else {
-					/*
-										return  strip_tags(
-											stripslashes(
-												filter_var($parametervalue, FILTER_VALIDATE_URL)
-											)
-										);*/
-					return $parametervalue; //sanitize_text_field( $parametervalue );
+					// Validate and strip dangerous characters/schemes on save. The
+					// output side additionally escapes (esc_url/esc_js) per context;
+					// this is defense in depth so a double quote etc. can never reach
+					// the stored meta value and break out of an attribute on render.
+					return esc_url_raw( $parametervalue );
 				}
 				break;
 			default:
@@ -1544,6 +1610,35 @@ class ATKPTools {
 		}
 
 		return $post;
+	}
+
+	/**
+	 * Checks whether a template name may be used to build a file path.
+	 *
+	 * A non-numeric template reference is resolved as a relative path below the template
+	 * directories ( "<view>/<name>.blade.php" ), and the reference comes from a shortcode
+	 * or - on the AJAX render endpoint - straight from the request. Without this check a
+	 * name like "../../../uploads/x" would leave the template directories, and whatever
+	 * it resolved to would be compiled and executed by BladeOne.
+	 *
+	 * Allowed is what a template file is actually called: letters, digits, underscore,
+	 * dash and the dot of the Blade dot notation ( "folder.view" ). No directory
+	 * separators, no parent references, no null bytes.
+	 *
+	 * @param mixed $template Template name from a shortcode, request or option.
+	 *
+	 * @return bool
+	 */
+	public static function is_safe_template_name( $template ) {
+		if ( ! is_string( $template ) || $template === '' ) {
+			return false;
+		}
+
+		if ( strpos( $template, '..' ) !== false ) {
+			return false;
+		}
+
+		return (bool) preg_match( '/^[A-Za-z0-9_.-]+$/', $template );
 	}
 
 	/**

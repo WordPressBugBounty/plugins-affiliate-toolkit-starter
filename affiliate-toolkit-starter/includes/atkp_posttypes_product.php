@@ -3116,6 +3116,14 @@ class atkp_posttypes_product {
 			return;
 		}
 
+		// The nonce only proves the request came from the product edit screen; it does
+		// not prove this user may edit THIS product. Enforce per-post authorization so a
+		// low-privileged user cannot store meta (e.g. the product URL) on a post they
+		// are not allowed to edit.
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
+
 
 		$post = get_post( $post_id );
 

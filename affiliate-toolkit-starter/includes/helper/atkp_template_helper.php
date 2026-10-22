@@ -759,6 +759,13 @@ class atkp_template_helper {
 					}
 
 				} else {
+					//the name is used as a relative path below the template directory and comes
+					//from a shortcode or the AJAX render endpoint - see
+					//ATKPTools::is_safe_template_name()
+					if ( ! ATKPTools::is_safe_template_name( $template ) ) {
+						return ATKPSettings::$hideerrormessages ? '' : ( 'livetemplate not found: ' . esc_html( $template ) );
+					}
+
 					$templatepath = '';
 
 					if ( file_exists( ATKP_SEARCH_PLUGIN_DIR . '/templates/' . $template . '.blade.php' ) ) {
@@ -971,6 +978,13 @@ class atkp_template_helper {
 				}
 
 			} else {
+				//the name is used as a relative path below the template directories and comes
+				//from a shortcode or the AJAX render endpoint - see
+				//ATKPTools::is_safe_template_name()
+				if ( ! ATKPTools::is_safe_template_name( $template ) ) {
+					return ATKPSettings::$hideerrormessages ? '' : ( 'template not found: ' . esc_html( $template ) );
+				}
+
 				$templatepath = '';
 				foreach ( $views as $view ) {
 					if ( file_exists( $view . '/' . $template . '.blade.php' ) ) {

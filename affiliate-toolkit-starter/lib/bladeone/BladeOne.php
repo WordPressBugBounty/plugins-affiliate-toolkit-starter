@@ -2242,6 +2242,14 @@ class BladeOne {    //<editor-fold desc="fields">
 			}
 		}else {
 
+			//@include/@extends with a name instead of a template id resolves to a relative path
+			//below the template directories - see ATKPTools::is_safe_template_name()
+			if ( $templateName !== null && ! ATKPTools::is_safe_template_name( $templateName ) ) {
+				$this->showError( 'getFile', 'Invalid template name', true );
+
+				return '';
+			}
+
 			$views = atkp_template::get_blade_directories();
 			$templatepath = '';
 			foreach ( $views as $view ) {

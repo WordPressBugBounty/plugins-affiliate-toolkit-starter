@@ -47,7 +47,9 @@ class atkp_template_view {
 			$parentmenu,
 			esc_html__( 'Templates', 'affiliate-toolkit-starter' ),
 			esc_html__( 'Templates', 'affiliate-toolkit-starter' ),
-			'edit_pages',
+			//a template body is compiled and executed, so template management belongs to
+			//administrators - show_page() enforces the same capability
+			'manage_options',
 			ATKP_PLUGIN_PREFIX . '_viewtemplate',
 			array( &$this, 'show_page' )
 		);
