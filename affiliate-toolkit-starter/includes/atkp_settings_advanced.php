@@ -135,11 +135,12 @@ class atkp_settings_advanced {
                                         name="<?php echo esc_attr(ATKP_PLUGIN_PREFIX . '_pricecomparisonsort') ?>"
                                         style="width:300px">
 									<?php
+									//the effective default is 1 (ATKPOptionsCache), so the form preselects it as well
 									$selected = ATKPSettings::$pricecomparisonsort;
 
-									echo '<option value="1" ' . ( $selected == 1 ? 'selected' : '' ) . ' >' . esc_html__( 'Price + Shipping cost', 'affiliate-toolkit-starter' ) . '</option>';
+									echo '<option value="1" ' . ( $selected == '' || $selected == 1 ? 'selected' : '' ) . ' >' . esc_html__( 'Price + Shipping cost', 'affiliate-toolkit-starter' ) . '</option>';
 									echo '<option value="2" ' . ( $selected == 2 ? 'selected' : '' ) . '>' . esc_html__( 'Price', 'affiliate-toolkit-starter' ) . '</option>';
-									echo '<option value="3" ' . ( $selected == '' || $selected == 3 ? 'selected' : '' ) . '>' . esc_html__( 'Main product and Price', 'affiliate-toolkit-starter' ) . '</option>';
+									echo '<option value="3" ' . ( $selected == 3 ? 'selected' : '' ) . '>' . esc_html__( 'Main product and Price', 'affiliate-toolkit-starter' ) . '</option>';
 									echo '<option value="4" ' . ( $selected == 4 ? 'selected' : '' ) . '>' . esc_html__( 'Main product and Price + Shipping cost', 'affiliate-toolkit-starter' ) . '</option>';
 									?>
                                 </select>

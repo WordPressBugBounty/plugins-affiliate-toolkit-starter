@@ -5,7 +5,7 @@
             <div class="atkp-variation">
                 @if($variation->smallimageurl != '')
                     <div class="atkp-variationimage">
-                        <img src="{{$formatter->get_smallimageurl($variation)}}">
+                        <img src="{{$formatter->get_smallimageurl($variation)}}" alt="{{$formatter->get_image_alt($variation)}}">
                     </div>
                 @endif
                 <div class="atkp-variationinner" @if($variation->smallimageurl == '') style="width:100%" @endif>

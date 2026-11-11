@@ -190,7 +190,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 		$region = '';
 
 		switch ( $country ) {
-			default;
+			default:
 			case 'de':
 				$host   = 'webservices.amazon.de';
 				$region = 'eu-west-1';
@@ -560,7 +560,7 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 		$use_mode = 'api'; // default to API
 		if ($noapi_mode == 4 || $noapi_mode == 5) {
 			$use_mode = 'creators';
-		} else if ($noapi_available && ($noapi_mode == 2 || $noapi_mode == 3)) {
+		} else if ($noapi_available && $noapi_mode == 2) {
 			$use_mode = 'noapi';
 		} else if ($noapi_available && !$apikey) {
 			$use_mode = 'noapi';
@@ -692,7 +692,11 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 								<?php } ?>
 							</div>
 							<p class="atkp-mode-option-desc">
-								<?php echo esc_html__( 'Retrieve product data without API limits. Included in your affiliate-toolkit license.', 'affiliate-toolkit-starter' ) ?>
+								<?php if ( $noapi_available ) { ?>
+									<?php echo esc_html__( 'Retrieve product data without API limits. Included in your affiliate-toolkit license.', 'affiliate-toolkit-starter' ) ?>
+								<?php } else { ?>
+									<?php echo esc_html__( 'To use No-API Mode, you need to activate the "affiliate-toolkit - Amazon No API Mode" extension.', 'affiliate-toolkit-starter' ) ?>
+								<?php } ?>
 							</p>
 						</label>
 
@@ -734,26 +738,31 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 							$('#atkp-info-' + selectedMode).addClass('active');
 
 							// Update hidden sitestripe value based on mode
+							atkpUpdateSitestripeValue(selectedMode);
+						});
+
+						// 1 = API, 2 = No-API, 3 = API with No-API fallback, 4 = Creators API, 5 = Creators API with No-API fallback
+						function atkpUpdateSitestripeValue(selectedMode) {
 							var hiddenSitestripeField = $('#<?php echo esc_js(ATKP_SHOP_POSTTYPE . '_sitestripe_hidden'); ?>');
-							var visibleSitestripeField = $('#<?php echo esc_js(ATKP_SHOP_POSTTYPE . '_sitestripe'); ?>');
+							var fallbackField = $('#atkp_noapi_fallback');
+							// Without the checkbox (No-API extension inactive) keep the stored fallback setting
+							var currentValue = String(hiddenSitestripeField.val());
+							var fallback = fallbackField.length ? fallbackField.is(':checked') : (currentValue == '3' || currentValue == '5');
 
 							if (selectedMode == 'noapi') {
-								// When NoAPI mode is selected, get value from dropdown or default to 2
-								var currentVal = visibleSitestripeField.length ? visibleSitestripeField.val() : hiddenSitestripeField.val();
-								if (!currentVal || currentVal == '1' || currentVal == '4' || currentVal == '5') {
-									currentVal = '2'; // Default to Always Active
-								}
-								hiddenSitestripeField.val(currentVal);
-								if (visibleSitestripeField.length) {
-									visibleSitestripeField.val(currentVal);
-								}
+								$('#atkp-noapi-fallback-row').hide();
+								hiddenSitestripeField.val('2');
 							} else if (selectedMode == 'creators') {
-								// When Creators API mode is selected, set to 4
-								hiddenSitestripeField.val('4');
+								$('#atkp-noapi-fallback-row').show();
+								hiddenSitestripeField.val(fallback ? '5' : '4');
 							} else {
-								// When API mode is selected, set to Disabled (1)
-								hiddenSitestripeField.val('1');
+								$('#atkp-noapi-fallback-row').show();
+								hiddenSitestripeField.val(fallback ? '3' : '1');
 							}
+						}
+
+						$('#atkp_noapi_fallback').on('change', function() {
+							atkpUpdateSitestripeValue($('input[name="atkp_mode_selection"]:checked').val());
 						});
 
 						// Sync dropdown changes back to hidden field
@@ -967,6 +976,10 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 									<?php
 									require_once ATKP_AMAZON_PLUGIN_DIR . '/includes/atkp_marketplace_mapper.php';
 									$current_version = ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_creators_credential_version' );
+									if ( $current_version == '' ) {
+										//nothing saved yet: preselect the version of the marketplace instead of the first entry (NA)
+										$current_version = atkp_marketplace_mapper::get_default_version( ATKPTools::get_post_setting( $post->ID, ATKP_SHOP_POSTTYPE . '_access_website' ) );
+									}
 									foreach ( atkp_marketplace_mapper::get_credential_versions() as $value => $label ) {
 										echo '<option value="' . esc_attr( $value ) . '"' . ( $current_version == $value ? ' selected' : '' ) . '>' . esc_html( $label ) . '</option>';
 									}
@@ -979,6 +992,22 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 				</div>
 			</td>
 		</tr>
+
+		<?php if ( $noapi_available ) { ?>
+		<tr id="atkp-noapi-fallback-row">
+			<th scope="row">
+				<label for="atkp_noapi_fallback">
+					<?php echo esc_html__( 'No-API fallback', 'affiliate-toolkit-starter' ) ?>
+				</label>
+			</th>
+			<td>
+				<input type="checkbox" id="atkp_noapi_fallback" value="1" <?php echo checked( true, $noapi_mode == 3 || $noapi_mode == 5, false ); ?>>
+				<label for="atkp_noapi_fallback">
+					<?php echo esc_html__( 'Use the No-API mode as fallback when the API returns an error or no price for a product', 'affiliate-toolkit-starter' ) ?>
+				</label>
+			</td>
+		</tr>
+		<?php } ?>
 
 		<!-- Common Amazon Settings (visible for all modes) -->
 		<tr>
@@ -2317,6 +2346,15 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 			case "EAN":
 
                 if ( $this->sitetripemode == 2) {
+	                //the No-API mode can only load products by ASIN
+	                foreach ( $asins as $title ) {
+		                $responseitem               = new atkp_response_item();
+		                $responseitem->errormessage = 'The No-API mode can only load products by ASIN. A lookup by ' . strtoupper( $id_type ) . ' requires the Amazon API.';
+		                $responseitem->uniqueid     = $title;
+		                $responseitem->uniquetype   = $id_type;
+		                $atkpresponse->responseitems[] = $responseitem;
+	                }
+
                     return $atkpresponse;
                 }
 
@@ -2407,9 +2445,13 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 			case 'ARTICLENUMBER':
 			case 'ASIN':
 
-				if ( $this->sitetripemode == 2 && $id_type == 'ASIN' ) {
-					//bevorzugte nutzung
+				if ( $this->sitetripemode == 2 ) {
+					//bevorzugte nutzung, die artikelnummer ist bei amazon die ASIN
 					$atkpresponse = $this->load_sitestripeproduct( $asins );
+
+					foreach ( $atkpresponse->responseitems as $responseitem ) {
+						$responseitem->uniquetype = $id_type;
+					}
 
 					return $atkpresponse;
 				}
@@ -3122,6 +3164,13 @@ class atkp_shop_provider_amazon extends atkp_shop_provider_base {
 		$mylist->updatedon = ATKPTools::get_currenttime();
 		$mylist->asins     = array();
 		$mylist->products  = null;
+
+		if ( $this->sitetripemode == 2 && $this->accessKey == '' ) {
+			//lists are only available through the Amazon API, the No-API mode can only load single products by ASIN
+			$mylist->message = 'Lists are not supported in No-API mode. Enter the credentials of the Amazon API or switch the shop to the Creators API.';
+
+			return $mylist;
+		}
 
 		switch ( $search_request->request_type ) {
             case atkp_list_request_type::TopSellers:

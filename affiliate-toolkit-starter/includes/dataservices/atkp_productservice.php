@@ -497,9 +497,14 @@ class atkp_productservice {
 							if ( $udf->format == 'number' ) {
 								//extract number from string
 
-								$fieldvalue = preg_replace( "/[^0-9]/", "", $fieldvalue );
+								if ( class_exists( 'atkp_url_scraper' ) && method_exists( 'atkp_url_scraper', 'parse_number' ) ) {
+									// keeps the decimals: "1,8 l" -> 1.8
+									$fieldvalue = atkp_url_scraper::parse_number( $fieldvalue );
+								} else {
+									$fieldvalue = preg_replace( "/[^0-9]/", "", $fieldvalue );
 
-								$fieldvalue = intval( $fieldvalue );
+									$fieldvalue = intval( $fieldvalue );
+								}
 							}
 
 							//$oldval =ATKPTools::get_post_setting( $post_id, ATKP_PRODUCT_POSTTYPE.'_'.$fieldname);
@@ -743,7 +748,7 @@ class atkp_productservice {
 
 				$shortener = new atkp_shortener();
 
-				$url = $shortener->shorten_url( $apikey, $apilogin, $redirtype, $url );
+				$url = $shortener->shorten_url( $url, get_the_title( $productid ), $redirtype, $apikey );
 
 				break;
 		}

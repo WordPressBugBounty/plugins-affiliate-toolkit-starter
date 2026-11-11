@@ -966,11 +966,11 @@ class atkp_options {
 
 
 	public function get_primbtn_size() {
-		return $this->get_cachedoption( '_primbtn_size', 'mormal' );
+		return $this->get_cachedoption( '_primbtn_size', 'normal' );
 	}
 
 	public function get_secbtn_size() {
-		return $this->get_cachedoption( '_secbtn_size', 'mormal' );
+		return $this->get_cachedoption( '_secbtn_size', 'normal' );
 	}
 
 	public function get_primbtn_background_color() {
@@ -1014,7 +1014,7 @@ class atkp_options {
 	}
 
 	public function get_price_color() {
-		return $this->get_cachedoption( '_price_color', '#00000' );
+		return $this->get_cachedoption( '_price_color', '#000000' );
 	}
 
 	//color

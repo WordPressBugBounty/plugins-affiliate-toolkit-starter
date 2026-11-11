@@ -727,7 +727,7 @@ class atkp_template_helper {
 		}
 	}
 
-	public function createLiveOutput( $shopids, $templatelive, $template, $filterstr, $elementcss, $containercss, $limit ) {
+	public function createLiveOutput( $shopids, $templatelive, $template, $filterstr, $elementcss, $containercss, $limit, $hidedisclaimer = false ) {
 
 		$views = atkp_template::get_blade_directories();
 
@@ -735,7 +735,7 @@ class atkp_template_helper {
 			$template = 'default_live';
 		}
 
-		$renderedOutput = apply_filters( 'atkp_livetemplate_render_output', false, $template, $filterstr, $elementcss, $containercss, $limit );
+		$renderedOutput = apply_filters( 'atkp_livetemplate_render_output', false, $template, $filterstr, $elementcss, $containercss, $limit, $hidedisclaimer );
 
 		if ( $renderedOutput ) {
 			$resultValue = $renderedOutput;
@@ -808,7 +808,7 @@ class atkp_template_helper {
 			$init = esc_attr( ! ATKPTools::exists_get_parameter( 'search' ) ? "1" : "0" );
 
 
-			$parameters = new atkp_livetemplate_parameters( '', $template, $filterstr, $elementcss, $containercss, $limit, ATKPTools::get_endpointurl(), $templatelive, $init );
+			$parameters = new atkp_livetemplate_parameters( '', $template, $filterstr, $elementcss, $containercss, $limit, ATKPTools::get_endpointurl(), $templatelive, $init, $hidedisclaimer );
 
 			$resultValue = $this->run_blade( $mytemplate, $shopsfiltered, $views, $parameters, 'shops' );
 		}

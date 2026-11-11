@@ -41,7 +41,7 @@ if ( defined( 'WP_LOAD_PATH' ) ) {
 }
 
 if ( ! file_exists( $atkp_default_wp_path ) ) {
-	atkp_cron_error_page( 'wp-load.php not found', 'WordPress could not be loaded. The file was expected at: ' . htmlspecialchars( $atkp_default_wp_path ) );
+	atkp_cron_error_page( 'wp-load.php not found', 'WordPress could not be loaded. The file was expected at: ' . $atkp_default_wp_path );
 }
 
 try {
@@ -58,6 +58,24 @@ try {
 }
 
 function atkp_cron_error_page( string $title, ?string $detail = null, ?\Throwable $exception = null ) {
+	// This URL is publicly reachable: file paths, messages and stack traces are only shown on the
+	// command line or with WP_DEBUG enabled. They always go to the PHP error log.
+	$show_details = php_sapi_name() == 'cli' || ( defined( 'WP_DEBUG' ) && WP_DEBUG );
+
+	if ( $exception ) {
+		error_log( 'affiliate-toolkit cron: ' . $title . ' in ' . $exception->getFile() . ':' . $exception->getLine() . "\n" . $exception->getTraceAsString() ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+	} else {
+		error_log( 'affiliate-toolkit cron: ' . $title . ( $detail ? ' - ' . $detail : '' ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+	}
+
+	if ( ! $show_details ) {
+		if ( $exception ) {
+			$title = 'An error occurred while running the cron job';
+		}
+		$detail    = 'The details have been written to the PHP error log. Enable WP_DEBUG to show them on this page.';
+		$exception = null;
+	}
+
 	if ( ! headers_sent() ) {
 		header( 'Content-Type: text/html; charset=UTF-8', true, 500 );
 	}
@@ -101,7 +119,7 @@ function atkp_cron_error_page( string $title, ?string $detail = null, ?\Throwabl
 				<h1>affiliate-toolkit &mdash; Cron Error</h1>
 			</div>
 			<div class="atkp-error-card">
-				<div class="atkp-error-card-header"><?php echo esc_html( $title ); ?></div>
+				<div class="atkp-error-card-header"><?php echo htmlspecialchars( (string) $title, ENT_QUOTES, 'UTF-8' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
 				<div class="atkp-error-card-body">
 					<?php if ( $detail ) : ?>
 						<p><?php
@@ -112,7 +130,7 @@ function atkp_cron_error_page( string $title, ?string $detail = null, ?\Throwabl
 
 					<?php if ( $exception ) : ?>
 						<dl class="atkp-error-info">
-							<dt>File</dt><dd><?php echo esc_html( $exception->getFile() ); ?></dd>
+							<dt>File</dt><dd><?php echo htmlspecialchars( $exception->getFile(), ENT_QUOTES, 'UTF-8' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></dd>
 							<dt>Line</dt><dd><?php echo (int) $exception->getLine(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></dd>
 							<dt>Code</dt><dd><?php echo htmlspecialchars( $exception->getCode(), ENT_QUOTES, 'UTF-8' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></dd>
 						</dl>
@@ -155,6 +173,10 @@ class atkp_external_cron {
 			echo 'cli mode running'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		} else {
 			if ( $key == '' || trim( $cron_key ) != trim( $key ) ) {
+				// die( int ) only sets the exit status, the HTTP status has to be sent explicitly
+				if ( ! headers_sent() ) {
+					http_response_code( 401 );
+				}
 				echo 'key invalid'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				die( 401 );
 			}
@@ -165,6 +187,9 @@ class atkp_external_cron {
 			default:
 			case 'wpcron':
 				//wp cron? nothing todo...
+			if ( ! headers_sent() ) {
+				http_response_code( 404 );
+			}
 			echo 'external cronjob deactivated'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			die( 404 );
 			case 'external':

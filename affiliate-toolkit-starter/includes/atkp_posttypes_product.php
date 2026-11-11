@@ -432,8 +432,8 @@ class atkp_posttypes_product {
 
 			'public'              => false,
 			// it's not public, it shouldn't have it's own permalink, and so on
-			'publicly_queriable'  => false,
-			// you should be able to query it
+			'publicly_queryable'  => false,
+			// it shouldn't be queryable on the frontend
 			'show_ui'             => true,
 			// you should be able to edit it in wp-admin
 			'exclude_from_search' => true,

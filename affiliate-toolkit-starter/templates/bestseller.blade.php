@@ -17,10 +17,10 @@
                     @if($parameters->get_linkimage() && $formatter->is_title_link_available($product))
                         <a {!! $formatter->get_title_link($product) !!}><img class="atkp-image"
                                                                              src="{{$formatter->get_mediumnimageurl($product)}}"
-                                                                             alt="{{$formatter->get_title($product)}}"/></a>
+                                                                             alt="{{$formatter->get_image_alt($product)}}"/></a>
                     @else
                         <img class="atkp-image" src="{{$formatter->get_mediumnimageurl($product)}}"
-                             alt="{{$formatter->get_title($product)}}"/>
+                             alt="{{$formatter->get_image_alt($product)}}"/>
                     @endif
                         @if($parameters->get_showstarrating() && (!$parameters->get_hideemptystars() || $product->rating > 0))
                         <div class="atkp-rating">{!!$formatter->get_star_rating($product)!!}</div>

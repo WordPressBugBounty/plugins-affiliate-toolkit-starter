@@ -331,9 +331,9 @@ class atkp_posttypes_template {
 
 									foreach ( $customcmds as $prdcmd => $caption ) {
 										if ( ATKPTools::startsWith( $prdcmd, '$offer' ) ) {
-											echo esc_html( '<a href="javascript:void(0)" class="atkp-insert" data-insertvalue="{!!' . esc_attr( $prdcmd ) . '!!}">' . esc_html( $caption ) . '</a>' );
+											echo '<a href="javascript:void(0)" class="atkp-insert" data-insertvalue="{!!' . esc_attr( $prdcmd ) . '!!}">' . esc_html( $caption ) . '</a>';
 										} else {
-											echo esc_html( '<a href="javascript:void(0)" class="atkp-insert" data-insertvalue="{!!$formatter->' . esc_attr( $prdcmd ) . '!!}">' . esc_html( $caption ) . '</a>' );
+											echo '<a href="javascript:void(0)" class="atkp-insert" data-insertvalue="{!!$formatter->' . esc_attr( $prdcmd ) . '!!}">' . esc_html( $caption ) . '</a>';
 										}
 									}
 
@@ -348,7 +348,7 @@ class atkp_posttypes_template {
 										<?php
 
 										foreach ( $acfcmds as $prdcmd => $caption ) {
-											echo esc_html( '<a href="javascript:void(0)" class="atkp-insert" data-insertvalue="{!!' . esc_attr( $prdcmd ) . '!!}">' . esc_html( $caption ) . '</a>' );
+											echo '<a href="javascript:void(0)" class="atkp-insert" data-insertvalue="{!!' . esc_attr( $prdcmd ) . '!!}">' . esc_html( $caption ) . '</a>';
 										}
 
 										?>
@@ -757,8 +757,8 @@ class atkp_posttypes_template {
 			'all_items'          => __( 'Templates', 'affiliate-toolkit-starter' ),
 			'view_item'          => __( 'View Template', 'affiliate-toolkit-starter' ),
 			'search_items'       => __( 'Search Templates', 'affiliate-toolkit-starter' ),
-			'not_found'          => __( 'No lists found', 'affiliate-toolkit-starter' ),
-			'not_found_in_trash' => __( 'No lists found in the Trash', 'affiliate-toolkit-starter' ),
+			'not_found'          => __( 'No templates found', 'affiliate-toolkit-starter' ),
+			'not_found_in_trash' => __( 'No templates found in the Trash', 'affiliate-toolkit-starter' ),
 			'parent_item_colon'  => '',
 			'menu_name'          => __( 'Templates', 'affiliate-toolkit-starter' ),
 		);
@@ -767,7 +767,7 @@ class atkp_posttypes_template {
 			'description' => 'Holds our templates',
 
 			'public'              => false,  // it's not public, it shouldn't have it's own permalink, and so on
-			'publicly_queriable'  => false,  // you should be able to query it
+			'publicly_queryable'  => false,  // it shouldn't be queryable on the frontend
 			'show_ui'             => true,  // you should be able to edit it in wp-admin
 			'exclude_from_search' => true,  // you should exclude it from search results
 			'show_in_nav_menus'   => false,  // you shouldn't be able to add it to menus
@@ -968,6 +968,7 @@ class atkp_posttypes_template {
                                 products: JSON.stringify(atkpproducts),
                                 parameters: JSON.stringify(atkpparameters),
                                 preview: true,
+                                wp_nounce: '<?php echo esc_js( wp_create_nonce( 'generate_atkp_preview' ) ); ?>'
                             },
                             function (data, status) {
 
@@ -1962,20 +1963,23 @@ class atkp_posttypes_template {
 
                 var mainEditor = null;
                 var filterEditor = null;
+                // wp_enqueue_code_editor() loads the WordPress core bundle, which exposes wp.CodeMirror (no global CodeMirror).
+                // If syntax highlighting is disabled in the user profile, neither exists and the plain textareas are used.
+                var atkpCodeMirror = (window.wp && window.wp.CodeMirror) ? window.wp.CodeMirror : window.CodeMirror;
                 var htmlelements = ["atkp_template_body", "atkp_template_mobilebody", "atkp_template_css", "atkp_template_filterbody", "atkp_template_header", "atkp_template_footer"];
 
                 htmlelements.forEach(function (element) {
 
                     if (document.getElementById(element) == null)
                         console.log("html element not found: " + element);
-                    else {
+                    else if (typeof atkpCodeMirror !== 'undefined') {
 
                         var lang = jQuery('#' + element).data('lang');
                         if (typeof lang === 'undefined')
                             lang = "htmlmixed";
 
                         //console.log("html element lang set: " + element);
-                        var editor = CodeMirror.fromTextArea(document.getElementById(element), {
+                        var editor = atkpCodeMirror.fromTextArea(document.getElementById(element), {
                             mode: lang,
                             autoCloseTags: true,
                             lineNumbers: true,
@@ -1993,7 +1997,8 @@ class atkp_posttypes_template {
 
                             if (!editor.state.completionActive &&
                                 !excludedIntelliSenseTriggerKeys[(event.keyCode || event.which).toString()]) {
-                                CodeMirror.commands.autocomplete(editor, null, {completeSingle: false});
+                                if (atkpCodeMirror.commands.autocomplete)
+                                    atkpCodeMirror.commands.autocomplete(editor, null, {completeSingle: false});
                             }
                         });
 
@@ -2019,7 +2024,7 @@ class atkp_posttypes_template {
                         html2 = $j("<textarea/>").html(html).val()
                     }
 
-                    insertString(mainEditor, html2);
+                    insertString(mainEditor, html2, 'atkp_template_body');
                 });
 
                 $j(".atkp-filter-insert").click(function () {
@@ -2033,7 +2038,7 @@ class atkp_posttypes_template {
                         //html2 = $j("<textarea/>").html(html).val()
                     }
 
-                    insertString(filterEditor, html2);
+                    insertString(filterEditor, html2, 'atkp_template_filterbody');
                 });
 
                 $j("#atkp-editorhelp-link").click(function () {
@@ -2055,7 +2060,20 @@ class atkp_posttypes_template {
             });
 
 
-            function insertString(editor, str) {
+            function insertString(editor, str, textareaid) {
+
+                if (!editor) {
+                    // no code editor loaded: insert into the plain textarea at the cursor
+                    var textarea = document.getElementById(textareaid);
+                    if (textarea) {
+                        var start = textarea.selectionStart || 0;
+                        var end = textarea.selectionEnd || 0;
+                        textarea.value = textarea.value.substring(0, start) + str + textarea.value.substring(end);
+                        textarea.selectionStart = textarea.selectionEnd = start + String(str).length;
+                        textarea.focus();
+                    }
+                    return;
+                }
 
                 var selection = editor.getSelection();
 

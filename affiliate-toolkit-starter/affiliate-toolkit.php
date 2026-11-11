@@ -2,7 +2,7 @@
 /*** Plugin Name: affiliate-toolkit – Multi-Network Affiliate & Amazon Product Display
  * Plugin URI: https://www.affiliate-toolkit.com
  * Description: Display products from Amazon, AWIN, CJ, eBay and 10+ affiliate networks with beautiful product boxes, comparison tables, and automatic price updates.
- * Version: 3.9.3
+ * Version: 3.9.4
  * Requires PHP:      8.2
  * Author: SERVIT Software Solutions
  * Author URI: https://servit.dev
@@ -12,7 +12,7 @@
  * License: GPL2
  */
 
-define( 'ATKP_UPDATE_VERSION', '3.9.3' );
+define( 'ATKP_UPDATE_VERSION', '3.9.4' );
 define( 'ATKP_UPDATE_ITEM_ID', '7680' );
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -27,6 +27,37 @@ define( 'ATKP_PLUGIN_FILE', __FILE__ );
 require_once ATKP_PLUGIN_DIR . '/includes/atkp_autoloader.php';
 new atkp_autoloader();
 atkp_autoloader::$loader->register_classes();
+
+add_filter( 'load_textdomain_mofile', 'atkp_lang_fallback_mofile', 10, 2 );
+/**
+ * The plugin and its extensions ship translations for de_DE only. WordPress looks for a file
+ * that matches the site locale exactly, so a site running in de_AT, de_CH or "Deutsch (Sie)"
+ * (de_DE_formal) got no translation at all. When the file for the locale is missing, the file of
+ * another locale with the same language is used instead.
+ *
+ * @param string $mofile
+ * @param string $domain
+ *
+ * @return string
+ */
+function atkp_lang_fallback_mofile( $mofile, $domain ) {
+	if ( strpos( $domain, 'affiliate-toolkit' ) !== 0 || is_readable( $mofile ) ) {
+		return $mofile;
+	}
+
+	if ( ! preg_match( '/^(.*-)([a-z]{2,3})_[A-Za-z_]+\.mo$/', $mofile, $matches ) ) {
+		return $mofile;
+	}
+
+	$candidates = glob( $matches[1] . $matches[2] . '_*.mo' );
+	if ( empty( $candidates ) ) {
+		return $mofile;
+	}
+
+	$preferred = $matches[1] . $matches[2] . '_' . strtoupper( $matches[2] ) . '.mo';
+
+	return in_array( $preferred, $candidates, true ) ? $preferred : $candidates[0];
+}
 
 add_action( 'init', 'atkp_lang' );
 function atkp_lang() {
@@ -77,8 +108,10 @@ require_once ATKP_PLUGIN_DIR . '/includes/atkp_newsletter_popup.php';
 add_action( 'atkp_initialize_widgets', 'atkp_initialize_widgets_callback' );
 
 function atkp_initialize_widgets_callback() {
-
-	new atkp_widget();
+	// Only load the widget class here: the file registers the widget on widgets_init. Creating an
+	// instance at this point translated its name before the text domain was loaded (WordPress
+	// reports "Translation loading ... was triggered too early" and the name stayed English).
+	class_exists( 'atkp_widget' );
 }
 
 
@@ -392,13 +425,17 @@ function atkp_frontend_styles() {
 		//var_dump($custom_scripturl);exit;
 
 		if ( $custom_scripturl == null ) {
-			ATKPTools::add_global_scripts( 'atkp-custom-scripts' );
+			// scripts.js is only written when the settings are saved: until then the script is added inline.
+			// It must be attached to a registered handle, otherwise wp_add_inline_script() drops it silently.
+			ATKPTools::add_global_scripts( 'atkp-scripts' );
 		} else {
 			wp_register_script( 'atkp-custom-scripts', $custom_scripturl, array( 'jquery' ), ATKP_UPDATE_VERSION, true );
 		}
 
 		wp_enqueue_script( 'atkp-scripts' );
-		wp_enqueue_script( 'atkp-custom-scripts' );
+		if ( $custom_scripturl != null ) {
+			wp_enqueue_script( 'atkp-custom-scripts' );
+		}
 	}
 }
 

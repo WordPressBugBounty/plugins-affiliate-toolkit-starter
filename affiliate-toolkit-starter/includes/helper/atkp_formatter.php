@@ -931,20 +931,6 @@ class atkp_formatter {
 			return 0;
 		}
 
-
-		return $myproduct->baseprice;
-	}
-
-	/**
-	 * @param null|atkp_product $myproduct
-	 *
-	 * @return int
-	 */
-	public function get_baseprice_fallback( $myproduct ) {
-		if ( $myproduct == null ) {
-			return 0;
-		}
-
 		$myproduct = $this->get_datasource_product( $myproduct );
 
 		if ( $myproduct->salepricefloat <= 0 && $myproduct->variations != null ) {
@@ -961,6 +947,19 @@ class atkp_formatter {
 	 *
 	 * @return int
 	 */
+	public function get_baseprice_fallback( $myproduct ) {
+		if ( $myproduct == null ) {
+			return 0;
+		}
+
+		return $myproduct->baseprice;
+	}
+
+	/**
+	 * @param null|atkp_product $myproduct
+	 *
+	 * @return int
+	 */
 	public function get_shipping_value( $myproduct ) {
 		if ( $myproduct == null ) {
 			return 0;
@@ -970,7 +969,7 @@ class atkp_formatter {
 
 		if ( $myproduct->salepricefloat <= 0 && $myproduct->variations != null ) {
 			foreach ( $myproduct->variations as $variation ) {
-				return $variation->shippngfloat;
+				return $variation->shippingfloat;
 			}
 		}
 
@@ -1841,13 +1840,32 @@ class atkp_formatter {
 	}
 
 	/**
+	 * Alt text of a product image, unescaped. Defaults to the product title; extensions
+	 * can return their own text through the filter atkp_product_image_alt.
+	 *
+	 * @param null|atkp_product $myproduct
+	 * @param null|atkp_product_image $myimage null for the main image
+	 *
+	 * @return string
+	 */
+	public function get_image_alt( $myproduct, $myimage = null ) {
+		if ( ! is_object( $myproduct ) ) {
+			return '';
+		}
+
+		$alt = apply_filters( 'atkp_product_image_alt', (string) $myproduct->title, $myproduct, $myimage );
+
+		return is_string( $alt ) ? $alt : (string) $myproduct->title;
+	}
+
+	/**
 	 * @param null|atkp_product $myproduct
 	 * @param null|atkp_product_image $myimage
 	 *
 	 * @return string
 	 */
 	public function get_image_smallimage( $myproduct, $myimage ) {
-		return '<img src="' . esc_url( $this->get_image_smallimageurl( $myproduct, $myimage ) ) . '" alt="' . esc_attr( $myproduct->title ) . '" />';
+		return '<img src="' . esc_url( $this->get_image_smallimageurl( $myproduct, $myimage ) ) . '" alt="' . esc_attr( $this->get_image_alt( $myproduct, $myimage ) ) . '" />';
 	}
 
 	/**
@@ -1857,7 +1875,7 @@ class atkp_formatter {
 	 * @return string
 	 */
 	public function get_image_mediumimage( $myproduct, $myimage ) {
-		return '<img src="' . esc_url( $this->get_image_mediumimageurl( $myproduct, $myimage ) ) . '" alt="' . esc_attr( $myproduct->title ) . '" />';
+		return '<img src="' . esc_url( $this->get_image_mediumimageurl( $myproduct, $myimage ) ) . '" alt="' . esc_attr( $this->get_image_alt( $myproduct, $myimage ) ) . '" />';
 	}
 
 	/**
@@ -1867,7 +1885,7 @@ class atkp_formatter {
 	 * @return string
 	 */
 	public function get_image_largeimage( $myproduct, $myimage ) {
-		return '<img src="' . esc_url( $this->get_image_largeimageurl( $myproduct, $myimage ) ) . '" alt="' . esc_attr( $myproduct->title ) . '" />';
+		return '<img src="' . esc_url( $this->get_image_largeimageurl( $myproduct, $myimage ) ) . '" alt="' . esc_attr( $this->get_image_alt( $myproduct, $myimage ) ) . '" />';
 	}
 
 	/**
@@ -1905,6 +1923,17 @@ class atkp_formatter {
 	}
 
 	/**
+	 * Correctly spelled alias of get_mediumnimageurl().
+	 *
+	 * @param null|atkp_product $myproduct
+	 *
+	 * @return string
+	 */
+	public function get_mediumimageurl( $myproduct ) {
+		return $this->get_mediumnimageurl( $myproduct );
+	}
+
+	/**
 	 * @param null|atkp_product $myproduct
 	 *
 	 * @return string
@@ -1931,7 +1960,7 @@ class atkp_formatter {
 	 * @return string
 	 */
 	public function get_smallimage( $myproduct ) {
-		return '<img src="' . esc_url( $this->get_smallimageurl( $myproduct ) ) . '" alt="' . esc_attr( $myproduct->title ) . '" />';
+		return '<img src="' . esc_url( $this->get_smallimageurl( $myproduct ) ) . '" alt="' . esc_attr( $this->get_image_alt( $myproduct ) ) . '" />';
 	}
 
 	/**
@@ -1940,7 +1969,18 @@ class atkp_formatter {
 	 * @return string
 	 */
 	public function get_mediumnimage( $myproduct ) {
-		return '<img src="' . esc_url( $this->get_mediumnimageurl( $myproduct ) ) . '" alt="' . esc_attr( $myproduct->title ) . '" />';
+		return '<img src="' . esc_url( $this->get_mediumnimageurl( $myproduct ) ) . '" alt="' . esc_attr( $this->get_image_alt( $myproduct ) ) . '" />';
+	}
+
+	/**
+	 * Correctly spelled alias of get_mediumnimage(), offered by the template editor.
+	 *
+	 * @param null|atkp_product $myproduct
+	 *
+	 * @return string
+	 */
+	public function get_mediumimage( $myproduct ) {
+		return $this->get_mediumnimage( $myproduct );
 	}
 
 	/**
@@ -1949,7 +1989,7 @@ class atkp_formatter {
 	 * @return string
 	 */
 	public function get_largeimage( $myproduct ) {
-		return '<img src="' . esc_url( $this->get_largeimageurl( $myproduct ) ) . '" alt="' . esc_attr( $myproduct->title ) . '" />';
+		return '<img src="' . esc_url( $this->get_largeimageurl( $myproduct ) ) . '" alt="' . esc_attr( $this->get_image_alt( $myproduct ) ) . '" />';
 	}
 
 	/**
@@ -2167,15 +2207,14 @@ class atkp_formatter {
 	public function get_images( $myproduct, $includemainimage = true, $maximages = 0 ) {
 		$images = array();
 
-		//include main image
+		//main image is used as fallback for the additional images, even when it is not included in the result
+		$mainimage                 = new atkp_product_image();
+		$mainimage->smallimageurl  = $myproduct->smallimageurl;
+		$mainimage->mediumimageurl = $myproduct->mediumimageurl;
+		$mainimage->largeimageurl  = $myproduct->largeimageurl;
 
 		if ( $includemainimage ) {
 			if ( $myproduct->smallimageurl != '' || $myproduct->mediumimageurl != '' || $myproduct->largeimageurl != '' ) {
-				$mainimage                 = new atkp_product_image();
-				$mainimage->smallimageurl  = $myproduct->smallimageurl;
-				$mainimage->mediumimageurl = $myproduct->mediumimageurl;
-				$mainimage->largeimageurl  = $myproduct->largeimageurl;
-
 				array_push( $images, $mainimage );
 			}
 		}
@@ -2369,7 +2408,7 @@ class atkp_formatter {
 
 			foreach ( array_reverse( $newoffers ) as $offer ) {
 				/** @var atkp_product_offer $offer */
-				$title_trimmed = str_replace( trim( $offer->title ), ',', '' );
+				$title_trimmed = str_replace( ',', '', trim( $offer->title ) );
 				$offer_key     = "{$title_trimmed}|{$offer->pricefloat}|{$offer->shippingfloat}";
 
 				$grouped_offers[ $offer_key ] = $offer;
@@ -2457,6 +2496,11 @@ class atkp_formatter {
 		$currency = $this->get_currency( $shopid );
 
 		if ( $currency == null ) {
+			// "Format from merchant": use the merchant's formatted price, or the plain number if the merchant sent none.
+			if ( $fallback == '' && (float) $number != (float) 0 ) {
+				return number_format_i18n( (float) $number, 2 );
+			}
+
 			return $fallback;
 		}
 
@@ -2922,42 +2966,55 @@ class atkp_formatter {
 	}
 
 	public function get_minpricedays( $product ) {
-		$history = atkp_product_pricehistory::get_lastxdays_history( $product->productid, false, 30 );
-		$history = array_reverse( $history );
-
-		$foundhistory = null;
-		$prevhistory  = null;
-		$lasthistory  = count( $history ) == 0 ? null : $history[0];
-		$i            = 0;
-		foreach ( $history as $historyentry ) {
-			if ( $historyentry->shopid == $product->shopid ) {
-				if ( $product->salepricefloat == $historyentry->pricefloat ) {
-					$foundhistory = $historyentry;
-					$prevhistory  = $history[ $i + 1 ];
-				}
-			}
-			$i ++;
-		}
-		if ( $foundhistory != null && $prevhistory == null ) {
-			$prevhistory = $foundhistory;
-		}
-		if ( $foundhistory == null || $prevhistory == null ) {
+		if ( $product == null || ! class_exists( 'atkp_product_pricehistory' ) ) {
 			return '';
 		}
 
-		if ( $foundhistory->pricefloat > $prevhistory->pricefloat ) {
-			return 'Preis ist von ' . $prevhistory->pricefloat . ' auf ' . $lasthistory->pricefloat . ' gestiegen.';
-		} else if ( $foundhistory->pricefloat < $prevhistory->pricefloat ) {
-			return 'Preis ist von ' . $prevhistory->pricefloat . ' auf ' . $lasthistory->pricefloat . ' gesunken.';
-		} else {
-			$date1 = new DateTime( $lasthistory->createdon );
-			$date2 = new DateTime( "2010-07-09" );
+		$history = atkp_product_pricehistory::get_lastxdays_history( $product->productid, false, 30 );
 
-			$difference = $date1->diff( $date2 );
-
-			return 'Preis ist seit ' . $difference->d . ' Tagen konstant.';
+		// the history is sorted from newest to oldest; keep only the entries of the product's shop
+		$shophistory = array();
+		foreach ( $history as $historyentry ) {
+			if ( $historyentry->shopid == $product->shopid ) {
+				$shophistory[] = $historyentry;
+			}
 		}
 
+		if ( count( $shophistory ) == 0 || (float) $shophistory[0]->pricefloat != (float) $product->salepricefloat ) {
+			return '';
+		}
+
+		// walk back while the price stays the same: $since is the first entry with the current price, $prevhistory the entry before it
+		$since       = $shophistory[0];
+		$prevhistory = null;
+		foreach ( $shophistory as $historyentry ) {
+			if ( (float) $historyentry->pricefloat != (float) $product->salepricefloat ) {
+				$prevhistory = $historyentry;
+				break;
+			}
+			$since = $historyentry;
+		}
+
+		if ( $prevhistory != null ) {
+			$oldprice = $this->formatFloat( $prevhistory->pricefloat, $prevhistory->price, $product->shopid );
+			$newprice = $this->formatFloat( $since->pricefloat, $since->price, $product->shopid );
+
+			if ( (float) $since->pricefloat > (float) $prevhistory->pricefloat ) {
+				/* translators: 1: old price, 2: new price */
+				return sprintf( __( 'Price has risen from %1$s to %2$s.', 'affiliate-toolkit-starter' ), $oldprice, $newprice );
+			}
+
+			/* translators: 1: old price, 2: new price */
+			return sprintf( __( 'Price has dropped from %1$s to %2$s.', 'affiliate-toolkit-starter' ), $oldprice, $newprice );
+		}
+
+		$days = (int) floor( ( time() - strtotime( $since->createdon ) ) / DAY_IN_SECONDS );
+		if ( $days < 0 ) {
+			$days = 0;
+		}
+
+		/* translators: %s: number of days */
+		return sprintf( _n( 'Price has been constant for %s day.', 'Price has been constant for %s days.', $days, 'affiliate-toolkit-starter' ), number_format_i18n( $days ) );
 	}
 
 	public function get_lastxdays_pricehistory( $product, $minifier_shops = false, $days = 30 ) {

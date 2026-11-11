@@ -693,7 +693,7 @@ class atkp_listservice {
 
 				$shortener = new atkp_shortener();
 
-				$url = $shortener->shorten_url( $apikey, $apilogin, $redirtype, $url );
+				$url = $shortener->shorten_url( $url, get_the_title( $listid ), $redirtype, $apikey );
 
 				break;
 		}

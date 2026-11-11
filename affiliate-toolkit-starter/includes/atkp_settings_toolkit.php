@@ -178,7 +178,7 @@ class atkp_settings_toolkit {
                                     <div class="atkp-validation">
                                         <b><?php echo esc_html__( 'Cronjob was never started yet.', 'affiliate-toolkit-starter' ); ?></b>
                                         <p><?php echo esc_html__( 'This is normal if you installed the plugin freshly. If you have been using the plugin for a while, you need to check where the problem is.', 'affiliate-toolkit-starter' ); ?></p>
-										<?php if ( $crontype == 2 ) { ?>
+										<?php if ( $crontype == 'wpcron' ) { ?>
                                             <p><?php echo esc_html__( 'You can try to save this settings page and attach the plugin again in the WordPress scheduler.', 'affiliate-toolkit-starter' ) ?></p>
 										<?php } else { ?>
                                             <p><?php echo esc_html__( 'Please check the server-side cronjob configuration on the server. There seems to be something not configured correctly outside of the plugin.', 'affiliate-toolkit-starter' ) ?></p>
@@ -195,7 +195,7 @@ class atkp_settings_toolkit {
                                         <div class="atkp-validation">
                                             <b><?php /* translators: %s: time since last cronjob execution */ echo sprintf( esc_html__( 'Last cronjob execution was %s ago', 'affiliate-toolkit-starter' ), esc_html( $timesince ) ); ?></b>
                                             <p><?php echo esc_html__( 'The cronjob was last called a day ago. This is suspicious. If you don\'t know why this is, you should check the problem more closely.', 'affiliate-toolkit-starter' ); ?></p>
-											<?php if ( $crontype == 2 ) { ?>
+											<?php if ( $crontype == 'wpcron' ) { ?>
                                                 <p><?php echo esc_html__( 'You can try to save this settings page and attach the plugin again in the WordPress scheduler.', 'affiliate-toolkit-starter' ) ?></p>
 											<?php } else { ?>
                                                 <p><?php echo esc_html__( 'Please check the server-side cronjob configuration on the server. There seems to be something not configured correctly outside of the plugin.', 'affiliate-toolkit-starter' ) ?></p>

@@ -189,8 +189,8 @@ ATKPTools::add_column(ATKP_SHOP_POSTTYPE, esc_html__('Imported Product count', '
             'all_items' => esc_html__('Shops', 'affiliate-toolkit-starter'),
             'view_item' => esc_html__('View Shop', 'affiliate-toolkit-starter'),
             'search_items' => esc_html__('Search Shops', 'affiliate-toolkit-starter'),
-            'not_found' => esc_html__('No lists found', 'affiliate-toolkit-starter'),
-            'not_found_in_trash' => esc_html__('No lists found in the Trash', 'affiliate-toolkit-starter'),
+            'not_found' => esc_html__('No shops found', 'affiliate-toolkit-starter'),
+            'not_found_in_trash' => esc_html__('No shops found in the Trash', 'affiliate-toolkit-starter'),
             'parent_item_colon' => '',
             'menu_name' => esc_html__('Shops', 'affiliate-toolkit-starter'),
         );
@@ -199,7 +199,7 @@ ATKPTools::add_column(ATKP_SHOP_POSTTYPE, esc_html__('Imported Product count', '
             'description' => 'Holds our Shop',
 
             'public' => false,  // it's not public, it shouldn't have it's own permalink, and so on
-            'publicly_queriable' => true,  // you should be able to query it
+            'publicly_queryable' => false,  // it shouldn't be queryable on the frontend (the misspelled key had no effect, so this keeps the previous behaviour)
             'show_ui' => true,  // you should be able to edit it in wp-admin
             'exclude_from_search' => true,  // you should exclude it from search results
             'show_in_nav_menus' => false,  // you shouldn't be able to add it to menus

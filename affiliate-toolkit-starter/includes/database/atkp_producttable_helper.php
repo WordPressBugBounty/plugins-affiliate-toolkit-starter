@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 if ( ! defined( 'ATKP_VERSION_PRODUCTTABLE' ) ) {
-	define( 'ATKP_VERSION_PRODUCTTABLE', 3 );
+	define( 'ATKP_VERSION_PRODUCTTABLE', 4 );
 }
 
 class atkp_producttable_helper {
@@ -234,7 +234,7 @@ class atkp_producttable_helper {
 	                    `numberofpages` int(20) NULL ,
 	                    `features` text NULL,
 	                    `variations` text NULL,				                    
-	                    `variationname` varchar( 250 ) NULL,	                    
+	                    `variationname` text NULL,	                    
 	                    `rating` decimal(20,2) NULL ,
 	                    `reviewcount` int(20) NULL ,
 	                    `customerreviewurl` varchar( 600 ) NULL,		                    			
@@ -254,7 +254,7 @@ class atkp_producttable_helper {
 	                    `cpc` varchar( 150 ) NULL,	                    
 	                    `cpcfloat` decimal(20,2) NULL ,	                                                        
 	                    `updatedon` datetime NULL ,
-	                    `updatedmessage` varchar(700) NULL,
+	                    `updatedmessage` text NULL,
 	                                  
 	                    `isupdated` int(1) NULL ,    
 	                    `haserror` int(1) NULL ,                      
@@ -585,6 +585,16 @@ class atkp_producttable_helper {
 
 
 		$data = apply_filters( 'atkp_modify_product_before_db_write', $data );
+
+		//info: wpdb verwirft den gesamten Datensatz, wenn ein einziger Wert nicht in seine Spalte
+		//      passt - ein langer Produkttitel, eine lange Trackingurl oder ein serialisierter
+		//      Variantenname reichen dafuer. Der zweite Versuch mit fix_sql_field() unten faengt
+		//      nur Zeichensatzprobleme ab, nicht die Laenge, das Produkt fehlte also still.
+		$data = ATKPTools::truncate_row_for_table(
+			$this->get_producttable_tablename(),
+			$data,
+			array( 'images', 'variations', 'variationname' )
+		);
 
 		return $data;
 	}

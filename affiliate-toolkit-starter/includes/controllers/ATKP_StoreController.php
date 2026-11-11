@@ -14,27 +14,11 @@ class ATKP_StoreController {
 
 			//Der Hinweis ist reine Werbung und darf das Backend nicht aufhalten, deshalb ein
 			//deutlich kuerzerer Timeout als bei Lizenz- und Store-Abfragen.
-			$feed = wp_remote_get( esc_url_raw( $url ), array( 'timeout' => 5, 'sslverify' => false ) );
+			$feed = wp_remote_get( esc_url_raw( $url ), array( 'timeout' => 5, 'sslverify' => true ) );
 
 			if ( ! is_wp_error( $feed ) ) {
 				if ( isset( $feed['body'] ) && strlen( $feed['body'] ) > 0 ) {
 					$cache = json_decode( wp_remote_retrieve_body( $feed ) );
-
-					try {
-						if ( isset( $cache->aktion_filename ) && $cache->aktion_filename != '' && $cache->aktion_filecontent ) {
-							$upload_dir = wp_upload_dir();
-
-							if ( ! empty( $upload_dir['basedir'] ) ) {
-								$user_dirname = $upload_dir['basedir'];
-								if ( file_exists( $user_dirname ) ) {
-									$user_filename = $user_dirname . '/' . $cache->aktion_filename;
-									file_put_contents( $user_filename, $cache->aktion_filecontent );
-								}
-							}
-						}
-					} catch ( Exception $ex ) {
-
-					}
 
 					set_transient( 'atkp_discount', $cache, 10800 );
 				}
@@ -96,7 +80,7 @@ class ATKP_StoreController {
 	private static function fetch_products_feed( $lang ) {
 		$url = ATKP_STORE_URL . 'edd-api/v2/products/?number=100&lang=' . $lang;
 
-		$feed = wp_remote_get( esc_url_raw( $url ), array( 'timeout' => 30, 'sslverify' => false ) );
+		$feed = wp_remote_get( esc_url_raw( $url ), array( 'timeout' => 30, 'sslverify' => true ) );
 
 		if ( is_wp_error( $feed ) ) {
 			return null;

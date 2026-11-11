@@ -125,6 +125,21 @@ class atkp_queue {
 		return $affected;
 	}
 
+	/**
+	 * Holt Eintraege per direktem UPDATE aus dem Status 'prepared' heraus. Wird vom Cronjob
+	 * verwendet, wenn ein Hook dieselben Eintraege unverarbeitet zurueckgibt.
+	 *
+	 * @param int[] $ids Die Eintraege
+	 * @param string $message Begruendung fuer updatedmessage
+	 *
+	 * @return int Anzahl der geaenderten Eintraege
+	 */
+	public function force_entries_error( $ids, $message ) {
+		$atkp_queuetable_helper = new atkp_queuetable_helper();
+
+		return $atkp_queuetable_helper->set_entries_status_by_ids( $ids, atkp_queue_entry_status::ERROR, $message );
+	}
+
 	public function get_next_entries( $status ) {
 		$atkp_queuetable_helper = new atkp_queuetable_helper();
 

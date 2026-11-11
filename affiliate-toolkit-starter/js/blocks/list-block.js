@@ -291,6 +291,7 @@
 					dataType: 'json',
 					data: {
 						action: 'atkp_block_search_external',
+						nonce: atkpBlocks.nonce,
 						keyword: externalKeyword,
 						shop_id: selectedShop,
 						page: 1

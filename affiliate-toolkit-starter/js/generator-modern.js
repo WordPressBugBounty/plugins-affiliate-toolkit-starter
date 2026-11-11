@@ -6,6 +6,16 @@
 (function($) {
 	'use strict';
 
+	// Translated strings from PHP (atkpGenerator.i18n), with an English fallback.
+	const i18n = function(key, fallback) {
+		return (typeof atkpGenerator !== 'undefined' && atkpGenerator.i18n && atkpGenerator.i18n[key]) || fallback;
+	};
+
+	// The same, escaped for insertion into HTML (.html(), attributes). Plain text (alert(), .text()) uses i18n().
+	const i18nHtml = function(key, fallback) {
+		return $('<div>').text(i18n(key, fallback)).html().replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+	};
+
 	const ATKPGenerator = {
 		currentStep: 1,
 		maxStep: 3,
@@ -222,7 +232,7 @@
 
 		nextStep: function() {
 			if (this.currentStep === 1 && !this.outputType) {
-				alert('Bitte wählen Sie einen Output-Typ');
+				alert(i18n('selectOutputType', 'Please select an output type.'));
 				return;
 			}
 
@@ -392,7 +402,7 @@
 			const keyword = $('#atkp-search-product-input').val();
 			const self = this;
 
-			$('#atkp-search-product-results').html('<div class="atkp-loading">' + (atkpGenerator.i18n.loading || 'Loading...') + '</div>');
+			$('#atkp-search-product-results').html('<div class="atkp-loading">' + i18nHtml('loading', 'Loading...') + '</div>');
 
 			$.ajax({
 				url: atkpGenerator.ajaxurl,
@@ -422,7 +432,7 @@
 
 							// Add edit link icon
 							if (item.edit_url) {
-								html += ' <a href="' + item.edit_url + '" target="_blank" class="atkp-edit-link" title="Produkt bearbeiten" onclick="event.stopPropagation();">';
+								html += ' <a href="' + item.edit_url + '" target="_blank" class="atkp-edit-link" title="' + i18nHtml('editProduct', 'Edit product') + '" onclick="event.stopPropagation();">';
 								html += '<span class="dashicons dashicons-external"></span>';
 								html += '</a>';
 							}
@@ -434,11 +444,11 @@
 						});
 						$('#atkp-search-product-results').html(html);
 					} else {
-						$('#atkp-search-product-results').html('<p style="padding:15px;text-align:center;color:#666;">Keine Produkte gefunden</p>');
+						$('#atkp-search-product-results').html('<p style="padding:15px;text-align:center;color:#666;">' + i18nHtml('noProductsFound', 'No products found') + '</p>');
 					}
 				},
 				error: function(xhr, status, error) {
-					$('#atkp-search-product-results').html('<p style="padding:15px;text-align:center;color:#d63638;">Fehler bei der Suche: ' + error + '</p>');
+					$('#atkp-search-product-results').html('<p style="padding:15px;text-align:center;color:#d63638;">' + i18nHtml('searchError', 'Search failed:') + ' ' + error + '</p>');
 				}
 			});
 		},
@@ -447,7 +457,7 @@
 			const keyword = $('#atkp-search-list-input').val();
 			const self = this;
 
-			$('#atkp-search-list-results').html('<div class="atkp-loading">' + (atkpGenerator.i18n.loading || 'Loading...') + '</div>');
+			$('#atkp-search-list-results').html('<div class="atkp-loading">' + i18nHtml('loading', 'Loading...') + '</div>');
 
 			$.ajax({
 				url: atkpGenerator.ajaxurl,
@@ -470,7 +480,7 @@
 
 							// Add edit link icon
 							if (item.edit_url) {
-								html += ' <a href="' + item.edit_url + '" target="_blank" class="atkp-edit-link" title="Liste bearbeiten" onclick="event.stopPropagation();">';
+								html += ' <a href="' + item.edit_url + '" target="_blank" class="atkp-edit-link" title="' + i18nHtml('editList', 'Edit list') + '" onclick="event.stopPropagation();">';
 								html += '<span class="dashicons dashicons-external"></span>';
 								html += '</a>';
 							}
@@ -482,11 +492,11 @@
 						});
 						$('#atkp-search-list-results').html(html);
 					} else {
-						$('#atkp-search-list-results').html('<p style="padding:15px;text-align:center;color:#666;">Keine Listen gefunden</p>');
+						$('#atkp-search-list-results').html('<p style="padding:15px;text-align:center;color:#666;">' + i18nHtml('noListsFound', 'No lists found') + '</p>');
 					}
 				},
 				error: function(xhr, status, error) {
-					$('#atkp-search-list-results').html('<p style="padding:15px;text-align:center;color:#d63638;">Fehler bei der Suche: ' + error + '</p>');
+					$('#atkp-search-list-results').html('<p style="padding:15px;text-align:center;color:#d63638;">' + i18nHtml('searchError', 'Search failed:') + ' ' + error + '</p>');
 				}
 			});
 		},
@@ -497,11 +507,11 @@
 			const self = this;
 
 			if (!keyword) {
-				alert('Bitte Suchbegriff eingeben');
+				alert(i18n('enterKeyword', 'Please enter a search keyword.'));
 				return;
 			}
 
-			$('#atkp-create-product-results').html('<div class="atkp-loading">Suche externe Produkte...</div>');
+			$('#atkp-create-product-results').html('<div class="atkp-loading">' + i18nHtml('searchingExternal', 'Searching shop products...') + '</div>');
 
 			$.ajax({
 				url: atkpGenerator.ajaxurl,
@@ -534,16 +544,16 @@
 							}
 							html += '</div>';
 							html += '</div>';
-							html += '<button type="button" class="button button-primary atkp-import-product-btn" data-asin="' + item.asin + '" data-shop-id="' + item.shop_id + '">Importieren</button>';
+							html += '<button type="button" class="button button-primary atkp-import-product-btn" data-asin="' + item.asin + '" data-shop-id="' + item.shop_id + '">' + i18nHtml('import', 'Import') + '</button>';
 							html += '</div>';
 						});
 						$('#atkp-create-product-results').html(html);
 					} else {
-						$('#atkp-create-product-results').html('<p style="padding:15px;text-align:center;color:#666;">Keine Produkte gefunden</p>');
+						$('#atkp-create-product-results').html('<p style="padding:15px;text-align:center;color:#666;">' + i18nHtml('noProductsFound', 'No products found') + '</p>');
 					}
 				},
 				error: function(xhr, status, error) {
-					$('#atkp-create-product-results').html('<p style="padding:15px;text-align:center;color:#d63638;">Fehler bei der Suche: ' + error + '</p>');
+					$('#atkp-create-product-results').html('<p style="padding:15px;text-align:center;color:#d63638;">' + i18nHtml('searchError', 'Search failed:') + ' ' + error + '</p>');
 				}
 			});
 		},
@@ -584,13 +594,13 @@
 			}
 
 			if (!importNonce) {
-				alert('Fehler: Keine Nonce gefunden. Bitte laden Sie die Seite neu (Strg+Shift+R).\n\nWenn das Problem weiterhin besteht, leeren Sie bitte den Browser-Cache.');
+				alert(i18n('noNonce', 'Error: no security token found. Please reload the page. If the problem persists, please clear your browser cache.'));
 				console.error('CRITICAL: No nonce available!');
 				return;
 			}
 
 
-			$button.prop('disabled', true).text('Importiere...');
+			$button.prop('disabled', true).text(i18n('importing', 'Importing...'));
 
 			const requestData = {
 				action: 'atkp_import_product',
@@ -614,7 +624,7 @@
 						const data = response[0];
 						// Check for error
 						if (data.error) {
-							alert('Fehler beim Import: ' + (data.message || data.error));
+							alert(i18n('importError', 'Import failed:') + ' ' + (data.message || data.error));
 							$button.prop('disabled', false).text(originalText);
 							return;
 						}
@@ -624,24 +634,24 @@
 							self.selectedId = data.postid;
 							self.selectedTitle = data.title;
 
-							$button.text('Importiert!').removeClass('button-primary').addClass('button-secondary');
+							$button.text(i18n('imported', 'Imported!')).removeClass('button-primary').addClass('button-secondary');
 
 							// Auto advance to config after import
 							setTimeout(function() {
 								self.nextStep();
 							}, 500);
 						} else {
-							alert('Fehler beim Import: Keine Produkt-ID erhalten');
+							alert(i18n('importNoId', 'Import failed: no product ID received.'));
 							$button.prop('disabled', false).text(originalText);
 						}
 					} else {
 						console.error('Invalid response format:', response);
-						alert('Fehler beim Import: Ungültige Antwort vom Server. Siehe Browser-Konsole für Details.');
+						alert(i18n('importError', 'Import failed:') + ' ' + i18n('invalidResponse', 'Invalid response from the server. See the browser console for details.'));
 						$button.prop('disabled', false).text(originalText);
 					}
 				},
 				error: function(xhr, status, error) {
-					alert('Fehler beim Import: ' + error + '\nDetails in der Browser-Konsole.');
+					alert(i18n('importError', 'Import failed:') + ' ' + error + '\n' + i18n('seeConsole', 'See the browser console for details.'));
 					$button.prop('disabled', false).text(originalText);
 				}
 			});
@@ -655,19 +665,19 @@
 			const keyword = $('#atkp-create-list-keyword').val().trim();
 
 			if (!listName) {
-				alert('Bitte geben Sie einen Listennamen ein.');
+				alert(i18n('enterListName', 'Please enter a list name.'));
 				return;
 			}
 
 			if (!shopId) {
-				alert('Bitte wählen Sie einen Shop aus.');
+				alert(i18n('selectShop', 'Please select a shop.'));
 				return;
 			}
 
 			const $button = $('#atkp-create-list-btn');
 			const originalText = $button.text();
 
-			$button.prop('disabled', true).text('Erstelle Liste...');
+			$button.prop('disabled', true).text(i18n('creatingList', 'Creating list...'));
 
 			// Get the appropriate nonce (same as for import)
 			let createNonce = null;
@@ -700,7 +710,7 @@
 
 						// Check for error
 						if (data.error) {
-							alert('Fehler beim Erstellen der Liste: ' + (data.message || data.error));
+							alert(i18n('createListError', 'Failed to create list:') + ' ' + (data.message || data.error));
 							$button.prop('disabled', false).text(originalText);
 							return;
 						}
@@ -710,24 +720,24 @@
 							self.selectedId = data.postid;
 							self.selectedTitle = data.title;
 
-							$button.text('Liste erstellt!').removeClass('button-primary').addClass('button-secondary');
+							$button.text(i18n('listCreated', 'List created!')).removeClass('button-primary').addClass('button-secondary');
 
 							// Auto advance to config after creation
 							setTimeout(function() {
 								self.nextStep();
 							}, 500);
 						} else {
-							alert('Fehler beim Erstellen der Liste: Keine Listen-ID erhalten');
+							alert(i18n('createListNoId', 'Failed to create list: no list ID received.'));
 							$button.prop('disabled', false).text(originalText);
 						}
 					} else {
 						console.error('Invalid response format:', response);
-						alert('Fehler beim Erstellen der Liste: Ungültige Antwort vom Server. Siehe Browser-Konsole für Details.');
+						alert(i18n('createListError', 'Failed to create list:') + ' ' + i18n('invalidResponse', 'Invalid response from the server. See the browser console for details.'));
 						$button.prop('disabled', false).text(originalText);
 					}
 				},
 				error: function(xhr, status, error) {
-					alert('Fehler beim Erstellen der Liste: ' + error + '\nDetails in der Browser-Konsole.');
+					alert(i18n('createListError', 'Failed to create list:') + ' ' + error + '\n' + i18n('seeConsole', 'See the browser console for details.'));
 					$button.prop('disabled', false).text(originalText);
 				}
 			});
@@ -973,7 +983,7 @@
 
 			const $btn = $('#atkp-copy-shortcode');
 			const originalText = $btn.html();
-			$btn.html('<span class="dashicons dashicons-yes"></span> Kopiert!');
+			$btn.html('<span class="dashicons dashicons-yes"></span> ' + i18nHtml('copied', 'Copied!'));
 
 			setTimeout(function() {
 				$btn.html(originalText);

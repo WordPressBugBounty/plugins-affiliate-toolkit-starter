@@ -145,8 +145,9 @@ class atkp_shortcodes_list {
 
 					$gif_data = $globaltools->atkp_create_list( $shopid, $keyword, '20', $keyword, 'All', '', false );
 
-					if ( isset( $gif_data['postid'] ) ) {
-						$id = $gif_data['postid'];
+					//atkp_create_list returns a list with one entry
+					if ( isset( $gif_data[0]['postid'] ) ) {
+						$id = $gif_data[0]['postid'];
 					}
 				}
 			}

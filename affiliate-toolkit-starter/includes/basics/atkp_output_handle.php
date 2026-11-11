@@ -43,6 +43,8 @@ function atkp_get_product_ids( $ids ) {
 		}
 	}
 
+	$product_ids = array();
+
 	$parts = is_array( $ids ) ? $ids : explode( ',', $ids );
 
 	foreach ( $parts as $part ) {
@@ -145,6 +147,10 @@ function atkp_display_box(
 	$output->ajax_mode = $ajax_mode;
 
 	if ( $link || $field != '' ) {
+		if ( count( $product_ids ) == 0 ) {
+			return '';
+		}
+
 		return $output->get_product_output( $product_ids[0]['value'], $template, $content, $buttontype, $field, $link, $elementcss, $containercss, $hidedisclaimer, $tracking_id );
 	} else {
 		return $output->get_list_output( '', $template, $content, $buttontype, $elementcss, $containercss, $limit, $randomsort, $hidedisclaimer, $tracking_id, $product_ids );

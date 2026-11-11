@@ -42,6 +42,47 @@ class atkp_tools_shortcodegenerator {
 	}
 
 	/**
+	 * Strings used by js/generator-modern.js. Not HTML-escaped because they are also shown with alert();
+	 * the script escapes them itself where it inserts them into HTML.
+	 *
+	 * @return array
+	 */
+	private function get_js_i18n() {
+		return array(
+			'title' => __( 'affiliate-toolkit - Shortcode Generator', 'affiliate-toolkit-starter' ),
+			'close' => __( 'Close', 'affiliate-toolkit-starter' ),
+			'insert' => __( 'Insert', 'affiliate-toolkit-starter' ),
+			'update' => __( 'Update Preview', 'affiliate-toolkit-starter' ),
+			'copy' => __( 'Copy to Clipboard', 'affiliate-toolkit-starter' ),
+			'loading' => __( 'Loading...', 'affiliate-toolkit-starter' ),
+			'error' => __( 'An error occurred', 'affiliate-toolkit-starter' ),
+			'selectOutputType' => __( 'Please select an output type.', 'affiliate-toolkit-starter' ),
+			'editProduct' => __( 'Edit product', 'affiliate-toolkit-starter' ),
+			'editList' => __( 'Edit list', 'affiliate-toolkit-starter' ),
+			'noProductsFound' => __( 'No products found', 'affiliate-toolkit-starter' ),
+			'noListsFound' => __( 'No lists found', 'affiliate-toolkit-starter' ),
+			'searchError' => __( 'Search failed:', 'affiliate-toolkit-starter' ),
+			'enterKeyword' => __( 'Please enter a search keyword.', 'affiliate-toolkit-starter' ),
+			'searchingExternal' => __( 'Searching shop products...', 'affiliate-toolkit-starter' ),
+			'import' => __( 'Import', 'affiliate-toolkit-starter' ),
+			'importing' => __( 'Importing...', 'affiliate-toolkit-starter' ),
+			'imported' => __( 'Imported!', 'affiliate-toolkit-starter' ),
+			'noNonce' => __( 'Error: no security token found. Please reload the page. If the problem persists, please clear your browser cache.', 'affiliate-toolkit-starter' ),
+			'importError' => __( 'Import failed:', 'affiliate-toolkit-starter' ),
+			'importNoId' => __( 'Import failed: no product ID received.', 'affiliate-toolkit-starter' ),
+			'invalidResponse' => __( 'Invalid response from the server. See the browser console for details.', 'affiliate-toolkit-starter' ),
+			'seeConsole' => __( 'See the browser console for details.', 'affiliate-toolkit-starter' ),
+			'enterListName' => __( 'Please enter a list name.', 'affiliate-toolkit-starter' ),
+			'selectShop' => __( 'Please select a shop.', 'affiliate-toolkit-starter' ),
+			'creatingList' => __( 'Creating list...', 'affiliate-toolkit-starter' ),
+			'listCreated' => __( 'List created!', 'affiliate-toolkit-starter' ),
+			'createListError' => __( 'Failed to create list:', 'affiliate-toolkit-starter' ),
+			'createListNoId' => __( 'Failed to create list: no list ID received.', 'affiliate-toolkit-starter' ),
+			'copied' => __( 'Copied!', 'affiliate-toolkit-starter' ),
+		);
+	}
+
+	/**
 	 * Render clean iframe view without WordPress admin chrome
 	 */
 	private function render_iframe_view() {
@@ -58,15 +99,7 @@ class atkp_tools_shortcodegenerator {
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 			'nonce' => wp_create_nonce( 'atkp-generator-nonce' ),
 			'isThickbox' => true,
-			'i18n' => array(
-				'title' => esc_html__( 'affiliate-toolkit - Shortcode Generator', 'affiliate-toolkit-starter' ),
-				'close' => esc_html__( 'Close', 'affiliate-toolkit-starter' ),
-				'insert' => esc_html__( 'Insert', 'affiliate-toolkit-starter' ),
-				'update' => esc_html__( 'Update Preview', 'affiliate-toolkit-starter' ),
-				'copy' => esc_html__( 'Copy to Clipboard', 'affiliate-toolkit-starter' ),
-				'loading' => esc_html__( 'Loading...', 'affiliate-toolkit-starter' ),
-				'error' => esc_html__( 'An error occurred', 'affiliate-toolkit-starter' ),
-			),
+			'i18n' => $this->get_js_i18n(),
 		) );
 
 		?>
@@ -175,15 +208,7 @@ class atkp_tools_shortcodegenerator {
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 			'nonce' => wp_create_nonce( 'atkp-generator-nonce' ),
 			'isThickbox' => false,
-			'i18n' => array(
-				'title' => esc_html__( 'affiliate-toolkit - Shortcode Generator', 'affiliate-toolkit-starter' ),
-				'close' => esc_html__( 'Close', 'affiliate-toolkit-starter' ),
-				'insert' => esc_html__( 'Insert', 'affiliate-toolkit-starter' ),
-				'update' => esc_html__( 'Update Preview', 'affiliate-toolkit-starter' ),
-				'copy' => esc_html__( 'Copy to Clipboard', 'affiliate-toolkit-starter' ),
-				'loading' => esc_html__( 'Loading...', 'affiliate-toolkit-starter' ),
-				'error' => esc_html__( 'An error occurred', 'affiliate-toolkit-starter' ),
-			),
+			'i18n' => $this->get_js_i18n(),
 		) );
 
 		// Normal admin page view (not in iframe)

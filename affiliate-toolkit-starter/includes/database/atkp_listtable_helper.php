@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 if ( ! defined( 'ATKP_VERSION_LISTTABLE' ) ) {
-	define( 'ATKP_VERSION_LISTTABLE', 2 );
+	define( 'ATKP_VERSION_LISTTABLE', 3 );
 }
 
 class atkp_listtable_helper {
@@ -79,7 +79,7 @@ class atkp_listtable_helper {
 	                    `numberofpages` int(20) NULL ,
 	                    `features` text NULL,
 	                    `variations` text NULL,				                    
-	                    `variationname` varchar( 250 ) NULL,	                    
+	                    `variationname` text NULL,	                    
 	                    `rating` decimal(20,2) NULL ,
 	                    `reviewcount` int(20) NULL ,
 	                    `customerreviewurl` varchar( 600 ) NULL,		                    			        
@@ -97,7 +97,7 @@ class atkp_listtable_helper {
 	                    `isprime` int(1) NULL ,
 	                    `iswarehouse` int(1) NULL,	                                                        
 	                    `updatedon` datetime NULL ,
-	                    `updatedmessage` varchar(700) NULL,
+	                    `updatedmessage` text NULL,
 	                    	                       
 	                    `haserror` int(1) NULL ,                      
 	                    `baseprice` varchar( 150 ) NULL,             
@@ -110,12 +110,43 @@ class atkp_listtable_helper {
 			dbDelta( $sql );
 
 
-			$wpdb->query( "ALTER TABLE $table_name ADD INDEX {$table_name}_idx_list_id ( `list_id`);" );
-			$wpdb->query( "ALTER TABLE $table_name ADD INDEX {$table_name}_idx_product_id ( `product_id`);" );
+			//idempotent: die alten ALTER-Statements liefen bei einem Versionssprung erneut und
+			//scheiterten mit "Duplicate key name" (gleiche Ursache wie bei der Produkttabelle)
+			$this->create_index_if_missing( $table_name, $table_name . '_idx_list_id', '( `list_id` )', 'list_id' );
+			$this->create_index_if_missing( $table_name, $table_name . '_idx_product_id', '( `product_id` )', 'product_id' );
 
 			update_option( ATKP_PLUGIN_PREFIX . '_version_posts_lists', ATKP_VERSION_LISTTABLE );
 
 		}
+	}
+
+	/**
+	 * Legt einen Index nur an, wenn er noch nicht existiert.
+	 *
+	 * @param string $table_name Tabellenname.
+	 * @param string $index_name Name des Index.
+	 * @param string $columns Spaltenliste inkl. Klammern, z.B. '( `list_id` )'.
+	 * @param string $leading_column Optional: existiert bereits ein beliebiger Index mit dieser
+	 *                               Spalte an erster Position, wird kein zweiter angelegt.
+	 */
+	private function create_index_if_missing( $table_name, $index_name, $columns, $leading_column = '' ) {
+		global $wpdb;
+
+		$exists = $wpdb->get_var( $wpdb->prepare( "SHOW INDEX FROM {$table_name} WHERE Key_name = %s", $index_name ) );
+
+		if ( $exists !== null ) {
+			return;
+		}
+
+		if ( $leading_column !== '' ) {
+			$exists = $wpdb->get_var( $wpdb->prepare( "SHOW INDEX FROM {$table_name} WHERE Seq_in_index = 1 AND Column_name = %s", $leading_column ) );
+
+			if ( $exists !== null ) {
+				return;
+			}
+		}
+
+		$wpdb->query( "CREATE INDEX {$index_name} ON {$table_name} {$columns}" );
 	}
 
 	public function clear_list( $list_id ) {
@@ -295,6 +326,15 @@ class atkp_listtable_helper {
 		}
 
 		$data = apply_filters( 'atkp_modify_list_before_db_write', $data );
+
+		//info: wpdb verwirft den gesamten Datensatz, wenn ein einziger Wert nicht in seine Spalte
+		//      passt. Der zweite Versuch mit fix_sql_field() in save_list() faengt nur
+		//      Zeichensatzprobleme ab, nicht die Laenge - das Produkt fehlte dann still in der Liste.
+		$data = ATKPTools::truncate_row_for_table(
+			$this->get_listtable_tablename(),
+			$data,
+			array( 'images', 'variations', 'variationname' )
+		);
 
 		return $data;
 	}

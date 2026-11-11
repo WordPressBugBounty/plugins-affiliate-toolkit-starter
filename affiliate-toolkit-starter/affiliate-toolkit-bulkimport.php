@@ -676,7 +676,9 @@ class atkp_bulkimport {
 					?>
 
                     <span style="margin-left:5px;margin-right:5px">
-                        Seite <?php echo esc_html($result->currentpage); ?> von <?php echo esc_html($result->pagecount) ?> (<?php echo esc_html($result->total) ?> Ergebnisse)
+                        <?php
+						/* translators: 1: current page, 2: page count, 3: number of results */
+						echo esc_html( sprintf( __( 'Page %1$s of %2$s (%3$s results)', 'affiliate-toolkit-starter' ), $result->currentpage, $result->pagecount, $result->total ) ); ?>
                     </span>
 
 					<?php if (  $result->currentpage < $result->pagecount ) { ?>

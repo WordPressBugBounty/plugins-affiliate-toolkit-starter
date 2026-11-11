@@ -732,10 +732,13 @@ These pages contain EVERYTHING you need to start an online business in the affil
 
 
 		if ( $a->holdontop != 100 || $b->holdontop != 100 ) {
-			if ( $sortorder == 3 || $sortorder == 4 && ! $a->ismainshop ) {
+			// the shop sort order applies to every sort mode; with "Main product and ..." the main shop stays first
+			$mainshopfirst = $sortorder != 1 && $sortorder != 2;
+
+			if ( ! ( $mainshopfirst && $a->ismainshop ) ) {
 				$totalpriceA = floatval( $a->holdontop );
 			}
-			if ( $sortorder == 3 || $sortorder == 4 && ! $b->ismainshop ) {
+			if ( ! ( $mainshopfirst && $b->ismainshop ) ) {
 				$totalpriceB = floatval( $b->holdontop );
 			}
 		}

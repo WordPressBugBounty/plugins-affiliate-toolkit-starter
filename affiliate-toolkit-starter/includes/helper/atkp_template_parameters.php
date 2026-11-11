@@ -525,7 +525,7 @@ class atkp_template_parameters {
 	}
 
 	public function get_price_color() {
-		return $this->get_option( 'price_color', '#00000' );
+		return $this->get_option( 'price_color', '#000000' );
 	}
 
 	public function get_box_badge_color() {

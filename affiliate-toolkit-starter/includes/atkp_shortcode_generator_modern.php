@@ -611,6 +611,18 @@ class atkp_shortcode_generator_modern {
 				'searchFailed' => __( 'Search failed: ', 'affiliate-toolkit-starter' ),
 				'searchFailedGeneric' => __( 'Search failed', 'affiliate-toolkit-starter' ),
 				'serverError500' => __( 'Server error (500). Please check error log.', 'affiliate-toolkit-starter' ),
+				'enterProductNameAsinEan' => __( 'Enter product name, ASIN, or EAN...', 'affiliate-toolkit-starter' ),
+				'searching' => __( 'Searching...', 'affiliate-toolkit-starter' ),
+				'importing' => __( 'Importing...', 'affiliate-toolkit-starter' ),
+				'importProductFromShop' => __( 'Import product from shop:', 'affiliate-toolkit-starter' ),
+				'alignment' => __( 'Alignment', 'affiliate-toolkit-starter' ),
+				'noAlignment' => __( 'No alignment', 'affiliate-toolkit-starter' ),
+				'alignLeft' => __( 'Left', 'affiliate-toolkit-starter' ),
+				'alignCenter' => __( 'Center', 'affiliate-toolkit-starter' ),
+				'alignRight' => __( 'Right', 'affiliate-toolkit-starter' ),
+				'customContent' => __( 'Custom Content', 'affiliate-toolkit-starter' ),
+				'customContentHelp' => __( 'Optional custom content or link text', 'affiliate-toolkit-starter' ),
+				'outputRenderedOnFrontend' => __( 'Output will be rendered on frontend', 'affiliate-toolkit-starter' ),
 
 				// List Block
 				'listSelection' => __( 'List Selection', 'affiliate-toolkit-starter' ),
@@ -1209,7 +1221,12 @@ class atkp_shortcode_generator_modern {
 				return;
 			}
 
-			check_ajax_referer( 'atkp_generator_nonce', 'nonce' );
+			// The shortcode generator sends an 'atkp-generator-nonce', the Gutenberg blocks an 'atkp-import-nonce'.
+			$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+			if ( ! wp_verify_nonce( $nonce, 'atkp-generator-nonce' ) && ! wp_verify_nonce( $nonce, 'atkp-import-nonce' ) ) {
+				wp_send_json_error( array( 'message' => 'Invalid nonce' ), 403 );
+				return;
+			}
 
 			$keyword = isset( $_POST['keyword'] ) ? sanitize_text_field( wp_unslash( $_POST['keyword'] ) ) : '';
 			$shop_id = isset( $_POST['shop_id'] ) ? intval( $_POST['shop_id'] ) : 0;

@@ -47,7 +47,9 @@ class atkp_global_tools {
 			}
 
 			//$post_id = apply_filters( 'atkp_post_exists', 0, $shopid, $asin, $asintype, $title, $brand, $mpn );
-			$post_id = apply_filters( 'atkp_find_product', 0, $shopid, $asin, '', ATKPTools::clear_string( $title ), $brand, $mpn );
+			//for an EAN import the identifier is an EAN: pass it to the EAN lookup as well, otherwise an existing product with this EAN is never found
+			$ean     = strtoupper( (string) $asintype ) == 'EAN' ? $asin : '';
+			$post_id = apply_filters( 'atkp_find_product', 0, $shopid, $asin, $ean, ATKPTools::clear_string( $title ), $brand, $mpn );
 
 			$updategroup = null;
 

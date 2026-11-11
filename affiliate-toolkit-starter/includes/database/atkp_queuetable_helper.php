@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 if ( ! defined( 'ATKP_VERSION_QUEUETABLE' ) ) {
-	define( 'ATKP_VERSION_QUEUETABLE', 3 );
+	define( 'ATKP_VERSION_QUEUETABLE', 4 );
 }
 
 class atkp_queuetable_helper {
@@ -75,7 +75,7 @@ class atkp_queuetable_helper {
 	                    `retries` INT( 50 ) NULL,      
 	                    `createdon` datetime NULL ,
 	                    `updatedon` datetime NULL ,
-	                    `updatedmessage` varchar(700) NULL,
+	                    `updatedmessage` text NULL,
 	                    PRIMARY KEY (id)		                     
 	                    ) $charset_collate";
 
@@ -92,7 +92,7 @@ class atkp_queuetable_helper {
 	                    `functionparameter` varchar( 250 ) NULL,   
 	                    `createdon` datetime NULL ,
 	                    `updatedon` datetime NULL ,
-	                    `updatedmessage` varchar(700) NULL,
+	                    `updatedmessage` text NULL,
 	                    PRIMARY KEY (id)	                     
 	                    ) $charset_collate";
 
@@ -154,6 +154,21 @@ class atkp_queuetable_helper {
 	}
 
 
+	/**
+	 * Entfernt alles, was ein Spalten-Charset nicht kennen kann, und kuerzt hart. Letzte Rettung,
+	 * wenn ein regulaerer Schreibvorgang abgelehnt wurde - der Status muss in jedem Fall aus
+	 * 'prepared' herauskommen.
+	 *
+	 * @param string $value
+	 *
+	 * @return string
+	 */
+	private function get_safe_message( $value ) {
+		$value = preg_replace( '/[^\x20-\x7E]/', ' ', (string) $value );
+
+		return substr( trim( $value ), 0, 250 );
+	}
+
 	public function save_queue_entry( $queue_entry ) {
 		global $wpdb;
 		$table_name = $this->get_queueentrytable_tablename();
@@ -161,18 +176,38 @@ class atkp_queuetable_helper {
 		$data = $this->get_array_from_queueentry( $queue_entry->queue_id, $queue_entry, $queue_entry->id == null );
 
 		if ( $queue_entry->id == null ) {
-			$wpdb->insert(
+			$result = $wpdb->insert(
 				$table_name,
 				$data
 			);
-			$queue_entry->id = $wpdb->insert_id;
+
+			if ( $result !== false ) {
+				$queue_entry->id = $wpdb->insert_id;
+			}
 		} else {
-			$wpdb->update(
+			$result = $wpdb->update(
 				$table_name,
 				$data,
 				array( 'id' => $queue_entry->id )
 			);
 		}
+
+		//info: wurde der Schreibvorgang abgelehnt (unpassender Wert, fremdes Zeichen), zweiter
+		//      Versuch nur mit Status und einer unkritischen Meldung. Ohne diesen Fallback
+		//      bliebe der Eintrag auf 'prepared' und der Cronjob laeuft endlos in derselben Zeile.
+		if ( $result === false && $queue_entry->id != null ) {
+			$result = $wpdb->update(
+				$table_name,
+				array(
+					'status'         => $data['status'],
+					'updatedon'      => $data['updatedon'],
+					'updatedmessage' => $this->get_safe_message( $data['updatedmessage'] ),
+				),
+				array( 'id' => $queue_entry->id )
+			);
+		}
+
+		return $result !== false;
 	}
 
 
@@ -191,11 +226,25 @@ class atkp_queuetable_helper {
 
 			$queue->id = $wpdb->insert_id;
 		} else {
-			$wpdb->update(
+			$result = $wpdb->update(
 				$table_name,
 				$data,
 				array( 'id' => $queue->id )
 			);
+
+			if ( $result === false ) {
+				$wpdb->update(
+					$table_name,
+					array(
+						'status'         => $data['status'],
+						'internalstatus' => $data['internalstatus'],
+						'retries'        => $data['retries'],
+						'updatedon'      => $data['updatedon'],
+						'updatedmessage' => $this->get_safe_message( $data['updatedmessage'] ),
+					),
+					array( 'id' => $queue->id )
+				);
+			}
 		}
 
 		foreach ( $queue->entries as $entry ) {
@@ -289,6 +338,43 @@ class atkp_queuetable_helper {
 			gmdate( "Y-m-d H:i:s" ),
 			$queue_id,
 			$from_status
+		) );
+
+		return intval( $affected );
+	}
+
+	/**
+	 * Setzt den Status einzelner Eintraege ueber ein direktes UPDATE. Bewusst ohne wpdb::update(),
+	 * damit der Schreibvorgang nicht an einem zu langen oder nicht darstellbaren Wert scheitern
+	 * kann - das ist der Notausgang des Cronjobs fuer Eintraege, die ein Hook nicht verarbeitet hat.
+	 *
+	 * @param int[] $ids Die Eintraege
+	 * @param string $status Der neue Status
+	 * @param string $message Die Meldung fuer updatedmessage
+	 *
+	 * @return int Anzahl der geaenderten Eintraege
+	 */
+	public function set_entries_status_by_ids( $ids, $status, $message ) {
+
+		global $wpdb;
+
+		$ids = array_filter( array_map( 'intval', (array) $ids ) );
+
+		if ( count( $ids ) == 0 ) {
+			return 0;
+		}
+
+		$table_name   = $this->get_queueentrytable_tablename();
+		$placeholders = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
+
+		$args = array_merge(
+			array( $status, $this->get_safe_message( $message ), gmdate( "Y-m-d H:i:s" ) ),
+			$ids
+		);
+
+		$affected = $wpdb->query( $wpdb->prepare(
+			"UPDATE {$table_name} SET status = %s, updatedmessage = %s, updatedon = %s WHERE id IN ({$placeholders})",
+			$args
 		) );
 
 		return intval( $affected );
@@ -561,6 +647,11 @@ class atkp_queuetable_helper {
 
 		$data = apply_filters( 'atkp_modify_queueentry_before_db_write', $data );
 
+		//info: wpdb verwirft einen Schreibvorgang komplett, wenn ein Wert nicht in seine Spalte
+		//      passt. Fuer einen Queue-Eintrag bliebe der Status dann auf 'prepared' und der
+		//      Cronjob holt denselben Eintrag endlos wieder.
+		$data = ATKPTools::truncate_row_for_table( $this->get_queueentrytable_tablename(), $data );
+
 		return $data;
 	}
 
@@ -602,6 +693,8 @@ class atkp_queuetable_helper {
 		}
 
 		$data = apply_filters( 'atkp_modify_queue_before_db_write', $data );
+
+		$data = ATKPTools::truncate_row_for_table( $this->get_queuetable_tablename(), $data );
 
 		return $data;
 	}

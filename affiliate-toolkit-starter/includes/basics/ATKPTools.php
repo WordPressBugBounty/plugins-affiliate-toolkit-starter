@@ -129,7 +129,11 @@ class ATKPTools {
 
 
 	public static function display_helptext( $text, $url = '', $urltitle = 'Read more' ) {
-		$link = '';
+		// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText -- the callers pass literal English help texts, which are in the .po
+		$text     = __( $text, 'affiliate-toolkit-starter' );
+		// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+		$urltitle = __( $urltitle, 'affiliate-toolkit-starter' );
+		$link     = '';
 		if ( $url != '' ) {
 			$link = ' <a href="' . esc_url( $url ) . '" target="_blank">' . esc_html( $urltitle ) . '</a>';
 		}
@@ -154,7 +158,11 @@ class ATKPTools {
 
 
 	public static function display_warntext( $text, $url = '', $urltitle = 'Read more' ) {
-		$link = '';
+		// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText -- the callers pass literal English help texts, which are in the .po
+		$text     = __( $text, 'affiliate-toolkit-starter' );
+		// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+		$urltitle = __( $urltitle, 'affiliate-toolkit-starter' );
+		$link     = '';
 		if ( $url != '' ) {
 			$link .= ' <a href="' . esc_url( $url ) . '" target="_blank">' . esc_html( $urltitle ) . '</a>';
 		}
@@ -1965,6 +1973,93 @@ class ATKPTools {
 		}
 
 		return $charset_collate;
+	}
+
+	/**
+	 * Kuerzt einen Wert auf die tatsaechliche Laenge seiner Zielspalte.
+	 *
+	 * wpdb::insert() und wpdb::update() schreiben gar nichts, wenn ein einziger Wert nicht in
+	 * seine Spalte passt: process_fields() vergleicht den Wert vor und nach strip_invalid_text()
+	 * und bricht bei einer Abweichung mit false ab - WordPress kuerzt bewusst nicht still. Fuer
+	 * die Tabellen des Plugins heisst das, dass ein zu langer Titel, eine zu lange Trackingurl
+	 * oder eine zu lange Fehlermeldung den gesamten Datensatz verwirft.
+	 *
+	 * Die Spaltenlaenge kommt von wpdb und ist nach dem ersten Aufruf je Tabelle gecacht. Fuer
+	 * Spalten ohne Laengenbegrenzung (int, decimal, datetime) liefert wpdb false, der Wert bleibt
+	 * dann unveraendert.
+	 *
+	 * @param string $table Tabellenname inkl. Prefix
+	 * @param string $column Spaltenname
+	 * @param mixed $value Der zu schreibende Wert
+	 *
+	 * @return mixed Der gekuerzte Wert
+	 */
+	public static function truncate_for_column( $table, $column, $value ) {
+		if ( ! is_string( $value ) || $value === '' ) {
+			return $value;
+		}
+
+		global $wpdb;
+
+		$length = $wpdb->get_col_length( $table, $column );
+
+		if ( is_wp_error( $length ) || ! is_array( $length ) || empty( $length['length'] ) ) {
+			return $value;
+		}
+
+		$max = intval( $length['length'] );
+
+		if ( $max <= 3 ) {
+			return $value;
+		}
+
+		//byte bei text und blob, char bei varchar - MySQL zaehlt bei varchar Zeichen, nicht Bytes
+		if ( isset( $length['type'] ) && $length['type'] === 'byte' ) {
+			if ( strlen( $value ) <= $max ) {
+				return $value;
+			}
+
+			return mb_strcut( $value, 0, $max - 3 ) . '...';
+		}
+
+		if ( mb_strlen( $value ) <= $max ) {
+			return $value;
+		}
+
+		return mb_substr( $value, 0, $max - 3 ) . '...';
+	}
+
+	/**
+	 * Kuerzt alle Werte eines Datensatzes auf die Laenge ihrer Spalten.
+	 *
+	 * @param string $table Tabellenname inkl. Prefix
+	 * @param array $data Spaltenname => Wert, wie an wpdb::insert()/update() uebergeben
+	 * @param array $serialized_columns Spalten, die serialisierte Werte enthalten. Ein gekuerzter
+	 *                                  serialisierter Wert laesst sich nicht mehr auslesen, diese
+	 *                                  Spalten werden deshalb geleert statt gekuerzt.
+	 *
+	 * @return array Der Datensatz mit passend gemachten Werten
+	 */
+	public static function truncate_row_for_table( $table, $data, $serialized_columns = array() ) {
+		if ( ! is_array( $data ) ) {
+			return $data;
+		}
+
+		foreach ( $data as $column => $value ) {
+			if ( ! is_string( $value ) || $value === '' ) {
+				continue;
+			}
+
+			$fitted = self::truncate_for_column( $table, $column, $value );
+
+			if ( $fitted === $value ) {
+				continue;
+			}
+
+			$data[ $column ] = in_array( $column, $serialized_columns, true ) ? null : $fitted;
+		}
+
+		return $data;
 	}
 
 	public static function get_attached_filters( $hook, $format = false ) {

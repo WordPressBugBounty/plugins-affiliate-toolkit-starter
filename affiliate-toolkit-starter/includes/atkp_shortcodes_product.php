@@ -106,8 +106,9 @@ class atkp_shortcodes_product {
 						$globaltools = new atkp_global_tools();
 
 						$gif_data = $globaltools->atkp_import_product( $shopid, $asin, 'ASIN','', '', '', '', '' );
-						if(isset($gif_data['postid']))
-							$id = $gif_data['postid'];
+						//atkp_import_product returns a list with one entry
+						if(isset($gif_data[0]['postid']))
+							$id = $gif_data[0]['postid'];
 					}
 				}
 			}
@@ -120,8 +121,9 @@ class atkp_shortcodes_product {
 						$globaltools = new atkp_global_tools();
 
 						$gif_data = $globaltools->atkp_import_product( $shopid, $ean, 'EAN','', '', '', '', '' );
-						if(isset($gif_data['postid']))
-							$id = $gif_data['postid'];
+						//atkp_import_product returns a list with one entry
+						if(isset($gif_data[0]['postid']))
+							$id = $gif_data[0]['postid'];
 					}
 
 				}

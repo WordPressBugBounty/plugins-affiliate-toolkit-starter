@@ -208,7 +208,7 @@ class atkp_posttypes_list {
 			'description' => 'Holds our lists',
 
 			'public'              => false,  // it's not public, it shouldn't have it's own permalink, and so on
-			'publicly_queriable'  => true,  // you should be able to query it
+			'publicly_queryable'  => false,  // it shouldn't be queryable on the frontend (the misspelled key had no effect, so this keeps the previous behaviour)
 			'show_ui'             => true,  // you should be able to edit it in wp-admin
 			'exclude_from_search' => true,  // you should exclude it from search results
 			'show_in_nav_menus'   => true,  // you shouldn't be able to add it to menus

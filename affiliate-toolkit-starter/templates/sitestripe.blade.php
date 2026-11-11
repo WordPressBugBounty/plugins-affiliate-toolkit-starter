@@ -21,7 +21,7 @@
                     <div class="amzn-ad-image-holder">
                         <a {!! $formatter->get_title_link($product) !!}>
                             <img src="{{$formatter->get_mediumnimageurl($product)}}"
-                                 alt="{{$formatter->get_title($product)}}"
+                                 alt="{{$formatter->get_image_alt($product)}}"
                                  style="max-width:98px;max-height:95px"
                                  id="prod-image"/>
                         </a>

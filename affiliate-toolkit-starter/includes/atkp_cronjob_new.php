@@ -248,6 +248,11 @@ class atkp_cronjob_new {
 
 				ATKPTools::set_setting( 'atkp_cron_last_processed', time() );
 
+				//ids des zuletzt verarbeiteten Pakets. Kommt dasselbe Paket erneut, hat der Hook
+				//die Eintraege nicht aus 'prepared' bewegt und die Schleife wuerde endlos
+				//weiterlaufen - inklusive erneutem Download bei jedem Durchlauf.
+				$last_batch = null;
+
 				while ( true ) {
 
 					/** @var atkp_queue_entry[] $entries */
@@ -263,6 +268,33 @@ class atkp_cronjob_new {
 					if ( count( $entries ) == 0 ) {
 						break;
 					} else {
+						$batch = array();
+						foreach ( $entries as $entry ) {
+							$batch[] = $entry->id;
+						}
+
+						$batch_key = implode( ',', $batch );
+
+						if ( $last_batch === $batch_key ) {
+							//dieselben Eintraege wie im Durchlauf davor: der Status wurde nicht
+							//geschrieben. Per direktem UPDATE auf Fehler setzen, damit die Queue
+							//weiterlaeuft. Schlaegt auch das fehl, Schleife verlassen.
+							$message  = __( 'Entry could not be updated and was skipped to prevent an endless loop', 'affiliate-toolkit-starter' );
+							$affected = $atkp_queue->force_entries_error( $batch, $message );
+
+							$this->send_message( 'entries returned unprocessed twice, forced to error: ' . $affected );
+
+							if ( $affected <= 0 ) {
+								$this->send_message( 'entries could not be updated at all - queue processing stopped' );
+								break;
+							}
+
+							$last_batch = null;
+							continue;
+						}
+
+						$last_batch = $batch_key;
+
 						$functionname = $entries[0]->functionname;
 						$shopid       = $entries[0]->shop_id;
 
