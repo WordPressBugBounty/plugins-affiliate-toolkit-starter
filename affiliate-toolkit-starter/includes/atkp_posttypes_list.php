@@ -439,7 +439,7 @@ class atkp_posttypes_list {
 										$sel = '';
 									}
 
-									echo '<option data-sources="' . esc_attr( $datasources ) . '" value="' . esc_attr( $child->id ) . '"' . esc_attr( $sel ) . ' >' . esc_html( $child->title ) . ' [' . esc_html( $shp->title ) . ']</option>';
+									echo '<option data-sources="' . esc_attr( $datasources ) . '" value="' . esc_attr( $child->id ) . '"' . esc_attr( $sel ) . ' >&nbsp;&nbsp;&nbsp;' . esc_html( $child->title ) . ' [' . esc_html( $shp->title ) . ']</option>';
 
 								}
 							}

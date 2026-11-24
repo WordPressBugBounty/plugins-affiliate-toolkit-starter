@@ -109,7 +109,7 @@ class atkp_tools_shopreplace {
 													$sel = '';
 												}
 
-												echo '<option value="' . esc_attr($child->id) . '"' . esc_attr($sel) . ' >- ' . esc_attr( $child->title . ' (' . $child->id . ')' ) . '</option>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+												echo '<option value="' . esc_attr($child->id) . '"' . esc_attr($sel) . ' >&nbsp;&nbsp;&nbsp;' . esc_attr( $child->title . ' (' . $child->id . ')' ) . '</option>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 											}
 

@@ -161,6 +161,24 @@ class atkp_shop {
 		return $shops;
 	}
 
+	/**
+	 * Sorts shops by title, case-insensitive and in natural order ("Shop 2" before "Shop 10").
+	 * Equal titles keep a stable order by id.
+	 *
+	 * @param atkp_shop[] $shops
+	 *
+	 * @return atkp_shop[] the sorted shops, keys renumbered
+	 */
+	public static function sort_by_title( array $shops ) {
+		usort( $shops, function ( $a, $b ) {
+			$result = strnatcasecmp( (string) $a->title, (string) $b->title );
+
+			return $result !== 0 ? $result : ( (int) $a->id <=> (int) $b->id );
+		} );
+
+		return $shops;
+	}
+
 	public static function exists( $post_id ) {
 
 		if ( $post_id == null || $post_id == '' ) {
@@ -366,6 +384,10 @@ class atkp_shop {
 
 						array_push( $shp->children, $sshp );
 					}
+
+					//info: ohne Sortierung lieferte WordPress die Unter-Shops neueste zuerst, in der
+					//      Shop-Auswahl standen sie dadurch in der Reihenfolge ihrer Anlage.
+					$shp->children = self::sort_by_title( $shp->children );
 
 					break;
 			}

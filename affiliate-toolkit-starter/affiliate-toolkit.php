@@ -2,7 +2,7 @@
 /*** Plugin Name: affiliate-toolkit – Multi-Network Affiliate & Amazon Product Display
  * Plugin URI: https://www.affiliate-toolkit.com
  * Description: Display products from Amazon, AWIN, CJ, eBay and 10+ affiliate networks with beautiful product boxes, comparison tables, and automatic price updates.
- * Version: 3.9.4
+ * Version: 3.9.5
  * Requires PHP:      8.2
  * Author: SERVIT Software Solutions
  * Author URI: https://servit.dev
@@ -103,6 +103,8 @@ function atkp_to_trash( $post ) {
 
 require_once ATKP_PLUGIN_DIR . '/includes/atkp_basics.php';
 require_once ATKP_PLUGIN_DIR . '/includes/atkp_newsletter_popup.php';
+require_once ATKP_PLUGIN_DIR . '/includes/atkp_template_sanitize_notice.php';
+require_once ATKP_PLUGIN_DIR . '/includes/atkp_admin_menu_order.php';
 
 
 add_action( 'atkp_initialize_widgets', 'atkp_initialize_widgets_callback' );
@@ -190,6 +192,9 @@ register_activation_hook( ATKP_PLUGIN_FILE, 'atkp_activated');
 
 function atkp_activated() {
 
+	// Must run before atkp_version_plugin is written: it detects the first activation by that option.
+	atkp_template_sanitize_notice_on_activation();
+
 	//if ((get_option('atkp_version_plugin', false)) === false) {
 	update_option( 'atkp_version_plugin', '1.0' );
 	update_option( 'atkp_redirect_to_welcome', true );
@@ -215,7 +220,13 @@ add_action( 'plugins_loaded', 'atkp_loaded');
 
 function atkp_loaded() {
 	do_action( 'atkp_initialize_extensions' );
+}
 
+// The tab titles are translated, so the admin pages are set up on init: since WP 6.7 translations
+// loaded on plugins_loaded trigger "_load_textdomain_just_in_time was called incorrectly".
+add_action( 'init', 'atkp_admin_pages' );
+
+function atkp_admin_pages() {
 	if ( is_admin() ) {
 
 		$atkp_settings = new atkp_settings( array() );
@@ -514,8 +525,10 @@ function atkp_admin_template_sanitize_notice() {
 		return;
 	}
 
-	// Don't show if already confirmed
-	if ( get_option( 'atkp_template_sanitize_notice_confirmed', false ) ) {
+	// Not on fresh installs, not on the first steps page, not once confirmed
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	$tab = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : '';
+	if ( ! atkp_template_sanitize_notice_visible( $tab ) ) {
 		return;
 	}
 

@@ -677,7 +677,7 @@ class atkp_shortcode_generator2 {
 										$sel = '';
 									}
 
-									echo '<option value="' . esc_attr( $child->id ) . '"' . esc_attr( $sel ) . ' >- ' . esc_html( $child->title ) . '</option>';
+									echo '<option value="' . esc_attr( $child->id ) . '"' . esc_attr( $sel ) . ' >&nbsp;&nbsp;&nbsp;' . esc_html( $child->title ) . '</option>';
 								}
 							}
 
@@ -754,7 +754,7 @@ class atkp_shortcode_generator2 {
 														$sel = '';
 													}
 
-													echo '<option data-sources="' . esc_attr( $datasources ) . '" value="' . esc_attr( $child->id ) . '"' . esc_attr( $sel ) . ' >- ' . esc_html( $child->title ) . '</option>';
+													echo '<option data-sources="' . esc_attr( $datasources ) . '" value="' . esc_attr( $child->id ) . '"' . esc_attr( $sel ) . ' >&nbsp;&nbsp;&nbsp;' . esc_html( $child->title ) . '</option>';
 
 												}
 

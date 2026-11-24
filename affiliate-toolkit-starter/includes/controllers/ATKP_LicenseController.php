@@ -101,7 +101,7 @@ class ATKP_LicenseController {
 				// Call the custom API.
 				$response = wp_remote_post( ATKP_STORE_URL, array(
 					'timeout'   => 30,
-					'sslverify' => false,
+					'sslverify' => true,
 					'body'      => $api_params
 				) );
 
@@ -139,7 +139,7 @@ class ATKP_LicenseController {
 		// Call the custom API.
 		$response = wp_remote_post( ATKP_STORE_URL, array(
 			'timeout'   => 30,
-			'sslverify' => false,
+			'sslverify' => true,
 			'body'      => $api_params
 		) );
 
@@ -169,7 +169,7 @@ class ATKP_LicenseController {
 		// Call the custom API.
 		$response = wp_remote_post( ATKP_STORE_URL, array(
 			'timeout'   => 30,
-			'sslverify' => false,
+			'sslverify' => true,
 			'body'      => $api_params
 		) );
 

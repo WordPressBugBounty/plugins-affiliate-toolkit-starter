@@ -968,7 +968,7 @@ class atkp_posttypes_product {
 										$sel = '';
 									}
 
-									echo '<option value="' . esc_attr( $child->id ) . '"' . esc_attr( $sel ) . ' >' . esc_html( $child->title ) . ' [' . esc_html( $shp->title ) . ']</option>';
+									echo '<option value="' . esc_attr( $child->id ) . '"' . esc_attr( $sel ) . ' >&nbsp;&nbsp;&nbsp;' . esc_html( $child->title ) . ' [' . esc_html( $shp->title ) . ']</option>';
 								}
 							}
 

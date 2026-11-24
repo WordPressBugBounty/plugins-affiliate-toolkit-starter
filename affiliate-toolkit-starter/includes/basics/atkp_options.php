@@ -15,6 +15,13 @@ class atkp_options {
 	/* @var $loader atkp_options */
 	public static $loader = null;
 
+	/**
+	 * Update data of the premium modules, keyed by slug. Filled by ATKP_SL_Plugin_Updater.
+	 *
+	 * @var array<string, array>
+	 */
+	public $edd_plugin_data = array();
+
 	public function __construct() {
 		atkp_options::$loader = $this;
 	}

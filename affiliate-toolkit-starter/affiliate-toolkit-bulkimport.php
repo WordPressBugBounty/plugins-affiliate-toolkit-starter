@@ -137,7 +137,7 @@ class atkp_bulkimport {
 																$sel = '';
 															}
 
-															echo '<option data-gtin="' . ( $support_gtin ? 'true' : 'false' ) . '" data-ean="' . ( $support_ean ? 'true' : 'false' ) . '" data-isbn="' . ( $support_isbn ? 'true' : 'false' ) . '" data-article_number="' . ( $support_articlenumber ? 'true' : 'false' ) . '" value="' . esc_attr( $child->id ) . '"' . esc_attr( $sel ) . ' >' . esc_html( $child->title ) . ' [' . esc_html( $shp->title ) . ']</option>';
+															echo '<option data-gtin="' . ( $support_gtin ? 'true' : 'false' ) . '" data-ean="' . ( $support_ean ? 'true' : 'false' ) . '" data-isbn="' . ( $support_isbn ? 'true' : 'false' ) . '" data-article_number="' . ( $support_articlenumber ? 'true' : 'false' ) . '" value="' . esc_attr( $child->id ) . '"' . esc_attr( $sel ) . ' >&nbsp;&nbsp;&nbsp;' . esc_html( $child->title ) . ' [' . esc_html( $shp->title ) . ']</option>';
 
 														}
 													}
